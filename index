@@ -1,0 +1,168 @@
+graphic-platform/
+│
+├── server.js
+├── package.json
+├── /models
+│     └── User.js
+├── /middleware
+│     └── auth.js
+├── /routes
+│     └── authRoutes.js
+│     └── adminRoutes.js
+├── /public
+│     ├── index.html
+│     ├── dashboard.html
+│     ├── admin.html
+│     └── style.css
+{
+  "name": "graphic-platform",
+  "version": "1.0.0",
+  "description": "Graphic Design Membership Platform",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.0.0",
+    "cors": "^2.8.5"
+  }
+}
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+
+const authRoutes = require("./routes/authRoutes");
+const adminRoutes = require("./routes/adminRoutes");
+
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+app.use(express.static("public"));
+
+mongoose.connect("mongodb://127.0.0.1:27017/graphicPlatform")
+.then(() => console.log("MongoDB Connected"))
+.catch(err => console.log(err));
+
+app.use("/api/auth", authRoutes);
+app.use("/api/admin", adminRoutes);
+
+app.listen(5000, () => console.log("Server running on port 5000"));
+const mongoose = require("mongoose");
+
+const userSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  password: String,
+  role: { type: String, default: "user" },
+  accessUntil: Date
+});
+
+module.exports = mongoose.model("User", userSchema);
+const jwt = require("jsonwebtoken");
+
+module.exports = function(req, res, next){
+  const token = req.header("Authorization");
+
+  if(!token) return res.status(401).json({msg: "No token"});
+
+  try{
+    const decoded = jwt.verify(token, "secretkey");
+    req.user = decoded;
+    next();
+  }catch(err){
+    res.status(401).json({msg: "Invalid token"});
+  }
+};
+const express = require("express");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
+
+const router = express.Router();
+
+// Register
+router.post("/register", async (req,res)=>{
+  const {name,email,password} = req.body;
+
+  const hashed = await bcrypt.hash(password,10);
+
+  const user = new User({
+    name,
+    email,
+    password: hashed
+  });
+
+  await user.save();
+  res.json({msg:"User created"});
+});
+
+// Login
+router.post("/login", async (req,res)=>{
+  const {email,password} = req.body;
+
+  const user = await User.findOne({email});
+  if(!user) return res.status(400).json({msg:"User not found"});
+
+  const valid = await bcrypt.compare(password,user.password);
+  if(!valid) return res.status(400).json({msg:"Wrong password"});
+
+  if(new Date() > user.accessUntil){
+    return res.status(403).json({msg:"Access expired"});
+  }
+
+  const token = jwt.sign({id:user._id,role:user.role},"secretkey");
+
+  res.json({token});
+});
+
+module.exports = router;
+const express = require("express");
+const User = require("../models/User");
+
+const router = express.Router();
+
+// Give access manually
+router.post("/give-access", async (req,res)=>{
+  const {email, days} = req.body;
+
+  const user = await User.findOne({email});
+  if(!user) return res.status(400).json({msg:"User not found"});
+
+  const accessDate = new Date();
+  accessDate.setDate(accessDate.getDate() + days);
+
+  user.accessUntil = accessDate;
+  await user.save();
+
+  res.json({msg:"Access granted"});
+});
+
+module.exports = router;
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Graphic Design Platform</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Premium Graphic Design Services</h1>
+
+<a href="dashboard.html">Login</a>
+
+</body>
+</html>
+body{
+  background:#0f0f0f;
+  color:white;
+  font-family:Montserrat;
+  text-align:center;
+}
+
+h1{
+  color:gold;
+}
