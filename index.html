@@ -1,88 +1,1374 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Système Enregistrement</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body{
-    font-family: Montserrat, sans-serif;
-    background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-    margin:0;
-}
-.container{
-    background:white;
-    padding:30px;
-    border-radius:10px;
-    width:350px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.3);
-}
-h2{
-    text-align:center;
-    margin-bottom:20px;
-}
-input, textarea{
-    width:100%;
-    padding:10px;
-    margin-bottom:15px;
-    border-radius:5px;
-    border:1px solid #ccc;
-}
-button{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:5px;
-    background:#25D366;
-    color:white;
-    font-weight:bold;
-    cursor:pointer;
-}
-button:hover{
-    background:#1ebe5d;
-}
-</style>
+  <title>Commande Service Design</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: #f7f7f7;
+      color: #111;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* BACKGROUND ANIMATION */
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      width: 350px;
+      height: 350px;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.15;
+      z-index: -1;
+      animation: float 8s infinite alternate ease-in-out;
+    }
+
+    body::before {
+      background: #ff0000;
+      top: -100px;
+      left: -100px;
+    }
+
+    body::after {
+      background: #ffd000;
+      right: -100px;
+      bottom: -100px;
+      animation-delay: 2s;
+    }
+
+    @keyframes float {
+      from {
+        transform: translate(0, 0) scale(1);
+      }
+      to {
+        transform: translate(60px, 40px) scale(1.15);
+      }
+    }
+
+    .container {
+      width: 100%;
+      max-width: 850px;
+      margin: auto;
+      padding: 25px 15px 50px;
+    }
+
+    /* HEADER */
+    .header {
+      text-align: center;
+      margin-bottom: 25px;
+      animation: fadeDown .8s ease;
+    }
+
+    .logo {
+      width: 65px;
+      height: 65px;
+      margin: auto;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 27px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #e60000, #ff7300, #ffd000);
+      box-shadow: 0 10px 30px rgba(255, 70, 0, .25);
+    }
+
+    .header h1 {
+      margin-top: 15px;
+      font-size: 30px;
+      font-weight: 900;
+    }
+
+    .header p {
+      color: #666;
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    @keyframes fadeDown {
+      from {
+        opacity: 0;
+        transform: translateY(-25px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* CARD */
+    .card {
+      background: rgba(255,255,255,.96);
+      border: 1px solid #eee;
+      border-radius: 22px;
+      padding: 25px;
+      margin-bottom: 18px;
+      box-shadow: 0 15px 40px rgba(0,0,0,.07);
+      animation: fadeUp .7s ease;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      font-size: 19px;
+      font-weight: 800;
+    }
+
+    .number {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #e60000, #ffcc00);
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    /* FORM */
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .required {
+      color: red;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1.5px solid #ddd;
+      border-radius: 12px;
+      padding: 13px 14px;
+      outline: none;
+      font-size: 15px;
+      background: #fff;
+      transition: .25s;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #ff4d00;
+      box-shadow: 0 0 0 4px rgba(255, 80, 0, .08);
+    }
+
+    textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    /* SERVICES */
+    .services {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .service {
+      position: relative;
+    }
+
+    .service input {
+      display: none;
+    }
+
+    .service label {
+      min-height: 100px;
+      margin: 0;
+      padding: 16px;
+      cursor: pointer;
+      border: 1.5px solid #e4e4e4;
+      border-radius: 15px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: white;
+      transition: .25s;
+    }
+
+    .service label:hover {
+      transform: translateY(-3px);
+      border-color: #ff6600;
+      box-shadow: 0 8px 20px rgba(0,0,0,.07);
+    }
+
+    .service input:checked + label {
+      color: white;
+      border-color: transparent;
+      background: linear-gradient(135deg, #e60000, #ff7300, #ffc400);
+      box-shadow: 0 10px 25px rgba(255,70,0,.25);
+      transform: translateY(-2px);
+    }
+
+    .service-name {
+      font-weight: 800;
+      font-size: 15px;
+    }
+
+    .price {
+      font-size: 14px;
+      font-weight: 900;
+      margin-top: 8px;
+    }
+
+    /* CUSTOM SERVICE */
+    .custom-box {
+      margin-top: 15px;
+      padding: 15px;
+      background: #fafafa;
+      border: 1px dashed #ccc;
+      border-radius: 14px;
+    }
+
+    /* PAYMENT */
+    .payment-info {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .money-box {
+      padding: 15px;
+      border-radius: 14px;
+      background: #111;
+      color: white;
+      text-align: center;
+    }
+
+    .money-box span {
+      display: block;
+      font-size: 12px;
+      color: #ccc;
+      margin-bottom: 7px;
+    }
+
+    .money-box strong {
+      font-size: 17px;
+    }
+
+    .deposit {
+      background: linear-gradient(135deg, #e60000, #ff7200);
+    }
+
+    .remaining {
+      background: linear-gradient(135deg, #222, #444);
+    }
+
+    /* RADIO */
+    .radio-group {
+      display: flex;
+      gap: 12px;
+    }
+
+    .radio-option {
+      flex: 1;
+      position: relative;
+    }
+
+    .radio-option input {
+      display: none;
+    }
+
+    .radio-option label {
+      border: 1.5px solid #ddd;
+      border-radius: 12px;
+      padding: 13px;
+      text-align: center;
+      cursor: pointer;
+      margin: 0;
+      transition: .2s;
+    }
+
+    .radio-option input:checked + label {
+      background: #111;
+      color: white;
+      border-color: #111;
+    }
+
+    /* NOTICE */
+    .notice {
+      padding: 15px;
+      border-radius: 14px;
+      background: #fff7df;
+      border-left: 4px solid #ffbf00;
+      color: #5c4900;
+      font-size: 13px;
+      line-height: 1.6;
+      margin-top: 10px;
+    }
+
+    .notice strong {
+      color: #111;
+    }
+
+    /* BUTTON */
+    .submit-btn {
+      width: 100%;
+      border: none;
+      border-radius: 15px;
+      padding: 17px;
+      color: white;
+      font-size: 16px;
+      font-weight: 900;
+      cursor: pointer;
+      background: linear-gradient(135deg, #e60000, #ff7300, #ffd000);
+      box-shadow: 0 12px 30px rgba(255,80,0,.25);
+      transition: .25s;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 35px rgba(255,80,0,.35);
+    }
+
+    .submit-btn:active {
+      transform: scale(.98);
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      color: #777;
+      font-size: 12px;
+      margin-top: 25px;
+    }
+
+    /* HIDDEN */
+    .hidden {
+      display: none !important;
+    }
+
+    /* MOBILE */
+    @media(max-width: 600px) {
+
+      .container {
+        padding: 18px 12px 35px;
+      }
+
+      .header h1 {
+        font-size: 24px;
+      }
+
+      .card {
+        padding: 18px;
+        border-radius: 18px;
+      }
+
+      .services {
+        grid-template-columns: 1fr;
+      }
+
+      .payment-info {
+        grid-template-columns: 1fr;
+      }
+
+      .radio-group {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
 <div class="container">
-    <h2>Enregistrement Équipe</h2>
-    
-    <input type="text" id="nom" placeholder="Nom complet" required>
-    <textarea id="info" placeholder="Informations sur vous" required></textarea>
-    <input type="number" id="montant" placeholder="Montant à payer (HTG)" required>
-    
-    <button onclick="envoyerWhatsApp()">Envoyer sur WhatsApp</button>
+
+  <!-- HEADER -->
+  <div class="header">
+
+    <div class="logo">BD</div>
+
+    <h1>Formulaire de commande</h1>
+
+    <p>
+      Sélectionnez votre service, indiquez vos besoins
+      et envoyez votre commande rapidement.
+    </p>
+
+  </div>
+
+
+  <form id="orderForm">
+
+    <!-- CLIENT -->
+    <div class="card">
+
+      <div class="section-title">
+        <div class="number">1</div>
+        Informations client
+      </div>
+
+      <div class="field">
+
+        <label>
+          Nom complet <span class="required">*</span>
+        </label>
+
+        <input
+          type="text"
+          id="clientName"
+          placeholder="Ex : Jean Dupont"
+          required
+        >
+
+      </div>
+
+      <div class="field">
+
+        <label>
+          Numéro WhatsApp
+        </label>
+
+        <input
+          type="tel"
+          id="clientPhone"
+          placeholder="Ex : 37xxxxxxxx"
+        >
+
+      </div>
+
+    </div>
+
+
+    <!-- SERVICES -->
+    <div class="card">
+
+      <div class="section-title">
+        <div class="number">2</div>
+        Choisissez votre service
+      </div>
+
+      <div class="services">
+
+        <div class="service">
+
+          <input
+            type="radio"
+            name="service"
+            id="affiche"
+            value="Affiche événement"
+            data-price="3500"
+          >
+
+          <label for="affiche">
+
+            <span class="service-name">
+              Affiche événement
+            </span>
+
+            <span class="price">
+              3 500 HTG
+            </span>
+
+          </label>
+
+        </div>
+
+
+        <div class="service">
+
+          <input
+            type="radio"
+            name="service"
+            id="carte"
+            value="Carte de visite"
+            data-price="4000"
+          >
+
+          <label for="carte">
+
+            <span class="service-name">
+              Carte de visite
+            </span>
+
+            <span class="price">
+              4 000 HTG
+            </span>
+
+          </label>
+
+        </div>
+
+
+        <div class="service">
+
+          <input
+            type="radio"
+            name="service"
+            id="certificat"
+            value="Certificat / Unité"
+            data-price="350"
+          >
+
+          <label for="certificat">
+
+            <span class="service-name">
+              Certificat / Unité
+            </span>
+
+            <span class="price">
+              350 HTG
+            </span>
+
+          </label>
+
+        </div>
+
+
+        <div class="service">
+
+          <input
+            type="radio"
+            name="service"
+            id="flyer"
+            value="Flyer Business"
+            data-price="3000"
+          >
+
+          <label for="flyer">
+
+            <span class="service-name">
+              Flyer Business
+            </span>
+
+            <span class="price">
+              3 000 HTG
+            </span>
+
+          </label>
+
+        </div>
+
+
+        <div class="service">
+
+          <input
+            type="radio"
+            name="service"
+            id="etiquette"
+            value="Étiquette"
+            data-price="5000"
+          >
+
+          <label for="etiquette">
+
+            <span class="service-name">
+              Étiquette
+            </span>
+
+            <span class="price">
+              5 000 HTG
+            </span>
+
+          </label>
+
+        </div>
+
+
+        <div class="service">
+
+          <input
+            type="radio"
+            name="service"
+            id="video"
+            value="Vidéo promotionnelle"
+            data-price="4500"
+          >
+
+          <label for="video">
+
+            <span class="service-name">
+              Vidéo promotionnelle
+            </span>
+
+            <span class="price">
+              4 500 HTG
+            </span>
+
+          </label>
+
+        </div>
+
+
+        <div class="service">
+
+          <input
+            type="radio"
+            name="service"
+            id="banniere"
+            value="Bannière"
+            data-price="6500"
+          >
+
+          <label for="banniere">
+
+            <span class="service-name">
+              Bannière
+            </span>
+
+            <span class="price">
+              6 500 HTG
+            </span>
+
+          </label>
+
+        </div>
+
+      </div>
+
+
+      <!-- AUTRE SERVICE -->
+
+      <div class="custom-box">
+
+        <label>
+          Vous avez besoin d'un autre service ?
+        </label>
+
+        <input
+          type="text"
+          id="customService"
+          placeholder="Écrivez le service dont vous avez besoin"
+        >
+
+      </div>
+
+    </div>
+
+
+    <!-- DELAI -->
+    <div class="card">
+
+      <div class="section-title">
+        <div class="number">3</div>
+        Délai de livraison
+      </div>
+
+      <div class="field">
+
+        <label>
+          Dans combien de temps avez-vous besoin du visuel ?
+          <span class="required">*</span>
+        </label>
+
+        <select id="deadline" required>
+
+          <option value="">
+            Sélectionnez un délai
+          </option>
+
+          <option value="Dès que possible">
+            Dès que possible
+          </option>
+
+          <option value="Aujourd'hui">
+            Aujourd'hui
+          </option>
+
+          <option value="Demain">
+            Demain
+          </option>
+
+          <option value="Dans 2 jours">
+            Dans 2 jours
+          </option>
+
+          <option value="Dans 3 jours">
+            Dans 3 jours
+          </option>
+
+          <option value="Cette semaine">
+            Cette semaine
+          </option>
+
+          <option value="Autre">
+            Autre
+          </option>
+
+        </select>
+
+      </div>
+
+    </div>
+
+
+    <!-- DETAILS -->
+    <div class="card">
+
+      <div class="section-title">
+        <div class="number">4</div>
+        Informations du visuel
+      </div>
+
+      <div class="field">
+
+        <label>
+          Informations à mettre sur le visuel
+          <span class="required">*</span>
+        </label>
+
+        <textarea
+          id="designInfo"
+          placeholder="Écrivez ici les textes, numéro de téléphone, adresse, prix, date, couleurs, etc."
+          required
+        ></textarea>
+
+      </div>
+
+
+      <div class="notice">
+
+        <strong> Important :</strong><br>
+
+        Pour toutes les images nécessaires à votre commande,
+        veuillez les envoyer directement sur notre WhatsApp
+        <strong>comme document</strong> afin de préserver leur qualité.
+
+      </div>
+
+    </div>
+
+
+    <!-- PAIEMENT -->
+    <div class="card">
+
+      <div class="section-title">
+        <div class="number">5</div>
+        Paiement
+      </div>
+
+
+      <div class="notice">
+
+         Pour commencer votre commande, un
+        <strong>dépôt de 70%</strong> du prix du service est demandé.
+
+        <br><br>
+
+        Les <strong>30% restants</strong> seront payés selon les
+        conditions convenues pour finaliser la commande.
+
+      </div>
+
+
+      <br>
+
+
+      <label>
+        Avez-vous déjà effectué le paiement ?
+        <span class="required">*</span>
+      </label>
+
+
+      <div class="radio-group">
+
+        <div class="radio-option">
+
+          <input
+            type="radio"
+            name="paid"
+            id="paidYes"
+            value="Oui"
+            required
+          >
+
+          <label for="paidYes">
+             Oui, j'ai payé
+          </label>
+
+        </div>
+
+
+        <div class="radio-option">
+
+          <input
+            type="radio"
+            name="paid"
+            id="paidNo"
+            value="Non"
+            required
+          >
+
+          <label for="paidNo">
+             Non, pas encore
+          </label>
+
+        </div>
+
+      </div>
+
+
+      <!-- TRANSCODE -->
+      <div
+        class="field hidden"
+        id="transcodeBox"
+        style="margin-top:20px;"
+      >
+
+        <label>
+          Transcode de paiement
+          <span class="required">*</span>
+        </label>
+
+        <input
+          type="text"
+          id="transcode"
+          placeholder="Entrez votre transcode de paiement"
+        >
+
+      </div>
+
+
+      <!-- CALCUL -->
+      <div
+        class="payment-info"
+        id="paymentCalculation"
+      >
+
+        <div class="money-box">
+
+          <span>
+            Prix du service
+          </span>
+
+          <strong id="totalPrice">
+            0 HTG
+          </strong>
+
+        </div>
+
+
+        <div class="money-box deposit">
+
+          <span>
+            Dépôt 70%
+          </span>
+
+          <strong id="depositPrice">
+            0 HTG
+          </strong>
+
+        </div>
+
+
+        <div class="money-box remaining">
+
+          <span>
+            Solde 30%
+          </span>
+
+          <strong id="remainingPrice">
+            0 HTG
+          </strong>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- AGENT -->
+    <div class="card">
+
+      <div class="section-title">
+        <div class="number">6</div>
+        Référence agent
+      </div>
+
+      <div class="field">
+
+        <label>
+          ID Agent
+          <small style="color:#777;">
+            (facultatif)
+          </small>
+        </label>
+
+        <input
+          type="text"
+          id="agentId"
+          placeholder="Ex : AG-1025"
+        >
+
+      </div>
+
+      <div class="notice">
+
+        Si un agent vous a référé, vous pouvez inscrire
+        son ID ici. Ce champ n'est pas obligatoire.
+
+      </div>
+
+    </div>
+
+
+    <!-- SUBMIT -->
+    <div class="card">
+
+      <button
+        type="submit"
+        class="submit-btn"
+      >
+
+         Envoyer ma commande sur WhatsApp
+
+      </button>
+
+    </div>
+
+  </form>
+
+
+  <footer>
+    © 2026 — Service Design • Tous droits réservés
+  </footer>
+
 </div>
 
-<script>
-function envoyerWhatsApp(){
-    var nom = document.getElementById("nom").value;
-    var info = document.getElementById("info").value;
-    var montant = document.getElementById("montant").value;
 
-    if(nom === "" || info === "" || montant === ""){
-        alert("Tanpri ranpli tout chan yo");
-        return;
+<script>
+
+  /* ==============================
+     CONFIGURATION WHATSAPP
+  ============================== */
+
+  const whatsappNumber = "40052773";
+
+
+  /* ==============================
+     ELEMENTS
+  ============================== */
+
+  const serviceInputs =
+    document.querySelectorAll('input[name="service"]');
+
+  const totalPrice =
+    document.getElementById("totalPrice");
+
+  const depositPrice =
+    document.getElementById("depositPrice");
+
+  const remainingPrice =
+    document.getElementById("remainingPrice");
+
+  const paidYes =
+    document.getElementById("paidYes");
+
+  const paidNo =
+    document.getElementById("paidNo");
+
+  const transcodeBox =
+    document.getElementById("transcodeBox");
+
+  const transcode =
+    document.getElementById("transcode");
+
+  const customService =
+    document.getElementById("customService");
+
+
+  /* ==============================
+     FORMAT MONEY
+  ============================== */
+
+  function formatMoney(number) {
+
+    return new Intl.NumberFormat("fr-FR")
+      .format(number) + " HTG";
+
+  }
+
+
+  /* ==============================
+     GET SELECTED SERVICE
+  ============================== */
+
+  function getSelectedService() {
+
+    const selected =
+      document.querySelector(
+        'input[name="service"]:checked'
+      );
+
+    return selected;
+
+  }
+
+
+  /* ==============================
+     UPDATE PRICE
+  ============================== */
+
+  function updatePrice() {
+
+    const selected =
+      getSelectedService();
+
+    let price = 0;
+
+    if (selected) {
+
+      price =
+        parseFloat(
+          selected.dataset.price
+        ) || 0;
+
     }
 
-    var numero = "50940052773"; // METE NUMERO W LA SAN +
+    const deposit =
+      price * 0.70;
 
-    var message = "Nouvo Enskripsyon%0A%0A"
-        + "Nom: " + nom + "%0A"
-        + "Enfòmasyon: " + info + "%0A"
-        + "Kantite Kob: " + montant + " HTG";
+    const remaining =
+      price * 0.30;
 
-    var url = "https://wa.me/" + numero + "?text=" + message;
+    totalPrice.textContent =
+      formatMoney(price);
 
-    window.open(url, "_blank");
-}
+    depositPrice.textContent =
+      formatMoney(deposit);
+
+    remainingPrice.textContent =
+      formatMoney(remaining);
+
+  }
+
+
+  serviceInputs.forEach(input => {
+
+    input.addEventListener(
+      "change",
+      updatePrice
+    );
+
+  });
+
+
+  /* ==============================
+     PAYMENT STATUS
+  ============================== */
+
+  paidYes.addEventListener(
+    "change",
+    function() {
+
+      if (this.checked) {
+
+        transcodeBox.classList.remove(
+          "hidden"
+        );
+
+        transcode.required = true;
+
+      }
+
+    }
+  );
+
+
+  paidNo.addEventListener(
+    "change",
+    function() {
+
+      if (this.checked) {
+
+        transcodeBox.classList.add(
+          "hidden"
+        );
+
+        transcode.required = false;
+
+        transcode.value = "";
+
+      }
+
+    }
+  );
+
+
+  /* ==============================
+     FORM SUBMIT
+  ============================== */
+
+  document
+    .getElementById("orderForm")
+    .addEventListener(
+      "submit",
+      function(event) {
+
+        event.preventDefault();
+
+
+        /* CLIENT */
+
+        const clientName =
+          document
+            .getElementById("clientName")
+            .value
+            .trim();
+
+
+        const clientPhone =
+          document
+            .getElementById("clientPhone")
+            .value
+            .trim();
+
+
+        /* SERVICE */
+
+        const selected =
+          getSelectedService();
+
+
+        if (!selected) {
+
+          alert(
+            "Veuillez sélectionner un service."
+          );
+
+          return;
+
+        }
+
+
+        const service =
+          selected.value;
+
+
+        const price =
+          parseFloat(
+            selected.dataset.price
+          );
+
+
+        /* CUSTOM SERVICE */
+
+        const custom =
+          customService.value.trim();
+
+
+        /* DEADLINE */
+
+        const deadline =
+          document
+            .getElementById("deadline")
+            .value;
+
+
+        /* DESIGN INFO */
+
+        const designInfo =
+          document
+            .getElementById("designInfo")
+            .value
+            .trim();
+
+
+        /* PAYMENT */
+
+        const payment =
+          document
+            .querySelector(
+              'input[name="paid"]:checked'
+            );
+
+
+        if (!payment) {
+
+          alert(
+            "Veuillez indiquer si vous avez déjà payé."
+          );
+
+          return;
+
+        }
+
+
+        const paymentStatus =
+          payment.value;
+
+
+        /* TRANSCODE */
+
+        let paymentTranscode =
+          "Pas encore payé";
+
+
+        if (paymentStatus === "Oui") {
+
+          paymentTranscode =
+            transcode.value.trim();
+
+
+          if (!paymentTranscode) {
+
+            alert(
+              "Veuillez entrer votre transcode de paiement."
+            );
+
+            transcode.focus();
+
+            return;
+
+          }
+
+        }
+
+
+        /* AGENT */
+
+        const agentId =
+          document
+            .getElementById("agentId")
+            .value
+            .trim();
+
+
+        /* CALCULATION */
+
+        const deposit =
+          price * 0.70;
+
+        const remaining =
+          price * 0.30;
+
+
+        /* ==============================
+           WHATSAPP MESSAGE
+        ============================== */
+
+        let message =
+
+` *NOUVELLE COMMANDE DESIGN*
+
+━━━━━━━━━━━━━━━━━━
+
+👤 *CLIENT*
+Nom : ${clientName}
+
+ WhatsApp :
+${clientPhone || "Non renseigné"}
+
+━━━━━━━━━━━━━━━━━━
+
+ *SERVICE*
+Service : ${service}
+
+ Prix : ${formatMoney(price)}
+
+${custom
+  ? `➕ Autre besoin :
+${custom}
+
+`
+  : ""}
+
+━━━━━━━━━━━━━━━━━━
+
+ *DÉLAI*
+${deadline}
+
+━━━━━━━━━━━━━━━━━━
+
+ *INFORMATIONS DU VISUEL*
+
+${designInfo}
+
+━━━━━━━━━━━━━━━━━━
+
+ *PAIEMENT*
+
+Statut : ${paymentStatus}
+
+Dépôt demandé (70%) :
+${formatMoney(deposit)}
+
+Solde (30%) :
+${formatMoney(remaining)}
+
+Transcode :
+${paymentTranscode}
+
+━━━━━━━━━━━━━━━━━━
+
+👤 *AGENT*
+ID Agent :
+${agentId || "Aucun"}
+
+━━━━━━━━━━━━━━━━━━
+
+ *IMPORTANT*
+Le client est invité à envoyer toutes les images nécessaires à la commande sur WhatsApp *comme document* afin de préserver leur qualité.
+
+━━━━━━━━━━━━━━━━━━
+
+ *Commande envoyée depuis le formulaire web.*`;
+
+
+        /* ENCODE */
+
+        const encodedMessage =
+          encodeURIComponent(message);
+
+
+        /* WHATSAPP */
+
+        const whatsappURL =
+          `https://wa.me/${50940052773}?text=${encodedMessage}`;
+
+
+        window.open(
+          whatsappURL,
+          "_blank"
+        );
+
+      }
+    );
+
+
+  /* INITIAL PRICE */
+
+  updatePrice();
+
 </script>
 
 </body>
