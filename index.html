@@ -1,2961 +1,3167 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Baba Design | Services & Akademi Dizay</title>
 
-  <title>Baba Design | Akademi Dizay</title>
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Montserrat, Mntserrat, sans-serif;
+    scroll-behavior:smooth;
+}
 
-  <style>
+:root{
+    --red:#e60000;
+    --orange:#ff7300;
+    --yellow:#ffd000;
+    --dark:#111;
+    --white:#fff;
+    --gray:#666;
+    --light:#f7f7f7;
+}
 
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:Montserrat,Montserrat,sans-serif;
-    }
+body{
+    background:#f7f7f7;
+    color:#111;
+    overflow-x:hidden;
+}
 
-    html{
-      scroll-behavior:smooth;
-    }
+/* =========================
+   BACKGROUND
+========================= */
 
-    body{
-      background:#f7f7f7;
-      color:#111;
-      overflow-x:hidden;
-    }
+body::before,
+body::after{
+    content:"";
+    position:fixed;
+    width:350px;
+    height:350px;
+    border-radius:50%;
+    filter:blur(100px);
+    opacity:.12;
+    z-index:-1;
+    animation:float 8s infinite alternate ease-in-out;
+}
 
-    /* BACKGROUND ANIMATION */
+body::before{
+    background:#ff0000;
+    top:-120px;
+    left:-120px;
+}
 
-    body::before,
-    body::after{
-      content:"";
-      position:fixed;
-      width:350px;
-      height:350px;
-      border-radius:50%;
-      filter:blur(90px);
-      opacity:.15;
-      z-index:-1;
-      animation:float 8s infinite alternate ease-in-out;
-    }
+body::after{
+    background:#ffd000;
+    right:-120px;
+    bottom:-120px;
+    animation-delay:2s;
+}
 
-    body::before{
-      background:#ff0000;
-      top:-100px;
-      left:-100px;
-    }
-
-    body::after{
-      background:#ffd000;
-      right:-100px;
-      bottom:-100px;
-      animation-delay:2s;
-    }
-
-    @keyframes float{
-      from{
+@keyframes float{
+    from{
         transform:translate(0,0) scale(1);
-      }
-
-      to{
+    }
+    to{
         transform:translate(60px,40px) scale(1.15);
-      }
     }
-
-    /* NAVIGATION */
-
-    nav{
-      position:sticky;
-      top:0;
-      z-index:1000;
-      width:100%;
-      background:rgba(255,255,255,.92);
-      backdrop-filter:blur(15px);
-      border-bottom:1px solid #eee;
-    }
-
-    .nav-container{
-      max-width:1200px;
-      margin:auto;
-      padding:14px 20px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:20px;
-    }
-
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      font-weight:900;
-      font-size:18px;
-    }
-
-    .brand-logo{
-      width:42px;
-      height:42px;
-      border-radius:12px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:white;
-      background:linear-gradient(135deg,#e60000,#ff7300,#ffd000);
-      box-shadow:0 8px 20px rgba(255,80,0,.25);
-    }
-
-    .nav-links{
-      display:flex;
-      align-items:center;
-      gap:20px;
-    }
-
-    .nav-links a{
-      text-decoration:none;
-      color:#333;
-      font-size:14px;
-      font-weight:700;
-      transition:.25s;
-    }
-
-    .nav-links a:hover{
-      color:#e60000;
-    }
-
-    .menu-btn{
-      display:none;
-      border:none;
-      background:#111;
-      color:white;
-      padding:10px 13px;
-      border-radius:10px;
-      cursor:pointer;
-      font-size:18px;
-    }
-
-    /* GENERAL */
-
-    .container{
-      width:100%;
-      max-width:1100px;
-      margin:auto;
-      padding:35px 20px 60px;
-    }
-
-    section{
-      scroll-margin-top:80px;
-    }
-
-    .section-heading{
-      text-align:center;
-      margin-bottom:30px;
-    }
-
-    .section-heading span{
-      display:inline-block;
-      padding:7px 14px;
-      border-radius:50px;
-      background:#fff1e8;
-      color:#e60000;
-      font-size:12px;
-      font-weight:900;
-      margin-bottom:10px;
-    }
-
-    .section-heading h2{
-      font-size:32px;
-      font-weight:900;
-    }
-
-    .section-heading p{
-      max-width:650px;
-      margin:10px auto 0;
-      color:#666;
-      line-height:1.6;
-    }
-
-    /* HERO */
-
-    .hero{
-      min-height:620px;
-      display:grid;
-      grid-template-columns:1.1fr .9fr;
-      align-items:center;
-      gap:50px;
-      padding:50px 0;
-    }
-
-    .hero-content{
-      animation:fadeLeft .8s ease;
-    }
-
-    @keyframes fadeLeft{
-      from{
-        opacity:0;
-        transform:translateX(-30px);
-      }
-
-      to{
-        opacity:1;
-        transform:translateX(0);
-      }
-    }
-
-    .hero-badge{
-      display:inline-block;
-      padding:9px 16px;
-      border-radius:50px;
-      background:#fff;
-      box-shadow:0 10px 25px rgba(0,0,0,.06);
-      font-size:13px;
-      font-weight:800;
-      color:#e60000;
-      margin-bottom:20px;
-    }
-
-    .hero h1{
-      font-size:clamp(38px,6vw,68px);
-      line-height:1.05;
-      font-weight:900;
-    }
-
-    .gradient-text{
-      background:linear-gradient(135deg,#e60000,#ff7300,#ffc400);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      background-clip:text;
-    }
-
-    .hero p{
-      margin-top:20px;
-      color:#666;
-      line-height:1.8;
-      max-width:620px;
-    }
-
-    .hero-buttons{
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-top:28px;
-    }
-
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      padding:15px 22px;
-      border-radius:14px;
-      text-decoration:none;
-      font-weight:900;
-      transition:.25s;
-      border:none;
-      cursor:pointer;
-    }
-
-    .btn-primary{
-      color:white;
-      background:linear-gradient(135deg,#e60000,#ff7300,#ffd000);
-      box-shadow:0 12px 30px rgba(255,80,0,.25);
-    }
-
-    .btn-primary:hover{
-      transform:translateY(-3px);
-    }
-
-    .btn-dark{
-      background:#111;
-      color:white;
-    }
-
-    .btn-dark:hover{
-      transform:translateY(-3px);
-    }
-
-    .hero-card{
-      background:rgba(255,255,255,.9);
-      padding:25px;
-      border-radius:30px;
-      box-shadow:0 20px 60px rgba(0,0,0,.1);
-      animation:floatCard 4s infinite alternate ease-in-out;
-    }
-
-    @keyframes floatCard{
-      from{
-        transform:translateY(0);
-      }
-
-      to{
-        transform:translateY(-15px);
-      }
-    }
-
-    .hero-card-top{
-      background:linear-gradient(135deg,#e60000,#ff7300,#ffd000);
-      color:white;
-      padding:30px;
-      border-radius:22px;
-    }
-
-    .hero-card-top h3{
-      font-size:28px;
-      margin-bottom:8px;
-    }
-
-    .hero-stats{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
-      margin-top:15px;
-    }
-
-    .stat{
-      background:#fff;
-      border-radius:18px;
-      padding:20px;
-      box-shadow:0 8px 20px rgba(0,0,0,.05);
-    }
-
-    .stat strong{
-      display:block;
-      font-size:25px;
-    }
-
-    .stat span{
-      color:#777;
-      font-size:12px;
-    }
-
-    /* PORTFOLIO */
-
-    .portfolio-grid{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:18px;
-    }
-
-    .portfolio-item{
-      height:270px;
-      border-radius:22px;
-      overflow:hidden;
-      position:relative;
-      background:#ddd;
-      box-shadow:0 15px 35px rgba(0,0,0,.08);
-      transition:.3s;
-    }
-
-    .portfolio-item:hover{
-      transform:translateY(-8px);
-    }
-
-    .portfolio-item img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-    }
-
-    .portfolio-overlay{
-      position:absolute;
-      left:0;
-      right:0;
-      bottom:0;
-      padding:45px 18px 18px;
-      color:white;
-      background:linear-gradient(transparent,rgba(0,0,0,.8));
-      font-weight:800;
-    }
-
-    /* CARDS */
-
-    .card{
-      background:rgba(255,255,255,.96);
-      border:1px solid #eee;
-      border-radius:22px;
-      padding:25px;
-      margin-bottom:18px;
-      box-shadow:0 15px 40px rgba(0,0,0,.07);
-    }
-
-    .section-title{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      margin-bottom:20px;
-      font-size:19px;
-      font-weight:800;
-    }
-
-    .number{
-      width:32px;
-      height:32px;
-      border-radius:10px;
-      color:white;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:linear-gradient(135deg,#e60000,#ffcc00);
-      font-size:14px;
-      font-weight:900;
-    }
-
-    /* FORM */
-
-    label{
-      display:block;
-      font-size:14px;
-      font-weight:700;
-      margin-bottom:8px;
-    }
-
-    .required{
-      color:red;
-    }
-
-    input,
-    select,
-    textarea{
-      width:100%;
-      border:1.5px solid #ddd;
-      border-radius:12px;
-      padding:13px 14px;
-      outline:none;
-      font-size:15px;
-      background:#fff;
-      transition:.25s;
-    }
-
-    input:focus,
-    select:focus,
-    textarea:focus{
-      border-color:#ff4d00;
-      box-shadow:0 0 0 4px rgba(255,80,0,.08);
-    }
-
-    textarea{
-      min-height:130px;
-      resize:vertical;
-    }
-
-    .field{
-      margin-bottom:18px;
-    }
-
-    /* SERVICES */
-
-    .services{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:12px;
-    }
-
-    .service{
-      position:relative;
-    }
-
-    .service input{
-      display:none;
-    }
-
-    .service label{
-      min-height:100px;
-      margin:0;
-      padding:16px;
-      cursor:pointer;
-      border:1.5px solid #e4e4e4;
-      border-radius:15px;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-      background:white;
-      transition:.25s;
-    }
-
-    .service label:hover{
-      transform:translateY(-3px);
-      border-color:#ff6600;
-      box-shadow:0 8px 20px rgba(0,0,0,.07);
-    }
-
-    .service input:checked + label{
-      color:white;
-      border-color:transparent;
-      background:linear-gradient(135deg,#e60000,#ff7300,#ffc400);
-      box-shadow:0 10px 25px rgba(255,70,0,.25);
-      transform:translateY(-2px);
-    }
-
-    .service-name{
-      font-weight:800;
-      font-size:15px;
-    }
-
-    .price{
-      font-size:14px;
-      font-weight:900;
-      margin-top:8px;
-    }
-
-    .custom-box{
-      margin-top:15px;
-      padding:15px;
-      background:#fafafa;
-      border:1px dashed #ccc;
-      border-radius:14px;
-    }
-
-    /* PAYMENT */
-
-    .payment-info{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:10px;
-      margin-top:15px;
-    }
-
-    .money-box{
-      padding:15px;
-      border-radius:14px;
-      background:#111;
-      color:white;
-      text-align:center;
-    }
-
-    .money-box span{
-      display:block;
-      font-size:12px;
-      color:#ccc;
-      margin-bottom:7px;
-    }
-
-    .money-box strong{
-      font-size:17px;
-    }
-
-    .deposit{
-      background:linear-gradient(135deg,#e60000,#ff7200);
-    }
-
-    .remaining{
-      background:linear-gradient(135deg,#222,#444);
-    }
-
-    /* RADIO */
-
-    .radio-group{
-      display:flex;
-      gap:12px;
-    }
-
-    .radio-option{
-      flex:1;
-      position:relative;
-    }
-
-    .radio-option input{
-      display:none;
-    }
-
-    .radio-option label{
-      border:1.5px solid #ddd;
-      border-radius:12px;
-      padding:13px;
-      text-align:center;
-      cursor:pointer;
-      margin:0;
-      transition:.2s;
-    }
-
-    .radio-option input:checked + label{
-      background:#111;
-      color:white;
-      border-color:#111;
-    }
-
-    /* NOTICE */
-
-    .notice{
-      padding:15px;
-      border-radius:14px;
-      background:#fff7df;
-      border-left:4px solid #ffbf00;
-      color:#5c4900;
-      font-size:13px;
-      line-height:1.6;
-      margin-top:10px;
-    }
-
-    .notice strong{
-      color:#111;
-    }
-
-    /* BUTTON */
-
-    .submit-btn{
-      width:100%;
-      border:none;
-      border-radius:15px;
-      padding:17px;
-      color:white;
-      font-size:16px;
-      font-weight:900;
-      cursor:pointer;
-      background:linear-gradient(135deg,#e60000,#ff7300,#ffd000);
-      box-shadow:0 12px 30px rgba(255,80,0,.25);
-      transition:.25s;
-    }
-
-    .submit-btn:hover{
-      transform:translateY(-3px);
-      box-shadow:0 16px 35px rgba(255,80,0,.35);
-    }
-
-    .hidden{
-      display:none !important;
-    }
-
-    /* AKADEMI */
-
-    .academy-grid{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:18px;
-    }
-
-    .formation-card{
-      background:white;
-      border-radius:22px;
-      overflow:hidden;
-      border:1px solid #eee;
-      box-shadow:0 15px 35px rgba(0,0,0,.06);
-      transition:.3s;
-    }
-
-    .formation-card:hover{
-      transform:translateY(-8px);
-      
-   .formation-image{
-  width:100%;
-  height:180px;
-  overflow:hidden;
-  background:linear-gradient(135deg,#e60000,#ff7300,#ffd000);
-  border-radius:15px 15px 0 0;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar{
+    position:sticky;
+    top:0;
+    z-index:999;
+    width:100%;
+    background:rgba(17,17,17,.96);
+    backdrop-filter:blur(15px);
+    box-shadow:0 5px 25px rgba(0,0,0,.15);
+}
+
+.nav-container{
+    max-width:1200px;
+    margin:auto;
+    min-height:70px;
+    padding:0 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.logo-nav{
+    color:white;
+    font-size:22px;
+    font-weight:900;
+    text-decoration:none;
+}
+
+.logo-nav span{
+    color:#ff7300;
+}
+
+.menu-toggle{
+    display:none;
+    border:none;
+    background:none;
+    color:white;
+    font-size:30px;
+    cursor:pointer;
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:25px;
+    list-style:none;
+}
+
+.nav-links a{
+    color:white;
+    text-decoration:none;
+    font-size:14px;
+    font-weight:700;
+    transition:.25s;
+}
+
+.nav-links a:hover{
+    color:#ffb000;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    min-height:620px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:80px 20px;
+    background:
+        linear-gradient(
+            135deg,
+            #111 0%,
+            #1c1c1c 50%,
+            #2a0a00 100%
+        );
+    color:white;
+    position:relative;
+    overflow:hidden;
+}
+
+.hero-content{
+    max-width:900px;
+    animation:fadeUp .9s ease;
+}
+
+.hero-badge{
+    display:inline-block;
+    padding:9px 17px;
+    border-radius:30px;
+    background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.2);
+    margin-bottom:20px;
+    font-size:13px;
+}
+
+.hero h1{
+    font-size:clamp(40px,7vw,78px);
+    line-height:1;
+    font-weight:900;
+    margin-bottom:25px;
+}
+
+.gradient-text{
+    background:linear-gradient(
+        90deg,
+        #ff2b00,
+        #ff7300,
+        #ffd000
+    );
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.hero p{
+    color:#fff;
+    font-size:19px;
+    line-height:1.7;
+    max-width:720px;
+    margin:0 auto 30px;
+}
+
+.hero-buttons{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    display:inline-block;
+    padding:15px 24px;
+    border-radius:13px;
+    text-decoration:none;
+    font-weight:800;
+    transition:.3s;
+}
+
+.btn-primary{
+    background:linear-gradient(
+        135deg,
+        #e60000,
+        #ff7300,
+        #ffd000
+    );
+    color:white;
+    box-shadow:0 10px 30px rgba(255,70,0,.3);
+}
+
+.btn-secondary{
+    background:white;
+    color:#111;
+}
+
+.btn:hover{
+    transform:translateY(-4px);
+}
+
+/* =========================
+   GENERAL
+========================= */
+
+.section{
+    max-width:1200px;
+    margin:auto;
+    padding:80px 20px;
+}
+
+.section-header{
+    text-align:center;
+    margin-bottom:45px;
+}
+
+.section-header span{
+    color:#ff5a00;
+    font-size:13px;
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:2px;
+}
+
+.section-header h2{
+    font-size:clamp(30px,5vw,45px);
+    margin-top:10px;
+}
+
+.section-header p{
+    color:#666;
+    max-width:650px;
+    margin:12px auto 0;
+    line-height:1.6;
+}
+
+/* =========================
+   PORTFOLIO
+========================= */
+
+.portfolio-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+}
+
+.portfolio-card{
+    height:280px;
+    border-radius:20px;
+    overflow:hidden;
+    background:#ddd;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    transition:.35s;
+}
+
+.portfolio-card:hover{
+    transform:translateY(-7px);
+}
+
+.portfolio-card img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition:.4s;
+}
+
+.portfolio-card:hover img{
+    transform:scale(1.08);
+}
+
+/* =========================
+   SERVICES ORDER
+========================= */
+
+.order-wrapper{
+    max-width:850px;
+    margin:auto;
+}
+
+.card{
+    background:rgba(255,255,255,.97);
+    border:1px solid #eee;
+    border-radius:22px;
+    padding:25px;
+    margin-bottom:18px;
+    box-shadow:0 15px 40px rgba(0,0,0,.07);
+    animation:fadeUp .7s ease;
+}
+
+.section-title{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:20px;
+    font-size:19px;
+    font-weight:800;
+}
+
+.number{
+    width:32px;
+    height:32px;
+    border-radius:10px;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(
+        135deg,
+        #e60000,
+        #ffcc00
+    );
+    font-size:14px;
+    font-weight:900;
+}
+
+.field{
+    margin-bottom:18px;
+}
+
+label{
+    display:block;
+    font-size:14px;
+    font-weight:700;
+    margin-bottom:8px;
+}
+
+.required{
+    color:red;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    border:1.5px solid #ddd;
+    border-radius:12px;
+    padding:13px 14px;
+    outline:none;
+    font-size:15px;
+    background:#fff;
+    transition:.25s;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:#ff4d00;
+    box-shadow:0 0 0 4px rgba(255,80,0,.08);
+}
+
+textarea{
+    min-height:130px;
+    resize:vertical;
+}
+
+/* SERVICES */
+
+.services{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.service input{
+    display:none;
+}
+
+.service label{
+    min-height:100px;
+    margin:0;
+    padding:16px;
+    cursor:pointer;
+    border:1.5px solid #e4e4e4;
+    border-radius:15px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    background:white;
+    transition:.25s;
+}
+
+.service label:hover{
+    transform:translateY(-3px);
+    border-color:#ff6600;
+    box-shadow:0 8px 20px rgba(0,0,0,.07);
+}
+
+.service input:checked + label{
+    color:white;
+    border-color:transparent;
+    background:linear-gradient(
+        135deg,
+        #e60000,
+        #ff7300,
+        #ffc400
+    );
+    box-shadow:0 10px 25px rgba(255,70,0,.25);
+    transform:translateY(-2px);
+}
+
+.service-name{
+    font-weight:800;
+    font-size:15px;
+}
+
+.price{
+    font-size:14px;
+    font-weight:900;
+    margin-top:8px;
+}
+
+.custom-box{
+    margin-top:15px;
+    padding:15px;
+    background:#fafafa;
+    border:1px dashed #ccc;
+    border-radius:14px;
+}
+
+/* PAYMENT */
+
+.payment-info{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-top:15px;
+}
+
+.money-box{
+    padding:15px;
+    border-radius:14px;
+    background:#111;
+    color:white;
+    text-align:center;
+}
+
+.money-box span{
+    display:block;
+    font-size:12px;
+    color:#ccc;
+    margin-bottom:7px;
+}
+
+.money-box strong{
+    font-size:17px;
+}
+
+.deposit{
+    background:linear-gradient(
+        135deg,
+        #e60000,
+        #ff7200
+    );
+}
+
+.remaining{
+    background:linear-gradient(
+        135deg,
+        #222,
+        #444
+    );
+}
+
+/* RADIO */
+
+.radio-group{
+    display:flex;
+    gap:12px;
+}
+
+.radio-option{
+    flex:1;
+}
+
+.radio-option input{
+    display:none;
+}
+
+.radio-option label{
+    border:1.5px solid #ddd;
+    border-radius:12px;
+    padding:13px;
+    text-align:center;
+    cursor:pointer;
+    margin:0;
+    transition:.2s;
+}
+
+.radio-option input:checked + label{
+    background:#111;
+    color:white;
+    border-color:#111;
+}
+
+/* NOTICE */
+
+.notice{
+    padding:15px;
+    border-radius:14px;
+    background:#fff7df;
+    border-left:4px solid #ffbf00;
+    color:#5c4900;
+    font-size:13px;
+    line-height:1.6;
+    margin-top:10px;
+}
+
+.notice strong{
+    color:#111;
+}
+
+/* BUTTON */
+
+.submit-btn{
+    width:100%;
+    border:none;
+    border-radius:15px;
+    padding:17px;
+    color:white;
+    font-size:16px;
+    font-weight:900;
+    cursor:pointer;
+    background:linear-gradient(
+        135deg,
+        #e60000,
+        #ff7300,
+        #ffd000
+    );
+    box-shadow:0 12px 30px rgba(255,80,0,.25);
+    transition:.25s;
+}
+
+.submit-btn:hover{
+    transform:translateY(-3px);
+}
+
+/* =========================
+   AKADEMI DIZAY
+========================= */
+
+.academy{
+    background:#111;
+    color:white;
+}
+
+.academy .section-header p{
+    color:#bbb;
+}
+
+.formation-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+}
+
+.formation-card{
+    background:#1c1c1c;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:20px;
+    overflow:hidden;
+    transition:.35s;
+}
+
+.formation-card:hover{
+    transform:translateY(-8px);
+    border-color:#ff7300;
+    box-shadow:0 15px 40px rgba(255,80,0,.15);
+}
+
+.formation-image{
+    height:190px;
+    overflow:hidden;
+    background:#222;
 }
 
 .formation-image img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition:.4s;
 }
 
-    .formation-content{
-      padding:20px;
+.formation-card:hover .formation-image img{
+    transform:scale(1.08);
+}
+
+.formation-content{
+    padding:20px;
+}
+
+.formation-content h3{
+    font-size:19px;
+    margin-bottom:10px;
+}
+
+.formation-content p{
+    color:#aaa;
+    font-size:13px;
+    line-height:1.6;
+    min-height:65px;
+}
+
+.formation-price{
+    color:#ffd000;
+    font-size:18px;
+    font-weight:900;
+    margin:15px 0;
+}
+
+.formation-btn{
+    display:block;
+    text-align:center;
+    padding:12px;
+    background:linear-gradient(
+        135deg,
+        #e60000,
+        #ff7300
+    );
+    color:white;
+    text-decoration:none;
+    border-radius:11px;
+    font-weight:800;
+}
+
+/* =========================
+   INSCRIPTION
+========================= */
+
+.registration-box{
+    max-width:850px;
+    margin:auto;
+}
+
+.type-selector{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.type-selector input{
+    display:none;
+}
+
+.type-selector label{
+    padding:17px;
+    text-align:center;
+    border:1.5px solid #ddd;
+    border-radius:13px;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.type-selector input:checked + label{
+    color:white;
+    background:linear-gradient(
+        135deg,
+        #e60000,
+        #ff7300
+    );
+    border-color:transparent;
+}
+
+.registration-info{
+    padding:15px;
+    border-radius:14px;
+    background:#fff7df;
+    margin-bottom:20px;
+    font-size:13px;
+    line-height:1.6;
+}
+
+/* =========================
+   ABOUT
+========================= */
+
+.about-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:30px;
+    align-items:center;
+}
+
+.about-box{
+    background:white;
+    padding:30px;
+    border-radius:22px;
+    box-shadow:0 15px 40px rgba(0,0,0,.07);
+}
+
+.about-box h3{
+    font-size:28px;
+    margin-bottom:15px;
+}
+
+.about-box p{
+    color:#666;
+    line-height:1.8;
+    margin-bottom:15px;
+}
+
+.about-list{
+    list-style:none;
+}
+
+.about-list li{
+    padding:9px 0;
+    font-weight:700;
+}
+
+.about-list li::before{
+    content:"✓";
+    color:#ff6500;
+    margin-right:10px;
+}
+
+/* =========================
+   CONTACT
+========================= */
+
+.contact-box{
+    background:#111;
+    color:white;
+    border-radius:25px;
+    padding:45px 25px;
+    text-align:center;
+}
+
+.contact-box h2{
+    font-size:34px;
+    margin-bottom:15px;
+}
+
+.contact-box p{
+    color:#bbb;
+    margin-bottom:25px;
+}
+
+.contact-buttons{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.contact-btn{
+    padding:14px 22px;
+    border-radius:12px;
+    color:white;
+    text-decoration:none;
+    font-weight:800;
+    background:#25D366;
+}
+
+.email-btn{
+    background:#ff7300;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    background:#0b0b0b;
+    color:#777;
+    text-align:center;
+    padding:25px 15px;
+    font-size:13px;
+}
+
+footer strong{
+    color:#ff7300;
+}
+
+/* =========================
+   HIDDEN
+========================= */
+
+.hidden{
+    display:none !important;
+}
+
+/* =========================
+   ANIMATION
+========================= */
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(25px);
     }
-
-    .formation-content h3{
-      margin-bottom:10px;
-      font-size:18px;
+    to{
+        opacity:1;
+        transform:translateY(0);
     }
+}
 
-    .formation-content p{
-      color:#666;
-      line-height:1.6;
-      font-size:13px;
-      min-height:65px;
-    }
+/* =========================
+   RESPONSIVE
+========================= */
 
-    .formation-price{
-      font-size:20px;
-      font-weight:900;
-      margin:15px 0;
-      color:#e60000;
-    }
+@media(max-width:950px){
 
-    .formation-btn{
-      width:100%;
-      padding:12px;
-      border:none;
-      border-radius:12px;
-      background:#111;
-      color:white;
-      font-weight:800;
-      cursor:pointer;
-    }
-
-    /* REGISTRATION */
-
-    .registration-choice{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:15px;
-      margin-bottom:25px;
-    }
-
-    .choice-card{
-      padding:25px;
-      border:2px solid #eee;
-      border-radius:20px;
-      cursor:pointer;
-      background:white;
-      transition:.25s;
-    }
-
-    .choice-card:hover{
-      transform:translateY(-4px);
-      border-color:#ff7300;
-    }
-
-    .choice-card.active{
-      background:linear-gradient(135deg,#e60000,#ff7300,#ffc400);
-      color:white;
-      border-color:transparent;
-    }
-
-    .choice-card h3{
-      font-size:22px;
-      margin-bottom:8px;
-    }
-
-    .choice-card p{
-      font-size:13px;
-      opacity:.8;
-    }
-
-    /* ABOUT */
-
-    .about-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:20px;
-    }
-
-    .about-box{
-      background:white;
-      padding:30px;
-      border-radius:25px;
-      box-shadow:0 15px 40px rgba(0,0,0,.06);
-    }
-
-    .about-icon{
-      width:55px;
-      height:55px;
-      border-radius:17px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:white;
-      font-size:25px;
-      margin-bottom:18px;
-      background:linear-gradient(135deg,#e60000,#ff7300,#ffd000);
-    }
-
-    .about-box h3{
-      font-size:24px;
-      margin-bottom:12px;
-    }
-
-    .about-box p{
-      color:ffffff;
-      line-height:1.8;
-    }
-
-    /* CONTACT */
-
-    .contact-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:18px;
-    }
-
-    .contact-card{
-      padding:30px;
-      border-radius:25px;
-      color:white;
-      background:#111;
-    }
-
-    .contact-card.gradient{
-      background:linear-gradient(135deg,#e60000,#ff7300,#ffc400);
-    }
-
-    .contact-card h3{
-      font-size:25px;
-      margin-bottom:10px;
-    }
-
-    .contact-card p{
-      line-height:1.7;
-      opacity:.9;
-      margin-bottom:20px;
-    }
-
-    .contact-card .btn{
-      background:white;
-      color:#111;
-    }
-
-    /* FOOTER */
-
-    footer{
-      background:#111;
-      color:#aaa;
-      text-align:center;
-      padding:30px 20px;
-      font-size:13px;
-    }
-
-    footer strong{
-      color:white;
-    }
-
-    /* MOBILE */
-
-    @media(max-width:900px){
-
-      .hero{
-        grid-template-columns:1fr;
-        text-align:center;
-      }
-
-      .hero-content{
-        animation:none;
-      }
-
-      .hero p{
-        margin-left:auto;
-        margin-right:auto;
-      }
-
-      .hero-buttons{
-        justify-content:center;
-      }
-
-      .portfolio-grid,
-      .academy-grid{
+    .portfolio-grid{
         grid-template-columns:repeat(2,1fr);
-      }
-
     }
 
-    @media(max-width:700px){
+    .formation-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
 
-      .nav-links{
+@media(max-width:700px){
+
+    .menu-toggle{
+        display:block;
+    }
+
+    .nav-links{
         position:absolute;
         top:70px;
         left:0;
-        right:0;
-        background:white;
-        display:none;
+        width:100%;
+        background:#111;
         flex-direction:column;
-        padding:20px;
-        box-shadow:0 15px 30px rgba(0,0,0,.1);
-      }
-
-      .nav-links.show{
-        display:flex;
-      }
-
-      .menu-btn{
-        display:block;
-      }
-
-      .section-heading h2{
-        font-size:26px;
-      }
-
-      .about-grid,
-      .contact-grid{
-        grid-template-columns:1fr;
-      }
-
-      .registration-choice{
-        grid-template-columns:1fr;
-      }
-
+        align-items:stretch;
+        gap:0;
+        max-height:0;
+        overflow:hidden;
+        transition:.35s ease;
     }
 
-    @media(max-width:600px){
+    .nav-links.active{
+        max-height:500px;
+        padding:10px 0;
+    }
 
-      .container{
-        padding:25px 13px 45px;
-      }
+    .nav-links li{
+        width:100%;
+    }
 
-      .hero{
-        min-height:auto;
-        padding:35px 0;
-      }
+    .nav-links a{
+        display:block;
+        padding:15px 25px;
+    }
 
-      .hero h1{
-        font-size:42px;
-      }
+    .nav-links a:hover{
+        background:#222;
+    }
 
-      .portfolio-grid,
-      .academy-grid,
-      .services{
+    .hero{
+        min-height:560px;
+        padding:70px 18px;
+    }
+
+    .hero p{
+        font-size:16px;
+    }
+
+    .services{
         grid-template-columns:1fr;
-      }
+    }
 
-      .portfolio-item{
-        height:300px;
-      }
-
-      .payment-info{
+    .payment-info{
         grid-template-columns:1fr;
-      }
+    }
 
-      .radio-group{
+    .radio-group{
         flex-direction:column;
-      }
+    }
 
-      .card{
+    .about-grid{
+        grid-template-columns:1fr;
+    }
+
+    .type-selector{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:550px){
+
+    .section{
+        padding:60px 14px;
+    }
+
+    .portfolio-grid{
+        grid-template-columns:1fr;
+    }
+
+    .formation-grid{
+        grid-template-columns:1fr;
+    }
+
+    .portfolio-card{
+        height:250px;
+    }
+
+    .card{
         padding:18px;
         border-radius:18px;
-      }
-
-      .nav-container{
-        padding:12px 15px;
-      }
-
     }
 
-  </style>
+    .hero h1{
+        font-size:42px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-  <!-- NAVIGATION -->
+<!-- =========================
+     NAVIGATION
+========================= -->
 
-  <nav>
+<nav class="navbar">
 
     <div class="nav-container">
 
-      <div class="brand">
-        <div class="brand-logo">BD</div>
-        Baba Design
-      </div>
+        <a href="#accueil" class="logo-nav">
+            Baba<span>Design</span>
+        </a>
 
-      <button class="menu-btn" onclick="toggleMenu()">☰</button>
+        <button class="menu-toggle" id="menuToggle">
+            ☰
+        </button>
 
-      <div class="nav-links" id="navLinks">
-        <a href="#accueil">Accueil</a>
-        <a href="#services">Services</a>
-        <a href="#akademi">Akademi Dizay</a>
-        <a href="#inscription">Inscription</a>
-        <a href="#apropos">À propos</a>
-        <a href="#contact">Contact</a>
-      </div>
+        <ul class="nav-links" id="navLinks">
+
+            <li>
+                <a href="#accueil">Accueil</a>
+            </li>
+
+            <li>
+                <a href="#services">Services</a>
+            </li>
+
+            <li>
+                <a href="#academi">Akademi Dizay</a>
+            </li>
+
+            <li>
+                <a href="#inscription">Inscription</a>
+            </li>
+
+            <li>
+                <a href="#apropos">À propos</a>
+            </li>
+
+            <li>
+                <a href="#contact">Contact</a>
+            </li>
+
+        </ul>
 
     </div>
 
-  </nav>
+</nav>
 
 
-  <main class="container">
+<!-- =========================
+     ACCUEIL
+========================= -->
 
-    <!-- ACCUEIL -->
+<section class="hero" id="accueil">
 
-    <section id="accueil">
+    <div class="hero-content">
 
-      <div class="hero">
+        <span class="hero-badge">
+            BABA DESIGN • CRÉATIVITÉ • FORMATION
+        </span>
 
-        <div class="hero-content">
+        <h1>
+            Créons quelque chose
+            <span class="gradient-text">
+                d'exception.
+            </span>
+        </h1>
 
-          <div class="hero-badge">
-             Créativité • Formation • Innovation
-          </div>
+        <!-- TEXTE BLANC -->
+        <p>
+            Services de design professionnel et formations
+            pour développer votre créativité.
+        </p>
 
-          <h1>
-            Donnez vie à vos
-            <span class="gradient-text">idées.</span>
-          </h1>
-
-          <p>
-            Baba Design vous accompagne dans vos projets créatifs
-            et Akademi Dizay vous aide à développer vos compétences
-            à travers des formations pratiques et accessibles.
-          </p>
-
-          <div class="hero-buttons">
+        <div class="hero-buttons">
 
             <a href="#services" class="btn btn-primary">
-               Commander un service
+                Commander un service
             </a>
 
-            <a href="#akademi" class="btn btn-dark">
-               Découvrir les formations
+            <a href="#academi" class="btn btn-secondary">
+                Découvrir Akademi Dizay
             </a>
-
-          </div>
 
         </div>
 
+    </div>
 
-        <div class="hero-card">
-
-          <div class="hero-card-top">
-
-            <h3>Créons ensemble </h3>
-
-            <p>
-              Services de design professionnel et formations
-              pour développer votre créativité.
-            </p>
-
-          </div>
-
-          <div class="hero-stats">
-
-            <div class="stat">
-              <strong>7+</strong>
-              <span>Services disponibles</span>
-            </div>
-
-            <div class="stat">
-              <strong>4</strong>
-              <span>Formations disponibles</span>
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
+</section>
 
 
-      <!-- PORTFOLIO -->
+<!-- =========================
+     PORTFOLIO
+========================= -->
 
-      <div class="section-heading">
+<section class="section" id="portfolio">
 
-        <span>PORTFOLIO</span>
+    <div class="section-header">
+
+        <span>Notre travail</span>
 
         <h2>Quelques réalisations</h2>
 
         <p>
-          Découvrez quelques travaux réalisés par Baba Design.
+            Découvrez quelques créations réalisées
+            par Baba Design.
         </p>
 
-      </div>
+    </div>
 
 
-      <div class="portfolio-grid">
+    <div class="portfolio-grid">
 
-        <div class="portfolio-item">
-          <img src="250 htg ee.jpg" alt="Travail Baba Design ">
-          <div class="portfolio-overlay">
-            Réalisation Baba Design
-          </div>
+        <!-- Tu peux remplacer ces 4 photos -->
+        <div class="portfolio-card">
+            <img src="250 htg ee.jpg"
+                 alt="Travail Baba Design">
         </div>
 
-        <div class="portfolio-item">
-          <img src="150 htg enskri.jpg" alt="Travail Baba Design ">
-          <div class="portfolio-overlay">
-            Réalisation Baba Design
-          </div>
+        <div class="portfolio-card">
+            <img src="150 htg enskri.jpg"
+                 alt="Travail Baba Design">
         </div>
 
-        <div class="portfolio-item">
-          <img src="goat baba.jpg" alt="Travail Baba Design ">
-          <div class="portfolio-overlay">
-            Réalisation Baba Design
-          </div>
+        <div class="portfolio-card">
+            <img src="goat baba.jpg"
+                 alt="Travail Baba Design">
         </div>
 
-        <div class="portfolio-item">
-          <img src="oiseaux 1.jpg" alt="Travail Baba Design ">
-          <div class="portfolio-overlay">
-            Réalisation Baba Design
-          </div>
+        <div class="portfolio-card">
+            <img src="oiseaux 1.jpg"
+                 alt="Travail Baba Design">
         </div>
 
-      </div>
+    </div>
 
-    </section>
+</section>
 
 
-    <!-- SERVICES -->
+<!-- =========================
+     SERVICES
+========================= -->
 
-    <section id="services" style="margin-top:90px;">
+<section class="section" id="services">
 
-      <div class="section-heading">
+    <div class="section-header">
 
-        <span>BABA DESIGN</span>
+        <span>Commander</span>
 
-        <h2>Commander un service</h2>
+        <h2>Services de design</h2>
 
         <p>
-          Sélectionnez le service dont vous avez besoin
-          et envoyez directement votre commande sur WhatsApp.
+            Sélectionnez votre service, indiquez vos besoins
+            et envoyez votre commande rapidement.
         </p>
 
-      </div>
+    </div>
 
 
-      <form id="orderForm">
+    <div class="order-wrapper">
 
+        <form id="orderForm">
 
-        <!-- CLIENT -->
 
-        <div class="card">
+            <!-- CLIENT -->
 
-          <div class="section-title">
-            <div class="number">1</div>
-            Informations client
-          </div>
+            <div class="card">
 
-          <div class="field">
+                <div class="section-title">
+                    <div class="number">1</div>
+                    Informations client
+                </div>
 
-            <label>
-              Nom complet
-              <span class="required">*</span>
-            </label>
+                <div class="field">
 
-            <input
-              type="text"
-              id="clientName"
-              placeholder="Ex : Jean Dupont"
-              required
-            >
+                    <label>
+                        Nom complet
+                        <span class="required">*</span>
+                    </label>
 
-          </div>
+                    <input
+                        type="text"
+                        id="clientName"
+                        placeholder="Ex : Jean Dupont"
+                        required
+                    >
 
+                </div>
 
-          <div class="field">
 
-            <label>Numéro WhatsApp</label>
+                <div class="field">
 
-            <input
-              type="tel"
-              id="clientPhone"
-              placeholder="Ex : 40xxxxxxxx"
-            >
+                    <label>
+                        Numéro WhatsApp
+                    </label>
 
-          </div>
+                    <input
+                        type="tel"
+                        id="clientPhone"
+                        placeholder="Ex : 40xxxxxxxx"
+                    >
 
-        </div>
-
-
-        <!-- SERVICES LIST -->
-
-        <div class="card">
-
-          <div class="section-title">
-            <div class="number">2</div>
-            Choisissez votre service
-          </div>
-
-
-          <div class="services">
-
-            <div class="service">
-              <input type="radio" name="service" id="affiche"
-                value="Affiche événement" data-price="3500">
-
-              <label for="affiche">
-                <span class="service-name">Affiche événement</span>
-                <span class="price">3 500 HTG</span>
-              </label>
-            </div>
-
-
-            <div class="service">
-              <input type="radio" name="service" id="carte"
-                value="Carte de visite" data-price="4000">
-
-              <label for="carte">
-                <span class="service-name">Carte de visite</span>
-                <span class="price">4 000 HTG</span>
-              </label>
-            </div>
-
-
-            <div class="service">
-              <input type="radio" name="service" id="certificat"
-                value="Certificat / Unité" data-price="350">
-
-              <label for="certificat">
-                <span class="service-name">Certificat / Unité</span>
-                <span class="price">350 HTG</span>
-              </label>
-            </div>
-
-
-            <div class="service">
-              <input type="radio" name="service" id="flyer"
-                value="Flyer Business" data-price="3000">
-
-              <label for="flyer">
-                <span class="service-name">Flyer Business</span>
-                <span class="price">3 000 HTG</span>
-              </label>
-            </div>
-
-
-            <div class="service">
-              <input type="radio" name="service" id="etiquette"
-                value="Étiquette" data-price="5000">
-
-              <label for="etiquette">
-                <span class="service-name">Étiquette</span>
-                <span class="price">5 000 HTG</span>
-              </label>
-            </div>
-
-
-            <div class="service">
-              <input type="radio" name="service" id="video"
-                value="Vidéo promotionnelle" data-price="4500">
-
-              <label for="video">
-                <span class="service-name">Vidéo promotionnelle</span>
-                <span class="price">4 500 HTG</span>
-              </label>
-            </div>
-
-
-            <div class="service">
-              <input type="radio" name="service" id="banniere"
-                value="Bannière" data-price="6500">
-
-              <label for="banniere">
-                <span class="service-name">Bannière</span>
-                <span class="price">6 500 HTG</span>
-              </label>
-            </div>
-
-          </div>
-
-
-          <div class="custom-box">
-
-            <label>Vous avez besoin d'un autre service ?</label>
-
-            <input
-              type="text"
-              id="customService"
-              placeholder="Écrivez le service dont vous avez besoin"
-            >
-
-          </div>
-
-        </div>
-
-
-        <!-- DEADLINE -->
-
-        <div class="card">
-
-          <div class="section-title">
-            <div class="number">3</div>
-            Délai de livraison
-          </div>
-
-          <div class="field">
-
-            <label>
-              Dans combien de temps avez-vous besoin du visuel ?
-              <span class="required">*</span>
-            </label>
-
-            <select id="deadline" required>
-
-              <option value="">Sélectionnez un délai</option>
-              <option value="Dès que possible">Dès que possible</option>
-              <option value="Aujourd'hui">Aujourd'hui</option>
-              <option value="Demain">Demain</option>
-              <option value="Dans 2 jours">Dans 2 jours</option>
-              <option value="Dans 3 jours">Dans 3 jours</option>
-              <option value="Cette semaine">Cette semaine</option>
-              <option value="Autre">Autre</option>
-
-            </select>
-
-          </div>
-
-        </div>
-
-
-        <!-- DETAILS -->
-
-        <div class="card">
-
-          <div class="section-title">
-            <div class="number">4</div>
-            Informations du visuel
-          </div>
-
-          <div class="field">
-
-            <label>
-              Informations à mettre sur le visuel
-              <span class="required">*</span>
-            </label>
-
-            <textarea
-              id="designInfo"
-              placeholder="Écrivez ici les textes, numéro de téléphone, adresse, prix, date, couleurs, etc."
-              required
-            ></textarea>
-
-          </div>
-
-
-          <div class="notice">
-
-            <strong>Important :</strong><br>
-
-            Pour toutes les images nécessaires à votre commande,
-            veuillez les envoyer directement sur notre WhatsApp
-            <strong>comme document</strong> afin de préserver leur qualité.
-
-          </div>
-
-        </div>
-
-
-        <!-- PAYMENT -->
-
-        <div class="card">
-
-          <div class="section-title">
-            <div class="number">5</div>
-            Paiement
-          </div>
-
-
-          <div class="notice">
-
-            Pour commencer votre commande, un
-            <strong>dépôt de 70%</strong> du prix du service est demandé.
-
-            <br><br>
-
-            Les <strong>30% restants</strong> seront payés selon
-            les conditions convenues pour finaliser la commande.
-
-          </div>
-
-
-          <div class="notice" style="margin-top:15px;">
-
-            <strong>Méthode de paiement : NatCash</strong>
-
-            <br><br>
-
-            Numéro :
-            <strong>+509 4005-2773</strong>
-
-            <br>
-
-            Nom :
-            <strong>Marie Alberte Darisme</strong>
-
-            <br><br>
-
-            Après le paiement, sélectionnez
-            <strong>« Oui, j'ai payé »</strong>
-            et indiquez votre transcode.
-
-          </div>
-
-
-          <br>
-
-
-          <label>
-            Avez-vous déjà effectué le paiement ?
-            <span class="required">*</span>
-          </label>
-
-
-          <div class="radio-group">
-
-            <div class="radio-option">
-
-              <input
-                type="radio"
-                name="paid"
-                id="paidYes"
-                value="Oui"
-                required
-              >
-
-              <label for="paidYes">
-                Oui, j'ai payé
-              </label>
+                </div>
 
             </div>
 
 
-            <div class="radio-option">
+            <!-- SERVICES -->
 
-              <input
-                type="radio"
-                name="paid"
-                id="paidNo"
-                value="Non"
-                required
-              >
+            <div class="card">
 
-              <label for="paidNo">
-                Non, pas encore
-              </label>
+                <div class="section-title">
+
+                    <div class="number">2</div>
+
+                    Choisissez votre service
+
+                </div>
+
+
+                <div class="services">
+
+
+                    <div class="service">
+
+                        <input
+                            type="radio"
+                            name="service"
+                            id="affiche"
+                            value="Affiche événement"
+                            data-price="3500"
+                        >
+
+                        <label for="affiche">
+
+                            <span class="service-name">
+                                Affiche événement
+                            </span>
+
+                            <span class="price">
+                                3 500 HTG
+                            </span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="service">
+
+                        <input
+                            type="radio"
+                            name="service"
+                            id="carte"
+                            value="Carte de visite"
+                            data-price="4000"
+                        >
+
+                        <label for="carte">
+
+                            <span class="service-name">
+                                Carte de visite
+                            </span>
+
+                            <span class="price">
+                                4 000 HTG
+                            </span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="service">
+
+                        <input
+                            type="radio"
+                            name="service"
+                            id="certificat"
+                            value="Certificat / Unité"
+                            data-price="350"
+                        >
+
+                        <label for="certificat">
+
+                            <span class="service-name">
+                                Certificat / Unité
+                            </span>
+
+                            <span class="price">
+                                350 HTG
+                            </span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="service">
+
+                        <input
+                            type="radio"
+                            name="service"
+                            id="flyer"
+                            value="Flyer Business"
+                            data-price="3000"
+                        >
+
+                        <label for="flyer">
+
+                            <span class="service-name">
+                                Flyer Business
+                            </span>
+
+                            <span class="price">
+                                3 000 HTG
+                            </span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="service">
+
+                        <input
+                            type="radio"
+                            name="service"
+                            id="etiquette"
+                            value="Étiquette"
+                            data-price="5000"
+                        >
+
+                        <label for="etiquette">
+
+                            <span class="service-name">
+                                Étiquette
+                            </span>
+
+                            <span class="price">
+                                5 000 HTG
+                            </span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="service">
+
+                        <input
+                            type="radio"
+                            name="service"
+                            id="video"
+                            value="Vidéo promotionnelle"
+                            data-price="4500"
+                        >
+
+                        <label for="video">
+
+                            <span class="service-name">
+                                Vidéo promotionnelle
+                            </span>
+
+                            <span class="price">
+                                4 500 HTG
+                            </span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="service">
+
+                        <input
+                            type="radio"
+                            name="service"
+                            id="banniere"
+                            value="Bannière"
+                            data-price="6500"
+                        >
+
+                        <label for="banniere">
+
+                            <span class="service-name">
+                                Bannière
+                            </span>
+
+                            <span class="price">
+                                6 500 HTG
+                            </span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <div class="custom-box">
+
+                    <label>
+                        Vous avez besoin d'un autre service ?
+                    </label>
+
+                    <input
+                        type="text"
+                        id="customService"
+                        placeholder="Écrivez le service dont vous avez besoin"
+                    >
+
+                </div>
 
             </div>
 
-          </div>
+
+            <!-- DELAI -->
+
+            <div class="card">
+
+                <div class="section-title">
+
+                    <div class="number">3</div>
+
+                    Délai de livraison
+
+                </div>
 
 
-          <div class="field hidden"
-            id="transcodeBox"
-            style="margin-top:20px;">
+                <div class="field">
 
-            <label>
-              Transcode de paiement
-              <span class="required">*</span>
-            </label>
+                    <label>
 
-            <input
-              type="text"
-              id="transcode"
-              placeholder="Entrez votre transcode de paiement"
-            >
+                        Dans combien de temps avez-vous besoin du visuel ?
 
-          </div>
+                        <span class="required">*</span>
+
+                    </label>
 
 
-          <div class="payment-info">
+                    <select id="deadline" required>
 
-            <div class="money-box">
+                        <option value="">
+                            Sélectionnez un délai
+                        </option>
 
-              <span>Prix du service</span>
+                        <option value="Dès que possible">
+                            Dès que possible
+                        </option>
 
-              <strong id="totalPrice">
-                0 HTG
-              </strong>
+                        <option value="Aujourd'hui">
+                            Aujourd'hui
+                        </option>
+
+                        <option value="Demain">
+                            Demain
+                        </option>
+
+                        <option value="Dans 2 jours">
+                            Dans 2 jours
+                        </option>
+
+                        <option value="Dans 3 jours">
+                            Dans 3 jours
+                        </option>
+
+                        <option value="Cette semaine">
+                            Cette semaine
+                        </option>
+
+                        <option value="Autre">
+                            Autre
+                        </option>
+
+                    </select>
+
+                </div>
 
             </div>
 
 
-            <div class="money-box deposit">
+            <!-- DETAILS -->
 
-              <span>Dépôt 70%</span>
+            <div class="card">
 
-              <strong id="depositPrice">
-                0 HTG
-              </strong>
+                <div class="section-title">
+
+                    <div class="number">4</div>
+
+                    Informations du visuel
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+
+                        Informations à mettre sur le visuel
+
+                        <span class="required">*</span>
+
+                    </label>
+
+
+                    <textarea
+                        id="designInfo"
+                        placeholder="Écrivez ici les textes, numéro de téléphone, adresse, prix, date, couleurs, etc."
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <div class="notice">
+
+                    <strong>Important :</strong><br>
+
+                    Pour toutes les images nécessaires à votre commande,
+                    veuillez les envoyer directement sur notre WhatsApp
+                    <strong>comme document</strong> afin de préserver leur qualité.
+
+                </div>
 
             </div>
 
 
-            <div class="money-box remaining">
+            <!-- PAIEMENT -->
 
-              <span>Solde 30%</span>
+            <div class="card">
 
-              <strong id="remainingPrice">
-                0 HTG
-              </strong>
+                <div class="section-title">
+
+                    <div class="number">5</div>
+
+                    Paiement
+
+                </div>
+
+
+                <div class="notice">
+
+                    Pour commencer votre commande, un
+                    <strong>dépôt de 70%</strong> du prix du service est demandé.
+
+                    <br><br>
+
+                    Les <strong>30% restants</strong> seront payés selon
+                    les conditions convenues pour finaliser la commande.
+
+                </div>
+
+
+                <div class="notice" style="margin-top:15px;">
+
+                    <strong>Méthode de paiement : NatCash</strong>
+
+                    <br><br>
+
+                    Numéro :
+                    <strong>+509 4005-2773</strong>
+
+                    <br>
+
+                    Nom :
+                    <strong>Marie Alberte Darisme</strong>
+
+                    <br><br>
+
+                    Après le paiement, sélectionnez
+                    <strong>« Oui, j'ai payé »</strong>
+                    et indiquez votre
+                    <strong>transcode</strong>.
+
+                </div>
+
+
+                <br>
+
+
+                <label>
+
+                    Avez-vous déjà effectué le paiement ?
+
+                    <span class="required">*</span>
+
+                </label>
+
+
+                <div class="radio-group">
+
+                    <div class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="paid"
+                            id="paidYes"
+                            value="Oui"
+                            required
+                        >
+
+                        <label for="paidYes">
+                            Oui, j'ai payé
+                        </label>
+
+                    </div>
+
+
+                    <div class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="paid"
+                            id="paidNo"
+                            value="Non"
+                            required
+                        >
+
+                        <label for="paidNo">
+                            Non, pas encore
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TRANSCODE -->
+
+                <div
+                    class="field hidden"
+                    id="transcodeBox"
+                    style="margin-top:20px;"
+                >
+
+                    <label>
+
+                        Transcode de paiement
+
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="transcode"
+                        placeholder="Entrez votre transcode de paiement"
+                    >
+
+                </div>
+
+
+                <!-- CALCUL -->
+
+                <div class="payment-info">
+
+                    <div class="money-box">
+
+                        <span>
+                            Prix du service
+                        </span>
+
+                        <strong id="totalPrice">
+                            0 HTG
+                        </strong>
+
+                    </div>
+
+
+                    <div class="money-box deposit">
+
+                        <span>
+                            Dépôt 70%
+                        </span>
+
+                        <strong id="depositPrice">
+                            0 HTG
+                        </strong>
+
+                    </div>
+
+
+                    <div class="money-box remaining">
+
+                        <span>
+                            Solde 30%
+                        </span>
+
+                        <strong id="remainingPrice">
+                            0 HTG
+                        </strong>
+
+                    </div>
+
+                </div>
 
             </div>
 
-          </div>
 
-        </div>
+            <!-- AGENT -->
 
+            <div class="card">
 
-        <!-- AGENT -->
+                <div class="section-title">
 
-        <div class="card">
+                    <div class="number">6</div>
 
-          <div class="section-title">
-            <div class="number">6</div>
-            Référence agent
-          </div>
+                    Référence agent
 
-          <div class="field">
-
-            <label>
-              ID Agent
-              <small style="color:#777;">
-                (facultatif)
-              </small>
-            </label>
-
-            <input
-              type="text"
-              id="agentId"
-              placeholder="Ex : AG-191514"
-            >
-
-          </div>
-
-        </div>
+                </div>
 
 
-        <div class="card">
+                <div class="field">
 
-          <button type="submit" class="submit-btn">
-             Envoyer ma commande sur WhatsApp
-          </button>
+                    <label>
 
-        </div>
+                        ID Agent
 
-      </form>
+                        <small style="color:#777;">
+                            (facultatif)
+                        </small>
 
-    </section>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="agentId"
+                        placeholder="Ex : AG-1025"
+                    >
+
+                </div>
 
 
-    <!-- AKADEMI -->
+                <div class="notice">
 
-    <section id="akademi" style="margin-top:90px;">
+                    Si un agent vous a référé,
+                    vous pouvez inscrire son ID ici.
+                    Ce champ n'est pas obligatoire.
 
-      <div class="section-heading">
+                </div>
 
-        <span>AKADEMI DIZAY</span>
+            </div>
 
-        <h2>Nos formations disponibles</h2>
+
+            <!-- SUBMIT -->
+
+            <div class="card">
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                >
+                    Envoyer ma commande sur WhatsApp
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     AKADEMI DIZAY
+========================= -->
+
+<section class="section academy" id="academi">
+
+    <div class="section-header">
+
+        <span>Akademi Dizay</span>
+
+        <h2>Développez vos compétences</h2>
 
         <p>
-          Apprenez de nouvelles compétences et développez
-          votre créativité avec nos formations pratiques.
+            Des formations pratiques pour apprendre
+            et développer vos compétences créatives.
         </p>
 
-      </div>
+    </div>
 
 
-      <div class="academy-grid">
+    <div class="formation-grid">
+
+
+        <!-- FORMATION 1 -->
 
         <div class="formation-card">
 
-   <div class="formation-image">
-  <img src="foma video.jpg" alt="Formation Montage Vidéo">
-</div> ">
+            <div class="formation-image">
 
-          <div class="formation-content">
+                <!--
+                    PHOTO À AJOUTER DANS GITHUB :
+                    formation-video.jpg
+                -->
 
-            <h3>Montage Vidéo</h3>
+                <img
+                    src="foma video.jpg"
+                    alt="Formation Montage Vidéo"
+                >
 
-            <p>
-              Apprenez les bases et les techniques essentielles
-              pour réaliser des vidéos attractives.
-            </p>
-
-            <div class="formation-price">
-              3 000 HTG
             </div>
 
-            <button class="formation-btn"
-              onclick="selectFormation('Montage Vidéo')">
-              S'inscrire
-            </button>
 
-          </div>
+            <div class="formation-content">
+
+                <h3>
+                    Montage Vidéo
+                </h3>
+
+                <p>
+                    Apprenez à créer et monter des vidéos
+                    professionnelles pour vos projets.
+                </p>
+
+                <div class="formation-price">
+                    3 000 HTG
+                </div>
+
+                <a
+                    href="#inscription"
+                    class="formation-btn"
+                >
+                    S'inscrire
+                </a>
+
+            </div>
 
         </div>
 
 
+        <!-- FORMATION 2 -->
+
         <div class="formation-card">
 
-   <div class="formation-image">
-  <img src="foma certifi.jpg" alt="Formation Création de Certificat">
-</div> ">
+            <div class="formation-image">
 
-          <div class="formation-content">
+                <!--
+                    PHOTO À AJOUTER DANS GITHUB :
+                    formation-certificat.jpg
+                -->
 
-            <h3>Création de Certificat</h3>
+                <img
+                    src="foma certifi.jpg"
+                    alt="Formation Création de Certificat"
+                >
 
-            <p>
-              Apprenez à concevoir des certificats professionnels
-              et modernes.
-            </p>
-
-            <div class="formation-price">
-              3 000 HTG
             </div>
 
-            <button class="formation-btn"
-              onclick="selectFormation('Création de Certificat')">
-              S'inscrire
-            </button>
 
-          </div>
+            <div class="formation-content">
+
+                <h3>
+                    Création de Certificat
+                </h3>
+
+                <p>
+                    Apprenez à concevoir des certificats
+                    modernes et professionnels.
+                </p>
+
+                <div class="formation-price">
+                    3 000 HTG
+                </div>
+
+                <a
+                    href="#inscription"
+                    class="formation-btn"
+                >
+                    S'inscrire
+                </a>
+
+            </div>
 
         </div>
 
 
+        <!-- FORMATION 3 -->
+
         <div class="formation-card">
 
-     <div class="formation-image">
-  <img src="fomasyon badge.jpg" alt="Formation Création de Badge">
-</div> "> 
+            <div class="formation-image">
 
-          <div class="formation-content">
+                <!--
+                    PHOTO À AJOUTER DANS GITHUB :
+                    formation-badge.jpg
+                -->
 
-            <h3>Création de Badge</h3>
+                <img
+                    src="fomasyon badge.jpg"
+                    alt="Formation Création de Badge"
+                >
 
-            <p>
-              Apprenez à créer des badges modernes,
-              professionnels et personnalisés.
-            </p>
-
-            <div class="formation-price">
-              3 000 HTG
             </div>
 
-            <button class="formation-btn"
-              onclick="selectFormation('Création de Badge')">
-              S'inscrire
-            </button>
 
-          </div>
+            <div class="formation-content">
+
+                <h3>
+                    Création de Badge
+                </h3>
+
+                <p>
+                    Apprenez à créer des badges professionnels
+                    pour entreprises et organisations.
+                </p>
+
+                <div class="formation-price">
+                    3 000 HTG
+                </div>
+
+                <a
+                    href="#inscription"
+                    class="formation-btn"
+                >
+                    S'inscrire
+                </a>
+
+            </div>
 
         </div>
 
 
+        <!-- FORMATION 4 -->
+
         <div class="formation-card">
 
-  <div class="formation-image">
-  <img src="foma calandrier.jpg" alt="Formation Création de Calendrier">
-</div>
+            <div class="formation-image">
 
-          <div class="formation-content">
+                <!--
+                    PHOTO À AJOUTER DANS GITHUB :
+                    formation-calendrier.jpg
+                -->
 
-            <h3>Création de Calendrier</h3>
+                <img
+                    src="foma calandrier.jpg"
+                    alt="Formation Création de Calendrier"
+                >
 
-            <p>
-              Apprenez à créer des calendriers attractifs
-              et prêts pour l'impression.
-            </p>
-
-            <div class="formation-price">
-              3 000 HTG
             </div>
 
-            <button class="formation-btn"
-              onclick="selectFormation('Création de Calendrier')">
-              S'inscrire
-            </button>
 
-          </div>
+            <div class="formation-content">
+
+                <h3>
+                    Création de Calendrier
+                </h3>
+
+                <p>
+                    Apprenez à créer des calendriers
+                    personnalisés et professionnels.
+                </p>
+
+                <div class="formation-price">
+                    3 000 HTG
+                </div>
+
+                <a
+                    href="#inscription"
+                    class="formation-btn"
+                >
+                    S'inscrire
+                </a>
+
+            </div>
 
         </div>
 
-      </div>
 
-    </section>
+    </div>
+
+</section>
 
 
-    <!-- INSCRIPTION -->
+<!-- =========================
+     INSCRIPTION
+========================= -->
 
-    <section id="inscription" style="margin-top:90px;">
+<section class="section" id="inscription">
 
-      <div class="section-heading">
+    <div class="section-header">
 
-        <span>INSCRIPTION</span>
+        <span>Rejoignez-nous</span>
 
-        <h2>Rejoignez Akademi Dizay</h2>
+        <h2>Inscription Akademi Dizay</h2>
 
         <p>
-          Choisissez votre profil pour commencer votre inscription.
+            Remplissez le formulaire et envoyez
+            votre inscription directement sur WhatsApp.
         </p>
 
-      </div>
+    </div>
 
 
-      <div class="registration-choice">
+    <div class="registration-box">
 
-        <div class="choice-card active"
-          id="studentChoice"
-          onclick="showRegistration('student')">
-
-          <h3> Étudiant</h3>
-
-          <p>
-            Frais d'inscription :
-            <strong>250 HTG</strong>
-          </p>
-
-        </div>
+        <form id="registrationForm">
 
 
-        <div class="choice-card"
-          id="agentChoice"
-          onclick="showRegistration('agent')">
+            <div class="card">
 
-          <h3> Agent</h3>
+                <div class="section-title">
 
-          <p>
-            Frais d'inscription :
-            <strong>150 HTG</strong>
-          </p>
+                    <div class="number">1</div>
 
-        </div>
+                    Type d'inscription
 
-      </div>
+                </div>
 
 
-      <form id="registrationForm">
+                <div class="type-selector">
+
+                    <div>
+
+                        <input
+                            type="radio"
+                            name="memberType"
+                            id="studentType"
+                            value="Étudiant"
+                            checked
+                        >
+
+                        <label for="studentType">
+                             Étudiant
+                        </label>
+
+                    </div>
 
 
-        <!-- STUDENT -->
+                    <div>
 
-        <div id="studentForm">
+                        <input
+                            type="radio"
+                            name="memberType"
+                            id="agentType"
+                            value="Agent"
+                        >
 
-          <div class="card">
+                        <label for="agentType">
+                             Agent
+                        </label>
 
-            <div class="section-title">
-              <div class="number">1</div>
-              Informations étudiant
+                    </div>
+
+                </div>
+
+
+                <div class="registration-info">
+
+                    <strong>
+                        Frais d'inscription :
+                    </strong>
+
+                    Étudiant :
+                    <strong>250 HTG</strong>
+
+                    &nbsp; | &nbsp;
+
+                    Agent :
+                    <strong>150 HTG</strong>
+
+                </div>
+
+
+                <!-- NOM -->
+
+                <div class="field">
+
+                    <label>
+                        Nom complet
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="regName"
+                        placeholder="Votre nom complet"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- TELEPHONE -->
+
+                <div class="field">
+
+                    <label>
+                        Téléphone
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="regPhone"
+                        placeholder="Ex : 40000000"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="field">
+
+                    <label>
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="regEmail"
+                        placeholder="votre@email.com"
+                    >
+
+                </div>
+
+
+                <!-- FORMATION -->
+
+                <div
+                    class="field"
+                    id="studentFormationBox"
+                >
+
+                    <label>
+
+                        Formation choisie
+
+                        <span class="required">
+                            *
+                        </span>
+
+                    </label>
+
+
+                    <select id="regFormation">
+
+                        <option value="">
+                            Sélectionnez une formation
+                        </option>
+
+                        <option value="Montage Vidéo — 3 000 HTG">
+                            Montage Vidéo — 3 000 HTG
+                        </option>
+
+                        <option value="Création de Certificat — 3 000 HTG">
+                            Création de Certificat — 3 000 HTG
+                        </option>
+
+                        <option value="Création de Badge — 3 000 HTG">
+                            Création de Badge — 3 000 HTG
+                        </option>
+
+                        <option value="Création de Calendrier — 3 000 HTG">
+                            Création de Calendrier — 3 000 HTG
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- ID AGENT -->
+
+                <div class="field">
+
+                    <label>
+                        ID Agent
+                        <small style="color:#777;">
+                            (facultatif)
+                        </small>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="regAgentId"
+                        placeholder="Ex : AG-1025"
+                    >
+
+                </div>
+
+
+                <!-- AGENT INFO -->
+
+                <div
+                    class="notice hidden"
+                    id="agentInfo"
+                >
+
+                    <strong>
+                        Inscription Agent
+                    </strong>
+
+                    <br><br>
+
+                    Après votre inscription,
+                    envoyez votre photo directement
+                    sur notre WhatsApp pour la création
+                    de votre badge.
+
+                    <br><br>
+
+                    <strong>
+                        WhatsApp :
+                        +509 4005-2773
+                    </strong>
+
+                </div>
+
+
+                <!-- PAYMENT -->
+
+                <div class="notice">
+
+                    <strong>
+                        Paiement NatCash
+                    </strong>
+
+                    <br><br>
+
+                    Numéro :
+                    <strong>
+                        +509 4005-2773
+                    </strong>
+
+                    <br>
+
+                    Nom :
+                    <strong>
+                        Marie Alberte Darisme
+                    </strong>
+
+                    <br><br>
+
+                    Après paiement,
+                    sélectionnez « Oui, j'ai payé »
+                    et entrez votre transcode.
+
+                </div>
+
+
+                <br>
+
+
+                <label>
+
+                    Avez-vous déjà effectué le paiement ?
+
+                    <span class="required">*</span>
+
+                </label>
+
+
+                <div class="radio-group">
+
+                    <div class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="regPaid"
+                            id="regPaidYes"
+                            value="Oui"
+                            required
+                        >
+
+                        <label for="regPaidYes">
+                            Oui, j'ai payé
+                        </label>
+
+                    </div>
+
+
+                    <div class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="regPaid"
+                            id="regPaidNo"
+                            value="Non"
+                            required
+                        >
+
+                        <label for="regPaidNo">
+                            Non, pas encore
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TRANSCODE INSCRIPTION -->
+
+                <div
+                    class="field hidden"
+                    id="regTranscodeBox"
+                    style="margin-top:20px;"
+                >
+
+                    <label>
+
+                        Transcode de paiement
+
+                        <span class="required">
+                            *
+                        </span>
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="regTranscode"
+                        placeholder="Entrez votre transcode"
+                    >
+
+                </div>
+
+
+                <br>
+
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                >
+
+                    Envoyer mon inscription sur WhatsApp
+
+                </button>
+
             </div>
 
-            <div class="field">
+        </form>
 
-              <label>
-                Nom complet
-                <span class="required">*</span>
-              </label>
+    </div>
 
-              <input
-                type="text"
-                id="studentName"
-                placeholder="Entrez votre nom complet"
-              >
+</section>
 
-            </div>
 
+<!-- =========================
+     À PROPOS
+========================= -->
 
-            <div class="field">
+<section class="section" id="apropos">
 
-              <label>
-                Téléphone
-                <span class="required">*</span>
-              </label>
+    <div class="section-header">
 
-              <input
-                type="tel"
-                id="studentPhone"
-                placeholder="Ex : 40xxxxxxxx"
-              >
-
-            </div>
-
-
-            <div class="field">
-
-              <label>
-                Email
-                <span class="required">*</span>
-              </label>
-
-              <input
-                type="email"
-                id="studentEmail"
-                placeholder="exemple@email.com"
-              >
-
-            </div>
-
-
-            <div class="field">
-
-              <label>
-                ID Agent / Information agent
-                <small style="color:#777;">
-                  (facultatif)
-                </small>
-              </label>
-
-              <input
-                type="text"
-                id="studentAgentInfo"
-                placeholder="Ex : ID de l'agent"
-              >
-
-            </div>
-
-
-            <div class="field">
-
-              <label>
-                Choisissez votre formation
-                <span class="required">*</span>
-              </label>
-
-              <select id="studentFormation">
-
-                <option value="">
-                  Sélectionnez une formation
-                </option>
-
-                <option value="Montage Vidéo — 3 000 HTG">
-                  Montage Vidéo — 3 000 HTG
-                </option>
-
-                <option value="Création de Certificat — 3 000 HTG">
-                  Création de Certificat — 3 000 HTG
-                </option>
-
-                <option value="Création de Badge — 3 000 HTG">
-                  Création de Badge — 3 000 HTG
-                </option>
-
-                <option value="Création de Calendrier — 3 000 HTG">
-                  Création de Calendrier — 3 000 HTG
-                </option>
-
-              </select>
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- AGENT -->
-
-        <div id="agentForm" class="hidden">
-
-          <div class="card">
-
-            <div class="section-title">
-              <div class="number">1</div>
-              Informations agent
-            </div>
-
-            <div class="field">
-
-              <label>
-                Nom complet
-                <span class="required">*</span>
-              </label>
-
-              <input
-                type="text"
-                id="agentName"
-                placeholder="Entrez votre nom complet"
-              >
-
-            </div>
-
-
-            <div class="field">
-
-              <label>
-                Téléphone
-                <span class="required">*</span>
-              </label>
-
-              <input
-                type="tel"
-                id="agentPhone"
-                placeholder="Ex : 40xxxxxxxx"
-              >
-
-            </div>
-
-
-            <div class="field">
-
-              <label>
-                Email
-                <span class="required">*</span>
-              </label>
-
-              <input
-                type="email"
-                id="agentEmail"
-                placeholder="exemple@email.com"
-              >
-
-            </div>
-
-
-            <div class="field">
-
-              <label>
-                ID Agent / Information agent
-                <span class="required">*</span>
-              </label>
-
-              <input
-                type="text"
-                id="agentInfo"
-                placeholder="Entrez votre information"
-              >
-
-            </div>
-
-
-            <div class="notice">
-
-              <strong> Photo pour votre badge</strong>
-
-              <br><br>
-
-              Après votre inscription, envoyez votre photo
-              directement sur WhatsApp afin que nous puissions
-              préparer votre badge.
-
-              <br><br>
-
-              <a
-                href="https://wa.me/50940052773?text=Bonjour%2C%20je%20viens%20envoyer%20ma%20photo%20pour%20mon%20badge%20Akademi%20Dizay."
-                target="_blank"
-                style="color:#e60000;font-weight:900;"
-              >
-                 Envoyer ma photo sur WhatsApp
-              </a>
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- REGISTRATION PAYMENT -->
-
-        <div class="card">
-
-          <div class="section-title">
-            <div class="number">2</div>
-            Paiement de l'inscription
-          </div>
-
-
-          <div class="notice">
-
-            <strong>Frais d'inscription</strong>
-
-            <br><br>
-
-             Étudiant :
-            <strong>250 HTG</strong>
-
-            <br>
-
-             Agent :
-            <strong>150 HTG</strong>
-
-            <br><br>
-
-            <strong>Méthode de paiement : NatCash</strong>
-
-            <br>
-
-            Numéro :
-            <strong>+509 4005-2773</strong>
-
-            <br>
-
-            Nom :
-            <strong>Marie Alberte Darisme</strong>
-
-          </div>
-
-
-          <br>
-
-
-          <label>
-            Avez-vous déjà effectué le paiement ?
-            <span class="required">*</span>
-          </label>
-
-
-          <div class="radio-group">
-
-            <div class="radio-option">
-
-              <input
-                type="radio"
-                name="registrationPaid"
-                id="registrationPaidYes"
-                value="Oui"
-              >
-
-              <label for="registrationPaidYes">
-                Oui, j'ai payé
-              </label>
-
-            </div>
-
-
-            <div class="radio-option">
-
-              <input
-                type="radio"
-                name="registrationPaid"
-                id="registrationPaidNo"
-                value="Non"
-              >
-
-              <label for="registrationPaidNo">
-                Non, pas encore
-              </label>
-
-            </div>
-
-          </div>
-
-
-          <div
-            id="registrationTranscodeBox"
-            class="field hidden"
-            style="margin-top:20px;"
-          >
-
-            <label>
-              Transcode de paiement
-              <span class="required">*</span>
-            </label>
-
-            <input
-              type="text"
-              id="registrationTranscode"
-              placeholder="Entrez votre transcode"
-            >
-
-          </div>
-
-        </div>
-
-
-        <div class="card">
-
-          <button type="submit" class="submit-btn">
-             Envoyer mon inscription sur WhatsApp
-          </button>
-
-        </div>
-
-      </form>
-
-    </section>
-
-
-    <!-- ABOUT -->
-
-    <section id="apropos" style="margin-top:90px;">
-
-      <div class="section-heading">
-
-        <span>À PROPOS</span>
+        <span>À propos</span>
 
         <h2>Baba Design & Akademi Dizay</h2>
 
-        <p>
-          Deux espaces complémentaires pour créer,
-          apprendre et développer de nouvelles compétences.
-        </p>
-
-      </div>
+    </div>
 
 
-      <div class="about-grid">
-
-        <div class="about-box">
-
-          <div class="about-icon"></div>
-
-          <h3>Baba Design</h3>
-
-          <p>
-            Baba Design est un espace créatif spécialisé dans
-            la conception de visuels professionnels. Nous vous
-            accompagnons dans la création de flyers, affiches,
-            cartes de visite, certificats, vidéos promotionnelles,
-            bannières et bien plus encore.
-          </p>
-
-        </div>
+    <div class="about-grid">
 
 
         <div class="about-box">
 
-          <div class="about-icon"></div>
+            <h3>
+                Baba Design
+            </h3>
 
-          <h3>Akademi Dizay</h3>
+            <p>
+                Baba Design accompagne les particuliers,
+                entreprises et organisations dans leurs
+                projets de communication visuelle.
+            </p>
 
-          <p>
-            Akademi Dizay est notre espace de formation.
-            Notre objectif est d'aider les personnes intéressées
-            par la création et le design à apprendre des compétences
-            pratiques qu'elles pourront utiliser dans leurs projets
-            personnels ou professionnels.
-          </p>
+            <p>
+                Notre objectif est de proposer des créations
+                modernes, professionnelles et adaptées
+                aux besoins de chaque client.
+            </p>
+
+            <ul class="about-list">
+
+                <li>
+                    Design graphique
+                </li>
+
+                <li>
+                    Création visuelle
+                </li>
+
+                <li>
+                    Montage vidéo
+                </li>
+
+                <li>
+                    Formations pratiques
+                </li>
+
+            </ul>
 
         </div>
 
-      </div>
 
-    </section>
+        <div class="about-box">
+
+            <h3>
+                Akademi Dizay
+            </h3>
+
+            <p>
+                Akademi Dizay est un espace de formation
+                destiné aux personnes qui souhaitent
+                développer leurs compétences créatives.
+            </p>
+
+            <p>
+                Les formations sont conçues pour être
+                pratiques et accessibles.
+            </p>
+
+            <ul class="about-list">
+
+                <li>
+                    Apprentissage pratique
+                </li>
+
+                <li>
+                    Formations créatives
+                </li>
+
+                <li>
+                    Accompagnement
+                </li>
+
+                <li>
+                    Développement de compétences
+                </li>
+
+            </ul>
+
+        </div>
 
 
-    <!-- CONTACT -->
+    </div>
 
-    <section id="contact" style="margin-top:90px;">
+</section>
 
-      <div class="section-heading">
 
-        <span>CONTACT</span>
+<!-- =========================
+     CONTACT
+========================= -->
 
-        <h2>Parlons de votre projet</h2>
+<section class="section" id="contact">
+
+    <div class="contact-box">
+
+        <h2>
+            Besoin d'aide ?
+        </h2>
 
         <p>
-          Contactez-nous directement sur WhatsApp ou par email.
+            Contactez Baba Design directement
+            pour vos commandes, formations ou questions.
         </p>
 
-      </div>
+
+        <div class="contact-buttons">
+
+            <a
+                href="https://wa.me/50940052773"
+                target="_blank"
+                class="contact-btn"
+            >
+                WhatsApp
+            </a>
 
 
-      <div class="contact-grid">
-
-        <div class="contact-card gradient">
-
-          <h3> WhatsApp</h3>
-
-          <p>
-            Contactez-nous rapidement pour vos commandes,
-            questions ou informations sur nos formations.
-          </p>
-
-          <a
-            class="btn"
-            target="_blank"
-            href="https://wa.me/50940052773"
-          >
-            Ouvrir WhatsApp
-          </a>
+            <a
+                href="mailto:akademidizay@gmail.com"
+                class="contact-btn email-btn"
+            >
+                Email
+            </a>
 
         </div>
 
+    </div>
 
-        <div class="contact-card">
-
-          <h3> Email</h3>
-
-          <p>
-            Vous pouvez également nous écrire directement
-            par email.
-          </p>
-
-          <a
-            class="btn"
-            href="mailto:akademidizay@gmail.com"
-          >
-            akademidizay@gmail.com
-          </a>
-
-        </div>
-
-      </div>
-
-    </section>
-
-  </main>
+</section>
 
 
-  <!-- FOOTER -->
+<!-- =========================
+     FOOTER
+========================= -->
 
-  <footer>
+<footer>
 
-    <strong>Baba Design × Akademi Dizay</strong>
+    © 2026 —
+    <strong>Baba Design</strong>
+    • Tous droits réservés.
 
-    <br><br>
-
-    © 2026 — Tous droits réservés
-
-  </footer>
-
-
-  <script>
-
-    /* =========================
-       CONFIGURATION
-    ========================= */
-
-    const whatsappNumber = "50940052773";
-
-    let currentRegistrationType = "student";
+</footer>
 
 
-    /* =========================
-       MENU MOBILE
-    ========================= */
+<script>
 
-    function toggleMenu(){
+/* ==================================================
+   NAVIGATION MOBILE
+   LE MENU SE FERME AUTOMATIQUEMENT APRÈS UN CLIC
+================================================== */
 
-      document
-        .getElementById("navLinks")
-        .classList
-        .toggle("show");
+const menuToggle =
+    document.getElementById("menuToggle");
+
+const navLinks =
+    document.getElementById("navLinks");
+
+
+menuToggle.addEventListener(
+    "click",
+    function(){
+
+        navLinks.classList.toggle("active");
 
     }
+);
 
 
-    /* =========================
-       FORMAT MONEY
-    ========================= */
+/* Fermer automatiquement le menu
+   quand on clique sur un lien */
 
-    function formatMoney(number){
+document.querySelectorAll(
+    ".nav-links a"
+).forEach(function(link){
 
-      return new Intl.NumberFormat("fr-FR")
-        .format(number) + " HTG";
+    link.addEventListener(
+        "click",
+        function(){
 
-    }
+            navLinks.classList.remove("active");
+
+        }
+    );
+
+});
 
 
-    /* =========================
-       SERVICE PRICE
-    ========================= */
+/* ==================================================
+   CONFIGURATION WHATSAPP
+================================================== */
 
-    const serviceInputs =
-      document.querySelectorAll(
+const whatsappNumber =
+    "50940052773";
+
+
+/* ==================================================
+   SERVICES
+================================================== */
+
+const serviceInputs =
+    document.querySelectorAll(
         'input[name="service"]'
-      );
+    );
 
-    const totalPrice =
-      document.getElementById("totalPrice");
+const totalPrice =
+    document.getElementById(
+        "totalPrice"
+    );
 
-    const depositPrice =
-      document.getElementById("depositPrice");
+const depositPrice =
+    document.getElementById(
+        "depositPrice"
+    );
 
-    const remainingPrice =
-      document.getElementById("remainingPrice");
+const remainingPrice =
+    document.getElementById(
+        "remainingPrice"
+    );
+
+const paidYes =
+    document.getElementById(
+        "paidYes"
+    );
+
+const paidNo =
+    document.getElementById(
+        "paidNo"
+    );
+
+const transcodeBox =
+    document.getElementById(
+        "transcodeBox"
+    );
+
+const transcode =
+    document.getElementById(
+        "transcode"
+    );
+
+const customService =
+    document.getElementById(
+        "customService"
+    );
 
 
-    function getSelectedService(){
+/* FORMAT MONEY */
 
-      return document.querySelector(
+function formatMoney(number){
+
+    return new Intl.NumberFormat(
+        "fr-FR"
+    ).format(number) + " HTG";
+
+}
+
+
+/* GET SERVICE */
+
+function getSelectedService(){
+
+    return document.querySelector(
         'input[name="service"]:checked'
-      );
+    );
 
-    }
+}
 
 
-    function updatePrice(){
+/* UPDATE PRICE */
 
-      const selected =
+function updatePrice(){
+
+    const selected =
         getSelectedService();
 
-      let price = 0;
+    let price = 0;
 
-      if(selected){
+    if(selected){
 
         price =
-          parseFloat(
-            selected.dataset.price
-          ) || 0;
+            parseFloat(
+                selected.dataset.price
+            ) || 0;
 
-      }
+    }
 
-      const deposit =
+
+    const deposit =
         price * 0.70;
 
-      const remaining =
+    const remaining =
         price * 0.30;
 
-      totalPrice.textContent =
+
+    totalPrice.textContent =
         formatMoney(price);
 
-      depositPrice.textContent =
+    depositPrice.textContent =
         formatMoney(deposit);
 
-      remainingPrice.textContent =
+    remainingPrice.textContent =
         formatMoney(remaining);
 
+}
+
+
+serviceInputs.forEach(
+    function(input){
+
+        input.addEventListener(
+            "change",
+            updatePrice
+        );
+
     }
+);
 
 
-    serviceInputs.forEach(input => {
+/* PAYMENT STATUS */
 
-      input.addEventListener(
-        "change",
-        updatePrice
-      );
-
-    });
-
-
-    /* =========================
-       SERVICE TRANSCODE
-    ========================= */
-
-    const paidYes =
-      document.getElementById("paidYes");
-
-    const paidNo =
-      document.getElementById("paidNo");
-
-    const transcodeBox =
-      document.getElementById("transcodeBox");
-
-    const transcode =
-      document.getElementById("transcode");
-
-
-    paidYes.addEventListener(
-      "change",
-      function(){
+paidYes.addEventListener(
+    "change",
+    function(){
 
         if(this.checked){
 
-          transcodeBox
-            .classList
-            .remove("hidden");
+            transcodeBox.classList.remove(
+                "hidden"
+            );
 
-          transcode.required = true;
+            transcode.required = true;
 
         }
 
-      }
-    );
+    }
+);
 
 
-    paidNo.addEventListener(
-      "change",
-      function(){
+paidNo.addEventListener(
+    "change",
+    function(){
 
         if(this.checked){
 
-          transcodeBox
-            .classList
-            .add("hidden");
+            transcodeBox.classList.add(
+                "hidden"
+            );
 
-          transcode.required = false;
+            transcode.required = false;
 
-          transcode.value = "";
+            transcode.value = "";
 
         }
 
-      }
-    );
-
-
-    /* =========================
-       SELECT FORMATION
-    ========================= */
-
-    function selectFormation(formation){
-
-      showRegistration("student");
-
-      document
-        .getElementById("studentFormation")
-        .value = formation + " — 3 000 HTG";
-
-      document
-        .getElementById("inscription")
-        .scrollIntoView({
-          behavior:"smooth"
-        });
-
     }
+);
 
 
-    /* =========================
-       SHOW REGISTRATION TYPE
-    ========================= */
+/* ==================================================
+   FORMULAIRE SERVICES → WHATSAPP
+================================================== */
 
-    function showRegistration(type){
+document
+.getElementById("orderForm")
+.addEventListener(
+    "submit",
+    function(event){
 
-      currentRegistrationType = type;
-
-      const studentForm =
-        document.getElementById("studentForm");
-
-      const agentForm =
-        document.getElementById("agentForm");
-
-      const studentChoice =
-        document.getElementById("studentChoice");
-
-      const agentChoice =
-        document.getElementById("agentChoice");
+        event.preventDefault();
 
 
-      if(type === "student"){
-
-        studentForm
-          .classList
-          .remove("hidden");
-
-        agentForm
-          .classList
-          .add("hidden");
-
-        studentChoice
-          .classList
-          .add("active");
-
-        agentChoice
-          .classList
-          .remove("active");
-
-      }
-
-      else{
-
-        agentForm
-          .classList
-          .remove("hidden");
-
-        studentForm
-          .classList
-          .add("hidden");
-
-        agentChoice
-          .classList
-          .add("active");
-
-        studentChoice
-          .classList
-          .remove("active");
-
-      }
-
-    }
-
-
-    /* =========================
-       REGISTRATION TRANSCODE
-    ========================= */
-
-    const registrationPaidYes =
-      document.getElementById(
-        "registrationPaidYes"
-      );
-
-    const registrationPaidNo =
-      document.getElementById(
-        "registrationPaidNo"
-      );
-
-    const registrationTranscodeBox =
-      document.getElementById(
-        "registrationTranscodeBox"
-      );
-
-    const registrationTranscode =
-      document.getElementById(
-        "registrationTranscode"
-      );
-
-
-    registrationPaidYes.addEventListener(
-      "change",
-      function(){
-
-        registrationTranscodeBox
-          .classList
-          .remove("hidden");
-
-        registrationTranscode.required =
-          true;
-
-      }
-    );
-
-
-    registrationPaidNo.addEventListener(
-      "change",
-      function(){
-
-        registrationTranscodeBox
-          .classList
-          .add("hidden");
-
-        registrationTranscode.required =
-          false;
-
-        registrationTranscode.value = "";
-
-      }
-    );
-
-
-    /* =========================
-       SERVICE ORDER
-    ========================= */
-
-    document
-      .getElementById("orderForm")
-      .addEventListener(
-        "submit",
-        function(event){
-
-          event.preventDefault();
-
-          const clientName =
+        const clientName =
             document
-              .getElementById("clientName")
-              .value
-              .trim();
+            .getElementById("clientName")
+            .value
+            .trim();
 
-          const clientPhone =
+
+        const clientPhone =
             document
-              .getElementById("clientPhone")
-              .value
-              .trim();
+            .getElementById("clientPhone")
+            .value
+            .trim();
 
-          const selected =
+
+        const selected =
             getSelectedService();
 
 
-          if(!selected){
+        if(!selected){
 
             alert(
-              "Veuillez sélectionner un service."
+                "Veuillez sélectionner un service."
             );
 
             return;
 
-          }
+        }
 
 
-          const service =
+        const service =
             selected.value;
 
-          const price =
+
+        const price =
             parseFloat(
-              selected.dataset.price
+                selected.dataset.price
             );
 
 
-          const custom =
+        const custom =
+            customService.value.trim();
+
+
+        const deadline =
             document
-              .getElementById("customService")
-              .value
-              .trim();
+            .getElementById("deadline")
+            .value;
 
 
-          const deadline =
+        const designInfo =
             document
-              .getElementById("deadline")
-              .value;
+            .getElementById("designInfo")
+            .value
+            .trim();
 
 
-          const designInfo =
-            document
-              .getElementById("designInfo")
-              .value
-              .trim();
-
-
-          const payment =
+        const payment =
             document.querySelector(
-              'input[name="paid"]:checked'
+                'input[name="paid"]:checked'
             );
 
 
-          if(!payment){
+        if(!payment){
 
             alert(
-              "Veuillez indiquer si vous avez déjà payé."
+                "Veuillez indiquer votre statut de paiement."
             );
 
             return;
 
-          }
+        }
 
 
-          const paymentStatus =
+        const paymentValue =
             payment.value;
 
-          let paymentTranscode =
-            "Pas encore payé";
+
+        let transcodeValue =
+            "Non fourni";
 
 
-          if(paymentStatus === "Oui"){
+        if(paymentValue === "Oui"){
 
-            paymentTranscode =
-              transcode.value.trim();
+            transcodeValue =
+                transcode.value.trim();
 
-            if(!paymentTranscode){
+            if(!transcodeValue){
 
-              alert(
-                "Veuillez entrer votre transcode."
-              );
+                alert(
+                    "Veuillez entrer votre transcode de paiement."
+                );
 
-              return;
+                return;
 
             }
 
-          }
+        }
 
 
-          const agentId =
+        const agentId =
             document
-              .getElementById("agentId")
-              .value
-              .trim();
+            .getElementById("agentId")
+            .value
+            .trim();
 
 
-          const deposit =
-            price * .70;
-
-          const remaining =
-            price * .30;
+        const deposit =
+            price * 0.70;
 
 
-          const message =
+        const remaining =
+            price * 0.30;
 
-`*NOUVELLE COMMANDE BABA DESIGN*
 
-━━━━━━━━━━━━━━━━━━
+        let message =
 
- *CLIENT*
+`*NOUVELLE COMMANDE — BABA DESIGN*
 
-Nom : ${clientName}
+ *Client :*
+${clientName}
 
-Téléphone :
-${clientPhone || "Non renseigné"}
+ *WhatsApp :*
+${clientPhone || "Non fourni"}
 
-━━━━━━━━━━━━━━━━━━
+ *Service :*
+${service}
 
- *SERVICE*
+ *Prix :*
+${formatMoney(price)}
 
-Service : ${service}
-
-Prix : ${formatMoney(price)}
-
-${custom ? `Autre besoin : ${custom}` : ""}
-
-━━━━━━━━━━━━━━━━━━
-
- *DÉLAI*
-
-${deadline}
-
-━━━━━━━━━━━━━━━━━━
-
- *INFORMATIONS*
-
-${designInfo}
-
-━━━━━━━━━━━━━━━━━━
-
- *PAIEMENT*
-
-Statut : ${paymentStatus}
-
-Dépôt 70% :
+ *Dépôt 70% :*
 ${formatMoney(deposit)}
 
-Solde 30% :
+ *Solde 30% :*
 ${formatMoney(remaining)}
 
-Transcode :
-${paymentTranscode}
+ *Délai :*
+${deadline}
 
-━━━━━━━━━━━━━━━━━━
+ *Informations du visuel :*
+${designInfo}
 
- *AGENT*
+ *Paiement effectué :*
+${paymentValue}
 
-ID Agent :
+ *Transcode :*
+${transcodeValue}
+
+ *ID Agent :*
 ${agentId || "Aucun"}
 
-━━━━━━━━━━━━━━━━━━
+${custom ? ` *Autre service demandé :*\n${custom}` : ""}
 
-Commande envoyée depuis Baba Design.`;
+Merci pour votre commande.
+*Baba Design*`;
 
-          const whatsappURL =
-            `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
-          window.open(
-            whatsappURL,
+        const url =
+            "https://wa.me/" +
+            whatsappNumber +
+            "?text=" +
+            encodeURIComponent(message);
+
+
+        window.open(
+            url,
             "_blank"
-          );
+        );
+
+    }
+);
+
+
+/* ==================================================
+   AKADEMI — TYPE ÉTUDIANT / AGENT
+================================================== */
+
+const studentType =
+    document.getElementById(
+        "studentType"
+    );
+
+const agentType =
+    document.getElementById(
+        "agentType"
+    );
+
+const agentInfo =
+    document.getElementById(
+        "agentInfo"
+    );
+
+const studentFormationBox =
+    document.getElementById(
+        "studentFormationBox"
+    );
+
+const regFormation =
+    document.getElementById(
+        "regFormation"
+    );
+
+
+studentType.addEventListener(
+    "change",
+    function(){
+
+        if(this.checked){
+
+            agentInfo.classList.add(
+                "hidden"
+            );
+
+            studentFormationBox.classList.remove(
+                "hidden"
+            );
+
+            regFormation.required = true;
 
         }
-      );
+
+    }
+);
 
 
-    /* =========================
-       REGISTRATION SUBMIT
-    ========================= */
+agentType.addEventListener(
+    "change",
+    function(){
 
-    document
-      .getElementById("registrationForm")
-      .addEventListener(
-        "submit",
-        function(event){
+        if(this.checked){
 
-          event.preventDefault();
+            agentInfo.classList.remove(
+                "hidden"
+            );
 
-          const payment =
+            studentFormationBox.classList.add(
+                "hidden"
+            );
+
+            regFormation.required = false;
+
+            regFormation.value = "";
+
+        }
+
+    }
+);
+
+
+/* ==================================================
+   AKADEMI PAYMENT
+================================================== */
+
+const regPaidYes =
+    document.getElementById(
+        "regPaidYes"
+    );
+
+const regPaidNo =
+    document.getElementById(
+        "regPaidNo"
+    );
+
+const regTranscodeBox =
+    document.getElementById(
+        "regTranscodeBox"
+    );
+
+const regTranscode =
+    document.getElementById(
+        "regTranscode"
+    );
+
+
+regPaidYes.addEventListener(
+    "change",
+    function(){
+
+        if(this.checked){
+
+            regTranscodeBox.classList.remove(
+                "hidden"
+            );
+
+            regTranscode.required = true;
+
+        }
+
+    }
+);
+
+
+regPaidNo.addEventListener(
+    "change",
+    function(){
+
+        if(this.checked){
+
+            regTranscodeBox.classList.add(
+                "hidden"
+            );
+
+            regTranscode.required = false;
+
+            regTranscode.value = "";
+
+        }
+
+    }
+);
+
+
+/* ==================================================
+   INSCRIPTION → WHATSAPP
+================================================== */
+
+document
+.getElementById("registrationForm")
+.addEventListener(
+    "submit",
+    function(event){
+
+        event.preventDefault();
+
+
+        const name =
+            document
+            .getElementById("regName")
+            .value
+            .trim();
+
+
+        const phone =
+            document
+            .getElementById("regPhone")
+            .value
+            .trim();
+
+
+        const email =
+            document
+            .getElementById("regEmail")
+            .value
+            .trim();
+
+
+        const type =
             document.querySelector(
-              'input[name="registrationPaid"]:checked'
+                'input[name="memberType"]:checked'
             );
 
 
-          if(!payment){
+        const formation =
+            regFormation.value;
+
+
+        const agentId =
+            document
+            .getElementById("regAgentId")
+            .value
+            .trim();
+
+
+        const payment =
+            document.querySelector(
+                'input[name="regPaid"]:checked'
+            );
+
+
+        if(!type){
 
             alert(
-              "Veuillez indiquer si vous avez déjà payé."
+                "Veuillez choisir le type d'inscription."
             );
 
             return;
 
-          }
+        }
 
 
-          let transcodeValue =
-            "Pas encore payé";
+        if(type.value === "Étudiant" && !formation){
+
+            alert(
+                "Veuillez sélectionner une formation."
+            );
+
+            return;
+
+        }
 
 
-          if(payment.value === "Oui"){
+        if(!payment){
+
+            alert(
+                "Veuillez indiquer votre statut de paiement."
+            );
+
+            return;
+
+        }
+
+
+        let transcodeValue =
+            "Non fourni";
+
+
+        if(payment.value === "Oui"){
 
             transcodeValue =
-              registrationTranscode
-                .value
-                .trim();
+                regTranscode.value.trim();
 
 
             if(!transcodeValue){
 
-              alert(
-                "Veuillez entrer votre transcode."
-              );
+                alert(
+                    "Veuillez entrer votre transcode de paiement."
+                );
 
-              return;
-
-            }
-
-          }
-
-
-          let message = "";
-
-
-          if(
-            currentRegistrationType ===
-            "student"
-          ){
-
-            const name =
-              document
-                .getElementById("studentName")
-                .value
-                .trim();
-
-            const phone =
-              document
-                .getElementById("studentPhone")
-                .value
-                .trim();
-
-            const email =
-              document
-                .getElementById("studentEmail")
-                .value
-                .trim();
-
-            const agentInfo =
-              document
-                .getElementById("studentAgentInfo")
-                .value
-                .trim();
-
-            const formation =
-              document
-                .getElementById("studentFormation")
-                .value;
-
-
-            if(
-              !name ||
-              !phone ||
-              !email ||
-              !formation
-            ){
-
-              alert(
-                "Veuillez remplir toutes les informations obligatoires."
-              );
-
-              return;
+                return;
 
             }
-
-
-            message =
-
-`*NOUVELLE INSCRIPTION AKADEMI DIZAY*
-
-━━━━━━━━━━━━━━━━━━
-
- *TYPE*
-
-ÉTUDIANT
-
-━━━━━━━━━━━━━━━━━━
-
- *INFORMATIONS*
-
-Nom : ${name}
-
-Téléphone : ${phone}
-
-Email : ${email}
-
-ID / Information Agent :
-${agentInfo || "Aucun"}
-
-━━━━━━━━━━━━━━━━━━
-
- *FORMATION*
-
-${formation}
-
-━━━━━━━━━━━━━━━━━━
-
- *INSCRIPTION*
-
-Prix inscription :
-250 HTG
-
-Statut paiement :
-${payment.value}
-
-Transcode :
-${transcodeValue}
-
-━━━━━━━━━━━━━━━━━━
-
-Inscription envoyée depuis le site Akademi Dizay.`;
-
-          }
-
-          else{
-
-            const name =
-              document
-                .getElementById("agentName")
-                .value
-                .trim();
-
-            const phone =
-              document
-                .getElementById("agentPhone")
-                .value
-                .trim();
-
-            const email =
-              document
-                .getElementById("agentEmail")
-                .value
-                .trim();
-
-            const info =
-              document
-                .getElementById("agentInfo")
-                .value
-                .trim();
-
-
-            if(
-              !name ||
-              !phone ||
-              !email ||
-              !info
-            ){
-
-              alert(
-                "Veuillez remplir toutes les informations obligatoires."
-              );
-
-              return;
-
-            }
-
-
-            message =
-
-`*NOUVELLE INSCRIPTION AKADEMI DIZAY*
-
-━━━━━━━━━━━━━━━━━━
-
- *TYPE*
-
-AGENT
-
-━━━━━━━━━━━━━━━━━━
-
- *INFORMATIONS*
-
-Nom : ${name}
-
-Téléphone : ${phone}
-
-Email : ${email}
-
-ID / Information Agent :
-${info}
-
-━━━━━━━━━━━━━━━━━━
-
- *PHOTO BADGE*
-
-L'agent doit envoyer sa photo
-directement sur WhatsApp.
-
-━━━━━━━━━━━━━━━━━━
-
- *INSCRIPTION*
-
-Prix inscription :
-150 HTG
-
-Statut paiement :
-${payment.value}
-
-Transcode :
-${transcodeValue}
-
-━━━━━━━━━━━━━━━━━━
-
-Inscription envoyée depuis le site Akademi Dizay.`;
-
-          }
-
-
-          const whatsappURL =
-            `https://wa.me/${50940052773}?text=${encodeURIComponent(message)}`;
-
-
-          window.open(
-            whatsappURL,
-            "_blank"
-          );
 
         }
-      );
 
 
-    updatePrice();
+        const registrationFee =
+            type.value === "Agent"
+            ? "150 HTG"
+            : "250 HTG";
 
-  </script>
-  
+
+        let message =
+
+`*NOUVELLE INSCRIPTION — AKADEMI DIZAY*
+
+ *Nom complet :*
+${name}
+
+ *Téléphone :*
+${phone}
+
+ *Email :*
+${email || "Non fourni"}
+
+ *Type :*
+${type.value}
+
+ *Formation :*
+${type.value === "Étudiant" ? formation : "Agent"}
+
+ *Frais d'inscription :*
+${registrationFee}
+
+ *Paiement effectué :*
+${payment.value}
+
+ *Transcode :*
+${transcodeValue}
+
+ *ID Agent :*
+${agentId || "Aucun"}
+
+ *Photo badge :*
+${type.value === "Agent" ? "À envoyer sur WhatsApp" : "Non applicable"}
+
+Merci.
+*Akademi Dizay*`;
+
+
+        const url =
+            "https://wa.me/" +
+            whatsappNumber +
+            "?text=" +
+            encodeURIComponent(message);
+
+
+        window.open(
+            url,
+            "_blank"
+        );
+
+    }
+);
+
 </script>
 
-  <script>
-function toggleMenu() {
-    const nav = document.getElementById("navLinks");
-    nav.classList.toggle("active");
-}
-
-document.querySelectorAll("#navLinks a").forEach(function(link) {
-    link.addEventListener("click", function() {
-        document.getElementById("navLinks").classList.remove("active");
-    });
-});
-</script>
-  
 </body>
 </html>
