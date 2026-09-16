@@ -3225,7 +3225,7 @@ Merci.
             class="promo-button"
             id="promoButton">
 
-            Profitez de -30%
+            Profitez de -33%
 
         </button>
 
@@ -3646,38 +3646,43 @@ promoButton.addEventListener(
     "click",
     function () {
 
+        // Fèmen popup la
         closePromoPopup();
 
+        // Nimewo WhatsApp Baba Design
+        const whatsappNumber = "50940052773";
 
-        /*
-         * Recherche de la section inscription
-         */
+        // Message spécial pour l'offre -33%
+const message =
+` *SPÉCIAL FORMATIONS — BABA DESIGN*
 
-        const inscriptionSection =
-            document.getElementById("inscription");
+Bonjour Baba Design 👋
 
+Je viens de voir votre vidéo promotionnelle et je souhaite profiter de l'offre spéciale de *-33% sur les formations*.
 
-        if (inscriptionSection) {
+ *OFFRE SPÉCIALE : -33%*
+ Je souhaite m'inscrire à une formation et bénéficier de la réduction.
 
-            inscriptionSection.scrollIntoView({
+Merci de m'indiquer les formations disponibles, les modalités d'inscription et le tarif après réduction.
 
-                behavior: "smooth",
+*Akademi Dizay*`;
 
-                block: "start"
+        // Création du lien WhatsApp
+        const whatsappURL =
+            "https://wa.me/" +
+            whatsappNumber +
+            "?text=" +
+            encodeURIComponent(message);
 
-            });
-
-        } else {
-
-            window.location.hash =
-                "inscription";
-
-        }
+        // Ouverture directe de WhatsApp
+        window.open(
+            whatsappURL,
+            "_blank"
+        );
 
     }
 );
-
-
+    
 /* =====================================================
    AFFICHAGE AUTOMATIQUE
    ===================================================== */
