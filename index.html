@@ -295,7 +295,8 @@ body::after{
 }
 
 .portfolio-card{
-    height:280px;
+    height:auto;
+    min-height:280px;
     border-radius:20px;
     overflow:hidden;
     background:#ddd;
@@ -309,8 +310,9 @@ body::after{
 
 .portfolio-card img{
     width:100%;
-    height:100%;
-    object-fit:cover;
+    height:auto;
+    max-width:100%;
+    object-fit:contain;
     display:block;
     transition:.4s;
 }
@@ -596,6 +598,22 @@ textarea{
 
 .academy .section-header p{
     color:#bbb;
+}
+
+/* VIDEO AKADEMI DIZAY - VIDEO SEPARATE DU POPUP */
+.academy-video{
+    width:100%;
+    margin:0 0 30px 0;
+    border-radius:20px;
+    overflow:hidden;
+    background:#111;
+}
+
+.academy-video video{
+    width:100%;
+    height:auto;
+    max-width:100%;
+    display:block;
 }
 
 .formation-grid{
@@ -945,7 +963,8 @@ footer strong{
     }
 
     .portfolio-card{
-        height:250px;
+        height:auto;
+        min-height:250px;
     }
 
     .card{
@@ -957,6 +976,91 @@ footer strong{
         font-size:42px;
     }
 }
+
+
+/* =========================
+   PUBLICITE — AKADEMI DIZAY
+========================= */
+.publicite-box{
+    max-width:850px;
+    margin:35px auto 0;
+    padding:25px;
+    background:#1c1c1c;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:22px;
+    box-shadow:0 15px 40px rgba(0,0,0,.2);
+}
+.publicite-box .section-title{color:white;}
+.publicite-box label{color:white;}
+.publicite-box input,
+.publicite-box select{
+    background:#fff;
+    color:#111;
+}
+.publicite-price{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin:15px 0;
+}
+.publicite-price-box{
+    padding:16px;
+    border-radius:14px;
+    background:#111;
+    color:white;
+    text-align:center;
+}
+.publicite-price-box span{
+    display:block;
+    color:#ccc;
+    font-size:12px;
+    margin-bottom:7px;
+}
+.publicite-price-box strong{font-size:18px;}
+.publicite-notice{
+    padding:15px;
+    border-radius:14px;
+    background:#fff7df;
+    border-left:4px solid #ffbf00;
+    color:#5c4900;
+    font-size:13px;
+    line-height:1.6;
+    margin:15px 0;
+}
+.publicite-box .radio-option label{
+    border:1.5px solid #e4e4e4;
+    border-radius:15px;
+    padding:16px;
+    text-align:center;
+    cursor:pointer;
+    margin:0;
+    background:white;
+    color:#111;
+    transition:.25s;
+}
+
+.publicite-box .radio-option label:hover{
+    transform:translateY(-3px);
+    border-color:#ff6600;
+    box-shadow:0 8px 20px rgba(0,0,0,.07);
+}
+
+.publicite-box .radio-option input:checked + label{
+    color:white;
+    border-color:transparent;
+    background:linear-gradient(
+        135deg,
+        #e60000,
+        #ff7300,
+        #ffc400
+    );
+    box-shadow:0 10px 25px rgba(255,70,0,.25);
+    transform:translateY(-2px);
+}
+@media(max-width:700px){
+    .publicite-price{grid-template-columns:1fr;}
+}
+
 </style>
 </head>
 
@@ -1077,7 +1181,7 @@ footer strong{
 
         <!-- Tu peux remplacer ces 4 photos -->
         <div class="portfolio-card">
-            <img src="250 htg ee.jpg"
+            <img src="pc sit.jpg"
                  alt="Travail Baba Design">
         </div>
 
@@ -1092,7 +1196,7 @@ footer strong{
         </div>
 
         <div class="portfolio-card">
-            <img src="oiseaux 1.jpg"
+            <img src="services online.jpg"
                  alt="Travail Baba Design">
         </div>
 
@@ -1748,6 +1852,26 @@ footer strong{
     </div>
 
 
+
+    <!-- VIDEO AKADEMI DIZAY
+         RANPLASE SEULEMAN NOM FICHYE A LA: NOM_VIDEYO.mp4
+    -->
+    <div class="academy-video">
+
+        <video
+            controls
+            playsinline
+            preload="metadata"
+        >
+            <source
+                src="VID-20260917-WA0319.mp4"
+                type="video/mp4"
+            >
+            Votre navigateur ne supporte pas la vidéo.
+        </video>
+
+    </div>
+
     <div class="formation-grid">
 
 
@@ -1936,6 +2060,105 @@ footer strong{
 
 
     </div>
+
+
+
+        <!-- =========================
+             PUBLICITE
+        ========================= -->
+        <div class="publicite-box" id="publicite">
+
+            <div class="section-title">
+                <div class="number">PU</div>
+                Publicité
+            </div>
+
+            <div class="publicite-notice">
+                <strong>Faites votre publicité avec Baba Design.</strong><br>
+                Remplissez le formulaire ci-dessous, choisissez la durée et le type de publicité.
+                Après paiement, envoyez votre <strong>photo ou vidéo sur notre WhatsApp comme document</strong> afin de préserver sa qualité.
+            </div>
+
+            <form id="publiciteForm">
+                <div class="field">
+                    <label>Nom complet <span class="required">*</span></label>
+                    <input type="text" id="pubName" placeholder="Votre nom complet" required>
+                </div>
+
+                <div class="field">
+                    <label>Numéro WhatsApp <span class="required">*</span></label>
+                    <input type="tel" id="pubPhone" placeholder="Ex : 40000000" required>
+                </div>
+
+                <div class="field">
+                    <label>Type de publicité <span class="required">*</span></label>
+                    <select id="pubType" required>
+                        <option value="">Choisissez le type</option>
+                        <option value="Photo">Photo</option>
+                        <option value="Vidéo">Vidéo</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>Durée de la publicité <span class="required">*</span></label>
+                    <select id="pubDuration" required>
+                        <option value="">Choisissez la durée</option>
+                        <option value="3 jours">3 jours</option>
+                        <option value="5 jours">5 jours</option>
+                        <option value="8 jours">8 jours</option>
+                    </select>
+                </div>
+
+                <div class="publicite-price">
+                    <div class="publicite-price-box">
+                        <span>Prix en dollars</span>
+                        <strong id="pubUsd">0,00 $</strong>
+                    </div>
+                    <div class="publicite-price-box">
+                        <span>Prix en gourdes — taux 130 HTG/$</span>
+                        <strong id="pubHtg">0 HTG</strong>
+                    </div>
+                </div>
+
+                <div class="publicite-notice">
+                    <strong>Tarifs :</strong><br>
+                    Photo — 3 jours : <strong>3,85 $</strong> ≈ 501 HTG<br>
+                    Vidéo — 3 jours : <strong>4,99 $</strong> ≈ 649 HTG<br>
+                    Photo — 5 jours : <strong>5,19 $</strong> ≈ 675 HTG<br>
+                    Vidéo — 5 jours : <strong>7,00 $</strong> = 910 HTG<br>
+                    Photo — 8 jours : <strong>8,04 $</strong> ≈ 1 045 HTG<br>
+                    Vidéo — 8 jours : <strong>10,00 $</strong> = 1 300 HTG
+                </div>
+
+                <div class="publicite-notice">
+                    <strong>Important :</strong><br>
+                    Après avoir payé, choisissez <strong>« Oui, j'ai payé »</strong> et entrez votre <strong>transcode</strong>.
+                    Sans paiement confirmé avec un transcode, la demande ne sera pas envoyée pour traitement.<br><br>
+                    Envoyez ensuite votre <strong>photo ou vidéo sur WhatsApp comme document</strong>.
+                </div>
+
+                <label>Avez-vous déjà effectué le paiement ? <span class="required">*</span></label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" name="pubPaid" id="pubPaidYes" value="Oui" required>
+                        <label for="pubPaidYes">Oui, j'ai payé</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" name="pubPaid" id="pubPaidNo" value="Non" required>
+                        <label for="pubPaidNo">Non, pas encore</label>
+                    </div>
+                </div>
+
+                <div class="field hidden" id="pubTranscodeBox" style="margin-top:20px;">
+                    <label>Transcode de paiement <span class="required">*</span></label>
+                    <input type="text" id="pubTranscode" placeholder="Entrez votre transcode de paiement">
+                </div>
+
+                <button type="submit" class="submit-btn" style="margin-top:20px;">
+                    Envoyer ma demande de publicité sur WhatsApp
+                </button>
+            </form>
+        </div>
 
 </section>
 
@@ -2144,7 +2367,7 @@ footer strong{
                     <input
                         type="text"
                         id="regAgentId"
-                        placeholder="Ex : AG-1025"
+                        placeholder="Ex : AG-191514"
                     >
 
                 </div>
@@ -3705,6 +3928,116 @@ window.addEventListener(
 
     }
 );
+
+
+
+/* ==================================================
+   PUBLICITE → WHATSAPP
+================================================== */
+const pubName = document.getElementById("pubName");
+const pubPhone = document.getElementById("pubPhone");
+const pubType = document.getElementById("pubType");
+const pubDuration = document.getElementById("pubDuration");
+const pubUsd = document.getElementById("pubUsd");
+const pubHtg = document.getElementById("pubHtg");
+const pubPaidYes = document.getElementById("pubPaidYes");
+const pubPaidNo = document.getElementById("pubPaidNo");
+const pubTranscodeBox = document.getElementById("pubTranscodeBox");
+const pubTranscode = document.getElementById("pubTranscode");
+
+const pubPrices = {
+    "Photo|3 jours": 3.85,
+    "Vidéo|3 jours": 4.99,
+    "Photo|5 jours": 5.19,
+    "Vidéo|5 jours": 7.00,
+    "Photo|8 jours": 8.04,
+    "Vidéo|8 jours": 10.00
+};
+
+function updatePubPrice(){
+    const key = pubType.value + "|" + pubDuration.value;
+    const usd = pubPrices[key] || 0;
+    const htg = usd * 130;
+    pubUsd.textContent = usd ? usd.toFixed(2).replace(".", ",") + " $" : "0,00 $";
+    pubHtg.textContent = usd ? Math.round(htg).toLocaleString("fr-FR") + " HTG" : "0 HTG";
+}
+
+pubType.addEventListener("change", updatePubPrice);
+pubDuration.addEventListener("change", updatePubPrice);
+
+pubPaidYes.addEventListener("change", function(){
+    pubTranscodeBox.classList.remove("hidden");
+    pubTranscode.required = true;
+});
+
+pubPaidNo.addEventListener("change", function(){
+    pubTranscodeBox.classList.add("hidden");
+    pubTranscode.required = false;
+    pubTranscode.value = "";
+});
+
+document.getElementById("publiciteForm").addEventListener("submit", function(event){
+    event.preventDefault();
+
+    const key = pubType.value + "|" + pubDuration.value;
+    const usd = pubPrices[key] || 0;
+    const htg = usd * 130;
+    const payment = document.querySelector('input[name="pubPaid"]:checked');
+
+    if(!usd){
+        alert("Veuillez choisir le type et la durée de la publicité.");
+        return;
+    }
+
+    if(!payment || payment.value !== "Oui"){
+        alert("Vous devez effectuer le paiement et sélectionner « Oui, j'ai payé » avec votre transcode avant d'envoyer la demande.");
+        return;
+    }
+
+    const transcodeValue = pubTranscode.value.trim();
+    if(!transcodeValue){
+        alert("Veuillez entrer votre transcode de paiement.");
+        return;
+    }
+
+    const message = `*NOUVELLE DEMANDE DE PUBLICITÉ — BABA DESIGN*
+
+*Nom complet :*
+${pubName.value.trim()}
+
+*WhatsApp :*
+${pubPhone.value.trim()}
+
+*Type de publicité :*
+${pubType.value}
+
+*Durée :*
+${pubDuration.value}
+
+*Prix :*
+${usd.toFixed(2)} $
+
+*Prix en gourdes :*
+${Math.round(htg).toLocaleString("fr-FR")} HTG
+
+*Taux utilisé :*
+130 HTG pour 1 $
+
+*Paiement effectué :*
+Oui
+
+*Transcode :*
+${transcodeValue}
+
+*Fichier publicitaire :*
+À envoyer sur WhatsApp comme document
+
+Merci.
+*Baba Design*`;
+
+    const url = "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(message);
+    window.open(url, "_blank");
+});
 
 </script>
 
