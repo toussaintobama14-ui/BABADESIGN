@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- PARAMÈTRES WEB APP -->
+<meta name="theme-color" content="#111111">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Baba Design">
+<meta name="format-detection" content="telephone=no">
+
 <title>Baba Design | Akademi Dizay & Services de Design en Haiti</title>
     <meta name="description" content="Baba Services propose des services de design graphique, création de visuels, montage vidéo et solutions digitales en Haïti.">
     <meta name="keywords" content="Baba Services, Baba Design, design graphique, graphisme, montage vidéo, services design, Haïti">
@@ -45,6 +53,33 @@ body{
     background:#f7f7f7;
     color:#111;
     overflow-x:hidden;
+}
+
+/* =========================
+   WEB APP / MOBILE
+========================= */
+
+html{
+    -webkit-tap-highlight-color:transparent;
+    overscroll-behavior-y:none;
+}
+
+body{
+    -webkit-touch-callout:none;
+}
+
+button,
+a,
+label,
+input,
+select,
+textarea{
+    -webkit-tap-highlight-color:transparent;
+}
+
+button,
+a{
+    touch-action:manipulation;
 }
 
 /* =========================
@@ -1134,7 +1169,6 @@ footer strong{
             </span>
         </h1>
 
-        <!-- TEXTE BLANC -->
         <p>
             Services de design professionnel et formations
             pour développer votre créativité.
@@ -1179,7 +1213,6 @@ footer strong{
 
     <div class="portfolio-grid">
 
-        <!-- Tu peux remplacer ces 4 photos -->
         <div class="portfolio-card">
             <img src="pc sit.jpg"
                  alt="Travail Baba Design">
@@ -1229,9 +1262,6 @@ footer strong{
 
         <form id="orderForm">
 
-
-            <!-- CLIENT -->
-
             <div class="card">
 
                 <div class="section-title">
@@ -1273,24 +1303,17 @@ footer strong{
             </div>
 
 
-            <!-- SERVICES -->
-
             <div class="card">
 
                 <div class="section-title">
-
                     <div class="number">2</div>
-
                     Choisissez votre service
-
                 </div>
 
 
                 <div class="services">
 
-
                     <div class="service">
-
                         <input
                             type="radio"
                             name="service"
@@ -1298,24 +1321,18 @@ footer strong{
                             value="Affiche événement"
                             data-price="3000"
                         >
-
                         <label for="affiche">
-
                             <span class="service-name">
                                 Affiche événement
                             </span>
-
                             <span class="price">
                                 3 000 HTG
                             </span>
-
                         </label>
-
                     </div>
 
 
                     <div class="service">
-
                         <input
                             type="radio"
                             name="service"
@@ -1323,24 +1340,18 @@ footer strong{
                             value="Carte de visite"
                             data-price="2500"
                         >
-
                         <label for="carte">
-
                             <span class="service-name">
                                 Carte de visite
                             </span>
-
                             <span class="price">
                                 2 500 HTG
                             </span>
-
                         </label>
-
                     </div>
 
 
                     <div class="service">
-
                         <input
                             type="radio"
                             name="service"
@@ -1348,24 +1359,18 @@ footer strong{
                             value="Certificat / Unité"
                             data-price="350"
                         >
-
                         <label for="certificat">
-
                             <span class="service-name">
                                 Certificat / Unité
                             </span>
-
                             <span class="price">
                                 350 HTG
                             </span>
-
                         </label>
-
                     </div>
 
 
                     <div class="service">
-
                         <input
                             type="radio"
                             name="service"
@@ -1373,24 +1378,18 @@ footer strong{
                             value="Flyer Business"
                             data-price="2500"
                         >
-
                         <label for="flyer">
-
                             <span class="service-name">
                                 Flyer Business
                             </span>
-
                             <span class="price">
                                 2 500 HTG
                             </span>
-
                         </label>
-
                     </div>
 
 
                     <div class="service">
-
                         <input
                             type="radio"
                             name="service"
@@ -1398,24 +1397,18 @@ footer strong{
                             value="Étiquette"
                             data-price="5000"
                         >
-
                         <label for="etiquette">
-
                             <span class="service-name">
                                 Étiquette
                             </span>
-
                             <span class="price">
                                 5 000 HTG
                             </span>
-
                         </label>
-
                     </div>
 
 
                     <div class="service">
-
                         <input
                             type="radio"
                             name="service"
@@ -1423,24 +1416,18 @@ footer strong{
                             value="Vidéo promotionnelle"
                             data-price="4500"
                         >
-
                         <label for="video">
-
                             <span class="service-name">
                                 Vidéo promotionnelle
                             </span>
-
                             <span class="price">
                                 4 500 HTG
                             </span>
-
                         </label>
-
                     </div>
 
 
                     <div class="service">
-
                         <input
                             type="radio"
                             name="service"
@@ -1448,19 +1435,14 @@ footer strong{
                             value="Bannière"
                             data-price="6500"
                         >
-
                         <label for="banniere">
-
                             <span class="service-name">
                                 Bannière
                             </span>
-
                             <span class="price">
                                 6 500 HTG
                             </span>
-
                         </label>
-
                     </div>
 
                 </div>
@@ -1483,29 +1465,19 @@ footer strong{
             </div>
 
 
-            <!-- DELAI -->
-
             <div class="card">
 
                 <div class="section-title">
-
                     <div class="number">3</div>
-
                     Délai de livraison
-
                 </div>
-
 
                 <div class="field">
 
                     <label>
-
                         Dans combien de temps avez-vous besoin du visuel ?
-
                         <span class="required">*</span>
-
                     </label>
-
 
                     <select id="deadline" required>
 
@@ -1548,29 +1520,19 @@ footer strong{
             </div>
 
 
-            <!-- DETAILS -->
-
             <div class="card">
 
                 <div class="section-title">
-
                     <div class="number">4</div>
-
                     Informations du visuel
-
                 </div>
-
 
                 <div class="field">
 
                     <label>
-
                         Informations à mettre sur le visuel
-
                         <span class="required">*</span>
-
                     </label>
-
 
                     <textarea
                         id="designInfo"
@@ -1579,7 +1541,6 @@ footer strong{
                     ></textarea>
 
                 </div>
-
 
                 <div class="notice">
 
@@ -1594,18 +1555,12 @@ footer strong{
             </div>
 
 
-            <!-- PAIEMENT -->
-
             <div class="card">
 
                 <div class="section-title">
-
                     <div class="number">5</div>
-
                     Paiement
-
                 </div>
-
 
                 <div class="notice">
 
@@ -1648,11 +1603,8 @@ footer strong{
 
 
                 <label>
-
                     Avez-vous déjà effectué le paiement ?
-
                     <span class="required">*</span>
-
                 </label>
 
 
@@ -1694,8 +1646,6 @@ footer strong{
                 </div>
 
 
-                <!-- TRANSCODE -->
-
                 <div
                     class="field hidden"
                     id="transcodeBox"
@@ -1703,11 +1653,8 @@ footer strong{
                 >
 
                     <label>
-
                         Transcode de paiement
-
                         <span class="required">*</span>
-
                     </label>
 
                     <input
@@ -1718,8 +1665,6 @@ footer strong{
 
                 </div>
 
-
-                <!-- CALCUL -->
 
                 <div class="payment-info">
 
@@ -1766,8 +1711,6 @@ footer strong{
             </div>
 
 
-            <!-- AGENT -->
-
             <div class="card">
 
                 <div class="section-title">
@@ -1782,13 +1725,10 @@ footer strong{
                 <div class="field">
 
                     <label>
-
                         ID Agent
-
                         <small style="color:#777;">
                             (facultatif)
                         </small>
-
                     </label>
 
                     <input
@@ -1810,8 +1750,6 @@ footer strong{
 
             </div>
 
-
-            <!-- SUBMIT -->
 
             <div class="card">
 
@@ -1852,10 +1790,6 @@ footer strong{
     </div>
 
 
-
-    <!-- VIDEO AKADEMI DIZAY
-         RANPLASE SEULEMAN NOM FICHYE A LA: NOM_VIDEYO.mp4
-    -->
     <div class="academy-video">
 
         <video
@@ -1875,16 +1809,9 @@ footer strong{
     <div class="formation-grid">
 
 
-        <!-- FORMATION 1 -->
-
         <div class="formation-card">
 
             <div class="formation-image">
-
-                <!--
-                    PHOTO À AJOUTER DANS GITHUB :
-                    formation-video.jpg
-                -->
 
                 <img
                     src="foma video.jpg"
@@ -1921,16 +1848,9 @@ footer strong{
         </div>
 
 
-        <!-- FORMATION 2 -->
-
         <div class="formation-card">
 
             <div class="formation-image">
-
-                <!--
-                    PHOTO À AJOUTER DANS GITHUB :
-                    formation-certificat.jpg
-                -->
 
                 <img
                     src="foma certifi.jpg"
@@ -1967,16 +1887,9 @@ footer strong{
         </div>
 
 
-        <!-- FORMATION 3 -->
-
         <div class="formation-card">
 
             <div class="formation-image">
-
-                <!--
-                    PHOTO À AJOUTER DANS GITHUB :
-                    formation-badge.jpg
-                -->
 
                 <img
                     src="fomasyon badge.jpg"
@@ -2013,16 +1926,9 @@ footer strong{
         </div>
 
 
-        <!-- FORMATION 4 -->
-
         <div class="formation-card">
 
             <div class="formation-image">
-
-                <!--
-                    PHOTO À AJOUTER DANS GITHUB :
-                    formation-calendrier.jpg
-                -->
 
                 <img
                     src="foma calandrier.jpg"
@@ -2062,103 +1968,273 @@ footer strong{
     </div>
 
 
+    <!-- =========================
+         PUBLICITE
+    ========================= -->
 
-        <!-- =========================
-             PUBLICITE
-        ========================= -->
-        <div class="publicite-box" id="publicite">
+    <div class="publicite-box" id="publicite">
 
-            <div class="section-title">
-                <div class="number">PU</div>
-                Publicité
+        <div class="section-title">
+            <div class="number">PU</div>
+            Publicité
+        </div>
+
+        <div class="publicite-notice">
+
+            <strong>Faites votre publicité avec Baba Design.</strong><br>
+
+            Remplissez le formulaire ci-dessous, choisissez la durée
+            et le type de publicité.
+
+            Après paiement, envoyez votre
+            <strong>photo ou vidéo sur notre WhatsApp comme document</strong>
+            afin de préserver sa qualité.
+
+        </div>
+
+
+        <form id="publiciteForm">
+
+            <div class="field">
+
+                <label>
+                    Nom complet
+                    <span class="required">*</span>
+                </label>
+
+                <input
+                    type="text"
+                    id="pubName"
+                    placeholder="Votre nom complet"
+                    required
+                >
+
             </div>
+
+
+            <div class="field">
+
+                <label>
+                    Numéro WhatsApp
+                    <span class="required">*</span>
+                </label>
+
+                <input
+                    type="tel"
+                    id="pubPhone"
+                    placeholder="Ex : 40000000"
+                    required
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Type de publicité
+                    <span class="required">*</span>
+                </label>
+
+                <select id="pubType" required>
+
+                    <option value="">
+                        Choisissez le type
+                    </option>
+
+                    <option value="Photo">
+                        Photo
+                    </option>
+
+                    <option value="Vidéo">
+                        Vidéo
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Durée de la publicité
+                    <span class="required">*</span>
+                </label>
+
+                <select id="pubDuration" required>
+
+                    <option value="">
+                        Choisissez la durée
+                    </option>
+
+                    <option value="3 jours">
+                        3 jours
+                    </option>
+
+                    <option value="5 jours">
+                        5 jours
+                    </option>
+
+                    <option value="8 jours">
+                        8 jours
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="publicite-price">
+
+                <div class="publicite-price-box">
+
+                    <span>
+                        Prix en dollars
+                    </span>
+
+                    <strong id="pubUsd">
+                        0,00 $
+                    </strong>
+
+                </div>
+
+
+                <div class="publicite-price-box">
+
+                    <span>
+                        Prix en gourdes — taux 130 HTG/$
+                    </span>
+
+                    <strong id="pubHtg">
+                        0 HTG
+                    </strong>
+
+                </div>
+
+            </div>
+
 
             <div class="publicite-notice">
-                <strong>Faites votre publicité avec Baba Design.</strong><br>
-                Remplissez le formulaire ci-dessous, choisissez la durée et le type de publicité.
-                Après paiement, envoyez votre <strong>photo ou vidéo sur notre WhatsApp comme document</strong> afin de préserver sa qualité.
+
+                <strong>Tarifs :</strong><br>
+
+                Photo — 3 jours :
+                <strong>3,85 $</strong> ≈ 501 HTG<br>
+
+                Vidéo — 3 jours :
+                <strong>4,99 $</strong> ≈ 649 HTG<br>
+
+                Photo — 5 jours :
+                <strong>5,19 $</strong> ≈ 675 HTG<br>
+
+                Vidéo — 5 jours :
+                <strong>7,00 $</strong> = 910 HTG<br>
+
+                Photo — 8 jours :
+                <strong>8,04 $</strong> ≈ 1 045 HTG<br>
+
+                Vidéo — 8 jours :
+                <strong>10,00 $</strong> = 1 300 HTG
+
             </div>
 
-            <form id="publiciteForm">
-                <div class="field">
-                    <label>Nom complet <span class="required">*</span></label>
-                    <input type="text" id="pubName" placeholder="Votre nom complet" required>
+
+            <div class="publicite-notice">
+
+                <strong>Important :</strong><br>
+
+                Après avoir payé, choisissez
+                <strong>« Oui, j'ai payé »</strong>
+                et entrez votre
+                <strong>transcode</strong>.
+
+                Sans paiement confirmé avec un transcode,
+                la demande ne sera pas envoyée pour traitement.
+
+                <br><br>
+
+                Envoyez ensuite votre
+                <strong>photo ou vidéo sur WhatsApp comme document</strong>.
+
+            </div>
+
+
+            <label>
+                Avez-vous déjà effectué le paiement ?
+                <span class="required">*</span>
+            </label>
+
+
+            <div class="radio-group">
+
+                <div class="radio-option">
+
+                    <input
+                        type="radio"
+                        name="pubPaid"
+                        id="pubPaidYes"
+                        value="Oui"
+                        required
+                    >
+
+                    <label for="pubPaidYes">
+                        Oui, j'ai payé
+                    </label>
+
                 </div>
 
-                <div class="field">
-                    <label>Numéro WhatsApp <span class="required">*</span></label>
-                    <input type="tel" id="pubPhone" placeholder="Ex : 40000000" required>
+
+                <div class="radio-option">
+
+                    <input
+                        type="radio"
+                        name="pubPaid"
+                        id="pubPaidNo"
+                        value="Non"
+                        required
+                    >
+
+                    <label for="pubPaidNo">
+                        Non, pas encore
+                    </label>
+
                 </div>
 
-                <div class="field">
-                    <label>Type de publicité <span class="required">*</span></label>
-                    <select id="pubType" required>
-                        <option value="">Choisissez le type</option>
-                        <option value="Photo">Photo</option>
-                        <option value="Vidéo">Vidéo</option>
-                    </select>
-                </div>
+            </div>
 
-                <div class="field">
-                    <label>Durée de la publicité <span class="required">*</span></label>
-                    <select id="pubDuration" required>
-                        <option value="">Choisissez la durée</option>
-                        <option value="3 jours">3 jours</option>
-                        <option value="5 jours">5 jours</option>
-                        <option value="8 jours">8 jours</option>
-                    </select>
-                </div>
 
-                <div class="publicite-price">
-                    <div class="publicite-price-box">
-                        <span>Prix en dollars</span>
-                        <strong id="pubUsd">0,00 $</strong>
-                    </div>
-                    <div class="publicite-price-box">
-                        <span>Prix en gourdes — taux 130 HTG/$</span>
-                        <strong id="pubHtg">0 HTG</strong>
-                    </div>
-                </div>
+            <div
+                class="field hidden"
+                id="pubTranscodeBox"
+                style="margin-top:20px;"
+            >
 
-                <div class="publicite-notice">
-                    <strong>Tarifs :</strong><br>
-                    Photo — 3 jours : <strong>3,85 $</strong> ≈ 501 HTG<br>
-                    Vidéo — 3 jours : <strong>4,99 $</strong> ≈ 649 HTG<br>
-                    Photo — 5 jours : <strong>5,19 $</strong> ≈ 675 HTG<br>
-                    Vidéo — 5 jours : <strong>7,00 $</strong> = 910 HTG<br>
-                    Photo — 8 jours : <strong>8,04 $</strong> ≈ 1 045 HTG<br>
-                    Vidéo — 8 jours : <strong>10,00 $</strong> = 1 300 HTG
-                </div>
+                <label>
+                    Transcode de paiement
+                    <span class="required">*</span>
+                </label>
 
-                <div class="publicite-notice">
-                    <strong>Important :</strong><br>
-                    Après avoir payé, choisissez <strong>« Oui, j'ai payé »</strong> et entrez votre <strong>transcode</strong>.
-                    Sans paiement confirmé avec un transcode, la demande ne sera pas envoyée pour traitement.<br><br>
-                    Envoyez ensuite votre <strong>photo ou vidéo sur WhatsApp comme document</strong>.
-                </div>
+                <input
+                    type="text"
+                    id="pubTranscode"
+                    placeholder="Entrez votre transcode de paiement"
+                >
 
-                <label>Avez-vous déjà effectué le paiement ? <span class="required">*</span></label>
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" name="pubPaid" id="pubPaidYes" value="Oui" required>
-                        <label for="pubPaidYes">Oui, j'ai payé</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" name="pubPaid" id="pubPaidNo" value="Non" required>
-                        <label for="pubPaidNo">Non, pas encore</label>
-                    </div>
-                </div>
+            </div>
 
-                <div class="field hidden" id="pubTranscodeBox" style="margin-top:20px;">
-                    <label>Transcode de paiement <span class="required">*</span></label>
-                    <input type="text" id="pubTranscode" placeholder="Entrez votre transcode de paiement">
-                </div>
 
-                <button type="submit" class="submit-btn" style="margin-top:20px;">
-                    Envoyer ma demande de publicité sur WhatsApp
-                </button>
-            </form>
-        </div>
+            <button
+                type="submit"
+                class="submit-btn"
+                style="margin-top:20px;"
+            >
+                Envoyer ma demande de publicité sur WhatsApp
+            </button>
+
+        </form>
+
+    </div>
 
 </section>
 
@@ -2212,7 +2288,7 @@ footer strong{
                         >
 
                         <label for="studentType">
-                             Étudiant
+                            Étudiant
                         </label>
 
                     </div>
@@ -2228,7 +2304,7 @@ footer strong{
                         >
 
                         <label for="agentType">
-                             Agent
+                            Agent
                         </label>
 
                     </div>
@@ -2326,7 +2402,7 @@ footer strong{
                     </label>
 
 
-                    <select id="regFormation">
+                    <select id="regFormation" required>
 
                         <option value="">
                             Sélectionnez une formation
@@ -2368,6 +2444,48 @@ footer strong{
                         type="text"
                         id="regAgentId"
                         placeholder="Ex : AG-191514"
+                    >
+
+                </div>
+
+
+                <!-- =========================
+                     NOUVEAU : INFOS NATCASH AGENT
+                ========================= -->
+
+                <div
+                    class="field hidden"
+                    id="agentNatCashBox"
+                >
+
+                    <label>
+                        Numéro NatCash pour recevoir les paiements
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="agentNatCash"
+                        placeholder="Ex : 40000000"
+                    >
+
+                </div>
+
+
+                <div
+                    class="field hidden"
+                    id="agentNatCashNameBox"
+                >
+
+                    <label>
+                        Nom sur le compte NatCash
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="agentNatCashName"
+                        placeholder="Nom complet sur le compte NatCash"
                     >
 
                 </div>
@@ -2516,9 +2634,7 @@ footer strong{
                     type="submit"
                     class="submit-btn"
                 >
-
                     Envoyer mon inscription sur WhatsApp
-
                 </button>
 
             </div>
@@ -2694,7 +2810,6 @@ footer strong{
 
 /* ==================================================
    NAVIGATION MOBILE
-   LE MENU SE FERME AUTOMATIQUEMENT APRÈS UN CLIC
 ================================================== */
 
 const menuToggle =
@@ -2713,9 +2828,6 @@ menuToggle.addEventListener(
     }
 );
 
-
-/* Fermer automatiquement le menu
-   quand on clique sur un lien */
 
 document.querySelectorAll(
     ".nav-links a"
@@ -2791,8 +2903,6 @@ const customService =
     );
 
 
-/* FORMAT MONEY */
-
 function formatMoney(number){
 
     return new Intl.NumberFormat(
@@ -2802,8 +2912,6 @@ function formatMoney(number){
 }
 
 
-/* GET SERVICE */
-
 function getSelectedService(){
 
     return document.querySelector(
@@ -2812,8 +2920,6 @@ function getSelectedService(){
 
 }
 
-
-/* UPDATE PRICE */
 
 function updatePrice(){
 
@@ -2862,8 +2968,6 @@ serviceInputs.forEach(
     }
 );
 
-
-/* PAYMENT STATUS */
 
 paidYes.addEventListener(
     "change",
@@ -3119,6 +3223,35 @@ const regFormation =
     );
 
 
+/* ==================================================
+   NOUVEAUX CHAMPS NATCASH AGENT
+================================================== */
+
+const agentNatCashBox =
+    document.getElementById(
+        "agentNatCashBox"
+    );
+
+const agentNatCashNameBox =
+    document.getElementById(
+        "agentNatCashNameBox"
+    );
+
+const agentNatCash =
+    document.getElementById(
+        "agentNatCash"
+    );
+
+const agentNatCashName =
+    document.getElementById(
+        "agentNatCashName"
+    );
+
+
+/* ==================================================
+   ÉTUDIANT
+================================================== */
+
 studentType.addEventListener(
     "change",
     function(){
@@ -3135,11 +3268,32 @@ studentType.addEventListener(
 
             regFormation.required = true;
 
+
+            /* Masquer les informations NatCash Agent */
+
+            agentNatCashBox.classList.add(
+                "hidden"
+            );
+
+            agentNatCashNameBox.classList.add(
+                "hidden"
+            );
+
+            agentNatCash.required = false;
+            agentNatCashName.required = false;
+
+            agentNatCash.value = "";
+            agentNatCashName.value = "";
+
         }
 
     }
 );
 
+
+/* ==================================================
+   AGENT
+================================================== */
 
 agentType.addEventListener(
     "change",
@@ -3158,6 +3312,20 @@ agentType.addEventListener(
             regFormation.required = false;
 
             regFormation.value = "";
+
+
+            /* Afficher les informations NatCash Agent */
+
+            agentNatCashBox.classList.remove(
+                "hidden"
+            );
+
+            agentNatCashNameBox.classList.remove(
+                "hidden"
+            );
+
+            agentNatCash.required = true;
+            agentNatCashName.required = true;
 
         }
 
@@ -3279,6 +3447,17 @@ document
             .trim();
 
 
+        /* ==================================================
+           RÉCUPÉRER LES INFOS NATCASH DE L'AGENT
+        ================================================== */
+
+        const agentNatCashValue =
+            agentNatCash.value.trim();
+
+        const agentNatCashNameValue =
+            agentNatCashName.value.trim();
+
+
         const payment =
             document.querySelector(
                 'input[name="regPaid"]:checked'
@@ -3303,6 +3482,36 @@ document
             );
 
             return;
+
+        }
+
+
+        /* ==================================================
+           VÉRIFICATION NATCASH AGENT
+        ================================================== */
+
+        if(type.value === "Agent"){
+
+            if(!agentNatCashValue){
+
+                alert(
+                    "Veuillez entrer le numéro NatCash de l'agent."
+                );
+
+                return;
+
+            }
+
+
+            if(!agentNatCashNameValue){
+
+                alert(
+                    "Veuillez entrer le nom sur le compte NatCash."
+                );
+
+                return;
+
+            }
 
         }
 
@@ -3378,6 +3587,12 @@ ${transcodeValue}
  *ID Agent :*
 ${agentId || "Aucun"}
 
+ *Numéro NatCash Agent :*
+${type.value === "Agent" ? agentNatCashValue : "Non applicable"}
+
+ *Nom sur le compte NatCash :*
+${type.value === "Agent" ? agentNatCashNameValue : "Non applicable"}
+
  *Photo badge :*
 ${type.value === "Agent" ? "À envoyer sur WhatsApp" : "Non applicable"}
 
@@ -3402,15 +3617,15 @@ Merci.
 
 </script>
 
-   <!-- =====================================================
+
+<!-- =====================================================
      POPUP VIDEO PROMOTION - BABA SERVICES
-     ===================================================== -->
+===================================================== -->
 
 <div id="promoVideoPopup" class="promo-video-popup">
 
     <div class="promo-video-box">
 
-        <!-- Bouton fermer -->
         <button
             class="promo-close"
             id="closePromoVideo"
@@ -3418,7 +3633,7 @@ Merci.
             ×
         </button>
 
-        <!-- VIDEO -->
+
         <video
             id="promoVideo"
             playsinline
@@ -3431,10 +3646,10 @@ Merci.
                 type="video/mp4">
 
             Votre navigateur ne supporte pas la vidéo.
+
         </video>
 
 
-        <!-- Bouton Son -->
         <button
             class="promo-sound"
             id="promoSound"
@@ -3443,7 +3658,6 @@ Merci.
         </button>
 
 
-        <!-- Bouton inscription -->
         <button
             class="promo-button"
             id="promoButton">
@@ -3461,7 +3675,7 @@ Merci.
 
 /* =====================================================
    POPUP PRINCIPAL
-   ===================================================== */
+===================================================== */
 
 .promo-video-popup {
 
@@ -3493,7 +3707,7 @@ Merci.
 
 /* =====================================================
    CONTENEUR VIDEO
-   ===================================================== */
+===================================================== */
 
 .promo-video-box {
 
@@ -3519,7 +3733,7 @@ Merci.
 
 /* =====================================================
    VIDEO
-   ===================================================== */
+===================================================== */
 
 .promo-video-box video {
 
@@ -3540,7 +3754,7 @@ Merci.
 
 /* =====================================================
    BOUTON FERMER X
-   ===================================================== */
+===================================================== */
 
 .promo-close {
 
@@ -3586,7 +3800,7 @@ Merci.
 
 /* =====================================================
    BOUTON SON
-   ===================================================== */
+===================================================== */
 
 .promo-sound {
 
@@ -3628,7 +3842,7 @@ Merci.
 
 /* =====================================================
    BOUTON PROFITEZ
-   ===================================================== */
+===================================================== */
 
 .promo-button {
 
@@ -3677,7 +3891,7 @@ Merci.
 
 /* =====================================================
    ANIMATION
-   ===================================================== */
+===================================================== */
 
 @keyframes promoPopupIn {
 
@@ -3704,7 +3918,7 @@ Merci.
 
 /* =====================================================
    MOBILE
-   ===================================================== */
+===================================================== */
 
 @media (max-width: 600px) {
 
@@ -3769,7 +3983,7 @@ Merci.
 
 /* =====================================================
    ELEMENTS
-   ===================================================== */
+===================================================== */
 
 const promoPopup =
     document.getElementById("promoVideoPopup");
@@ -3789,7 +4003,7 @@ const promoButton =
 
 /* =====================================================
    FERMER LE POPUP
-   ===================================================== */
+===================================================== */
 
 function closePromoPopup() {
 
@@ -3802,7 +4016,7 @@ function closePromoPopup() {
 
 /* =====================================================
    BOUTON X
-   ===================================================== */
+===================================================== */
 
 closePromoVideo.addEventListener(
     "click",
@@ -3816,7 +4030,7 @@ closePromoVideo.addEventListener(
 
 /* =====================================================
    VIDEO TERMINE
-   ===================================================== */
+===================================================== */
 
 promoVideo.addEventListener(
     "ended",
@@ -3830,7 +4044,7 @@ promoVideo.addEventListener(
 
 /* =====================================================
    ACTIVER / DESACTIVER LE SON
-   ===================================================== */
+===================================================== */
 
 promoSound.addEventListener(
     "click",
@@ -3841,11 +4055,6 @@ promoSound.addEventListener(
             promoVideo.muted = false;
 
             promoSound.textContent = "🔊";
-
-            /*
-             * On relance la vidéo après activation
-             * du son si nécessaire.
-             */
 
             promoVideo.play().catch(function () {});
 
@@ -3863,20 +4072,17 @@ promoSound.addEventListener(
 
 /* =====================================================
    BOUTON Rejoindre le programme
-   ===================================================== */
+===================================================== */
 
 promoButton.addEventListener(
     "click",
     function () {
 
-        // Fèmen popup la
         closePromoPopup();
 
-        // Nimewo WhatsApp Baba Design
         const whatsappNumber = "50940052773";
 
-        // Message spécial pour l'offre -33%
-const message =
+        const message =
 ` *Rejoindre le programme — BABA DESIGN*
 
 Bonjour Baba Design 👋
@@ -3889,14 +4095,12 @@ Merci ! 🙏
 
 *Akademi Dizay*`;
 
-        // Création du lien WhatsApp
         const whatsappURL =
             "https://wa.me/" +
             whatsappNumber +
             "?text=" +
             encodeURIComponent(message);
 
-        // Ouverture directe de WhatsApp
         window.open(
             whatsappURL,
             "_blank"
@@ -3904,22 +4108,17 @@ Merci ! 🙏
 
     }
 );
-    
+
+
 /* =====================================================
    AFFICHAGE AUTOMATIQUE
-   ===================================================== */
+===================================================== */
 
 window.addEventListener(
     "load",
     function () {
 
         promoPopup.style.display = "flex";
-
-        /*
-         * Tentative de lecture automatique.
-         * La vidéo est mute au départ pour permettre
-         * l'autoplay sur les navigateurs.
-         */
 
         promoVideo.muted = true;
 
@@ -3929,77 +4128,199 @@ window.addEventListener(
 );
 
 
-
 /* ==================================================
    PUBLICITE → WHATSAPP
 ================================================== */
-const pubName = document.getElementById("pubName");
-const pubPhone = document.getElementById("pubPhone");
-const pubType = document.getElementById("pubType");
-const pubDuration = document.getElementById("pubDuration");
-const pubUsd = document.getElementById("pubUsd");
-const pubHtg = document.getElementById("pubHtg");
-const pubPaidYes = document.getElementById("pubPaidYes");
-const pubPaidNo = document.getElementById("pubPaidNo");
-const pubTranscodeBox = document.getElementById("pubTranscodeBox");
-const pubTranscode = document.getElementById("pubTranscode");
+
+const pubName =
+    document.getElementById("pubName");
+
+const pubPhone =
+    document.getElementById("pubPhone");
+
+const pubType =
+    document.getElementById("pubType");
+
+const pubDuration =
+    document.getElementById("pubDuration");
+
+const pubUsd =
+    document.getElementById("pubUsd");
+
+const pubHtg =
+    document.getElementById("pubHtg");
+
+const pubPaidYes =
+    document.getElementById("pubPaidYes");
+
+const pubPaidNo =
+    document.getElementById("pubPaidNo");
+
+const pubTranscodeBox =
+    document.getElementById("pubTranscodeBox");
+
+const pubTranscode =
+    document.getElementById("pubTranscode");
+
 
 const pubPrices = {
+
     "Photo|3 jours": 3.85,
+
     "Vidéo|3 jours": 4.99,
+
     "Photo|5 jours": 5.19,
+
     "Vidéo|5 jours": 7.00,
+
     "Photo|8 jours": 8.04,
+
     "Vidéo|8 jours": 10.00
+
 };
 
+
 function updatePubPrice(){
-    const key = pubType.value + "|" + pubDuration.value;
-    const usd = pubPrices[key] || 0;
-    const htg = usd * 130;
-    pubUsd.textContent = usd ? usd.toFixed(2).replace(".", ",") + " $" : "0,00 $";
-    pubHtg.textContent = usd ? Math.round(htg).toLocaleString("fr-FR") + " HTG" : "0 HTG";
+
+    const key =
+        pubType.value +
+        "|" +
+        pubDuration.value;
+
+    const usd =
+        pubPrices[key] || 0;
+
+    const htg =
+        usd * 130;
+
+
+    pubUsd.textContent =
+        usd
+        ? usd.toFixed(2).replace(".", ",") + " $"
+        : "0,00 $";
+
+
+    pubHtg.textContent =
+        usd
+        ? Math.round(htg).toLocaleString("fr-FR") + " HTG"
+        : "0 HTG";
+
 }
 
-pubType.addEventListener("change", updatePubPrice);
-pubDuration.addEventListener("change", updatePubPrice);
 
-pubPaidYes.addEventListener("change", function(){
-    pubTranscodeBox.classList.remove("hidden");
-    pubTranscode.required = true;
-});
+pubType.addEventListener(
+    "change",
+    updatePubPrice
+);
 
-pubPaidNo.addEventListener("change", function(){
-    pubTranscodeBox.classList.add("hidden");
-    pubTranscode.required = false;
-    pubTranscode.value = "";
-});
 
-document.getElementById("publiciteForm").addEventListener("submit", function(event){
-    event.preventDefault();
+pubDuration.addEventListener(
+    "change",
+    updatePubPrice
+);
 
-    const key = pubType.value + "|" + pubDuration.value;
-    const usd = pubPrices[key] || 0;
-    const htg = usd * 130;
-    const payment = document.querySelector('input[name="pubPaid"]:checked');
 
-    if(!usd){
-        alert("Veuillez choisir le type et la durée de la publicité.");
-        return;
+pubPaidYes.addEventListener(
+    "change",
+    function(){
+
+        pubTranscodeBox.classList.remove(
+            "hidden"
+        );
+
+        pubTranscode.required = true;
+
     }
+);
 
-    if(!payment || payment.value !== "Oui"){
-        alert("Vous devez effectuer le paiement et sélectionner « Oui, j'ai payé » avec votre transcode avant d'envoyer la demande.");
-        return;
+
+pubPaidNo.addEventListener(
+    "change",
+    function(){
+
+        pubTranscodeBox.classList.add(
+            "hidden"
+        );
+
+        pubTranscode.required = false;
+
+        pubTranscode.value = "";
+
     }
+);
 
-    const transcodeValue = pubTranscode.value.trim();
-    if(!transcodeValue){
-        alert("Veuillez entrer votre transcode de paiement.");
-        return;
-    }
 
-    const message = `*NOUVELLE DEMANDE DE PUBLICITÉ — BABA DESIGN*
+document
+.getElementById("publiciteForm")
+.addEventListener(
+    "submit",
+    function(event){
+
+        event.preventDefault();
+
+
+        const key =
+            pubType.value +
+            "|" +
+            pubDuration.value;
+
+
+        const usd =
+            pubPrices[key] || 0;
+
+
+        const htg =
+            usd * 130;
+
+
+        const payment =
+            document.querySelector(
+                'input[name="pubPaid"]:checked'
+            );
+
+
+        if(!usd){
+
+            alert(
+                "Veuillez choisir le type et la durée de la publicité."
+            );
+
+            return;
+
+        }
+
+
+        if(
+            !payment ||
+            payment.value !== "Oui"
+        ){
+
+            alert(
+                "Vous devez effectuer le paiement et sélectionner « Oui, j'ai payé » avec votre transcode avant d'envoyer la demande."
+            );
+
+            return;
+
+        }
+
+
+        const transcodeValue =
+            pubTranscode.value.trim();
+
+
+        if(!transcodeValue){
+
+            alert(
+                "Veuillez entrer votre transcode de paiement."
+            );
+
+            return;
+
+        }
+
+
+        const message =
+`*NOUVELLE DEMANDE DE PUBLICITÉ — BABA DESIGN*
 
 *Nom complet :*
 ${pubName.value.trim()}
@@ -4034,15 +4355,27 @@ ${transcodeValue}
 Merci.
 *Baba Design*`;
 
-    const url = "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(message);
-    window.open(url, "_blank");
-});
+
+        const url =
+            "https://wa.me/" +
+            whatsappNumber +
+            "?text=" +
+            encodeURIComponent(message);
+
+
+        window.open(
+            url,
+            "_blank"
+        );
+
+    }
+);
 
 </script>
 
 <!-- =====================================================
      FIN POPUP VIDEO PROMOTION
-     ===================================================== -->
-    
+===================================================== -->
+
 </body>
 </html>
