@@ -4,14 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- PARAMÈTRES WEB APP -->
-<meta name="theme-color" content="#111111">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Baba Design">
-<meta name="format-detection" content="telephone=no">
-
 <title>Baba Design | Akademi Dizay & Services de Design en Haiti</title>
     <meta name="description" content="Baba Services propose des services de design graphique, création de visuels, montage vidéo et solutions digitales en Haïti.">
     <meta name="keywords" content="Baba Services, Baba Design, design graphique, graphisme, montage vidéo, services design, Haïti">
@@ -53,33 +45,6 @@ body{
     background:#f7f7f7;
     color:#111;
     overflow-x:hidden;
-}
-
-/* =========================
-   WEB APP / MOBILE
-========================= */
-
-html{
-    -webkit-tap-highlight-color:transparent;
-    overscroll-behavior-y:none;
-}
-
-body{
-    -webkit-touch-callout:none;
-}
-
-button,
-a,
-label,
-input,
-select,
-textarea{
-    -webkit-tap-highlight-color:transparent;
-}
-
-button,
-a{
-    touch-action:manipulation;
 }
 
 /* =========================
@@ -330,8 +295,7 @@ body::after{
 }
 
 .portfolio-card{
-    height:auto;
-    min-height:280px;
+    height:280px;
     border-radius:20px;
     overflow:hidden;
     background:#ddd;
@@ -345,9 +309,8 @@ body::after{
 
 .portfolio-card img{
     width:100%;
-    height:auto;
-    max-width:100%;
-    object-fit:contain;
+    height:100%;
+    object-fit:cover;
     display:block;
     transition:.4s;
 }
@@ -635,20 +598,44 @@ textarea{
     color:#bbb;
 }
 
-/* VIDEO AKADEMI DIZAY - VIDEO SEPARATE DU POPUP */
-.academy-video{
-    width:100%;
-    margin:0 0 30px 0;
+/* =========================
+   AKADEMI VIDEO
+   ========================= */
+.academy-video-box{
+    max-width:950px;
+    margin:0 auto 45px;
+    background:#1c1c1c;
+    border:1px solid rgba(255,255,255,.1);
     border-radius:20px;
     overflow:hidden;
-    background:#111;
+    box-shadow:0 15px 40px rgba(0,0,0,.25);
 }
 
-.academy-video video{
-    width:100%;
-    height:auto;
-    max-width:100%;
+.academy-video-header{
+    padding:20px 22px 12px;
+}
+
+.academy-video-header h3{
+    font-size:21px;
+    margin-bottom:7px;
+}
+
+.academy-video-header p{
+    color:#aaa;
+    font-size:13px;
+}
+
+.academy-video{
     display:block;
+    width:100%;
+    max-height:540px;
+    background:#000;
+}
+
+.academy-video-note{
+    padding:12px 22px 18px;
+    color:#aaa;
+    font-size:12px;
 }
 
 .formation-grid{
@@ -998,8 +985,7 @@ footer strong{
     }
 
     .portfolio-card{
-        height:auto;
-        min-height:250px;
+        height:250px;
     }
 
     .card{
@@ -1011,92 +997,18 @@ footer strong{
         font-size:42px;
     }
 }
-
-
-/* =========================
-   PUBLICITE — AKADEMI DIZAY
-========================= */
-.publicite-box{
-    max-width:850px;
-    margin:35px auto 0;
-    padding:25px;
-    background:#1c1c1c;
-    border:1px solid rgba(255,255,255,.1);
-    border-radius:22px;
-    box-shadow:0 15px 40px rgba(0,0,0,.2);
-}
-.publicite-box .section-title{color:white;}
-.publicite-box label{color:white;}
-.publicite-box input,
-.publicite-box select{
-    background:#fff;
-    color:#111;
-}
-.publicite-price{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-    margin:15px 0;
-}
-.publicite-price-box{
-    padding:16px;
-    border-radius:14px;
-    background:#111;
-    color:white;
-    text-align:center;
-}
-.publicite-price-box span{
-    display:block;
-    color:#ccc;
-    font-size:12px;
-    margin-bottom:7px;
-}
-.publicite-price-box strong{font-size:18px;}
-.publicite-notice{
-    padding:15px;
-    border-radius:14px;
-    background:#fff7df;
-    border-left:4px solid #ffbf00;
-    color:#5c4900;
-    font-size:13px;
-    line-height:1.6;
-    margin:15px 0;
-}
-.publicite-box .radio-option label{
-    border:1.5px solid #e4e4e4;
-    border-radius:15px;
-    padding:16px;
-    text-align:center;
-    cursor:pointer;
-    margin:0;
-    background:white;
-    color:#111;
-    transition:.25s;
-}
-
-.publicite-box .radio-option label:hover{
-    transform:translateY(-3px);
-    border-color:#ff6600;
-    box-shadow:0 8px 20px rgba(0,0,0,.07);
-}
-
-.publicite-box .radio-option input:checked + label{
-    color:white;
-    border-color:transparent;
-    background:linear-gradient(
-        135deg,
-        #e60000,
-        #ff7300,
-        #ffc400
-    );
-    box-shadow:0 10px 25px rgba(255,70,0,.25);
-    transform:translateY(-2px);
-}
-@media(max-width:700px){
-    .publicite-price{grid-template-columns:1fr;}
-}
-
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* =====================================================
+   SUPABASE — AKADEMI DIZAY
+===================================================== */
+const SUPABASE_URL = "https://nuiubkbmwnkswugkyhvx.supabase.co";
+const SUPABASE_KEY = "sb_publishable_dFBjGdzxPDRkS-Ldb-YVLA_WeG9IqGy";
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+</script>
+
 </head>
 
 <body>
@@ -1143,6 +1055,10 @@ footer strong{
                 <a href="#contact">Contact</a>
             </li>
 
+            <li>
+                <a href="login.html">Mon espace</a>
+            </li>
+
         </ul>
 
     </div>
@@ -1169,6 +1085,7 @@ footer strong{
             </span>
         </h1>
 
+        <!-- TEXTE BLANC -->
         <p>
             Services de design professionnel et formations
             pour développer votre créativité.
@@ -1213,8 +1130,9 @@ footer strong{
 
     <div class="portfolio-grid">
 
+        <!-- Tu peux remplacer ces 4 photos -->
         <div class="portfolio-card">
-            <img src="pc sit.jpg"
+            <img src="250 htg ee.jpg"
                  alt="Travail Baba Design">
         </div>
 
@@ -1229,7 +1147,7 @@ footer strong{
         </div>
 
         <div class="portfolio-card">
-            <img src="services online.jpg"
+            <img src="oiseaux 1.jpg"
                  alt="Travail Baba Design">
         </div>
 
@@ -1261,6 +1179,9 @@ footer strong{
     <div class="order-wrapper">
 
         <form id="orderForm">
+
+
+            <!-- CLIENT -->
 
             <div class="card">
 
@@ -1303,17 +1224,24 @@ footer strong{
             </div>
 
 
+            <!-- SERVICES -->
+
             <div class="card">
 
                 <div class="section-title">
+
                     <div class="number">2</div>
+
                     Choisissez votre service
+
                 </div>
 
 
                 <div class="services">
 
+
                     <div class="service">
+
                         <input
                             type="radio"
                             name="service"
@@ -1321,18 +1249,24 @@ footer strong{
                             value="Affiche événement"
                             data-price="3000"
                         >
+
                         <label for="affiche">
+
                             <span class="service-name">
                                 Affiche événement
                             </span>
+
                             <span class="price">
                                 3 000 HTG
                             </span>
+
                         </label>
+
                     </div>
 
 
                     <div class="service">
+
                         <input
                             type="radio"
                             name="service"
@@ -1340,18 +1274,24 @@ footer strong{
                             value="Carte de visite"
                             data-price="2500"
                         >
+
                         <label for="carte">
+
                             <span class="service-name">
                                 Carte de visite
                             </span>
+
                             <span class="price">
                                 2 500 HTG
                             </span>
+
                         </label>
+
                     </div>
 
 
                     <div class="service">
+
                         <input
                             type="radio"
                             name="service"
@@ -1359,18 +1299,24 @@ footer strong{
                             value="Certificat / Unité"
                             data-price="350"
                         >
+
                         <label for="certificat">
+
                             <span class="service-name">
                                 Certificat / Unité
                             </span>
+
                             <span class="price">
                                 350 HTG
                             </span>
+
                         </label>
+
                     </div>
 
 
                     <div class="service">
+
                         <input
                             type="radio"
                             name="service"
@@ -1378,18 +1324,24 @@ footer strong{
                             value="Flyer Business"
                             data-price="2500"
                         >
+
                         <label for="flyer">
+
                             <span class="service-name">
                                 Flyer Business
                             </span>
+
                             <span class="price">
                                 2 500 HTG
                             </span>
+
                         </label>
+
                     </div>
 
 
                     <div class="service">
+
                         <input
                             type="radio"
                             name="service"
@@ -1397,18 +1349,24 @@ footer strong{
                             value="Étiquette"
                             data-price="5000"
                         >
+
                         <label for="etiquette">
+
                             <span class="service-name">
                                 Étiquette
                             </span>
+
                             <span class="price">
                                 5 000 HTG
                             </span>
+
                         </label>
+
                     </div>
 
 
                     <div class="service">
+
                         <input
                             type="radio"
                             name="service"
@@ -1416,18 +1374,24 @@ footer strong{
                             value="Vidéo promotionnelle"
                             data-price="4500"
                         >
+
                         <label for="video">
+
                             <span class="service-name">
                                 Vidéo promotionnelle
                             </span>
+
                             <span class="price">
                                 4 500 HTG
                             </span>
+
                         </label>
+
                     </div>
 
 
                     <div class="service">
+
                         <input
                             type="radio"
                             name="service"
@@ -1435,14 +1399,19 @@ footer strong{
                             value="Bannière"
                             data-price="6500"
                         >
+
                         <label for="banniere">
+
                             <span class="service-name">
                                 Bannière
                             </span>
+
                             <span class="price">
                                 6 500 HTG
                             </span>
+
                         </label>
+
                     </div>
 
                 </div>
@@ -1465,19 +1434,29 @@ footer strong{
             </div>
 
 
+            <!-- DELAI -->
+
             <div class="card">
 
                 <div class="section-title">
+
                     <div class="number">3</div>
+
                     Délai de livraison
+
                 </div>
+
 
                 <div class="field">
 
                     <label>
+
                         Dans combien de temps avez-vous besoin du visuel ?
+
                         <span class="required">*</span>
+
                     </label>
+
 
                     <select id="deadline" required>
 
@@ -1520,19 +1499,29 @@ footer strong{
             </div>
 
 
+            <!-- DETAILS -->
+
             <div class="card">
 
                 <div class="section-title">
+
                     <div class="number">4</div>
+
                     Informations du visuel
+
                 </div>
+
 
                 <div class="field">
 
                     <label>
+
                         Informations à mettre sur le visuel
+
                         <span class="required">*</span>
+
                     </label>
+
 
                     <textarea
                         id="designInfo"
@@ -1541,6 +1530,7 @@ footer strong{
                     ></textarea>
 
                 </div>
+
 
                 <div class="notice">
 
@@ -1555,12 +1545,18 @@ footer strong{
             </div>
 
 
+            <!-- PAIEMENT -->
+
             <div class="card">
 
                 <div class="section-title">
+
                     <div class="number">5</div>
+
                     Paiement
+
                 </div>
+
 
                 <div class="notice">
 
@@ -1603,8 +1599,11 @@ footer strong{
 
 
                 <label>
+
                     Avez-vous déjà effectué le paiement ?
+
                     <span class="required">*</span>
+
                 </label>
 
 
@@ -1646,6 +1645,8 @@ footer strong{
                 </div>
 
 
+                <!-- TRANSCODE -->
+
                 <div
                     class="field hidden"
                     id="transcodeBox"
@@ -1653,8 +1654,11 @@ footer strong{
                 >
 
                     <label>
+
                         Transcode de paiement
+
                         <span class="required">*</span>
+
                     </label>
 
                     <input
@@ -1665,6 +1669,8 @@ footer strong{
 
                 </div>
 
+
+                <!-- CALCUL -->
 
                 <div class="payment-info">
 
@@ -1711,6 +1717,8 @@ footer strong{
             </div>
 
 
+            <!-- AGENT -->
+
             <div class="card">
 
                 <div class="section-title">
@@ -1725,10 +1733,13 @@ footer strong{
                 <div class="field">
 
                     <label>
+
                         ID Agent
+
                         <small style="color:#777;">
                             (facultatif)
                         </small>
+
                     </label>
 
                     <input
@@ -1750,6 +1761,8 @@ footer strong{
 
             </div>
 
+
+            <!-- SUBMIT -->
 
             <div class="card">
 
@@ -1790,28 +1803,51 @@ footer strong{
     </div>
 
 
-    <div class="academy-video">
+    <!-- =========================
+         VIDEO AKADEMI DIZAY
+         CHANGEZ UNIQUEMENT LE NOM DU FICHIER CI-DESSOUS
+         Exemple : academi-dizay.mp4
+    ========================= -->
+    <div class="academy-video-box">
+
+        <div class="academy-video-header">
+            <h3>🎬 Présentation de l'Akademi Dizay</h3>
+            <p>Regardez la vidéo directement sur le site. Les contrôles permettent d'activer le son.</p>
+        </div>
 
         <video
+            id="academyVideo"
+            class="academy-video"
             controls
             playsinline
-            preload="metadata"
-        >
+            preload="metadata">
             <source
-                src="ajan videyo.mp4"
-                type="video/mp4"
-            >
-            Votre navigateur ne supporte pas la vidéo.
+                id="academyVideoSource"
+                src="academi-dizay.mp4"
+                type="video/mp4">
+            Votre navigateur ne supporte pas la lecture vidéo.
         </video>
 
+        <div class="academy-video-note">
+            💡 Utilisez le bouton 🔊 du lecteur pour activer le son.
+        </div>
+
     </div>
+
 
     <div class="formation-grid">
 
 
+        <!-- FORMATION 1 -->
+
         <div class="formation-card">
 
             <div class="formation-image">
+
+                <!--
+                    PHOTO À AJOUTER DANS GITHUB :
+                    formation-video.jpg
+                -->
 
                 <img
                     src="foma video.jpg"
@@ -1838,7 +1874,8 @@ footer strong{
 
                 <a
                     href="#inscription"
-                    class="formation-btn"
+                    class="formation-btn formation-register-btn"
+                    href="#inscription"
                 >
                     S'inscrire
                 </a>
@@ -1848,9 +1885,16 @@ footer strong{
         </div>
 
 
+        <!-- FORMATION 2 -->
+
         <div class="formation-card">
 
             <div class="formation-image">
+
+                <!--
+                    PHOTO À AJOUTER DANS GITHUB :
+                    formation-certificat.jpg
+                -->
 
                 <img
                     src="foma certifi.jpg"
@@ -1877,7 +1921,8 @@ footer strong{
 
                 <a
                     href="#inscription"
-                    class="formation-btn"
+                    class="formation-btn formation-register-btn"
+                    href="#inscription"
                 >
                     S'inscrire
                 </a>
@@ -1887,9 +1932,16 @@ footer strong{
         </div>
 
 
+        <!-- FORMATION 3 -->
+
         <div class="formation-card">
 
             <div class="formation-image">
+
+                <!--
+                    PHOTO À AJOUTER DANS GITHUB :
+                    formation-badge.jpg
+                -->
 
                 <img
                     src="fomasyon badge.jpg"
@@ -1916,7 +1968,8 @@ footer strong{
 
                 <a
                     href="#inscription"
-                    class="formation-btn"
+                    class="formation-btn formation-register-btn"
+                    href="#inscription"
                 >
                     S'inscrire
                 </a>
@@ -1926,9 +1979,16 @@ footer strong{
         </div>
 
 
+        <!-- FORMATION 4 -->
+
         <div class="formation-card">
 
             <div class="formation-image">
+
+                <!--
+                    PHOTO À AJOUTER DANS GITHUB :
+                    formation-calendrier.jpg
+                -->
 
                 <img
                     src="foma calandrier.jpg"
@@ -1955,7 +2015,8 @@ footer strong{
 
                 <a
                     href="#inscription"
-                    class="formation-btn"
+                    class="formation-btn formation-register-btn"
+                    href="#inscription"
                 >
                     S'inscrire
                 </a>
@@ -1964,275 +2025,6 @@ footer strong{
 
         </div>
 
-
-    </div>
-
-
-    <!-- =========================
-         PUBLICITE
-    ========================= -->
-
-    <div class="publicite-box" id="publicite">
-
-        <div class="section-title">
-            <div class="number">PU</div>
-            Publicité
-        </div>
-
-        <div class="publicite-notice">
-
-            <strong>Faites votre publicité avec Baba Design.</strong><br>
-
-            Remplissez le formulaire ci-dessous, choisissez la durée
-            et le type de publicité.
-
-            Après paiement, envoyez votre
-            <strong>photo ou vidéo sur notre WhatsApp comme document</strong>
-            afin de préserver sa qualité.
-
-        </div>
-
-
-        <form id="publiciteForm">
-
-            <div class="field">
-
-                <label>
-                    Nom complet
-                    <span class="required">*</span>
-                </label>
-
-                <input
-                    type="text"
-                    id="pubName"
-                    placeholder="Votre nom complet"
-                    required
-                >
-
-            </div>
-
-
-            <div class="field">
-
-                <label>
-                    Numéro WhatsApp
-                    <span class="required">*</span>
-                </label>
-
-                <input
-                    type="tel"
-                    id="pubPhone"
-                    placeholder="Ex : 40000000"
-                    required
-                >
-
-            </div>
-
-
-            <div class="field">
-
-                <label>
-                    Type de publicité
-                    <span class="required">*</span>
-                </label>
-
-                <select id="pubType" required>
-
-                    <option value="">
-                        Choisissez le type
-                    </option>
-
-                    <option value="Photo">
-                        Photo
-                    </option>
-
-                    <option value="Vidéo">
-                        Vidéo
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="field">
-
-                <label>
-                    Durée de la publicité
-                    <span class="required">*</span>
-                </label>
-
-                <select id="pubDuration" required>
-
-                    <option value="">
-                        Choisissez la durée
-                    </option>
-
-                    <option value="3 jours">
-                        3 jours
-                    </option>
-
-                    <option value="5 jours">
-                        5 jours
-                    </option>
-
-                    <option value="8 jours">
-                        8 jours
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="publicite-price">
-
-                <div class="publicite-price-box">
-
-                    <span>
-                        Prix en dollars
-                    </span>
-
-                    <strong id="pubUsd">
-                        0,00 $
-                    </strong>
-
-                </div>
-
-
-                <div class="publicite-price-box">
-
-                    <span>
-                        Prix en gourdes — taux 130 HTG/$
-                    </span>
-
-                    <strong id="pubHtg">
-                        0 HTG
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-            <div class="publicite-notice">
-
-                <strong>Tarifs :</strong><br>
-
-                Photo — 3 jours :
-                <strong>3,85 $</strong> ≈ 501 HTG<br>
-
-                Vidéo — 3 jours :
-                <strong>4,99 $</strong> ≈ 649 HTG<br>
-
-                Photo — 5 jours :
-                <strong>5,19 $</strong> ≈ 675 HTG<br>
-
-                Vidéo — 5 jours :
-                <strong>7,00 $</strong> = 910 HTG<br>
-
-                Photo — 8 jours :
-                <strong>8,04 $</strong> ≈ 1 045 HTG<br>
-
-                Vidéo — 8 jours :
-                <strong>10,00 $</strong> = 1 300 HTG
-
-            </div>
-
-
-            <div class="publicite-notice">
-
-                <strong>Important :</strong><br>
-
-                Après avoir payé, choisissez
-                <strong>« Oui, j'ai payé »</strong>
-                et entrez votre
-                <strong>transcode</strong>.
-
-                Sans paiement confirmé avec un transcode,
-                la demande ne sera pas envoyée pour traitement.
-
-                <br><br>
-
-                Envoyez ensuite votre
-                <strong>photo ou vidéo sur WhatsApp comme document</strong>.
-
-            </div>
-
-
-            <label>
-                Avez-vous déjà effectué le paiement ?
-                <span class="required">*</span>
-            </label>
-
-
-            <div class="radio-group">
-
-                <div class="radio-option">
-
-                    <input
-                        type="radio"
-                        name="pubPaid"
-                        id="pubPaidYes"
-                        value="Oui"
-                        required
-                    >
-
-                    <label for="pubPaidYes">
-                        Oui, j'ai payé
-                    </label>
-
-                </div>
-
-
-                <div class="radio-option">
-
-                    <input
-                        type="radio"
-                        name="pubPaid"
-                        id="pubPaidNo"
-                        value="Non"
-                        required
-                    >
-
-                    <label for="pubPaidNo">
-                        Non, pas encore
-                    </label>
-
-                </div>
-
-            </div>
-
-
-            <div
-                class="field hidden"
-                id="pubTranscodeBox"
-                style="margin-top:20px;"
-            >
-
-                <label>
-                    Transcode de paiement
-                    <span class="required">*</span>
-                </label>
-
-                <input
-                    type="text"
-                    id="pubTranscode"
-                    placeholder="Entrez votre transcode de paiement"
-                >
-
-            </div>
-
-
-            <button
-                type="submit"
-                class="submit-btn"
-                style="margin-top:20px;"
-            >
-                Envoyer ma demande de publicité sur WhatsApp
-            </button>
-
-        </form>
 
     </div>
 
@@ -2288,7 +2080,7 @@ footer strong{
                         >
 
                         <label for="studentType">
-                            Étudiant
+                             Étudiant
                         </label>
 
                     </div>
@@ -2304,7 +2096,7 @@ footer strong{
                         >
 
                         <label for="agentType">
-                            Agent
+                             Agent
                         </label>
 
                     </div>
@@ -2379,6 +2171,46 @@ footer strong{
                         type="email"
                         id="regEmail"
                         placeholder="votre@email.com"
+                        required
+                        required
+                    >
+
+                </div>
+
+
+                <!-- MOT DE PASSE DU COMPTE -->
+
+                <div class="field">
+
+                    <label>
+                        Mot de passe
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="password"
+                        id="regPassword"
+                        placeholder="Créez votre mot de passe"
+                        minlength="6"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Confirmer le mot de passe
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="password"
+                        id="regPasswordConfirm"
+                        placeholder="Confirmez votre mot de passe"
+                        minlength="6"
+                        required
                     >
 
                 </div>
@@ -2405,23 +2237,7 @@ footer strong{
                     <select id="regFormation" required>
 
                         <option value="">
-                            Sélectionnez une formation
-                        </option>
-
-                        <option value="Montage Vidéo — 3 000 HTG">
-                            Montage Vidéo — 3 000 HTG
-                        </option>
-
-                        <option value="Création de Certificat — 3 000 HTG">
-                            Création de Certificat — 3 000 HTG
-                        </option>
-
-                        <option value="Création de Badge — 3 000 HTG">
-                            Création de Badge — 3 000 HTG
-                        </option>
-
-                        <option value="Création de Calendrier — 3 000 HTG">
-                            Création de Calendrier — 3 000 HTG
+                            Chargement des formations...
                         </option>
 
                     </select>
@@ -2443,49 +2259,7 @@ footer strong{
                     <input
                         type="text"
                         id="regAgentId"
-                        placeholder="Ex : AG-191514"
-                    >
-
-                </div>
-
-
-                <!-- =========================
-                     NOUVEAU : INFOS NATCASH AGENT
-                ========================= -->
-
-                <div
-                    class="field hidden"
-                    id="agentNatCashBox"
-                >
-
-                    <label>
-                        Numéro NatCash pour recevoir les paiements
-                        <span class="required">*</span>
-                    </label>
-
-                    <input
-                        type="tel"
-                        id="agentNatCash"
-                        placeholder="Ex : 40000000"
-                    >
-
-                </div>
-
-
-                <div
-                    class="field hidden"
-                    id="agentNatCashNameBox"
-                >
-
-                    <label>
-                        Nom sur le compte NatCash
-                        <span class="required">*</span>
-                    </label>
-
-                    <input
-                        type="text"
-                        id="agentNatCashName"
-                        placeholder="Nom complet sur le compte NatCash"
+                        placeholder="Ex : AG-1025"
                     >
 
                 </div>
@@ -2519,110 +2293,64 @@ footer strong{
                 </div>
 
 
-                <!-- PAYMENT -->
-
+                <!-- =========================
+                     PAIEMENT AKADEMI
+                ========================= -->
                 <div class="notice">
-
-                    <strong>
-                        Paiement NatCash
-                    </strong>
-
+                    <strong>💳 Paiement obligatoire — NatCash</strong>
                     <br><br>
-
-                    Numéro :
-                    <strong>
-                        +509 4005-2773
-                    </strong>
-
+                    <strong>Numéro NatCash :</strong> +509 4005-2773
                     <br>
-
-                    Nom :
-                    <strong>
-                        Marie Alberte Darisme
-                    </strong>
-
+                    <strong>Nom du compte :</strong> Marie Alberte Darisme
                     <br><br>
-
-                    Après paiement,
-                    sélectionnez « Oui, j'ai payé »
-                    et entrez votre transcode.
-
+                    <strong>Étudiant :</strong> 250 HTG &nbsp; | &nbsp; <strong>Agent :</strong> 150 HTG
+                    <br><br>
+                    Effectuez d'abord le paiement correspondant à votre inscription.
+                    Ensuite, indiquez si vous avez payé et saisissez le transcode reçu.
                 </div>
 
+                <div class="notice" style="margin-top:20px;">
+                    <strong>⚠️ Aucun paiement = aucun compte</strong>
+                    <br><br>
+                    Si vous n'avez pas encore payé, choisissez « Non, pas encore ».
+                    La création du compte sera automatiquement bloquée.
+                    <br><br>
+                    Si vous avez payé, choisissez « Oui, j'ai payé » puis renseignez
+                    obligatoirement votre <strong>transcode de paiement</strong>.
+                </div>
 
-                <br>
-
-
-                <label>
-
+                <label style="margin-top:20px;">
                     Avez-vous déjà effectué le paiement ?
-
                     <span class="required">*</span>
-
                 </label>
 
-
                 <div class="radio-group">
-
                     <div class="radio-option">
-
-                        <input
-                            type="radio"
-                            name="regPaid"
-                            id="regPaidYes"
-                            value="Oui"
-                            required
-                        >
-
-                        <label for="regPaidYes">
-                            Oui, j'ai payé
-                        </label>
-
+                        <input type="radio" name="regPaid" id="regPaidYes" value="Oui" required>
+                        <label for="regPaidYes">Oui, j'ai payé</label>
                     </div>
-
-
                     <div class="radio-option">
-
-                        <input
-                            type="radio"
-                            name="regPaid"
-                            id="regPaidNo"
-                            value="Non"
-                            required
-                        >
-
-                        <label for="regPaidNo">
-                            Non, pas encore
-                        </label>
-
+                        <input type="radio" name="regPaid" id="regPaidNo" value="Non" required>
+                        <label for="regPaidNo">Non, pas encore</label>
                     </div>
-
                 </div>
 
-
                 <!-- TRANSCODE INSCRIPTION -->
-
-                <div
-                    class="field hidden"
-                    id="regTranscodeBox"
-                    style="margin-top:20px;"
-                >
-
+                <div class="field hidden" id="regTranscodeBox" style="margin-top:20px;">
                     <label>
-
                         Transcode de paiement
-
-                        <span class="required">
-                            *
-                        </span>
-
+                        <span class="required">*</span>
                     </label>
-
                     <input
                         type="text"
                         id="regTranscode"
-                        placeholder="Entrez votre transcode"
+                        placeholder="Entrez le transcode reçu après le paiement"
+                        autocomplete="off"
+                        inputmode="numeric"
                     >
+                    <small style="display:block;margin-top:7px;color:#777;">
+                        Ce champ est obligatoire. Sans transcode valide/renseigné, aucune création de compte ne peut continuer.
+                    </small>
 
                 </div>
 
@@ -2634,7 +2362,9 @@ footer strong{
                     type="submit"
                     class="submit-btn"
                 >
-                    Envoyer mon inscription sur WhatsApp
+
+                    Créer mon compte Akademi Dizay
+
                 </button>
 
             </div>
@@ -2810,6 +2540,7 @@ footer strong{
 
 /* ==================================================
    NAVIGATION MOBILE
+   LE MENU SE FERME AUTOMATIQUEMENT APRÈS UN CLIC
 ================================================== */
 
 const menuToggle =
@@ -2828,6 +2559,9 @@ menuToggle.addEventListener(
     }
 );
 
+
+/* Fermer automatiquement le menu
+   quand on clique sur un lien */
 
 document.querySelectorAll(
     ".nav-links a"
@@ -2903,6 +2637,8 @@ const customService =
     );
 
 
+/* FORMAT MONEY */
+
 function formatMoney(number){
 
     return new Intl.NumberFormat(
@@ -2912,6 +2648,8 @@ function formatMoney(number){
 }
 
 
+/* GET SERVICE */
+
 function getSelectedService(){
 
     return document.querySelector(
@@ -2920,6 +2658,8 @@ function getSelectedService(){
 
 }
 
+
+/* UPDATE PRICE */
 
 function updatePrice(){
 
@@ -2968,6 +2708,8 @@ serviceInputs.forEach(
     }
 );
 
+
+/* PAYMENT STATUS */
 
 paidYes.addEventListener(
     "change",
@@ -3223,35 +2965,6 @@ const regFormation =
     );
 
 
-/* ==================================================
-   NOUVEAUX CHAMPS NATCASH AGENT
-================================================== */
-
-const agentNatCashBox =
-    document.getElementById(
-        "agentNatCashBox"
-    );
-
-const agentNatCashNameBox =
-    document.getElementById(
-        "agentNatCashNameBox"
-    );
-
-const agentNatCash =
-    document.getElementById(
-        "agentNatCash"
-    );
-
-const agentNatCashName =
-    document.getElementById(
-        "agentNatCashName"
-    );
-
-
-/* ==================================================
-   ÉTUDIANT
-================================================== */
-
 studentType.addEventListener(
     "change",
     function(){
@@ -3268,32 +2981,11 @@ studentType.addEventListener(
 
             regFormation.required = true;
 
-
-            /* Masquer les informations NatCash Agent */
-
-            agentNatCashBox.classList.add(
-                "hidden"
-            );
-
-            agentNatCashNameBox.classList.add(
-                "hidden"
-            );
-
-            agentNatCash.required = false;
-            agentNatCashName.required = false;
-
-            agentNatCash.value = "";
-            agentNatCashName.value = "";
-
         }
 
     }
 );
 
-
-/* ==================================================
-   AGENT
-================================================== */
 
 agentType.addEventListener(
     "change",
@@ -3312,20 +3004,6 @@ agentType.addEventListener(
             regFormation.required = false;
 
             regFormation.value = "";
-
-
-            /* Afficher les informations NatCash Agent */
-
-            agentNatCashBox.classList.remove(
-                "hidden"
-            );
-
-            agentNatCashNameBox.classList.remove(
-                "hidden"
-            );
-
-            agentNatCash.required = true;
-            agentNatCashName.required = true;
 
         }
 
@@ -3397,235 +3075,338 @@ regPaidNo.addEventListener(
 
 
 /* ==================================================
-   INSCRIPTION → WHATSAPP
+   AKADEMI — CRÉATION DE COMPTE
+   Paiement + transcode obligatoires
 ================================================== */
 
 document
 .getElementById("registrationForm")
 .addEventListener(
     "submit",
-    function(event){
+    async function(event){
 
         event.preventDefault();
 
-
-        const name =
-            document
-            .getElementById("regName")
-            .value
-            .trim();
-
-
-        const phone =
-            document
-            .getElementById("regPhone")
-            .value
-            .trim();
-
-
-        const email =
-            document
-            .getElementById("regEmail")
-            .value
-            .trim();
-
-
-        const type =
-            document.querySelector(
-                'input[name="memberType"]:checked'
-            );
-
-
-        const formation =
-            regFormation.value;
-
-
-        const agentId =
-            document
-            .getElementById("regAgentId")
-            .value
-            .trim();
-
-
-        /* ==================================================
-           RÉCUPÉRER LES INFOS NATCASH DE L'AGENT
-        ================================================== */
-
-        const agentNatCashValue =
-            agentNatCash.value.trim();
-
-        const agentNatCashNameValue =
-            agentNatCashName.value.trim();
-
-
-        const payment =
-            document.querySelector(
-                'input[name="regPaid"]:checked'
-            );
-
+        const name = document.getElementById("regName").value.trim();
+        const phone = document.getElementById("regPhone").value.trim();
+        const email = document.getElementById("regEmail").value.trim();
+        const password = document.getElementById("regPassword").value;
+        const passwordConfirm = document.getElementById("regPasswordConfirm").value;
+        const type = document.querySelector('input[name="memberType"]:checked');
+        const formationId = regFormation.value;
+        const formationName = regFormation.options[regFormation.selectedIndex]?.textContent.trim() || "";
+        const agentId = document.getElementById("regAgentId").value.trim();
+        const payment = document.querySelector('input[name="regPaid"]:checked');
+        const transcodeValue = regTranscode.value.trim();
 
         if(!type){
-
-            alert(
-                "Veuillez choisir le type d'inscription."
-            );
-
+            alert("Veuillez choisir Étudiant ou Agent.");
             return;
-
         }
 
-
-        if(type.value === "Étudiant" && !formation){
-
-            alert(
-                "Veuillez sélectionner une formation."
-            );
-
+        if(!name || !phone || !email){
+            alert("Le nom, le téléphone et l'email sont obligatoires.");
             return;
-
         }
 
-
-        /* ==================================================
-           VÉRIFICATION NATCASH AGENT
-        ================================================== */
-
-        if(type.value === "Agent"){
-
-            if(!agentNatCashValue){
-
-                alert(
-                    "Veuillez entrer le numéro NatCash de l'agent."
-                );
-
-                return;
-
-            }
-
-
-            if(!agentNatCashNameValue){
-
-                alert(
-                    "Veuillez entrer le nom sur le compte NatCash."
-                );
-
-                return;
-
-            }
-
+        if(!password || password.length < 6){
+            alert("Votre mot de passe doit contenir au moins 6 caractères.");
+            return;
         }
 
+        if(password !== passwordConfirm){
+            alert("Les deux mots de passe ne correspondent pas.");
+            return;
+        }
+
+        if(type.value === "Étudiant" && !formationId){
+            alert("Veuillez sélectionner une formation.");
+            return;
+        }
 
         if(!payment){
-
-            alert(
-                "Veuillez indiquer votre statut de paiement."
-            );
-
+            alert("Vous devez indiquer si le paiement a été effectué.");
             return;
-
         }
 
+        if(payment.value !== "Oui"){
+            alert("Votre compte ne peut pas être créé. Effectuez d'abord le paiement NatCash.");
+            return;
+        }
 
-        let transcodeValue =
-            "Non fourni";
+        if(!transcodeValue){
+            alert("Votre transcode de paiement est obligatoire.");
+            regTranscodeBox.classList.remove("hidden");
+            regTranscode.required = true;
+            regTranscode.focus();
+            return;
+        }
 
+        const registrationFee = type.value === "Agent" ? 150 : 250;
 
-        if(payment.value === "Oui"){
+        const submitButton = document.querySelector("#registrationForm .submit-btn");
+        if(submitButton){
+            submitButton.disabled = true;
+            submitButton.textContent = "Création du compte...";
+        }
 
-            transcodeValue =
-                regTranscode.value.trim();
+        try {
 
+            /* ================================================
+               CREATE SUPABASE AUTH ACCOUNT
+            ================================================= */
+            const { data: authData, error: authError } =
+                await db.auth.signUp({
+                    email,
+                    password,
+                    options: {
+                        data: {
+                            full_name: name,
+                            phone: phone
+                        }
+                    }
+                });
 
-            if(!transcodeValue){
-
-                alert(
-                    "Veuillez entrer votre transcode de paiement."
-                );
-
-                return;
-
+            if(authError){
+                throw authError;
             }
 
+            const user = authData.user;
+
+            if(!user){
+                throw new Error("Le compte n'a pas pu être créé.");
+            }
+
+            /* ================================================
+               WAIT FOR PROFILE TRIGGER
+            ================================================= */
+            let profileReady = false;
+
+            for(let i = 0; i < 10; i++){
+                const { data: profile } = await db
+                    .from("profiles")
+                    .select("id")
+                    .eq("id", user.id)
+                    .maybeSingle();
+
+                if(profile){
+                    profileReady = true;
+                    break;
+                }
+
+                await new Promise(resolve => setTimeout(resolve, 300));
+            }
+
+            if(!profileReady){
+                throw new Error("Le profil utilisateur n'a pas pu être créé.");
+            }
+
+            /* ================================================
+               STUDENT ENROLLMENT
+            ================================================= */
+            let enrollment = null;
+
+            if(type.value === "Étudiant"){
+
+                const { data: enrollmentData, error: enrollmentError } =
+                    await db
+                        .from("enrollments")
+                        .insert({
+                            student_id: user.id,
+                            formation_id: formationId,
+                            payment_status: "pending",
+                            access_status: "pending"
+                        })
+                        .select("*")
+                        .single();
+
+                if(enrollmentError){
+                    throw enrollmentError;
+                }
+
+                enrollment = enrollmentData;
+            }
+
+            /* ================================================
+               PAYMENT RECORD
+            ================================================= */
+            const { error: paymentError } =
+                await db
+                    .from("payments")
+                    .insert({
+                        student_id: user.id,
+                        formation_id: type.value === "Étudiant" ? formationId : null,
+                        enrollment_id: enrollment ? enrollment.id : null,
+                        amount: registrationFee,
+                        transcode: transcodeValue,
+                        status: "pending"
+                    });
+
+            if(paymentError){
+                throw paymentError;
+            }
+
+            /* ================================================
+               AGENT APPLICATION
+            ================================================= */
+            if(type.value === "Agent"){
+
+                const { error: agentRequestError } =
+                    await db
+                        .from("agent_requests")
+                        .insert({
+                            user_id: user.id,
+                            natcash_number: "",
+                            natcash_name: "Marie Alberte Darisme",
+                            status: "pending"
+                        });
+
+                if(agentRequestError){
+                    console.error("Agent request:", agentRequestError);
+                }
+            }
+
+            /* ================================================
+               REFERRAL
+            ================================================= */
+            if(type.value === "Étudiant" && agentId){
+
+                const { data: agent } =
+                    await db
+                        .from("agents")
+                        .select("id")
+                        .eq("referral_code", agentId)
+                        .eq("status", "active")
+                        .maybeSingle();
+
+                if(agent){
+                    const { error: referralError } =
+                        await db
+                            .from("referrals")
+                            .insert({
+                                agent_id: agent.id,
+                                student_id: user.id,
+                                formation_id: formationId
+                            });
+
+                    if(referralError){
+                        console.error("Referral:", referralError);
+                    }
+                }
+            }
+
+            /* ================================================
+               NOTIFICATION
+            ================================================= */
+            await db
+                .from("notifications")
+                .insert({
+                    user_id: user.id,
+                    title: "Inscription reçue",
+                    message: "Votre inscription a été enregistrée. Votre paiement est maintenant en attente de validation par l'administration.",
+                    type: "registration"
+                });
+
+            alert(
+                "Compte créé avec succès. Votre paiement est maintenant en attente de validation par l'administration."
+            );
+
+            window.location.href = "student-dashboard.html";
+
+        } catch(error) {
+
+            console.error(error);
+
+            alert(
+                error?.message ||
+                "Une erreur est survenue pendant la création du compte."
+            );
+
+        } finally {
+
+            if(submitButton){
+                submitButton.disabled = false;
+                submitButton.textContent = "Créer mon compte Akademi Dizay";
+            }
         }
-
-
-        const registrationFee =
-            type.value === "Agent"
-            ? "150 HTG"
-            : "250 HTG";
-
-
-        let message =
-
-`*NOUVELLE INSCRIPTION — AKADEMI DIZAY*
-
- *Nom complet :*
-${name}
-
- *Téléphone :*
-${phone}
-
- *Email :*
-${email || "Non fourni"}
-
- *Type :*
-${type.value}
-
- *Formation :*
-${type.value === "Étudiant" ? formation : "Agent"}
-
- *Frais d'inscription :*
-${registrationFee}
-
- *Paiement effectué :*
-${payment.value}
-
- *Transcode :*
-${transcodeValue}
-
- *ID Agent :*
-${agentId || "Aucun"}
-
- *Numéro NatCash Agent :*
-${type.value === "Agent" ? agentNatCashValue : "Non applicable"}
-
- *Nom sur le compte NatCash :*
-${type.value === "Agent" ? agentNatCashNameValue : "Non applicable"}
-
- *Photo badge :*
-${type.value === "Agent" ? "À envoyer sur WhatsApp" : "Non applicable"}
-
-Merci.
-*Akademi Dizay*`;
-
-
-        const url =
-            "https://wa.me/" +
-            whatsappNumber +
-            "?text=" +
-            encodeURIComponent(message);
-
-
-        window.open(
-            url,
-            "_blank"
-        );
-
     }
 );
 
+
+/* ==================================================
+   AKADEMI — CHARGER LES FORMATIONS DEPUIS SUPABASE
+================================================== */
+async function loadAcademyFormations(){
+
+    if(!regFormation) return;
+
+    const { data, error } = await db
+        .from("formations")
+        .select("id,name,price,status")
+        .eq("status", "active")
+        .order("created_at", { ascending: true });
+
+    if(error){
+        console.error(error);
+        regFormation.innerHTML =
+            '<option value="">Impossible de charger les formations</option>';
+        return;
+    }
+
+    regFormation.innerHTML =
+        '<option value="">Sélectionnez une formation</option>';
+
+    (data || []).forEach(function(formation){
+
+        const option = document.createElement("option");
+        option.value = formation.id;
+        option.textContent = `${formation.name} — ${Number(formation.price).toLocaleString("fr-FR")} HTG`;
+        regFormation.appendChild(option);
+
+    });
+}
+
+loadAcademyFormations();
+
+
+/* ==================================================
+   AKADEMI — BOUTONS FORMATIONS
+================================================== */
+document.querySelectorAll(".formation-register-btn").forEach(function(button){
+
+    button.addEventListener("click", function(){
+
+        const card = button.closest(".formation-card");
+        const title = card?.querySelector("h3")?.textContent.trim();
+
+        if(title && regFormation){
+
+            setTimeout(function(){
+
+                const options = Array.from(regFormation.options);
+                const option = options.find(function(opt){
+                    return opt.textContent.toLowerCase().startsWith(title.toLowerCase());
+                });
+
+                if(option){
+                    regFormation.value = option.value;
+                }
+
+            }, 400);
+        }
+    });
+});
 </script>
 
-
-<!-- =====================================================
+   <!-- =====================================================
      POPUP VIDEO PROMOTION - BABA SERVICES
-===================================================== -->
+     ===================================================== -->
 
 <div id="promoVideoPopup" class="promo-video-popup">
 
     <div class="promo-video-box">
 
+        <!-- Bouton fermer -->
         <button
             class="promo-close"
             id="closePromoVideo"
@@ -3633,7 +3414,7 @@ Merci.
             ×
         </button>
 
-
+        <!-- VIDEO -->
         <video
             id="promoVideo"
             playsinline
@@ -3646,10 +3427,10 @@ Merci.
                 type="video/mp4">
 
             Votre navigateur ne supporte pas la vidéo.
-
         </video>
 
 
+        <!-- Bouton Son -->
         <button
             class="promo-sound"
             id="promoSound"
@@ -3658,11 +3439,12 @@ Merci.
         </button>
 
 
+        <!-- Bouton inscription -->
         <button
             class="promo-button"
             id="promoButton">
 
-           Rejoindre le programme 
+            Rejoindre le programme
 
         </button>
 
@@ -3675,7 +3457,7 @@ Merci.
 
 /* =====================================================
    POPUP PRINCIPAL
-===================================================== */
+   ===================================================== */
 
 .promo-video-popup {
 
@@ -3707,7 +3489,7 @@ Merci.
 
 /* =====================================================
    CONTENEUR VIDEO
-===================================================== */
+   ===================================================== */
 
 .promo-video-box {
 
@@ -3733,7 +3515,7 @@ Merci.
 
 /* =====================================================
    VIDEO
-===================================================== */
+   ===================================================== */
 
 .promo-video-box video {
 
@@ -3754,7 +3536,7 @@ Merci.
 
 /* =====================================================
    BOUTON FERMER X
-===================================================== */
+   ===================================================== */
 
 .promo-close {
 
@@ -3800,7 +3582,7 @@ Merci.
 
 /* =====================================================
    BOUTON SON
-===================================================== */
+   ===================================================== */
 
 .promo-sound {
 
@@ -3841,8 +3623,8 @@ Merci.
 
 
 /* =====================================================
-   BOUTON PROFITEZ
-===================================================== */
+   BOUTON Rejoindre le programme
+   ===================================================== */
 
 .promo-button {
 
@@ -3891,7 +3673,7 @@ Merci.
 
 /* =====================================================
    ANIMATION
-===================================================== */
+   ===================================================== */
 
 @keyframes promoPopupIn {
 
@@ -3918,7 +3700,7 @@ Merci.
 
 /* =====================================================
    MOBILE
-===================================================== */
+   ===================================================== */
 
 @media (max-width: 600px) {
 
@@ -3983,13 +3765,40 @@ Merci.
 
 /* =====================================================
    ELEMENTS
+   ===================================================== */
+
+/* =====================================================
+   VIDÉO AKADEMI — CHANGE SEULEMENT LE NOM DU FICHIER
+   Le fichier doit être placé dans le même dossier que index.html.
+   Exemple : academi-dizay.mp4
 ===================================================== */
+const ACADEMY_VIDEO_FILE = "academi-dizay.mp4";
+const academyVideoSource = document.getElementById("academyVideoSource");
+const academyVideo = document.getElementById("academyVideo");
+
+if (academyVideoSource && academyVideo) {
+    academyVideoSource.src = ACADEMY_VIDEO_FILE;
+    academyVideo.load();
+}
+
+/* =====================================================
+   CONFIGURATION VIDÉO POPUP EXISTANTE
+   (LAISSÉE INCHANGÉE)
+===================================================== */
+
+const PROMO_VIDEO_FILE = "WhatsApp Video 2026-09-16 at 3.57.01 PM.mp4";
 
 const promoPopup =
     document.getElementById("promoVideoPopup");
 
 const promoVideo =
     document.getElementById("promoVideo");
+
+const promoVideoSource = promoVideo.querySelector("source");
+if (promoVideoSource) {
+    promoVideoSource.src = PROMO_VIDEO_FILE;
+    promoVideo.load();
+}
 
 const closePromoVideo =
     document.getElementById("closePromoVideo");
@@ -4003,7 +3812,7 @@ const promoButton =
 
 /* =====================================================
    FERMER LE POPUP
-===================================================== */
+   ===================================================== */
 
 function closePromoPopup() {
 
@@ -4016,7 +3825,7 @@ function closePromoPopup() {
 
 /* =====================================================
    BOUTON X
-===================================================== */
+   ===================================================== */
 
 closePromoVideo.addEventListener(
     "click",
@@ -4030,7 +3839,7 @@ closePromoVideo.addEventListener(
 
 /* =====================================================
    VIDEO TERMINE
-===================================================== */
+   ===================================================== */
 
 promoVideo.addEventListener(
     "ended",
@@ -4044,7 +3853,7 @@ promoVideo.addEventListener(
 
 /* =====================================================
    ACTIVER / DESACTIVER LE SON
-===================================================== */
+   ===================================================== */
 
 promoSound.addEventListener(
     "click",
@@ -4055,6 +3864,11 @@ promoSound.addEventListener(
             promoVideo.muted = false;
 
             promoSound.textContent = "🔊";
+
+            /*
+             * On relance la vidéo après activation
+             * du son si nécessaire.
+             */
 
             promoVideo.play().catch(function () {});
 
@@ -4071,8 +3885,8 @@ promoSound.addEventListener(
 
 
 /* =====================================================
-   BOUTON Rejoindre le programme
-===================================================== */
+   Rejoindre le programme
+   ===================================================== */
 
 promoButton.addEventListener(
     "click",
@@ -4080,31 +3894,31 @@ promoButton.addEventListener(
 
         closePromoPopup();
 
-        const whatsappNumber = "50940052773";
 
-        const message =
-` *Rejoindre le programme — BABA DESIGN*
+        /*
+         * Recherche de la section inscription
+         */
 
-Bonjour Baba Design 👋
+        const inscriptionSection =
+            document.getElementById("inscription");
 
-Je viens de voir votre vidéo sur le programme destiné à accompagner 10 jeunes dans l’apprentissage d’une compétence digitale.
 
-Je souhaite intégrer le programme et j’aimerais avoir plus d’informations sur les formations disponibles, les conditions d’inscription et les modalités de participation.
+        if (inscriptionSection) {
 
-Merci ! 🙏
+            inscriptionSection.scrollIntoView({
 
-*Akademi Dizay*`;
+                behavior: "smooth",
 
-        const whatsappURL =
-            "https://wa.me/" +
-            whatsappNumber +
-            "?text=" +
-            encodeURIComponent(message);
+                block: "start"
 
-        window.open(
-            whatsappURL,
-            "_blank"
-        );
+            });
+
+        } else {
+
+            window.location.hash =
+                "inscription";
+
+        }
 
     }
 );
@@ -4112,13 +3926,19 @@ Merci ! 🙏
 
 /* =====================================================
    AFFICHAGE AUTOMATIQUE
-===================================================== */
+   ===================================================== */
 
 window.addEventListener(
     "load",
     function () {
 
         promoPopup.style.display = "flex";
+
+        /*
+         * Tentative de lecture automatique.
+         * La vidéo est mute au départ pour permettre
+         * l'autoplay sur les navigateurs.
+         */
 
         promoVideo.muted = true;
 
@@ -4127,255 +3947,11 @@ window.addEventListener(
     }
 );
 
-
-/* ==================================================
-   PUBLICITE → WHATSAPP
-================================================== */
-
-const pubName =
-    document.getElementById("pubName");
-
-const pubPhone =
-    document.getElementById("pubPhone");
-
-const pubType =
-    document.getElementById("pubType");
-
-const pubDuration =
-    document.getElementById("pubDuration");
-
-const pubUsd =
-    document.getElementById("pubUsd");
-
-const pubHtg =
-    document.getElementById("pubHtg");
-
-const pubPaidYes =
-    document.getElementById("pubPaidYes");
-
-const pubPaidNo =
-    document.getElementById("pubPaidNo");
-
-const pubTranscodeBox =
-    document.getElementById("pubTranscodeBox");
-
-const pubTranscode =
-    document.getElementById("pubTranscode");
-
-
-const pubPrices = {
-
-    "Photo|3 jours": 3.85,
-
-    "Vidéo|3 jours": 4.99,
-
-    "Photo|5 jours": 5.19,
-
-    "Vidéo|5 jours": 7.00,
-
-    "Photo|8 jours": 8.04,
-
-    "Vidéo|8 jours": 10.00
-
-};
-
-
-function updatePubPrice(){
-
-    const key =
-        pubType.value +
-        "|" +
-        pubDuration.value;
-
-    const usd =
-        pubPrices[key] || 0;
-
-    const htg =
-        usd * 130;
-
-
-    pubUsd.textContent =
-        usd
-        ? usd.toFixed(2).replace(".", ",") + " $"
-        : "0,00 $";
-
-
-    pubHtg.textContent =
-        usd
-        ? Math.round(htg).toLocaleString("fr-FR") + " HTG"
-        : "0 HTG";
-
-}
-
-
-pubType.addEventListener(
-    "change",
-    updatePubPrice
-);
-
-
-pubDuration.addEventListener(
-    "change",
-    updatePubPrice
-);
-
-
-pubPaidYes.addEventListener(
-    "change",
-    function(){
-
-        pubTranscodeBox.classList.remove(
-            "hidden"
-        );
-
-        pubTranscode.required = true;
-
-    }
-);
-
-
-pubPaidNo.addEventListener(
-    "change",
-    function(){
-
-        pubTranscodeBox.classList.add(
-            "hidden"
-        );
-
-        pubTranscode.required = false;
-
-        pubTranscode.value = "";
-
-    }
-);
-
-
-document
-.getElementById("publiciteForm")
-.addEventListener(
-    "submit",
-    function(event){
-
-        event.preventDefault();
-
-
-        const key =
-            pubType.value +
-            "|" +
-            pubDuration.value;
-
-
-        const usd =
-            pubPrices[key] || 0;
-
-
-        const htg =
-            usd * 130;
-
-
-        const payment =
-            document.querySelector(
-                'input[name="pubPaid"]:checked'
-            );
-
-
-        if(!usd){
-
-            alert(
-                "Veuillez choisir le type et la durée de la publicité."
-            );
-
-            return;
-
-        }
-
-
-        if(
-            !payment ||
-            payment.value !== "Oui"
-        ){
-
-            alert(
-                "Vous devez effectuer le paiement et sélectionner « Oui, j'ai payé » avec votre transcode avant d'envoyer la demande."
-            );
-
-            return;
-
-        }
-
-
-        const transcodeValue =
-            pubTranscode.value.trim();
-
-
-        if(!transcodeValue){
-
-            alert(
-                "Veuillez entrer votre transcode de paiement."
-            );
-
-            return;
-
-        }
-
-
-        const message =
-`*NOUVELLE DEMANDE DE PUBLICITÉ — BABA DESIGN*
-
-*Nom complet :*
-${pubName.value.trim()}
-
-*WhatsApp :*
-${pubPhone.value.trim()}
-
-*Type de publicité :*
-${pubType.value}
-
-*Durée :*
-${pubDuration.value}
-
-*Prix :*
-${usd.toFixed(2)} $
-
-*Prix en gourdes :*
-${Math.round(htg).toLocaleString("fr-FR")} HTG
-
-*Taux utilisé :*
-130 HTG pour 1 $
-
-*Paiement effectué :*
-Oui
-
-*Transcode :*
-${transcodeValue}
-
-*Fichier publicitaire :*
-À envoyer sur WhatsApp comme document
-
-Merci.
-*Baba Design*`;
-
-
-        const url =
-            "https://wa.me/" +
-            whatsappNumber +
-            "?text=" +
-            encodeURIComponent(message);
-
-
-        window.open(
-            url,
-            "_blank"
-        );
-
-    }
-);
-
 </script>
 
 <!-- =====================================================
      FIN POPUP VIDEO PROMOTION
-===================================================== -->
-
+     ===================================================== -->
+    
 </body>
 </html>
