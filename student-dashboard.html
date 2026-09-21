@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Mon espace — Akademi Dizay</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Montserrat,sans-serif;background:#f6f6f6;color:#111}header{background:#111;color:#fff;padding:22px}header .inner{max-width:1100px;margin:auto;display:flex;justify-content:space-between;gap:15px;align-items:center}main{max-width:1100px;margin:28px auto;padding:0 16px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.card{background:#fff;border-radius:20px;padding:24px;box-shadow:0 12px 35px #0000000d;margin-bottom:18px}button,.link{border:0;border-radius:11px;padding:12px 16px;font-weight:800;cursor:pointer;text-decoration:none;display:inline-block}.logout{background:#fff}.course{border:1px solid #ddd;border-radius:16px;padding:20px;margin-top:14px}.code{font-weight:900;background:#f1f1f1;padding:12px;border-radius:10px;margin:8px 0}.open{background:linear-gradient(135deg,#e60000,#ff7300);color:#fff}.pending{background:#fff6d8;border-left:4px solid #e0a800;padding:14px;border-radius:10px}.notice{color:#666}@media(max-width:700px){.grid{grid-template-columns:1fr}header .inner{flex-direction:column;align-items:flex-start}.logout{align-self:stretch}}
+</style></head>
+<body>
+<header><div class="inner"><div><h2 style="margin:0">Akademi Dizay</h2><div id="studentName">Chargement...</div></div><button class="logout" onclick="logout()">Déconnexion</button></div></header>
+<main>
+<div class="card"><h1>Mon espace étudiant</h1><p class="notice">Vous voyez uniquement les formations qui sont associées à votre compte.</p></div>
+<div class="grid"><div class="card"><h2>Mes formations</h2><div id="courses">Chargement...</div></div><div class="card"><h2>Notifications</h2><div id="notifications">Chargement...</div></div></div>
+</main>
+<script>
+const SUPABASE_URL="https://nuiubkbmwnkswugkyhvx.supabase.co";const SUPABASE_KEY="sb_publishable_dFBjGdzxPDRkS-Ldb-YVLA_WeG9IqGy";const {createClient}=supabase;const db=createClient(SUPABASE_URL,SUPABASE_KEY);
+async function currentUser(){const {data:{user}}=await db.auth.getUser();if(!user){location.href='login.html';return null}return user}
+async function load(){const user=await currentUser();if(!user)return;
+ const {data:profile}=await db.from('profiles').select('full_name,email').eq('id',user.id).single();document.getElementById('studentName').textContent=profile?.full_name?`Bonjour ${profile.full_name}`:'';
+ const {data:rows,error}=await db.from('enrollments').select('id,payment_status,access_status,formations(id,name,description,price,classroom_url,classroom_code)').eq('student_id',user.id).order('enrolled_at',{ascending:false});
+ const box=document.getElementById('courses');if(error){box.textContent=error.message;return}box.innerHTML='';
+ if(!rows?.length){box.innerHTML='<p>Aucune formation associée à votre compte.</p>';return}
+ rows.forEach(r=>{const f=r.formations;if(!f)return;let html=`<div class="course"><h3>${esc(f.name)}</h3><p>${esc(f.description||'')}</p>`;
+ if(r.payment_status==='pending') html+=`<div class="pending"> Paiement en attente de validation.</div>`;
+ else if(r.payment_status==='rejected') html+=`<div class="pending">❌ Paiement refusé. Contactez l'administration.</div>`;
+ else if(r.access_status==='active') html+=`<p>✅ Formation accessible</p><strong>Code Google Classroom</strong><div class="code">${esc(f.classroom_code||'Pas encore disponible')}</div>${f.classroom_url?`<a class="link open" target="_blank" rel="noopener" href="${escAttr(f.classroom_url)}">Accéder au cours</a>`:'<p>Le lien Google Classroom sera ajouté prochainement.</p>'}`;
+ else html+=`<div class="pending">Accès en attente.</div>`;html+='</div>';box.insertAdjacentHTML('beforeend',html)});
+ const {data:notes}=await db.from('notifications').select('*').eq('user_id',user.id).order('created_at',{ascending:false});const nb=document.getElementById('notifications');nb.innerHTML=notes?.length?notes.map(n=>`<div class="course"><strong>${esc(n.title)}</strong><p>${esc(n.message)}</p></div>`).join(''):'<p>Aucune notification.</p>';
+}
+function esc(v){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}function escAttr(v){return esc(v)}
+async function logout(){await db.auth.signOut();location.href='login.html'}load();
+</script></body></html>
