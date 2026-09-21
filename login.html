@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connexion — Akademi Dizay</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;min-height:100vh;display:grid;place-items:center;background:#111;color:#fff;padding:20px}.box{width:min(430px,100%);background:#1c1c1c;border:1px solid #333;border-radius:24px;padding:30px;box-shadow:0 20px 60px #0008}h1{margin-top:0}p{color:#bbb;line-height:1.6}label{display:block;font-weight:700;margin:16px 0 7px}input{width:100%;padding:14px;border-radius:12px;border:1px solid #444;background:#111;color:#fff}button{width:100%;padding:14px;margin-top:18px;border:0;border-radius:12px;background:linear-gradient(135deg,#e60000,#ff7300,#ffd000);color:#fff;font-weight:800;cursor:pointer}.back{display:block;text-align:center;margin-top:18px;color:#ffb000;text-decoration:none}.msg{margin-top:15px;color:#ffd000}
+</style>
+</head>
+<body>
+<div class="box">
+<h1>Connexion</h1>
+<p>Accédez à votre espace Akademi Dizay.</p>
+<form id="loginForm">
+<label for="email">Email</label>
+<input id="email" type="email" required autocomplete="email" placeholder="votre@email.com">
+<label for="password">Mot de passe</label>
+<input id="password" type="password" required autocomplete="current-password" placeholder="Votre mot de passe">
+<button type="submit">Se connecter</button>
+</form>
+<div class="msg" id="msg"></div>
+<a class="back" href="index.html">← Retour au site</a>
+</div>
+<script>
+const SUPABASE_URL="https://nuiubkbmwnkswugkyhvx.supabase.co";
+const SUPABASE_KEY="sb_publishable_dFBjGdzxPDRkS-Ldb-YVLA_WeG9IqGy";
+const {createClient}=supabase; const db=createClient(SUPABASE_URL,SUPABASE_KEY);
+const msg=document.getElementById('msg');
+document.getElementById('loginForm').addEventListener('submit',async e=>{
+ e.preventDefault(); msg.textContent='Connexion...';
+ const {data,error}=await db.auth.signInWithPassword({email:document.getElementById('email').value.trim(),password:document.getElementById('password').value});
+ if(error){msg.textContent=error.message;return;}
+ const {data:profile}=await db.from('profiles').select('role').eq('id',data.user.id).single();
+ if(profile?.role==='admin') location.href='admin-dashboard.html';
+ else if(profile?.role==='agent') location.href='agent-dashboard.html';
+ else location.href='student-dashboard.html';
+});
+</script>
+</body>
+</html>
