@@ -1,407 +1,4718 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Baba Design | Bientôt disponible</title>
+<!-- PARAMÈTRES WEB APP -->
+<meta name="theme-color" content="#111111">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Baba Design">
+<meta name="format-detection" content="telephone=no">
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Arial", sans-serif;
+<title>Baba Design | Akademi Dizay & Services de Design en Haiti</title>
+    <meta name="description" content="Baba Services propose des services de design graphique, création de visuels, montage vidéo et solutions digitales en Haïti.">
+    <meta name="keywords" content="Baba Services, Baba Design, design graphique, graphisme, montage vidéo, services design, Haïti">
+<meta name="author" content="Baba Services">
+
+    <!-- Image de couverture / Preview du site -->
+<meta property="og:title" content="Baba Services – Services de Design en Haïti">
+<meta property="og:description" content="Découvrez les services de design et solutions digitales de Baba Services.">
+<meta property="og:image" content="https://babaservices.fun/images/baba-cover.jpg.jpg">
+<meta property="og:url" content="https://babaservices.fun/">
+<meta property="og:type" content="website">
+
+<!-- Preview pour X / Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Baba Services – Services de Design en Haïti">
+<meta name="twitter:description" content="Découvrez les services de design et solutions digitales de Baba Services.">
+<meta name="twitter:image" content="https://babaservices.fun/images/baba-cover.jpg.jpg"> 
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Montserrat, Montserrat, sans-serif;
+    scroll-behavior:smooth;
+}
+
+:root{
+    --red:#e60000;
+    --orange:#ff7300;
+    --yellow:#ffd000;
+    --dark:#111;
+    --white:#fff;
+    --gray:#666;
+    --light:#f7f7f7;
+}
+
+body{
+    background:#f7f7f7;
+    color:#111;
+    overflow-x:hidden;
+}
+
+/* =========================
+   WEB APP / MOBILE
+========================= */
+
+html{
+    -webkit-tap-highlight-color:transparent;
+    overscroll-behavior-y:none;
+}
+
+body{
+    -webkit-touch-callout:none;
+}
+
+button,
+a,
+label,
+input,
+select,
+textarea{
+    -webkit-tap-highlight-color:transparent;
+}
+
+button,
+a{
+    touch-action:manipulation;
+}
+
+/* =========================
+   BACKGROUND
+========================= */
+
+body::before,
+body::after{
+    content:"";
+    position:fixed;
+    width:350px;
+    height:350px;
+    border-radius:50%;
+    filter:blur(100px);
+    opacity:.12;
+    z-index:-1;
+    animation:float 8s infinite alternate ease-in-out;
+}
+
+body::before{
+    background:#ff0000;
+    top:-120px;
+    left:-120px;
+}
+
+body::after{
+    background:#ffd000;
+    right:-120px;
+    bottom:-120px;
+    animation-delay:2s;
+}
+
+@keyframes float{
+    from{
+        transform:translate(0,0) scale(1);
+    }
+    to{
+        transform:translate(60px,40px) scale(1.15);
+    }
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar{
+    position:sticky;
+    top:0;
+    z-index:999;
+    width:100%;
+    background:rgba(17,17,17,.96);
+    backdrop-filter:blur(15px);
+    box-shadow:0 5px 25px rgba(0,0,0,.15);
+}
+
+.nav-container{
+    max-width:1200px;
+    margin:auto;
+    min-height:70px;
+    padding:0 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.logo-nav{
+    color:white;
+    font-size:22px;
+    font-weight:900;
+    text-decoration:none;
+}
+
+.logo-nav span{
+    color:#ff7300;
+}
+
+.menu-toggle{
+    display:none;
+    border:none;
+    background:none;
+    color:white;
+    font-size:30px;
+    cursor:pointer;
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:25px;
+    list-style:none;
+}
+
+.nav-links a{
+    color:white;
+    text-decoration:none;
+    font-size:14px;
+    font-weight:700;
+    transition:.25s;
+}
+
+.nav-links a:hover{
+    color:#ffb000;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    min-height:620px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:80px 20px;
+    background:
+        linear-gradient(
+            135deg,
+            #111 0%,
+            #1c1c1c 50%,
+            #2a0a00 100%
+        );
+    color:white;
+    position:relative;
+    overflow:hidden;
+}
+
+.hero-content{
+    max-width:900px;
+    animation:fadeUp .9s ease;
+}
+
+.hero-badge{
+    display:inline-block;
+    padding:9px 17px;
+    border-radius:30px;
+    background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.2);
+    margin-bottom:20px;
+    font-size:13px;
+}
+
+.hero h1{
+    font-size:clamp(40px,7vw,78px);
+    line-height:1;
+    font-weight:900;
+    margin-bottom:25px;
+}
+
+.gradient-text{
+    background:linear-gradient(
+        90deg,
+        #ff2b00,
+        #ff7300,
+        #ffd000
+    );
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.hero p{
+    color:#fff;
+    font-size:19px;
+    line-height:1.7;
+    max-width:720px;
+    margin:0 auto 30px;
+}
+
+.hero-buttons{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    display:inline-block;
+    padding:15px 24px;
+    border-radius:13px;
+    text-decoration:none;
+    font-weight:800;
+    transition:.3s;
+}
+
+.btn-primary{
+    background:linear-gradient(
+        135deg,
+        #e60000,
+        #ff7300,
+        #ffd000
+    );
+    color:white;
+    box-shadow:0 10px 30px rgba(255,70,0,.3);
+}
+
+.btn-secondary{
+    background:white;
+    color:#111;
+}
+
+.btn:hover{
+    transform:translateY(-4px);
+}
+
+/* =========================
+   GENERAL
+========================= */
+
+.section{
+    max-width:1200px;
+    margin:auto;
+    padding:80px 20px;
+}
+
+.section-header{
+    text-align:center;
+    margin-bottom:45px;
+}
+
+.section-header span{
+    color:#ff5a00;
+    font-size:13px;
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:2px;
+}
+
+.section-header h2{
+    font-size:clamp(30px,5vw,45px);
+    margin-top:10px;
+}
+
+.section-header p{
+    color:#666;
+    max-width:650px;
+    margin:12px auto 0;
+    line-height:1.6;
+}
+
+/* =========================
+   PORTFOLIO
+========================= */
+
+.portfolio-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+}
+
+.portfolio-card{
+    height:auto;
+    min-height:280px;
+    border-radius:20px;
+    overflow:hidden;
+    background:#ddd;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    transition:.35s;
+}
+
+.portfolio-card:hover{
+    transform:translateY(-7px);
+}
+
+.portfolio-card img{
+    width:100%;
+    height:auto;
+    max-width:100%;
+    object-fit:contain;
+    display:block;
+    transition:.4s;
+}
+
+.portfolio-card:hover img{
+    transform:scale(1.08);
+}
+
+/* =========================
+   SERVICES ORDER
+========================= */
+
+.order-wrapper{
+    max-width:850px;
+    margin:auto;
+}
+
+.card{
+    background:rgba(255,255,255,.97);
+    border:1px solid #eee;
+    border-radius:22px;
+    padding:25px;
+    margin-bottom:18px;
+    box-shadow:0 15px 40px rgba(0,0,0,.07);
+    animation:fadeUp .7s ease;
+}
+
+.section-title{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:20px;
+    font-size:19px;
+    font-weight:800;
+}
+
+.number{
+    width:32px;
+    height:32px;
+    border-radius:10px;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(
+        135deg,
+        #e60000,
+        #ffcc00
+    );
+    font-size:14px;
+    font-weight:900;
+}
+
+.field{
+    margin-bottom:18px;
+}
+
+label{
+    display:block;
+    font-size:14px;
+    font-weight:700;
+    margin-bottom:8px;
+}
+
+.required{
+    color:red;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    border:1.5px solid #ddd;
+    border-radius:12px;
+    padding:13px 14px;
+    outline:none;
+    font-size:15px;
+    background:#fff;
+    transition:.25s;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:#ff4d00;
+    box-shadow:0 0 0 4px rgba(255,80,0,.08);
+}
+
+textarea{
+    min-height:130px;
+    resize:vertical;
+}
+
+/* SERVICES */
+
+.services{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.service input{
+    display:none;
+}
+
+.service label{
+    min-height:100px;
+    margin:0;
+    padding:16px;
+    cursor:pointer;
+    border:1.5px solid #e4e4e4;
+    border-radius:15px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    background:white;
+    transition:.25s;
+}
+
+.service label:hover{
+    transform:translateY(-3px);
+    border-color:#ff6600;
+    box-shadow:0 8px 20px rgba(0,0,0,.07);
+}
+
+.service input:checked + label{
+    color:white;
+    border-color:transparent;
+    background:linear-gradient(
+        135deg,
+        #e60000,
+        #ff7300,
+        #ffc400
+    );
+    box-shadow:0 10px 25px rgba(255,70,0,.25);
+    transform:translateY(-2px);
+}
+
+.service-name{
+    font-weight:800;
+    font-size:15px;
+}
+
+.price{
+    font-size:14px;
+    font-weight:900;
+    margin-top:8px;
+}
+
+.custom-box{
+    margin-top:15px;
+    padding:15px;
+    background:#fafafa;
+    border:1px dashed #ccc;
+    border-radius:14px;
+}
+
+/* PAYMENT */
+
+.payment-info{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-top:15px;
+}
+
+.money-box{
+    padding:15px;
+    border-radius:14px;
+    background:#111;
+    color:white;
+    text-align:center;
+}
+
+.money-box span{
+    display:block;
+    font-size:12px;
+    color:#ccc;
+    margin-bottom:7px;
+}
+
+.money-box strong{
+    font-size:17px;
+}
+
+.deposit{
+    background:linear-gradient(
+        135deg,
+        #e60000,
+        #ff7200
+    );
+}
+
+.remaining{
+    background:linear-gradient(
+        135deg,
+        #222,
+        #444
+    );
+}
+
+/* RADIO */
+
+.radio-group{
+    display:flex;
+    gap:12px;
+}
+
+.radio-option{
+    flex:1;
+}
+
+.radio-option input{
+    display:none;
+}
+
+.radio-option label{
+    border:1.5px solid #ddd;
+    border-radius:12px;
+    padding:13px;
+    text-align:center;
+    cursor:pointer;
+    margin:0;
+    transition:.2s;
+}
+
+.radio-option input:checked + label{
+    background:#111;
+    color:white;
+    border-color:#111;
+}
+
+/* NOTICE */
+
+.notice{
+    padding:15px;
+    border-radius:14px;
+    background:#fff7df;
+    border-left:4px solid #ffbf00;
+    color:#5c4900;
+    font-size:13px;
+    line-height:1.6;
+    margin-top:10px;
+}
+
+.notice strong{
+    color:#111;
+}
+
+/* BUTTON */
+
+.submit-btn{
+    width:100%;
+    border:none;
+    border-radius:15px;
+    padding:17px;
+    color:white;
+    font-size:16px;
+    font-weight:900;
+    cursor:pointer;
+    background:linear-gradient(
+        135deg,
+        #e60000,
+        #ff7300,
+        #ffd000
+    );
+    box-shadow:0 12px 30px rgba(255,80,0,.25);
+    transition:.25s;
+}
+
+.submit-btn:hover{
+    transform:translateY(-3px);
+}
+
+/* =========================
+   AKADEMI DIZAY
+========================= */
+
+.academy{
+    background:#111;
+    color:white;
+}
+
+.academy .section-header p{
+    color:#bbb;
+}
+
+/* VIDEO AKADEMI DIZAY - VIDEO SEPARATE DU POPUP */
+.academy-video{
+    width:100%;
+    margin:0 0 30px 0;
+    border-radius:20px;
+    overflow:hidden;
+    background:#111;
+}
+
+.academy-video video{
+    width:100%;
+    height:auto;
+    max-width:100%;
+    display:block;
+}
+
+.formation-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+}
+
+.formation-card{
+    background:#1c1c1c;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:20px;
+    overflow:hidden;
+    transition:.35s;
+}
+
+.formation-card:hover{
+    transform:translateY(-8px);
+    border-color:#ff7300;
+    box-shadow:0 15px 40px rgba(255,80,0,.15);
+}
+
+.formation-image{
+    height:190px;
+    overflow:hidden;
+    background:#222;
+}
+
+.formation-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition:.4s;
+}
+
+.formation-card:hover .formation-image img{
+    transform:scale(1.08);
+}
+
+.formation-content{
+    padding:20px;
+}
+
+.formation-content h3{
+    font-size:19px;
+    margin-bottom:10px;
+}
+
+.formation-content p{
+    color:#aaa;
+    font-size:13px;
+    line-height:1.6;
+    min-height:65px;
+}
+
+.formation-price{
+    color:#ffd000;
+    font-size:18px;
+    font-weight:900;
+    margin:15px 0;
+}
+
+.formation-btn{
+    display:block;
+    text-align:center;
+    padding:12px;
+    background:linear-gradient(
+        135deg,
+        #e60000,
+        #ff7300
+    );
+    color:white;
+    text-decoration:none;
+    border-radius:11px;
+    font-weight:800;
+}
+
+/* =========================
+   INSCRIPTION
+========================= */
+
+.registration-box{
+    max-width:850px;
+    margin:auto;
+}
+
+.type-selector{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.type-selector input{
+    display:none;
+}
+
+.type-selector label{
+    padding:17px;
+    text-align:center;
+    border:1.5px solid #ddd;
+    border-radius:13px;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.type-selector input:checked + label{
+    color:white;
+    background:linear-gradient(
+        135deg,
+        #e60000,
+        #ff7300
+    );
+    border-color:transparent;
+}
+
+.registration-info{
+    padding:15px;
+    border-radius:14px;
+    background:#fff7df;
+    margin-bottom:20px;
+    font-size:13px;
+    line-height:1.6;
+}
+
+/* =========================
+   ABOUT
+========================= */
+
+.about-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:30px;
+    align-items:center;
+}
+
+.about-box{
+    background:white;
+    padding:30px;
+    border-radius:22px;
+    box-shadow:0 15px 40px rgba(0,0,0,.07);
+}
+
+.about-box h3{
+    font-size:28px;
+    margin-bottom:15px;
+}
+
+.about-box p{
+    color:#666;
+    line-height:1.8;
+    margin-bottom:15px;
+}
+
+.about-list{
+    list-style:none;
+}
+
+.about-list li{
+    padding:9px 0;
+    font-weight:700;
+}
+
+.about-list li::before{
+    content:"✓";
+    color:#ff6500;
+    margin-right:10px;
+}
+
+/* =========================
+   CONTACT
+========================= */
+
+.contact-box{
+    background:#111;
+    color:white;
+    border-radius:25px;
+    padding:45px 25px;
+    text-align:center;
+}
+
+.contact-box h2{
+    font-size:34px;
+    margin-bottom:15px;
+}
+
+.contact-box p{
+    color:#bbb;
+    margin-bottom:25px;
+}
+
+.contact-buttons{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.contact-btn{
+    padding:14px 22px;
+    border-radius:12px;
+    color:white;
+    text-decoration:none;
+    font-weight:800;
+    background:#25D366;
+}
+
+.email-btn{
+    background:#ff7300;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    background:#0b0b0b;
+    color:#777;
+    text-align:center;
+    padding:25px 15px;
+    font-size:13px;
+}
+
+footer strong{
+    color:#ff7300;
+}
+
+/* =========================
+   HIDDEN
+========================= */
+
+.hidden{
+    display:none !important;
+}
+
+/* =========================
+   ANIMATION
+========================= */
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:950px){
+
+    .portfolio-grid{
+        grid-template-columns:repeat(2,1fr);
     }
 
-    body {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      background:
-        radial-gradient(circle at top left, #1e40af 0%, transparent 35%),
-        radial-gradient(circle at bottom right, #7c3aed 0%, transparent 35%),
-        #050816;
-      padding: 20px;
-      overflow: hidden;
+    .formation-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:700px){
+
+    .menu-toggle{
+        display:block;
     }
 
-    /* Background decoration */
-    .circle {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.25;
-      z-index: -1;
+    .nav-links{
+        position:absolute;
+        top:70px;
+        left:0;
+        width:100%;
+        background:#111;
+        flex-direction:column;
+        align-items:stretch;
+        gap:0;
+        max-height:0;
+        overflow:hidden;
+        transition:.35s ease;
     }
 
-    .circle.one {
-      width: 250px;
-      height: 250px;
-      background: #00d9ff;
-      top: -100px;
-      left: -80px;
+    .nav-links.active{
+        max-height:500px;
+        padding:10px 0;
     }
 
-    .circle.two {
-      width: 300px;
-      height: 300px;
-      background: #7c3aed;
-      bottom: -130px;
-      right: -100px;
+    .nav-links li{
+        width:100%;
     }
 
-    .card {
-      width: 100%;
-      max-width: 720px;
-      padding: 55px 35px;
-      text-align: center;
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.14);
-      border-radius: 30px;
-      backdrop-filter: blur(20px);
-      box-shadow: 0 30px 80px rgba(0,0,0,0.45);
-      animation: appear 1s ease;
+    .nav-links a{
+        display:block;
+        padding:15px 25px;
     }
 
-    @keyframes appear {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .nav-links a:hover{
+        background:#222;
     }
 
-    /* Logo */
-    .logo {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 35px;
+    .hero{
+        min-height:560px;
+        padding:70px 18px;
     }
 
-    .logo-icon {
-      width: 52px;
-      height: 52px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 15px;
-      font-size: 25px;
-      background: linear-gradient(135deg, #00d9ff, #6366f1);
-      box-shadow: 0 10px 30px rgba(0,217,255,0.25);
+    .hero p{
+        font-size:16px;
     }
 
-    .logo-name {
-      font-size: 25px;
-      font-weight: 800;
-      letter-spacing: 1px;
+    .services{
+        grid-template-columns:1fr;
     }
 
-    .logo-name span {
-      color: #00d9ff;
+    .payment-info{
+        grid-template-columns:1fr;
     }
 
-    .tag {
-      display: inline-block;
-      padding: 8px 16px;
-      border-radius: 30px;
-      background: rgba(0,217,255,0.10);
-      border: 1px solid rgba(0,217,255,0.25);
-      color: #00d9ff;
-      font-size: 13px;
-      font-weight: bold;
-      margin-bottom: 22px;
+    .radio-group{
+        flex-direction:column;
     }
 
-    h1 {
-      font-size: 44px;
-      line-height: 1.15;
-      margin-bottom: 18px;
+    .about-grid{
+        grid-template-columns:1fr;
     }
 
-    h1 span {
-      background: linear-gradient(90deg, #00d9ff, #818cf8);
-      -webkit-background-clip: text;
-      color: transparent;
+    .type-selector{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:550px){
+
+    .section{
+        padding:60px 14px;
     }
 
-    .description {
-      max-width: 570px;
-      margin: auto;
-      color: #cbd5e1;
-      line-height: 1.7;
-      font-size: 16px;
+    .portfolio-grid{
+        grid-template-columns:1fr;
     }
 
-    /* Countdown */
-    .countdown {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin: 35px 0;
-      flex-wrap: wrap;
+    .formation-grid{
+        grid-template-columns:1fr;
     }
 
-    .time-box {
-      min-width: 85px;
-      padding: 16px 12px;
-      border-radius: 16px;
-      background: rgba(0,0,0,0.25);
-      border: 1px solid rgba(255,255,255,0.08);
+    .portfolio-card{
+        height:auto;
+        min-height:250px;
     }
 
-    .time-box strong {
-      display: block;
-      font-size: 28px;
-      color: white;
+    .card{
+        padding:18px;
+        border-radius:18px;
     }
 
-    .time-box small {
-      color: #94a3b8;
-      font-size: 11px;
-      text-transform: uppercase;
+    .hero h1{
+        font-size:42px;
     }
+}
 
-    /* Progress */
-    .progress-container {
-      margin-top: 10px;
+
+/* =========================
+   PUBLICITE — AKADEMI DIZAY
+========================= */
+.publicite-box{
+    max-width:850px;
+    margin:35px auto 0;
+    padding:25px;
+    background:#1c1c1c;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:22px;
+    box-shadow:0 15px 40px rgba(0,0,0,.2);
+}
+.publicite-box .section-title{color:white;}
+.publicite-box label{color:white;}
+.publicite-box input,
+.publicite-box select{
+    background:#fff;
+    color:#111;
+}
+.publicite-price{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin:15px 0;
+}
+.publicite-price-box{
+    padding:16px;
+    border-radius:14px;
+    background:#111;
+    color:white;
+    text-align:center;
+}
+.publicite-price-box span{
+    display:block;
+    color:#ccc;
+    font-size:12px;
+    margin-bottom:7px;
+}
+.publicite-price-box strong{font-size:18px;}
+.publicite-notice{
+    padding:15px;
+    border-radius:14px;
+    background:#fff7df;
+    border-left:4px solid #ffbf00;
+    color:#5c4900;
+    font-size:13px;
+    line-height:1.6;
+    margin:15px 0;
+}
+.publicite-box .radio-option label{
+    border:1.5px solid #e4e4e4;
+    border-radius:15px;
+    padding:16px;
+    text-align:center;
+    cursor:pointer;
+    margin:0;
+    background:white;
+    color:#111;
+    transition:.25s;
+}
+
+.publicite-box .radio-option label:hover{
+    transform:translateY(-3px);
+    border-color:#ff6600;
+    box-shadow:0 8px 20px rgba(0,0,0,.07);
+}
+
+.publicite-box .radio-option input:checked + label{
+    color:white;
+    border-color:transparent;
+    background:linear-gradient(
+        135deg,
+        #e60000,
+        #ff7300,
+        #ffc400
+    );
+    box-shadow:0 10px 25px rgba(255,70,0,.25);
+    transform:translateY(-2px);
+}
+@media(max-width:700px){
+    .publicite-price{grid-template-columns:1fr;}
+}
+
+
+/* =========================
+   PORTFOLIO APP CAROUSEL
+========================= */
+.portfolio-showcase{position:relative;}
+.portfolio-slider{position:relative;max-width:1080px;height:clamp(360px,58vw,620px);margin:auto;border-radius:30px;overflow:hidden;background:linear-gradient(135deg,#111,#222);box-shadow:0 30px 80px rgba(0,0,0,.20);isolation:isolate;}
+.portfolio-track{position:absolute;inset:0;}
+.portfolio-slide{position:absolute;inset:0;opacity:0;transform:scale(1.05);transition:opacity .9s ease,transform 1.8s ease;}
+.portfolio-slide.is-active{opacity:1;transform:scale(1);z-index:2;}
+.portfolio-slide::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.25) 55%,rgba(0,0,0,.68));pointer-events:none;}
+.portfolio-slide img{width:100%;height:100%;object-fit:cover;display:block;}
+.portfolio-slider::before,.portfolio-slider::after{content:"";position:absolute;z-index:4;width:190px;height:190px;border-radius:50%;filter:blur(70px);opacity:.22;pointer-events:none;}
+.portfolio-slider::before{background:#ff4b00;left:-80px;top:-80px;}
+.portfolio-slider::after{background:#ffd000;right:-80px;bottom:-80px;}
+.portfolio-glass{position:absolute;z-index:5;left:24px;bottom:24px;padding:18px 20px;min-width:230px;color:#fff;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);border-radius:18px;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 15px 40px rgba(0,0,0,.18);display:flex;flex-direction:column;gap:4px;}
+.portfolio-glass span{font-size:11px;letter-spacing:2px;color:#ffd000;font-weight:900;}
+.portfolio-glass strong{font-size:20px;}
+.portfolio-glass small{color:#ddd;font-size:11px;}
+.portfolio-arrow{position:absolute;z-index:6;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.28);background:rgba(0,0,0,.28);color:#fff;font-size:34px;line-height:1;cursor:pointer;backdrop-filter:blur(12px);transition:.25s;}
+.portfolio-arrow:hover{background:rgba(255,115,0,.75);transform:translateY(-50%) scale(1.08);}
+.portfolio-arrow.prev{left:18px}.portfolio-arrow.next{right:18px}
+.portfolio-dots{position:absolute;z-index:6;right:25px;bottom:28px;display:flex;gap:7px;}
+.portfolio-dot{width:8px;height:8px;border:0;border-radius:99px;background:rgba(255,255,255,.45);cursor:pointer;transition:.3s;padding:0;}
+.portfolio-dot.active{width:26px;background:#ffd000;}
+@media(max-width:600px){.portfolio-slider{height:470px;border-radius:22px}.portfolio-glass{left:14px;bottom:14px;right:14px;min-width:0}.portfolio-arrow{width:42px;height:42px}.portfolio-dots{right:50%;transform:translateX(50%);bottom:17px}.portfolio-glass small{padding-bottom:15px}}
+</style>
+
+<style>
+/* =====================================================
+   BABA DESIGN — MODERN WEB APP UPGRADE
+   Preserve la palette et le contenu existants.
+===================================================== */
+
+:root{
+    --bd-red:#e60000;
+    --bd-orange:#ff7300;
+    --bd-yellow:#ffd000;
+    --bd-dark:#0b0b0d;
+    --bd-glass:rgba(255,255,255,.10);
+    --bd-border:rgba(255,255,255,.16);
+}
+
+body{
+    background:
+        radial-gradient(circle at 10% 10%, rgba(255,80,0,.07), transparent 28%),
+        radial-gradient(circle at 90% 80%, rgba(255,208,0,.07), transparent 30%),
+        #f7f7f7;
+}
+
+.navbar{
+    background:rgba(11,11,13,.82);
+    backdrop-filter:blur(22px) saturate(140%);
+    -webkit-backdrop-filter:blur(22px) saturate(140%);
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.nav-links a{
+    position:relative;
+    padding:10px 2px;
+}
+
+.nav-links a::after{
+    content:"";
+    position:absolute;
+    left:0;
+    right:100%;
+    bottom:2px;
+    height:2px;
+    border-radius:99px;
+    background:linear-gradient(90deg,var(--bd-red),var(--bd-yellow));
+    transition:.3s ease;
+}
+
+.nav-links a:hover::after,
+.nav-links a:focus-visible::after{
+    right:0;
+}
+
+.nav-boutique{
+    padding:9px 14px !important;
+    border:1px solid rgba(255,208,0,.35);
+    border-radius:999px;
+    background:linear-gradient(135deg,rgba(230,0,0,.22),rgba(255,208,0,.14));
+}
+
+.nav-boutique::after{
+    display:none;
+}
+
+/* HERO */
+.hero-modern{
+    min-height:760px;
+    isolation:isolate;
+    background:#090909;
+}
+
+.hero-slideshow{
+    position:absolute;
+    inset:0;
+    display:flex;
+    gap:18px;
+    padding:50px;
+    opacity:.42;
+    transform:rotate(-5deg) scale(1.15);
+    filter:saturate(1.15) contrast(1.05);
+    animation:heroTrack 24s linear infinite;
+    z-index:-3;
+}
+
+.hero-slide{
+    flex:0 0 clamp(210px,24vw,340px);
+    height:650px;
+    border-radius:28px;
+    overflow:hidden;
+    box-shadow:0 30px 80px rgba(0,0,0,.45);
+    background:#222;
+}
+
+.hero-slide img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+.hero-overlay{
+    position:absolute;
+    inset:0;
+    z-index:-2;
+    background:
+        linear-gradient(90deg,rgba(8,8,8,.96) 0%,rgba(8,8,8,.75) 45%,rgba(8,8,8,.86) 100%),
+        linear-gradient(180deg,rgba(0,0,0,.20),rgba(0,0,0,.75));
+}
+
+.hero-modern::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:-1;
+    pointer-events:none;
+    background:
+        radial-gradient(circle at 18% 28%,rgba(230,0,0,.25),transparent 25%),
+        radial-gradient(circle at 82% 72%,rgba(255,208,0,.16),transparent 23%);
+}
+
+.hero-content-modern{
+    position:relative;
+    z-index:2;
+    text-shadow:0 5px 25px rgba(0,0,0,.28);
+}
+
+.hero-badge{
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.20);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    box-shadow:0 12px 40px rgba(0,0,0,.20);
+}
+
+.btn-glass{
+    color:#fff;
+    background:rgba(255,255,255,.10);
+    border:1px solid rgba(255,255,255,.22);
+    backdrop-filter:blur(15px);
+    -webkit-backdrop-filter:blur(15px);
+    box-shadow:0 12px 35px rgba(0,0,0,.18);
+}
+
+.btn-glass:hover{
+    background:rgba(255,255,255,.18);
+    color:#fff;
+}
+
+.hero-mini-stats{
+    margin:30px auto 0;
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.hero-mini-stats span{
+    padding:9px 14px;
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:999px;
+    background:rgba(255,255,255,.06);
+    color:rgba(255,255,255,.86);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    font-size:12px;
+    font-weight:800;
+}
+
+.hero-scroll{
+    position:absolute;
+    left:50%;
+    bottom:24px;
+    transform:translateX(-50%);
+    color:rgba(255,255,255,.55);
+    font-size:10px;
+    font-weight:900;
+    letter-spacing:3px;
+}
+
+.hero-scroll span{
+    display:block;
+    text-align:center;
+    margin-top:5px;
+    animation:scrollBounce 1.5s ease-in-out infinite;
+}
+
+.hero-orb{
+    position:absolute;
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    filter:blur(55px);
+    pointer-events:none;
+    z-index:-1;
+    opacity:.28;
+    animation:orbFloat 7s ease-in-out infinite alternate;
+}
+
+.orb-one{background:#ff2b00;left:-70px;top:15%;}
+.orb-two{background:#ffd000;right:-70px;bottom:12%;animation-delay:1.5s;}
+
+@keyframes heroTrack{
+    0%{transform:rotate(-5deg) translateX(0) scale(1.15);}
+    50%{transform:rotate(-5deg) translateX(-22%) scale(1.15);}
+    100%{transform:rotate(-5deg) translateX(0) scale(1.15);}
+}
+
+@keyframes orbFloat{
+    from{transform:translate3d(0,0,0) scale(1);}
+    to{transform:translate3d(45px,30px,0) scale(1.18);}
+}
+
+@keyframes scrollBounce{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(6px);}
+}
+
+/* GLASS EFFECTS ON CARDS */
+.card,
+.about-box,
+.portfolio-card{
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+}
+
+.portfolio-card{
+    position:relative;
+    background:rgba(255,255,255,.76);
+    border:1px solid rgba(255,255,255,.70);
+}
+
+.portfolio-card::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    background:linear-gradient(120deg,rgba(255,255,255,.20),transparent 40%);
+}
+
+.section-header h2{
+    letter-spacing:-.7px;
+}
+
+.submit-btn,
+.formation-btn{
+    position:relative;
+    overflow:hidden;
+}
+
+.submit-btn::after,
+.formation-btn::after{
+    content:"";
+    position:absolute;
+    top:-30%;
+    left:-20%;
+    width:35%;
+    height:160%;
+    background:rgba(255,255,255,.22);
+    transform:rotate(20deg) translateX(-180%);
+    transition:.65s;
+}
+
+.submit-btn:hover::after,
+.formation-btn:hover::after{
+    transform:rotate(20deg) translateX(520%);
+}
+
+@media(max-width:700px){
+    .hero-modern{min-height:650px;}
+    .hero-slideshow{
+        padding:30px;
+        gap:12px;
+        transform:rotate(-5deg) scale(1.2);
     }
-
-    .progress {
-      width: 100%;
-      height: 7px;
-      border-radius: 20px;
-      background: rgba(255,255,255,0.10);
-      overflow: hidden;
+    .hero-slide{
+        flex-basis:180px;
+        height:570px;
     }
+    .hero-content-modern h1{font-size:44px;}
+}
 
-    .progress-bar {
-      height: 100%;
-      width: 80%;
-      border-radius: 20px;
-      background: linear-gradient(90deg, #00d9ff, #6366f1);
-      animation: progress 2s infinite alternate ease-in-out;
+@media(prefers-reduced-motion:reduce){
+    .hero-slideshow,
+    .hero-orb,
+    .hero-scroll span{
+        animation:none !important;
     }
+}
+</style>
 
-    @keyframes progress {
-      from { width: 65%; }
-      to { width: 88%; }
-    }
-
-    .progress-text {
-      margin-top: 9px;
-      font-size: 12px;
-      color: #94a3b8;
-    }
-
-    /* Social */
-    .social {
-      margin-top: 30px;
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .social a {
-      text-decoration: none;
-      color: white;
-      padding: 11px 18px;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.10);
-      transition: 0.3s;
-      font-size: 14px;
-    }
-
-    .social a:hover {
-      transform: translateY(-3px);
-      background: rgba(255,255,255,0.14);
-    }
-
-    .footer {
-      margin-top: 30px;
-      color: #64748b;
-      font-size: 12px;
-    }
-
-    @media(max-width:600px) {
-      .card {
-        padding: 40px 20px;
-      }
-
-      h1 {
-        font-size: 32px;
-      }
-
-      .description {
-        font-size: 14px;
-      }
-
-      .time-box {
-        min-width: 70px;
-      }
-
-      .time-box strong {
-        font-size: 23px;
-      }
-    }
-  </style>
 </head>
 
 <body>
 
-  <div class="circle one"></div>
-  <div class="circle two"></div>
+<!-- =========================
+     NAVIGATION
+========================= -->
 
-  <main class="card">
+<nav class="navbar">
 
-    <!-- LOGO -->
-    <div class="logo">
-      <div class="logo-icon">BD</div>
+    <div class="nav-container">
 
-      <div class="logo-name">
-        BABA <span>DESIGN</span>
-      </div>
-    </div>
+        <a href="#accueil" class="logo-nav">
+            Baba<span>Design</span>
+        </a>
 
-    <div class="tag">
-       SITE EN MAINTENANCE
-    </div>
+        <button class="menu-toggle" id="menuToggle">
+            ☰
+        </button>
 
-    <h1>
-      Une nouvelle expérience<br>
-      <span>arrive bientôt.</span>
-    </h1>
+        <ul class="nav-links" id="navLinks">
 
-    <p class="description">
-      Nous travaillons actuellement sur notre site afin de vous offrir
-      une expérience plus moderne, rapide et professionnelle.
-      <br><br>
-      <strong>Merci pour votre patience.</strong>
-    </p>
+            <li>
+                <a href="#accueil">Accueil</a>
+            </li>
 
-    <!-- COUNTDOWN -->
-    <div class="countdown">
+            <li>
+                <a href="#services">Services</a>
+            </li>
 
-      <div class="time-box">
-        <strong id="days">00</strong>
-        <small>Jours</small>
-      </div>
+            <li>
+                <a href="#academi">Akademi Dizay</a>
+            </li>
 
-      <div class="time-box">
-        <strong id="hours">00</strong>
-        <small>Heures</small>
-      </div>
+            <li>
+                <a href="#publicite">Publicité</a>
+            </li>
 
-      <div class="time-box">
-        <strong id="minutes">00</strong>
-        <small>Minutes</small>
-      </div>
+            <li>
+                <!-- BOUTIQUE_CONNECT: boutique.html -->
+                <a href="boutique.html" class="nav-boutique">
+                    Boutique
+                </a>
+            </li>
 
-      <div class="time-box">
-        <strong id="seconds">00</strong>
-        <small>Secondes</small>
-      </div>
+            <li>
+                <a href="#inscription">Inscription</a>
+            </li>
 
-    </div>
+            <li>
+                <a href="#apropos">À propos</a>
+            </li>
 
-    <!-- PROGRESS -->
-    <div class="progress-container">
+            <li>
+                <a href="#contact">Contact</a>
+            </li>
 
-      <div class="progress">
-        <div class="progress-bar"></div>
-      </div>
-
-      <div class="progress-text">
-         Travaux en cours — Notre équipe prépare quelque chose de spécial.
-      </div>
+        </ul>
 
     </div>
 
-    <!-- SOCIAL -->
-    <div class="social">
+</nav>
 
-      <a href="https://wa.me/50940052773" target="_blank">
-        WhatsApp
-      </a>
 
-      <a href="https://instagram.com/realbaba_design" target="_blank">
-        Instagram
-      </a>
+<!-- =========================
+     ACCUEIL
+========================= -->
+
+<section class="hero hero-modern" id="accueil">
+    <div class="hero-orb orb-one"></div>
+    <div class="hero-orb orb-two"></div>
+
+    <div class="hero-slideshow" aria-hidden="true">
+        <div class="hero-slide"><img src="pc sit.jpg" alt=""></div>
+        <div class="hero-slide"><img src="150 htg enskri.jpg" alt=""></div>
+        <div class="hero-slide"><img src="goat baba.jpg" alt=""></div>
+        <div class="hero-slide"><img src="services online.jpg" alt=""></div>
+        <div class="hero-slide"><img src="pc sit.jpg" alt=""></div>
+        <div class="hero-slide"><img src="150 htg enskri.jpg" alt=""></div>
+    </div>
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content hero-content-modern">
+        <span class="hero-badge">
+            BABA DESIGN • CRÉATIVITÉ • DIGITAL
+        </span>
+
+        <h1>
+            Créons quelque chose
+            <span class="gradient-text">d'exception.</span>
+        </h1>
+
+        <p>
+            Design professionnel, solutions digitales, Akademi Dizay
+            et une nouvelle expérience web pensée pour vous.
+        </p>
+
+        <div class="hero-buttons">
+            <a href="#services" class="btn btn-primary">Commander un service</a>
+            <a href="boutique.html" class="btn btn-glass">Découvrir la Boutique</a>
+        </div>
+
+        <div class="hero-mini-stats">
+            <span> Design</span>
+            <span> Vidéo</span>
+            <span> Digital</span>
+        </div>
+    </div>
+
+    <div class="hero-scroll">SCROLL <span>↓</span></div>
+</section>
+
+
+<!-- =========================
+     PORTFOLIO / SLIDESHOW
+========================= -->
+<section class="section portfolio-showcase" id="portfolio">
+  <div class="section-header">
+    <span>Notre travail</span>
+    <h2>Quelques réalisations</h2>
+    <p>Une sélection de créations Baba Design présentées dans un carousel moderne.</p>
+  </div>
+
+  <div class="portfolio-slider" aria-label="Portfolio Baba Design">
+    <div class="portfolio-track" id="portfolioTrack">
+      <!-- REMPLACE SEULEMENT LES NOMS DES 5 IMAGES CI-DESSOUS -->
+      <article class="portfolio-slide is-active"><img src="pc sit.jpg" alt="Réalisation Baba Design 01"></article>
+      <article class="portfolio-slide"><img src="150 htg enskri.jpg" alt="Réalisation Baba Design 02"></article>
+      <article class="portfolio-slide"><img src="goat baba.jpg" alt="Réalisation Baba Design 03"></article>
+      <article class="portfolio-slide"><img src="services online.jpg" alt="Réalisation Baba Design 04"></article>
+      <article class="portfolio-slide"><img src="portfolio-05.jpg" alt="Réalisation Baba Design 05"></article>
+    </div>
+    <div class="portfolio-glass"><span> BABA DESIGN</span><strong>Créativité en mouvement</strong><small>Les créations défilent automatiquement</small></div>
+    <button class="portfolio-arrow prev" id="portfolioPrev" aria-label="Image précédente">‹</button>
+    <button class="portfolio-arrow next" id="portfolioNext" aria-label="Image suivante">›</button>
+    <div class="portfolio-dots" id="portfolioDots"></div>
+  </div>
+</section>
+
+
+<!-- =========================
+     SERVICES
+========================= -->
+
+<section class="section" id="services">
+
+    <div class="section-header">
+
+        <span>Commander</span>
+
+        <h2>Services de design</h2>
+
+        <p>
+            Sélectionnez votre service, indiquez vos besoins
+            et envoyez votre commande rapidement.
+        </p>
 
     </div>
 
-    <div class="footer">
-      © 2026 Baba Design — Créativité • Design • Innovation
+
+    <div class="order-wrapper">
+
+        <form id="orderForm">
+
+            <div class="card">
+
+                <div class="section-title">
+                    <div class="number">1</div>
+                    Informations client
+                </div>
+
+                <div class="field">
+
+                    <label>
+                        Nom complet
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="clientName"
+                        placeholder="Ex : Jean Dupont"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Numéro WhatsApp
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="clientPhone"
+                        placeholder="Ex : 40xxxxxxxx"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="section-title">
+                    <div class="number">2</div>
+                    Choisissez votre service
+                </div>
+
+
+                <div class="services">
+
+                    <div class="service">
+                        <input
+                            type="radio"
+                            name="service"
+                            id="affiche"
+                            value="Affiche événement"
+                            data-price="3000"
+                        >
+                        <label for="affiche">
+                            <span class="service-name">
+                                Affiche événement
+                            </span>
+                            <span class="price">
+                                3 000 HTG
+                            </span>
+                        </label>
+                    </div>
+
+
+                    <div class="service">
+                        <input
+                            type="radio"
+                            name="service"
+                            id="carte"
+                            value="Carte de visite"
+                            data-price="2500"
+                        >
+                        <label for="carte">
+                            <span class="service-name">
+                                Carte de visite
+                            </span>
+                            <span class="price">
+                                2 500 HTG
+                            </span>
+                        </label>
+                    </div>
+
+
+                    <div class="service">
+                        <input
+                            type="radio"
+                            name="service"
+                            id="certificat"
+                            value="Certificat / Unité"
+                            data-price="350"
+                        >
+                        <label for="certificat">
+                            <span class="service-name">
+                                Certificat / Unité
+                            </span>
+                            <span class="price">
+                                350 HTG
+                            </span>
+                        </label>
+                    </div>
+
+
+                    <div class="service">
+                        <input
+                            type="radio"
+                            name="service"
+                            id="flyer"
+                            value="Flyer Business"
+                            data-price="2500"
+                        >
+                        <label for="flyer">
+                            <span class="service-name">
+                                Flyer Business
+                            </span>
+                            <span class="price">
+                                2 500 HTG
+                            </span>
+                        </label>
+                    </div>
+
+
+                    <div class="service">
+                        <input
+                            type="radio"
+                            name="service"
+                            id="etiquette"
+                            value="Étiquette"
+                            data-price="5000"
+                        >
+                        <label for="etiquette">
+                            <span class="service-name">
+                                Étiquette
+                            </span>
+                            <span class="price">
+                                5 000 HTG
+                            </span>
+                        </label>
+                    </div>
+
+
+                    <div class="service">
+                        <input
+                            type="radio"
+                            name="service"
+                            id="video"
+                            value="Vidéo promotionnelle"
+                            data-price="4500"
+                        >
+                        <label for="video">
+                            <span class="service-name">
+                                Vidéo promotionnelle
+                            </span>
+                            <span class="price">
+                                4 500 HTG
+                            </span>
+                        </label>
+                    </div>
+
+
+                    <div class="service">
+                        <input
+                            type="radio"
+                            name="service"
+                            id="banniere"
+                            value="Bannière"
+                            data-price="6500"
+                        >
+                        <label for="banniere">
+                            <span class="service-name">
+                                Bannière
+                            </span>
+                            <span class="price">
+                                6 500 HTG
+                            </span>
+                        </label>
+                    </div>
+
+                </div>
+
+
+                <div class="custom-box">
+
+                    <label>
+                        Vous avez besoin d'un autre service ?
+                    </label>
+
+                    <input
+                        type="text"
+                        id="customService"
+                        placeholder="Écrivez le service dont vous avez besoin"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="section-title">
+                    <div class="number">3</div>
+                    Délai de livraison
+                </div>
+
+                <div class="field">
+
+                    <label>
+                        Dans combien de temps avez-vous besoin du visuel ?
+                        <span class="required">*</span>
+                    </label>
+
+                    <select id="deadline" required>
+
+                        <option value="">
+                            Sélectionnez un délai
+                        </option>
+
+                        <option value="Dès que possible">
+                            Dès que possible
+                        </option>
+
+                        <option value="Aujourd'hui">
+                            Aujourd'hui
+                        </option>
+
+                        <option value="Demain">
+                            Demain
+                        </option>
+
+                        <option value="Dans 2 jours">
+                            Dans 2 jours
+                        </option>
+
+                        <option value="Dans 3 jours">
+                            Dans 3 jours
+                        </option>
+
+                        <option value="Cette semaine">
+                            Cette semaine
+                        </option>
+
+                        <option value="Autre">
+                            Autre
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="section-title">
+                    <div class="number">4</div>
+                    Informations du visuel
+                </div>
+
+                <div class="field">
+
+                    <label>
+                        Informations à mettre sur le visuel
+                        <span class="required">*</span>
+                    </label>
+
+                    <textarea
+                        id="designInfo"
+                        placeholder="Écrivez ici les textes, numéro de téléphone, adresse, prix, date, couleurs, etc."
+                        required
+                    ></textarea>
+
+                </div>
+
+                <div class="notice">
+
+                    <strong>Important :</strong><br>
+
+                    Pour toutes les images nécessaires à votre commande,
+                    veuillez les envoyer directement sur notre WhatsApp
+                    <strong>comme document</strong> afin de préserver leur qualité.
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="section-title">
+                    <div class="number">5</div>
+                    Paiement
+                </div>
+
+                <div class="notice">
+
+                    Pour commencer votre commande, un
+                    <strong>dépôt de 70%</strong> du prix du service est demandé.
+
+                    <br><br>
+
+                    Les <strong>30% restants</strong> seront payés selon
+                    les conditions convenues pour finaliser la commande.
+
+                </div>
+
+
+                <div class="notice" style="margin-top:15px;">
+
+                    <strong>Méthode de paiement : NatCash</strong>
+
+                    <br><br>
+
+                    Numéro :
+                    <strong>+509 4005-2773</strong>
+
+                    <br>
+
+                    Nom :
+                    <strong>Marie Alberte Darisme</strong>
+
+                    <br><br>
+
+                    Après le paiement, sélectionnez
+                    <strong>« Oui, j'ai payé »</strong>
+                    et indiquez votre
+                    <strong>transcode</strong>.
+
+                </div>
+
+
+                <br>
+
+
+                <label>
+                    Avez-vous déjà effectué le paiement ?
+                    <span class="required">*</span>
+                </label>
+
+
+                <div class="radio-group">
+
+                    <div class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="paid"
+                            id="paidYes"
+                            value="Oui"
+                            required
+                        >
+
+                        <label for="paidYes">
+                            Oui, j'ai payé
+                        </label>
+
+                    </div>
+
+
+                    <div class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="paid"
+                            id="paidNo"
+                            value="Non"
+                            required
+                        >
+
+                        <label for="paidNo">
+                            Non, pas encore
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="field hidden"
+                    id="transcodeBox"
+                    style="margin-top:20px;"
+                >
+
+                    <label>
+                        Transcode de paiement
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="transcode"
+                        placeholder="Entrez votre transcode de paiement"
+                    >
+
+                </div>
+
+
+                <div class="payment-info">
+
+                    <div class="money-box">
+
+                        <span>
+                            Prix du service
+                        </span>
+
+                        <strong id="totalPrice">
+                            0 HTG
+                        </strong>
+
+                    </div>
+
+
+                    <div class="money-box deposit">
+
+                        <span>
+                            Dépôt 70%
+                        </span>
+
+                        <strong id="depositPrice">
+                            0 HTG
+                        </strong>
+
+                    </div>
+
+
+                    <div class="money-box remaining">
+
+                        <span>
+                            Solde 30%
+                        </span>
+
+                        <strong id="remainingPrice">
+                            0 HTG
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="section-title">
+
+                    <div class="number">6</div>
+
+                    Référence agent
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        ID Agent
+                        <small style="color:#777;">
+                            (facultatif)
+                        </small>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="agentId"
+                        placeholder="Ex : AG-1025"
+                    >
+
+                </div>
+
+
+                <div class="notice">
+
+                    Si un agent vous a référé,
+                    vous pouvez inscrire son ID ici.
+                    Ce champ n'est pas obligatoire.
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                >
+                    Envoyer ma commande sur WhatsApp
+                </button>
+
+            </div>
+
+
+        </form>
+
     </div>
 
-  </main>
+</section>
 
-  <script>
 
-    /*
-      MODIFIE CETTE DATE
-      Exemple :
-      23 septembre 2026 à 20h00
-    */
+<!-- =========================
+     AKADEMI DIZAY
+========================= -->
 
-    const launchDate = new Date("September 23  , 2026 20:00:00").getTime();
+<section class="section academy" id="academi">
 
-    const countdown = setInterval(function () {
+    <div class="section-header">
 
-      const now = new Date().getTime();
-      const distance = launchDate - now;
+        <span>Akademi Dizay</span>
 
-      if (distance <= 0) {
+        <h2>Développez vos compétences</h2>
 
-        clearInterval(countdown);
+        <p>
+            Des formations pratiques pour apprendre
+            et développer vos compétences créatives.
+        </p>
 
-        document.querySelector(".countdown").innerHTML =
-          "<strong style='font-size:22px;'> Le site est maintenant disponible !</strong>";
+    </div>
 
-        return;
-      }
 
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    <div class="academy-video">
 
-      const hours = Math.floor(
-        (distance % (1000 * 60 * 60 * 24)) /
-        (1000 * 60 * 60)
-      );
+        <video
+            controls
+            playsinline
+            preload="metadata"
+        >
+            <source
+                src="ajan videyo.mp4"
+                type="video/mp4"
+            >
+            Votre navigateur ne supporte pas la vidéo.
+        </video>
 
-      const minutes = Math.floor(
-        (distance % (1000 * 60 * 60)) /
-        (1000 * 60)
-      );
+    </div>
 
-      const seconds = Math.floor(
-        (distance % (1000 * 60)) /
-        1000
-      );
+    <div class="formation-grid">
 
-      document.getElementById("days").innerText =
-        String(days).padStart(2, "0");
 
-      document.getElementById("hours").innerText =
-        String(hours).padStart(2, "0");
+        <div class="formation-card">
 
-      document.getElementById("minutes").innerText =
-        String(minutes).padStart(2, "0");
+            <div class="formation-image">
 
-      document.getElementById("seconds").innerText =
-        String(seconds).padStart(2, "0");
+                <img
+                    src="foma video.jpg"
+                    alt="Formation Montage Vidéo"
+                >
 
-    }, 1000);
+            </div>
 
-  </script>
 
+            <div class="formation-content">
+
+                <h3>
+                    Montage Vidéo
+                </h3>
+
+                <p>
+                    Apprenez à créer et monter des vidéos
+                    professionnelles pour vos projets.
+                </p>
+
+                <div class="formation-price">
+                    3 000 HTG
+                </div>
+
+                <a
+                    href="#inscription"
+                    class="formation-btn"
+                >
+                    S'inscrire
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="formation-card">
+
+            <div class="formation-image">
+
+                <img
+                    src="foma certifi.jpg"
+                    alt="Formation Création de Certificat"
+                >
+
+            </div>
+
+
+            <div class="formation-content">
+
+                <h3>
+                    Création de Certificat
+                </h3>
+
+                <p>
+                    Apprenez à concevoir des certificats
+                    modernes et professionnels.
+                </p>
+
+                <div class="formation-price">
+                    3 000 HTG
+                </div>
+
+                <a
+                    href="#inscription"
+                    class="formation-btn"
+                >
+                    S'inscrire
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="formation-card">
+
+            <div class="formation-image">
+
+                <img
+                    src="fomasyon badge.jpg"
+                    alt="Formation Création de Badge"
+                >
+
+            </div>
+
+
+            <div class="formation-content">
+
+                <h3>
+                    Création de Badge
+                </h3>
+
+                <p>
+                    Apprenez à créer des badges professionnels
+                    pour entreprises et organisations.
+                </p>
+
+                <div class="formation-price">
+                    3 000 HTG
+                </div>
+
+                <a
+                    href="#inscription"
+                    class="formation-btn"
+                >
+                    S'inscrire
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="formation-card">
+
+            <div class="formation-image">
+
+                <img
+                    src="foma calandrier.jpg"
+                    alt="Formation Création de Calendrier"
+                >
+
+            </div>
+
+
+            <div class="formation-content">
+
+                <h3>
+                    Création de Calendrier
+                </h3>
+
+                <p>
+                    Apprenez à créer des calendriers
+                    personnalisés et professionnels.
+                </p>
+
+                <div class="formation-price">
+                    3 000 HTG
+                </div>
+
+                <a
+                    href="#inscription"
+                    class="formation-btn"
+                >
+                    S'inscrire
+                </a>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =========================
+         PUBLICITE
+    ========================= -->
+
+    <div class="publicite-box" id="publicite">
+
+        <div class="section-title">
+            <div class="number">PU</div>
+            Publicité
+        </div>
+
+        <div class="publicite-notice">
+
+            <strong>Faites votre publicité avec Baba Design.</strong><br>
+
+            Remplissez le formulaire ci-dessous, choisissez la durée
+            et le type de publicité.
+
+            Après paiement, envoyez votre
+            <strong>photo ou vidéo sur notre WhatsApp comme document</strong>
+            afin de préserver sa qualité.
+
+        </div>
+
+
+        <form id="publiciteForm">
+
+            <div class="field">
+
+                <label>
+                    Nom complet
+                    <span class="required">*</span>
+                </label>
+
+                <input
+                    type="text"
+                    id="pubName"
+                    placeholder="Votre nom complet"
+                    required
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Numéro WhatsApp
+                    <span class="required">*</span>
+                </label>
+
+                <input
+                    type="tel"
+                    id="pubPhone"
+                    placeholder="Ex : 40000000"
+                    required
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Type de publicité
+                    <span class="required">*</span>
+                </label>
+
+                <select id="pubType" required>
+
+                    <option value="">
+                        Choisissez le type
+                    </option>
+
+                    <option value="Photo">
+                        Photo
+                    </option>
+
+                    <option value="Vidéo">
+                        Vidéo
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Durée de la publicité
+                    <span class="required">*</span>
+                </label>
+
+                <select id="pubDuration" required>
+
+                    <option value="">
+                        Choisissez la durée
+                    </option>
+
+                    <option value="3 jours">
+                        3 jours
+                    </option>
+
+                    <option value="5 jours">
+                        5 jours
+                    </option>
+
+                    <option value="8 jours">
+                        8 jours
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="publicite-price">
+
+                <div class="publicite-price-box">
+
+                    <span>
+                        Prix en dollars
+                    </span>
+
+                    <strong id="pubUsd">
+                        0,00 $
+                    </strong>
+
+                </div>
+
+
+                <div class="publicite-price-box">
+
+                    <span>
+                        Prix en gourdes — taux 130 HTG/$
+                    </span>
+
+                    <strong id="pubHtg">
+                        0 HTG
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="publicite-notice">
+
+                <strong>Tarifs :</strong><br>
+
+                Photo — 3 jours :
+                <strong>3,85 $</strong> ≈ 501 HTG<br>
+
+                Vidéo — 3 jours :
+                <strong>4,99 $</strong> ≈ 649 HTG<br>
+
+                Photo — 5 jours :
+                <strong>5,19 $</strong> ≈ 675 HTG<br>
+
+                Vidéo — 5 jours :
+                <strong>7,00 $</strong> = 910 HTG<br>
+
+                Photo — 8 jours :
+                <strong>8,04 $</strong> ≈ 1 045 HTG<br>
+
+                Vidéo — 8 jours :
+                <strong>10,00 $</strong> = 1 300 HTG
+
+            </div>
+
+
+            <div class="publicite-notice">
+
+                <strong>Important :</strong><br>
+
+                Après avoir payé, choisissez
+                <strong>« Oui, j'ai payé »</strong>
+                et entrez votre
+                <strong>transcode</strong>.
+
+                Sans paiement confirmé avec un transcode,
+                la demande ne sera pas envoyée pour traitement.
+
+                <br><br>
+
+                Envoyez ensuite votre
+                <strong>photo ou vidéo sur WhatsApp comme document</strong>.
+
+            </div>
+
+
+            <label>
+                Avez-vous déjà effectué le paiement ?
+                <span class="required">*</span>
+            </label>
+
+
+            <div class="radio-group">
+
+                <div class="radio-option">
+
+                    <input
+                        type="radio"
+                        name="pubPaid"
+                        id="pubPaidYes"
+                        value="Oui"
+                        required
+                    >
+
+                    <label for="pubPaidYes">
+                        Oui, j'ai payé
+                    </label>
+
+                </div>
+
+
+                <div class="radio-option">
+
+                    <input
+                        type="radio"
+                        name="pubPaid"
+                        id="pubPaidNo"
+                        value="Non"
+                        required
+                    >
+
+                    <label for="pubPaidNo">
+                        Non, pas encore
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="field hidden"
+                id="pubTranscodeBox"
+                style="margin-top:20px;"
+            >
+
+                <label>
+                    Transcode de paiement
+                    <span class="required">*</span>
+                </label>
+
+                <input
+                    type="text"
+                    id="pubTranscode"
+                    placeholder="Entrez votre transcode de paiement"
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="submit-btn"
+                style="margin-top:20px;"
+            >
+                Envoyer ma demande de publicité sur WhatsApp
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     INSCRIPTION
+========================= -->
+
+<section class="section" id="inscription">
+
+    <div class="section-header">
+
+        <span>Rejoignez-nous</span>
+
+        <h2>Inscription Akademi Dizay</h2>
+
+        <p>
+            Remplissez le formulaire et envoyez
+            votre inscription directement sur WhatsApp.
+        </p>
+
+    </div>
+
+
+    <div class="registration-box">
+
+        <form id="registrationForm">
+
+
+            <div class="card">
+
+                <div class="section-title">
+
+                    <div class="number">1</div>
+
+                    Type d'inscription
+
+                </div>
+
+
+                <div class="type-selector">
+
+                    <div>
+
+                        <input
+                            type="radio"
+                            name="memberType"
+                            id="studentType"
+                            value="Étudiant"
+                            checked
+                        >
+
+                        <label for="studentType">
+                            Étudiant
+                        </label>
+
+                    </div>
+
+
+                    <div>
+
+                        <input
+                            type="radio"
+                            name="memberType"
+                            id="agentType"
+                            value="Agent"
+                        >
+
+                        <label for="agentType">
+                            Agent
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <div class="registration-info">
+
+                    <strong>
+                        Frais d'inscription :
+                    </strong>
+
+                    Étudiant :
+                    <strong>250 HTG</strong>
+
+                    &nbsp; | &nbsp;
+
+                    Agent :
+                    <strong>150 HTG</strong>
+
+                </div>
+
+
+                <!-- NOM -->
+
+                <div class="field">
+
+                    <label>
+                        Nom complet
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="regName"
+                        placeholder="Votre nom complet"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- TELEPHONE -->
+
+                <div class="field">
+
+                    <label>
+                        Téléphone
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="regPhone"
+                        placeholder="Ex : 40000000"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="field">
+
+                    <label>
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="regEmail"
+                        placeholder="votre@email.com"
+                    >
+
+                </div>
+
+
+                <!-- FORMATION -->
+
+                <div
+                    class="field"
+                    id="studentFormationBox"
+                >
+
+                    <label>
+
+                        Formation choisie
+
+                        <span class="required">
+                            *
+                        </span>
+
+                    </label>
+
+
+                    <select id="regFormation" required>
+
+                        <option value="">
+                            Sélectionnez une formation
+                        </option>
+
+                        <option value="Montage Vidéo — 3 000 HTG">
+                            Montage Vidéo — 3 000 HTG
+                        </option>
+
+                        <option value="Création de Certificat — 3 000 HTG">
+                            Création de Certificat — 3 000 HTG
+                        </option>
+
+                        <option value="Création de Badge — 3 000 HTG">
+                            Création de Badge — 3 000 HTG
+                        </option>
+
+                        <option value="Création de Calendrier — 3 000 HTG">
+                            Création de Calendrier — 3 000 HTG
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- ID AGENT -->
+
+                <div class="field">
+
+                    <label>
+                        ID Agent
+                        <small style="color:#777;">
+                            (facultatif)
+                        </small>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="regAgentId"
+                        placeholder="Ex : AG-191514"
+                    >
+
+                </div>
+
+
+                <!-- =========================
+                     NOUVEAU : INFOS NATCASH AGENT
+                ========================= -->
+
+                <div
+                    class="field hidden"
+                    id="agentNatCashBox"
+                >
+
+                    <label>
+                        Numéro NatCash pour recevoir les paiements
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="agentNatCash"
+                        placeholder="Ex : 40000000"
+                    >
+
+                </div>
+
+
+                <div
+                    class="field hidden"
+                    id="agentNatCashNameBox"
+                >
+
+                    <label>
+                        Nom sur le compte NatCash
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="agentNatCashName"
+                        placeholder="Nom complet sur le compte NatCash"
+                    >
+
+                </div>
+
+
+                <!-- AGENT INFO -->
+
+                <div
+                    class="notice hidden"
+                    id="agentInfo"
+                >
+
+                    <strong>
+                        Inscription Agent
+                    </strong>
+
+                    <br><br>
+
+                    Après votre inscription,
+                    envoyez votre photo directement
+                    sur notre WhatsApp pour la création
+                    de votre badge.
+
+                    <br><br>
+
+                    <strong>
+                        WhatsApp :
+                        +509 4005-2773
+                    </strong>
+
+                </div>
+
+
+                <!-- PAYMENT -->
+
+                <div class="notice">
+
+                    <strong>
+                        Paiement NatCash
+                    </strong>
+
+                    <br><br>
+
+                    Numéro :
+                    <strong>
+                        +509 4005-2773
+                    </strong>
+
+                    <br>
+
+                    Nom :
+                    <strong>
+                        Marie Alberte Darisme
+                    </strong>
+
+                    <br><br>
+
+                    Après paiement,
+                    sélectionnez « Oui, j'ai payé »
+                    et entrez votre transcode.
+
+                </div>
+
+
+                <br>
+
+
+                <label>
+
+                    Avez-vous déjà effectué le paiement ?
+
+                    <span class="required">*</span>
+
+                </label>
+
+
+                <div class="radio-group">
+
+                    <div class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="regPaid"
+                            id="regPaidYes"
+                            value="Oui"
+                            required
+                        >
+
+                        <label for="regPaidYes">
+                            Oui, j'ai payé
+                        </label>
+
+                    </div>
+
+
+                    <div class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="regPaid"
+                            id="regPaidNo"
+                            value="Non"
+                            required
+                        >
+
+                        <label for="regPaidNo">
+                            Non, pas encore
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TRANSCODE INSCRIPTION -->
+
+                <div
+                    class="field hidden"
+                    id="regTranscodeBox"
+                    style="margin-top:20px;"
+                >
+
+                    <label>
+
+                        Transcode de paiement
+
+                        <span class="required">
+                            *
+                        </span>
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="regTranscode"
+                        placeholder="Entrez votre transcode"
+                    >
+
+                </div>
+
+
+                <br>
+
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                >
+                    Envoyer mon inscription sur WhatsApp
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     À PROPOS
+========================= -->
+
+<section class="section" id="apropos">
+
+    <div class="section-header">
+
+        <span>À propos</span>
+
+        <h2>Baba Design & Akademi Dizay</h2>
+
+    </div>
+
+
+    <div class="about-grid">
+
+
+        <div class="about-box">
+
+            <h3>
+                Baba Design
+            </h3>
+
+            <p>
+                Baba Design accompagne les particuliers,
+                entreprises et organisations dans leurs
+                projets de communication visuelle.
+            </p>
+
+            <p>
+                Notre objectif est de proposer des créations
+                modernes, professionnelles et adaptées
+                aux besoins de chaque client.
+            </p>
+
+            <ul class="about-list">
+
+                <li>
+                    Design graphique
+                </li>
+
+                <li>
+                    Création visuelle
+                </li>
+
+                <li>
+                    Montage vidéo
+                </li>
+
+                <li>
+                    Formations pratiques
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="about-box">
+
+            <h3>
+                Akademi Dizay
+            </h3>
+
+            <p>
+                Akademi Dizay est un espace de formation
+                destiné aux personnes qui souhaitent
+                développer leurs compétences créatives.
+            </p>
+
+            <p>
+                Les formations sont conçues pour être
+                pratiques et accessibles.
+            </p>
+
+            <ul class="about-list">
+
+                <li>
+                    Apprentissage pratique
+                </li>
+
+                <li>
+                    Formations créatives
+                </li>
+
+                <li>
+                    Accompagnement
+                </li>
+
+                <li>
+                    Développement de compétences
+                </li>
+
+            </ul>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     CONTACT
+========================= -->
+
+<section class="section" id="contact">
+
+    <div class="contact-box">
+
+        <h2>
+            Besoin d'aide ?
+        </h2>
+
+        <p>
+            Contactez Baba Design directement
+            pour vos commandes, formations ou questions.
+        </p>
+
+
+        <div class="contact-buttons">
+
+            <a
+                href="https://wa.me/50940052773"
+                target="_blank"
+                class="contact-btn"
+            >
+                WhatsApp
+            </a>
+
+
+            <a
+                href="mailto:akademidizay@gmail.com"
+                class="contact-btn email-btn"
+            >
+                Email
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    © 2026 —
+    <strong>Baba Design</strong>
+    • Tous droits réservés.
+    <br>
+    <a href="boutique.html" style="display:inline-block;margin-top:8px;color:#ffd000;text-decoration:none;font-weight:800;">
+        Boutique Templates
+    </a>
+
+</footer>
+
+
+<script>
+
+/* ==================================================
+   NAVIGATION MOBILE
+================================================== */
+
+const menuToggle =
+    document.getElementById("menuToggle");
+
+const navLinks =
+    document.getElementById("navLinks");
+
+
+menuToggle.addEventListener(
+    "click",
+    function(){
+
+        navLinks.classList.toggle("active");
+
+    }
+);
+
+
+document.querySelectorAll(
+    ".nav-links a"
+).forEach(function(link){
+
+    link.addEventListener(
+        "click",
+        function(){
+
+            navLinks.classList.remove("active");
+
+        }
+    );
+
+});
+
+
+/* ==================================================
+   CONFIGURATION WHATSAPP
+================================================== */
+
+const whatsappNumber =
+    "50940052773";
+
+
+/* ==================================================
+   SERVICES
+================================================== */
+
+const serviceInputs =
+    document.querySelectorAll(
+        'input[name="service"]'
+    );
+
+const totalPrice =
+    document.getElementById(
+        "totalPrice"
+    );
+
+const depositPrice =
+    document.getElementById(
+        "depositPrice"
+    );
+
+const remainingPrice =
+    document.getElementById(
+        "remainingPrice"
+    );
+
+const paidYes =
+    document.getElementById(
+        "paidYes"
+    );
+
+const paidNo =
+    document.getElementById(
+        "paidNo"
+    );
+
+const transcodeBox =
+    document.getElementById(
+        "transcodeBox"
+    );
+
+const transcode =
+    document.getElementById(
+        "transcode"
+    );
+
+const customService =
+    document.getElementById(
+        "customService"
+    );
+
+
+function formatMoney(number){
+
+    return new Intl.NumberFormat(
+        "fr-FR"
+    ).format(number) + " HTG";
+
+}
+
+
+function getSelectedService(){
+
+    return document.querySelector(
+        'input[name="service"]:checked'
+    );
+
+}
+
+
+function updatePrice(){
+
+    const selected =
+        getSelectedService();
+
+    let price = 0;
+
+    if(selected){
+
+        price =
+            parseFloat(
+                selected.dataset.price
+            ) || 0;
+
+    }
+
+
+    const deposit =
+        price * 0.70;
+
+    const remaining =
+        price * 0.30;
+
+
+    totalPrice.textContent =
+        formatMoney(price);
+
+    depositPrice.textContent =
+        formatMoney(deposit);
+
+    remainingPrice.textContent =
+        formatMoney(remaining);
+
+}
+
+
+serviceInputs.forEach(
+    function(input){
+
+        input.addEventListener(
+            "change",
+            updatePrice
+        );
+
+    }
+);
+
+
+paidYes.addEventListener(
+    "change",
+    function(){
+
+        if(this.checked){
+
+            transcodeBox.classList.remove(
+                "hidden"
+            );
+
+            transcode.required = true;
+
+        }
+
+    }
+);
+
+
+paidNo.addEventListener(
+    "change",
+    function(){
+
+        if(this.checked){
+
+            transcodeBox.classList.add(
+                "hidden"
+            );
+
+            transcode.required = false;
+
+            transcode.value = "";
+
+        }
+
+    }
+);
+
+
+/* ==================================================
+   FORMULAIRE SERVICES → WHATSAPP
+================================================== */
+
+document
+.getElementById("orderForm")
+.addEventListener(
+    "submit",
+    function(event){
+
+        event.preventDefault();
+
+
+        const clientName =
+            document
+            .getElementById("clientName")
+            .value
+            .trim();
+
+
+        const clientPhone =
+            document
+            .getElementById("clientPhone")
+            .value
+            .trim();
+
+
+        const selected =
+            getSelectedService();
+
+
+        if(!selected){
+
+            alert(
+                "Veuillez sélectionner un service."
+            );
+
+            return;
+
+        }
+
+
+        const service =
+            selected.value;
+
+
+        const price =
+            parseFloat(
+                selected.dataset.price
+            );
+
+
+        const custom =
+            customService.value.trim();
+
+
+        const deadline =
+            document
+            .getElementById("deadline")
+            .value;
+
+
+        const designInfo =
+            document
+            .getElementById("designInfo")
+            .value
+            .trim();
+
+
+        const payment =
+            document.querySelector(
+                'input[name="paid"]:checked'
+            );
+
+
+        if(!payment){
+
+            alert(
+                "Veuillez indiquer votre statut de paiement."
+            );
+
+            return;
+
+        }
+
+
+        const paymentValue =
+            payment.value;
+
+
+        let transcodeValue =
+            "Non fourni";
+
+
+        if(paymentValue === "Oui"){
+
+            transcodeValue =
+                transcode.value.trim();
+
+            if(!transcodeValue){
+
+                alert(
+                    "Veuillez entrer votre transcode de paiement."
+                );
+
+                return;
+
+            }
+
+        }
+
+
+        const agentId =
+            document
+            .getElementById("agentId")
+            .value
+            .trim();
+
+
+        const deposit =
+            price * 0.70;
+
+
+        const remaining =
+            price * 0.30;
+
+
+        let message =
+
+`*NOUVELLE COMMANDE — BABA DESIGN*
+
+ *Client :*
+${clientName}
+
+ *WhatsApp :*
+${clientPhone || "Non fourni"}
+
+ *Service :*
+${service}
+
+ *Prix :*
+${formatMoney(price)}
+
+ *Dépôt 70% :*
+${formatMoney(deposit)}
+
+ *Solde 30% :*
+${formatMoney(remaining)}
+
+ *Délai :*
+${deadline}
+
+ *Informations du visuel :*
+${designInfo}
+
+ *Paiement effectué :*
+${paymentValue}
+
+ *Transcode :*
+${transcodeValue}
+
+ *ID Agent :*
+${agentId || "Aucun"}
+
+${custom ? ` *Autre service demandé :*\n${custom}` : ""}
+
+Merci pour votre commande.
+*Baba Design*`;
+
+
+        const url =
+            "https://wa.me/" +
+            whatsappNumber +
+            "?text=" +
+            encodeURIComponent(message);
+
+
+        window.open(
+            url,
+            "_blank"
+        );
+
+    }
+);
+
+
+/* ==================================================
+   AKADEMI — TYPE ÉTUDIANT / AGENT
+================================================== */
+
+const studentType =
+    document.getElementById(
+        "studentType"
+    );
+
+const agentType =
+    document.getElementById(
+        "agentType"
+    );
+
+const agentInfo =
+    document.getElementById(
+        "agentInfo"
+    );
+
+const studentFormationBox =
+    document.getElementById(
+        "studentFormationBox"
+    );
+
+const regFormation =
+    document.getElementById(
+        "regFormation"
+    );
+
+
+/* ==================================================
+   NOUVEAUX CHAMPS NATCASH AGENT
+================================================== */
+
+const agentNatCashBox =
+    document.getElementById(
+        "agentNatCashBox"
+    );
+
+const agentNatCashNameBox =
+    document.getElementById(
+        "agentNatCashNameBox"
+    );
+
+const agentNatCash =
+    document.getElementById(
+        "agentNatCash"
+    );
+
+const agentNatCashName =
+    document.getElementById(
+        "agentNatCashName"
+    );
+
+
+/* ==================================================
+   ÉTUDIANT
+================================================== */
+
+studentType.addEventListener(
+    "change",
+    function(){
+
+        if(this.checked){
+
+            agentInfo.classList.add(
+                "hidden"
+            );
+
+            studentFormationBox.classList.remove(
+                "hidden"
+            );
+
+            regFormation.required = true;
+
+
+            /* Masquer les informations NatCash Agent */
+
+            agentNatCashBox.classList.add(
+                "hidden"
+            );
+
+            agentNatCashNameBox.classList.add(
+                "hidden"
+            );
+
+            agentNatCash.required = false;
+            agentNatCashName.required = false;
+
+            agentNatCash.value = "";
+            agentNatCashName.value = "";
+
+        }
+
+    }
+);
+
+
+/* ==================================================
+   AGENT
+================================================== */
+
+agentType.addEventListener(
+    "change",
+    function(){
+
+        if(this.checked){
+
+            agentInfo.classList.remove(
+                "hidden"
+            );
+
+            studentFormationBox.classList.add(
+                "hidden"
+            );
+
+            regFormation.required = false;
+
+            regFormation.value = "";
+
+
+            /* Afficher les informations NatCash Agent */
+
+            agentNatCashBox.classList.remove(
+                "hidden"
+            );
+
+            agentNatCashNameBox.classList.remove(
+                "hidden"
+            );
+
+            agentNatCash.required = true;
+            agentNatCashName.required = true;
+
+        }
+
+    }
+);
+
+
+/* ==================================================
+   AKADEMI PAYMENT
+================================================== */
+
+const regPaidYes =
+    document.getElementById(
+        "regPaidYes"
+    );
+
+const regPaidNo =
+    document.getElementById(
+        "regPaidNo"
+    );
+
+const regTranscodeBox =
+    document.getElementById(
+        "regTranscodeBox"
+    );
+
+const regTranscode =
+    document.getElementById(
+        "regTranscode"
+    );
+
+
+regPaidYes.addEventListener(
+    "change",
+    function(){
+
+        if(this.checked){
+
+            regTranscodeBox.classList.remove(
+                "hidden"
+            );
+
+            regTranscode.required = true;
+
+        }
+
+    }
+);
+
+
+regPaidNo.addEventListener(
+    "change",
+    function(){
+
+        if(this.checked){
+
+            regTranscodeBox.classList.add(
+                "hidden"
+            );
+
+            regTranscode.required = false;
+
+            regTranscode.value = "";
+
+        }
+
+    }
+);
+
+
+/* ==================================================
+   INSCRIPTION → WHATSAPP
+================================================== */
+
+document
+.getElementById("registrationForm")
+.addEventListener(
+    "submit",
+    function(event){
+
+        event.preventDefault();
+
+
+        const name =
+            document
+            .getElementById("regName")
+            .value
+            .trim();
+
+
+        const phone =
+            document
+            .getElementById("regPhone")
+            .value
+            .trim();
+
+
+        const email =
+            document
+            .getElementById("regEmail")
+            .value
+            .trim();
+
+
+        const type =
+            document.querySelector(
+                'input[name="memberType"]:checked'
+            );
+
+
+        const formation =
+            regFormation.value;
+
+
+        const agentId =
+            document
+            .getElementById("regAgentId")
+            .value
+            .trim();
+
+
+        /* ==================================================
+           RÉCUPÉRER LES INFOS NATCASH DE L'AGENT
+        ================================================== */
+
+        const agentNatCashValue =
+            agentNatCash.value.trim();
+
+        const agentNatCashNameValue =
+            agentNatCashName.value.trim();
+
+
+        const payment =
+            document.querySelector(
+                'input[name="regPaid"]:checked'
+            );
+
+
+        if(!type){
+
+            alert(
+                "Veuillez choisir le type d'inscription."
+            );
+
+            return;
+
+        }
+
+
+        if(type.value === "Étudiant" && !formation){
+
+            alert(
+                "Veuillez sélectionner une formation."
+            );
+
+            return;
+
+        }
+
+
+        /* ==================================================
+           VÉRIFICATION NATCASH AGENT
+        ================================================== */
+
+        if(type.value === "Agent"){
+
+            if(!agentNatCashValue){
+
+                alert(
+                    "Veuillez entrer le numéro NatCash de l'agent."
+                );
+
+                return;
+
+            }
+
+
+            if(!agentNatCashNameValue){
+
+                alert(
+                    "Veuillez entrer le nom sur le compte NatCash."
+                );
+
+                return;
+
+            }
+
+        }
+
+
+        if(!payment){
+
+            alert(
+                "Veuillez indiquer votre statut de paiement."
+            );
+
+            return;
+
+        }
+
+
+        let transcodeValue =
+            "Non fourni";
+
+
+        if(payment.value === "Oui"){
+
+            transcodeValue =
+                regTranscode.value.trim();
+
+
+            if(!transcodeValue){
+
+                alert(
+                    "Veuillez entrer votre transcode de paiement."
+                );
+
+                return;
+
+            }
+
+        }
+
+
+        const registrationFee =
+            type.value === "Agent"
+            ? "150 HTG"
+            : "250 HTG";
+
+
+        let message =
+
+`*NOUVELLE INSCRIPTION — AKADEMI DIZAY*
+
+ *Nom complet :*
+${name}
+
+ *Téléphone :*
+${phone}
+
+ *Email :*
+${email || "Non fourni"}
+
+ *Type :*
+${type.value}
+
+ *Formation :*
+${type.value === "Étudiant" ? formation : "Agent"}
+
+ *Frais d'inscription :*
+${registrationFee}
+
+ *Paiement effectué :*
+${payment.value}
+
+ *Transcode :*
+${transcodeValue}
+
+ *ID Agent :*
+${agentId || "Aucun"}
+
+ *Numéro NatCash Agent :*
+${type.value === "Agent" ? agentNatCashValue : "Non applicable"}
+
+ *Nom sur le compte NatCash :*
+${type.value === "Agent" ? agentNatCashNameValue : "Non applicable"}
+
+ *Photo badge :*
+${type.value === "Agent" ? "À envoyer sur WhatsApp" : "Non applicable"}
+
+Merci.
+*Akademi Dizay*`;
+
+
+        const url =
+            "https://wa.me/" +
+            whatsappNumber +
+            "?text=" +
+            encodeURIComponent(message);
+
+
+        window.open(
+            url,
+            "_blank"
+        );
+
+    }
+);
+
+</script>
+
+
+<!-- =====================================================
+     POPUP VIDEO PROMOTION - BABA SERVICES
+===================================================== -->
+
+<div id="promoVideoPopup" class="promo-video-popup">
+
+    <div class="promo-video-box">
+
+        <button
+            class="promo-close"
+            id="closePromoVideo"
+            aria-label="Fermer">
+            ×
+        </button>
+
+
+        <video
+            id="promoVideo"
+            playsinline
+            autoplay
+            muted
+            preload="auto">
+
+            <source
+                src="WhatsApp Video 1.mp4"
+                type="video/mp4">
+
+            Votre navigateur ne supporte pas la vidéo.
+
+        </video>
+
+
+        <button
+            class="promo-sound"
+            id="promoSound"
+            aria-label="Activer le son">
+            🔇
+        </button>
+
+
+        <button
+            class="promo-button"
+            id="promoButton">
+
+           Rejoindre le programme 
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<style>
+
+/* =====================================================
+   POPUP PRINCIPAL
+===================================================== */
+
+.promo-video-popup {
+
+    position: fixed;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.82);
+
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 15px;
+
+    box-sizing: border-box;
+
+    z-index: 999999;
+
+}
+
+
+/* =====================================================
+   CONTENEUR VIDEO
+===================================================== */
+
+.promo-video-box {
+
+    position: relative;
+
+    width: min(450px, 94vw);
+
+    max-height: 92vh;
+
+    background: #000;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 25px 80px rgba(0,0,0,0.65);
+
+    animation: promoPopupIn 0.4s ease;
+
+}
+
+
+/* =====================================================
+   VIDEO
+===================================================== */
+
+.promo-video-box video {
+
+    display: block;
+
+    width: 100%;
+
+    height: auto;
+
+    max-height: 85vh;
+
+    object-fit: contain;
+
+    background: #000;
+
+}
+
+
+/* =====================================================
+   BOUTON FERMER X
+===================================================== */
+
+.promo-close {
+
+    position: absolute;
+
+    top: 10px;
+    right: 10px;
+
+    width: 40px;
+    height: 40px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: rgba(0,0,0,0.70);
+
+    color: white;
+
+    font-size: 28px;
+
+    line-height: 40px;
+
+    padding: 0;
+
+    cursor: pointer;
+
+    z-index: 20;
+
+    transition: 0.25s;
+
+}
+
+
+.promo-close:hover {
+
+    background: rgba(255,255,255,0.25);
+
+    transform: scale(1.08);
+
+}
+
+
+/* =====================================================
+   BOUTON SON
+===================================================== */
+
+.promo-sound {
+
+    position: absolute;
+
+    top: 10px;
+    left: 10px;
+
+    width: 40px;
+    height: 40px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: rgba(0,0,0,0.70);
+
+    color: white;
+
+    font-size: 19px;
+
+    cursor: pointer;
+
+    z-index: 20;
+
+    transition: 0.25s;
+
+}
+
+
+.promo-sound:hover {
+
+    background: rgba(255,255,255,0.25);
+
+    transform: scale(1.08);
+
+}
+
+
+/* =====================================================
+   BOUTON PROFITEZ
+===================================================== */
+
+.promo-button {
+
+    position: absolute;
+
+    bottom: 20px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    border: none;
+
+    border-radius: 999px;
+
+    padding: 13px 26px;
+
+    background: #ffffff;
+
+    color: #111111;
+
+    font-size: 15px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    white-space: nowrap;
+
+    box-shadow:
+        0 8px 30px rgba(0,0,0,0.45);
+
+    transition: 0.25s;
+
+}
+
+
+.promo-button:hover {
+
+    transform:
+        translateX(-50%)
+        scale(1.06);
+
+}
+
+
+/* =====================================================
+   ANIMATION
+===================================================== */
+
+@keyframes promoPopupIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            scale(0.88);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            scale(1);
+
+    }
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 600px) {
+
+    .promo-video-popup {
+
+        padding: 10px;
+
+    }
+
+
+    .promo-video-box {
+
+        width: 95vw;
+
+        border-radius: 16px;
+
+    }
+
+
+    .promo-close,
+    .promo-sound {
+
+        width: 35px;
+
+        height: 35px;
+
+        line-height: 35px;
+
+    }
+
+
+    .promo-close {
+
+        font-size: 24px;
+
+    }
+
+
+    .promo-sound {
+
+        font-size: 17px;
+
+    }
+
+
+    .promo-button {
+
+        bottom: 13px;
+
+        padding: 11px 20px;
+
+        font-size: 14px;
+
+    }
+
+}
+
+</style>
+
+
+<script>
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const promoPopup =
+    document.getElementById("promoVideoPopup");
+
+const promoVideo =
+    document.getElementById("promoVideo");
+
+const closePromoVideo =
+    document.getElementById("closePromoVideo");
+
+const promoSound =
+    document.getElementById("promoSound");
+
+const promoButton =
+    document.getElementById("promoButton");
+
+
+/* =====================================================
+   FERMER LE POPUP
+===================================================== */
+
+function closePromoPopup() {
+
+    promoVideo.pause();
+
+    promoPopup.style.display = "none";
+
+}
+
+
+/* =====================================================
+   BOUTON X
+===================================================== */
+
+closePromoVideo.addEventListener(
+    "click",
+    function () {
+
+        closePromoPopup();
+
+    }
+);
+
+
+/* =====================================================
+   VIDEO TERMINE
+===================================================== */
+
+promoVideo.addEventListener(
+    "ended",
+    function () {
+
+        closePromoPopup();
+
+    }
+);
+
+
+/* =====================================================
+   ACTIVER / DESACTIVER LE SON
+===================================================== */
+
+promoSound.addEventListener(
+    "click",
+    function () {
+
+        if (promoVideo.muted) {
+
+            promoVideo.muted = false;
+
+            promoSound.textContent = "🔊";
+
+            promoVideo.play().catch(function () {});
+
+        } else {
+
+            promoVideo.muted = true;
+
+            promoSound.textContent = "🔇";
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   BOUTON Rejoindre le programme
+===================================================== */
+
+promoButton.addEventListener(
+    "click",
+    function () {
+
+        closePromoPopup();
+
+        const popupWhatsappNumber = "50940052773";
+
+        const message =
+` *Rejoindre le programme — BABA DESIGN*
+
+Bonjour Baba Design 👋
+
+Je viens de voir votre vidéo sur le programme destiné à accompagner 10 jeunes dans l’apprentissage d’une compétence digitale.
+
+Je souhaite intégrer le programme et j’aimerais avoir plus d’informations sur les formations disponibles, les conditions d’inscription et les modalités de participation.
+
+Merci ! 🙏
+
+*Akademi Dizay*`;
+
+        const whatsappURL =
+            "https://wa.me/" +
+            popupWhatsappNumber +
+            "?text=" +
+            encodeURIComponent(message);
+
+        window.open(
+            whatsappURL,
+            "_blank"
+        );
+
+    }
+);
+
+
+/* =====================================================
+   AFFICHAGE AUTOMATIQUE
+===================================================== */
+
+window.addEventListener(
+    "load",
+    function () {
+
+        promoPopup.style.display = "flex";
+
+        promoVideo.muted = true;
+
+        promoVideo.play().catch(function () {});
+
+    }
+);
+
+
+/* ==================================================
+   PUBLICITE → WHATSAPP
+================================================== */
+
+const pubName =
+    document.getElementById("pubName");
+
+const pubPhone =
+    document.getElementById("pubPhone");
+
+const pubType =
+    document.getElementById("pubType");
+
+const pubDuration =
+    document.getElementById("pubDuration");
+
+const pubUsd =
+    document.getElementById("pubUsd");
+
+const pubHtg =
+    document.getElementById("pubHtg");
+
+const pubPaidYes =
+    document.getElementById("pubPaidYes");
+
+const pubPaidNo =
+    document.getElementById("pubPaidNo");
+
+const pubTranscodeBox =
+    document.getElementById("pubTranscodeBox");
+
+const pubTranscode =
+    document.getElementById("pubTranscode");
+
+
+const pubPrices = {
+
+    "Photo|3 jours": 3.85,
+
+    "Vidéo|3 jours": 4.99,
+
+    "Photo|5 jours": 5.19,
+
+    "Vidéo|5 jours": 7.00,
+
+    "Photo|8 jours": 8.04,
+
+    "Vidéo|8 jours": 10.00
+
+};
+
+
+function updatePubPrice(){
+
+    const key =
+        pubType.value +
+        "|" +
+        pubDuration.value;
+
+    const usd =
+        pubPrices[key] || 0;
+
+    const htg =
+        usd * 130;
+
+
+    pubUsd.textContent =
+        usd
+        ? usd.toFixed(2).replace(".", ",") + " $"
+        : "0,00 $";
+
+
+    pubHtg.textContent =
+        usd
+        ? Math.round(htg).toLocaleString("fr-FR") + " HTG"
+        : "0 HTG";
+
+}
+
+
+pubType.addEventListener(
+    "change",
+    updatePubPrice
+);
+
+
+pubDuration.addEventListener(
+    "change",
+    updatePubPrice
+);
+
+
+pubPaidYes.addEventListener(
+    "change",
+    function(){
+
+        pubTranscodeBox.classList.remove(
+            "hidden"
+        );
+
+        pubTranscode.required = true;
+
+    }
+);
+
+
+pubPaidNo.addEventListener(
+    "change",
+    function(){
+
+        pubTranscodeBox.classList.add(
+            "hidden"
+        );
+
+        pubTranscode.required = false;
+
+        pubTranscode.value = "";
+
+    }
+);
+
+
+document
+.getElementById("publiciteForm")
+.addEventListener(
+    "submit",
+    function(event){
+
+        event.preventDefault();
+
+
+        const key =
+            pubType.value +
+            "|" +
+            pubDuration.value;
+
+
+        const usd =
+            pubPrices[key] || 0;
+
+
+        const htg =
+            usd * 130;
+
+
+        const payment =
+            document.querySelector(
+                'input[name="pubPaid"]:checked'
+            );
+
+
+        if(!usd){
+
+            alert(
+                "Veuillez choisir le type et la durée de la publicité."
+            );
+
+            return;
+
+        }
+
+
+        if(
+            !payment ||
+            payment.value !== "Oui"
+        ){
+
+            alert(
+                "Vous devez effectuer le paiement et sélectionner « Oui, j'ai payé » avec votre transcode avant d'envoyer la demande."
+            );
+
+            return;
+
+        }
+
+
+        const transcodeValue =
+            pubTranscode.value.trim();
+
+
+        if(!transcodeValue){
+
+            alert(
+                "Veuillez entrer votre transcode de paiement."
+            );
+
+            return;
+
+        }
+
+
+        const message =
+`*NOUVELLE DEMANDE DE PUBLICITÉ — BABA DESIGN*
+
+*Nom complet :*
+${pubName.value.trim()}
+
+*WhatsApp :*
+${pubPhone.value.trim()}
+
+*Type de publicité :*
+${pubType.value}
+
+*Durée :*
+${pubDuration.value}
+
+*Prix :*
+${usd.toFixed(2)} $
+
+*Prix en gourdes :*
+${Math.round(htg).toLocaleString("fr-FR")} HTG
+
+*Taux utilisé :*
+130 HTG pour 1 $
+
+*Paiement effectué :*
+Oui
+
+*Transcode :*
+${transcodeValue}
+
+*Fichier publicitaire :*
+À envoyer sur WhatsApp comme document
+
+Merci.
+*Baba Design*`;
+
+
+        const url =
+            "https://wa.me/" +
+            whatsappNumber +
+            "?text=" +
+            encodeURIComponent(message);
+
+
+        window.open(
+            url,
+            "_blank"
+        );
+
+    }
+);
+
+</script>
+
+<!-- =====================================================
+     FIN POPUP VIDEO PROMOTION
+===================================================== -->
+
+
+<script>
+(() => {
+  const slides=[...document.querySelectorAll('.portfolio-slide')];
+  const dots=document.getElementById('portfolioDots');
+  if(!slides.length || !dots) return;
+  let index=0, timer;
+  slides.forEach((_,i)=>{
+    const b=document.createElement('button'); b.className='portfolio-dot'+(i===0?' active':''); b.setAttribute('aria-label','Voir la réalisation '+(i+1));
+    b.addEventListener('click',()=>go(i,true)); dots.appendChild(b);
+  });
+  const dotEls=[...dots.children];
+  function go(i,manual=false){ index=(i+slides.length)%slides.length; slides.forEach((s,n)=>s.classList.toggle('is-active',n===index)); dotEls.forEach((d,n)=>d.classList.toggle('active',n===index)); if(manual) restart(); }
+  function restart(){clearInterval(timer);timer=setInterval(()=>go(index+1),4500);}
+  document.getElementById('portfolioPrev')?.addEventListener('click',()=>go(index-1,true));
+  document.getElementById('portfolioNext')?.addEventListener('click',()=>go(index+1,true));
+  restart();
+})();
+</script>
 </body>
 </html>
-
