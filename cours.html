@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Akademi Dizay — Formations</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:#090909;color:#fff;min-height:100vh}
+body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 20% 10%,rgba(150,0,0,.18),transparent 35%),radial-gradient(circle at 80% 80%,rgba(100,0,0,.14),transparent 35%);pointer-events:none}
+.wrap{width:min(1100px,92%);margin:auto;position:relative;z-index:1}.top{padding:28px 0;text-align:center}.brand{font-weight:900;letter-spacing:.12em;color:#e10000;font-size:13px}.top h1{font-size:clamp(30px,6vw,58px);margin:12px 0 8px}.top p{color:#aaa;margin:0}.card{background:rgba(20,20,20,.9);border:1px solid #292929;border-radius:24px;padding:28px;box-shadow:0 25px 70px rgba(0,0,0,.35);backdrop-filter:blur(14px)}
+input,select,button{width:100%;padding:15px 16px;border-radius:13px;border:1px solid #333;background:#0e0e0e;color:#fff;font-size:16px;outline:none}input:focus,select:focus{border-color:#c40000}button{margin-top:12px;background:#b80000;border-color:#d00000;font-weight:800;cursor:pointer;transition:.25s}button:hover{transform:translateY(-2px);background:#d00000}.error{color:#ff6565;min-height:22px;margin-top:10px}.hidden{display:none}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:22px}.course{padding:22px;border:1px solid #2c2c2c;border-radius:18px;background:#111;transition:.25s}.course:hover{transform:translateY(-3px);border-color:#700000}.course h3{margin:0 0 7px}.course p{color:#999;margin:0 0 14px}.links{display:grid;gap:10px}.links a,.copy{padding:13px;border-radius:11px;text-align:center;text-decoration:none;color:#fff;background:#250000;border:1px solid #5e0000;font-weight:700;cursor:pointer}.copy{background:#151515;border-color:#333}.message{margin-top:20px;padding:18px;border-left:3px solid #d00000;background:#130b0b;border-radius:12px;color:#ddd;line-height:1.6}.head{display:flex;justify-content:space-between;gap:15px;align-items:center}.tag{display:inline-block;background:#300000;color:#ff5b5b;padding:7px 11px;border-radius:99px;font-size:12px;font-weight:800}.logout{max-width:180px;background:#171717;border-color:#333}.foot{text-align:center;color:#666;padding:25px;font-size:12px}
+@media(max-width:700px){.grid{grid-template-columns:1fr}.head{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top"><div class="brand">AKADEMI DIZAY</div><h1>Espace Formations</h1><p>Accédez à vos cours avec votre code personnel.</p></header>
+<section id="login" class="card">
+  <h2>Accès élève</h2>
+  <p style="color:#999">Entrez votre code personnel pour voir vos formations.</p>
+  <input id="code" type="password" placeholder="Code d'accès personnel" autocomplete="off">
+  <button onclick="login()">Accéder à mes cours</button>
+  <div id="error" class="error"></div>
+</section>
+<section id="student" class="card hidden"></section>
+<div class="foot">Akademi Dizay • Espace Formations</div>
+</div>
+<script>
+/* =========================================================
+   LIENS OFFICIELS DES FORMATIONS
+   ========================================================= */
+const courses = {
+  calendrier:{nom:"Calendrier",lien:"https://classroom.google.com/c/ODY5NzQwMTQzMTUw?cjc=rib7ouoc",code:"rib7ouoc"},
+  video:{nom:"Vidéo",lien:"https://classroom.google.com/c/ODcyMzU2ODg5NTQ4?cjc=753dql2f",code:"753dql2f"},
+  certificat:{nom:"Certificat",lien:"https://classroom.google.com/c/ODY5Nzk0NTcxNjA3?cjc=bfn3ryp3",code:"bfn3ryp3"},
+  badge:{nom:"Badge",lien:"https://classroom.google.com/c/ODY5Nzk0NTI3ODM3?cjc=dddydixz",code:"dddydixz"}
+};
+
+/* =========================================================
+   AJOUTEZ VOS ÉLÈVES ICI
+   formation = calendrier | video | certificat | badge
+   ========================================================= */
+const students = [
+  {code:"EL001",nom:"Nom de l'élève",telephone:"0000-0000",formation:"calendrier"},
+  {code:"EL002",nom:"Nom de l'élève 2",telephone:"0000-0001",formation:"video"}
+];
+
+const messageGeneral = "Bienvenue dans votre espace formation. Consultez vos informations et utilisez les boutons ci-dessous pour rejoindre votre cours.";
+
+function login(){
+  const code=document.getElementById("code").value.trim();
+  const s=students.find(x=>x.code.toLowerCase()===code.toLowerCase());
+  const err=document.getElementById("error");
+  if(!s){err.textContent="Code d'accès incorrect.";return;}
+  const c=courses[s.formation];
+  if(!c){err.textContent="Formation non configurée.";return;}
+  err.textContent="";
+  document.getElementById("login").classList.add("hidden");
+  const el=document.getElementById("student");el.classList.remove("hidden");
+  el.innerHTML=`
+    <div class="head"><div><span class="tag">ÉLÈVE</span><h2 style="font-size:34px;margin:12px 0 3px">${escapeHtml(s.nom)}</h2><div style="color:#aaa">${escapeHtml(s.telephone)}</div></div></div>
+    <div class="message"><strong>Message de l'administration</strong><br>${escapeHtml(messageGeneral)}</div>
+    <div class="course" style="margin-top:20px">
+      <h3>${escapeHtml(c.nom)}</h3>
+      <p>Votre formation est prête. Utilisez le lien ci-dessous pour rejoindre votre classe.</p>
+      <div class="links">
+        <a href="${escapeHtml(c.lien)}" target="_blank" rel="noopener">Ouvrir la formation</a>
+        <button class="copy" onclick="copyText('${encodeURIComponent(c.lien)}')">Copier le lien</button>
+        <button class="copy" onclick="copyText('${encodeURIComponent(c.code)}')">Copier le code du cours : ${escapeHtml(c.code)}</button>
+      </div>
+    </div>
+    <button class="logout" onclick="location.reload()">Se déconnecter</button>`;
+}
+async function copyText(encoded){try{await navigator.clipboard.writeText(decodeURIComponent(encoded));alert("Copié !")}catch(e){alert("Copie impossible sur cet appareil.")}}
+function escapeHtml(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
+document.getElementById("code").addEventListener("keydown",e=>{if(e.key==="Enter")login()});
+</script>
+</body>
+</html>

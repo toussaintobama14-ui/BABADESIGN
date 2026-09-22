@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Akademi Dizay — Administration</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:#090909;color:#fff;min-height:100vh}
+body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 20% 10%,rgba(150,0,0,.18),transparent 35%),radial-gradient(circle at 80% 80%,rgba(100,0,0,.14),transparent 35%);pointer-events:none}
+.wrap{width:min(1150px,92%);margin:auto;position:relative;z-index:1}.top{padding:28px 0}.brand{font-weight:900;letter-spacing:.12em;color:#e10000;font-size:13px}.top h1{font-size:clamp(30px,5vw,52px);margin:10px 0}.top p{color:#999}.card{background:rgba(20,20,20,.92);border:1px solid #292929;border-radius:22px;padding:24px;margin-bottom:18px;box-shadow:0 20px 60px rgba(0,0,0,.28)}
+input,select,textarea,button{width:100%;padding:13px 14px;border-radius:11px;border:1px solid #333;background:#0e0e0e;color:#fff;font:inherit;outline:none}textarea{min-height:120px;resize:vertical}input:focus,select:focus,textarea:focus{border-color:#c40000}button{background:#b80000;border-color:#d00000;font-weight:800;cursor:pointer;transition:.2s}button:hover{background:#d00000;transform:translateY(-1px)}.login{max-width:470px;margin:50px auto}.error{color:#ff6a6a;min-height:22px;margin-top:8px}.hidden{display:none}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stat{padding:18px;border:1px solid #2c2c2c;border-radius:16px;background:#111}.stat b{font-size:30px}.stat span{display:block;color:#888;font-size:12px;text-transform:uppercase}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}.tab{width:auto;background:#151515;border-color:#333;padding:10px 14px}.tab.active{background:#480000;border-color:#900000}.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.wide{grid-column:1/-1}.row{display:grid;grid-template-columns:1fr auto;gap:10px}.notice{padding:14px;border-left:3px solid #d00000;background:#160b0b;color:#ddd;border-radius:10px}.hint{color:#777;font-size:12px;line-height:1.6}.success{color:#66df9a;min-height:22px}.foot{text-align:center;color:#666;padding:20px;font-size:12px}
+@media(max-width:750px){.grid,.formgrid{grid-template-columns:1fr}.wide{grid-column:auto}.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top"><div class="brand">AKADEMI DIZAY</div><h1>Administration</h1><p>Centre de contrôle local pour vos agents et vos formations.</p></header>
+
+<section id="adminLogin" class="card login">
+  <h2>Connexion administrateur</h2>
+  <input id="adminCode" type="password" placeholder="Code administrateur" autocomplete="off">
+  <button onclick="adminLogin()">Ouvrir l'administration</button>
+  <div id="adminError" class="error"></div>
+  <p class="hint">⚠️ Cette version sans serveur stocke les données dans le code du fichier. Pour une vraie sécurité, utilisez plus tard un backend.</p>
+</section>
+
+<main id="dashboard" class="hidden">
+  <section class="grid">
+    <div class="stat"><span>Agents configurés</span><b id="agentCount">0</b></div>
+    <div class="stat"><span>Élèves configurés</span><b id="studentCount">0</b></div>
+    <div class="stat"><span>Formations</span><b>4</b></div>
+  </section>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('agents',this)">Agents</button>
+    <button class="tab" onclick="showTab('students',this)">Élèves</button>
+    <button class="tab" onclick="showTab('messages',this)">Messages</button>
+    <button class="tab" onclick="showTab('guide',this)">Guide</button>
+  </div>
+
+  <section id="agents" class="card">
+    <h2>Ajouter un agent</h2>
+    <div class="formgrid">
+      <input id="aCode" placeholder="Code personnel, ex: AD003">
+      <input id="aName" placeholder="Nom complet">
+      <input id="aPhone" placeholder="Téléphone">
+      <input id="aRole" placeholder="Fonction">
+      <input id="aPhoto" class="wide" placeholder="Chemin de la photo, ex: images/agent-003.jpg">
+      <button class="wide" onclick="generateAgent()">Générer le code de l'agent</button>
+    </div>
+    <div id="agentOutput" class="notice" style="margin-top:14px">Le générateur vous donnera le bloc à copier dans <b>agents/index.html</b>.</div>
+  </section>
+
+  <section id="students" class="card hidden">
+    <h2>Ajouter un élève</h2>
+    <div class="formgrid">
+      <input id="sCode" placeholder="Code personnel, ex: EL003">
+      <input id="sName" placeholder="Nom complet">
+      <input id="sPhone" placeholder="Téléphone">
+      <select id="sCourse">
+        <option value="calendrier">Calendrier</option>
+        <option value="video">Vidéo</option>
+        <option value="certificat">Certificat</option>
+        <option value="badge">Badge</option>
+      </select>
+      <button class="wide" onclick="generateStudent()">Générer le code de l'élève</button>
+    </div>
+    <div id="studentOutput" class="notice" style="margin-top:14px">Le générateur vous donnera le bloc à copier dans <b>cours/index.html</b>.</div>
+  </section>
+
+  <section id="messages" class="card hidden">
+    <h2>Messages</h2>
+    <p class="hint">Ici vous préparez le texte qui sera affiché à tous les agents ou à tous les élèves. Comme cette version fonctionne sans serveur, après modification copiez le texte dans la variable <b>messageGeneral</b> du fichier concerné.</p>
+    <textarea id="message" placeholder="Écrivez votre message..."></textarea>
+    <button onclick="showMessageCode()">Générer le code du message</button>
+    <div id="messageOutput" class="notice" style="margin-top:14px"></div>
+  </section>
+
+  <section id="guide" class="card hidden">
+    <h2>Guide de gestion</h2>
+    <div class="notice">
+      <b>Agents :</b> ouvrez <b>agents/index.html</b>, trouvez <b>const agents = [...]</b> et ajoutez chaque personne avec son code, nom, téléphone, fonction et photo.<br><br>
+      <b>Élèves :</b> ouvrez <b>cours/index.html</b>, trouvez <b>const students = [...]</b> et ajoutez chaque élève avec son code et sa formation.<br><br>
+      <b>Photos :</b> créez un dossier <b>images</b> à côté du fichier agents et placez les badges dedans. Le chemin doit correspondre au champ photo.<br><br>
+      <b>Messages :</b> remplacez le contenu de <b>messageGeneral</b> dans le fichier concerné.<br><br>
+      <b>Important :</b> les modifications faites dans cette page Admin ne sont pas enregistrées automatiquement sur GitHub. Le panneau sert de générateur pour préparer les données à copier dans les fichiers.
+    </div>
+  </section>
+</main>
+<div class="foot">Akademi Dizay • Administration</div>
+</div>
+<script>
+/* Changez ce code avant de mettre le fichier en ligne. */
+const ADMIN_CODE = "ADMIN2026";
+
+const demoAgents = [
+ {code:"AD001",nom:"Nom de l'agent",telephone:"0000-0000",fonction:"Agent"},
+ {code:"AD002",nom:"Nom de l'agent 2",telephone:"0000-0001",fonction:"Agent"}
+];
+const demoStudents = [
+ {code:"EL001",nom:"Nom de l'élève",telephone:"0000-0000",formation:"calendrier"},
+ {code:"EL002",nom:"Nom de l'élève 2",telephone:"0000-0001",formation:"video"}
+];
+document.getElementById("agentCount").textContent=demoAgents.length;
+document.getElementById("studentCount").textContent=demoStudents.length;
+
+function adminLogin(){
+ const x=document.getElementById("adminCode").value;
+ if(x!==ADMIN_CODE){document.getElementById("adminError").textContent="Code administrateur incorrect.";return}
+ document.getElementById("adminLogin").classList.add("hidden");
+ document.getElementById("dashboard").classList.remove("hidden");
+}
+function showTab(id,btn){
+ document.querySelectorAll("#dashboard>section").forEach(x=>x.classList.add("hidden"));
+ document.getElementById(id).classList.remove("hidden");
+ document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+ btn.classList.add("active");
+}
+function q(v){return String(v||"").replace(/\\/g,"\\\\").replace(/"/g,'\\"').replace(/\n/g," ")}
+function generateAgent(){
+ const c=document.getElementById("aCode").value.trim(),n=document.getElementById("aName").value.trim(),t=document.getElementById("aPhone").value.trim(),r=document.getElementById("aRole").value.trim(),p=document.getElementById("aPhoto").value.trim();
+ if(!c||!n){document.getElementById("agentOutput").textContent="Remplissez au minimum le code et le nom.";return}
+ document.getElementById("agentOutput").innerHTML=`Copiez ce bloc dans <b>const agents = [...]</b> :<br><br><code>{code:"${q(c)}",nom:"${q(n)}",telephone:"${q(t)}",fonction:"${q(r)}",photo:"${q(p)}"},</code>`;
+}
+function generateStudent(){
+ const c=document.getElementById("sCode").value.trim(),n=document.getElementById("sName").value.trim(),t=document.getElementById("sPhone").value.trim(),f=document.getElementById("sCourse").value;
+ if(!c||!n){document.getElementById("studentOutput").textContent="Remplissez au minimum le code et le nom.";return}
+ document.getElementById("studentOutput").innerHTML=`Copiez ce bloc dans <b>const students = [...]</b> :<br><br><code>{code:"${q(c)}",nom:"${q(n)}",telephone:"${q(t)}",formation:"${f}"},</code>`;
+}
+function showMessageCode(){
+ const m=document.getElementById("message").value.trim();
+ document.getElementById("messageOutput").textContent=m?`Remplacez messageGeneral par : "${q(m)}"`:"Écrivez d'abord votre message.";
+}
+document.getElementById("adminCode").addEventListener("keydown",e=>{if(e.key==="Enter")adminLogin()});
+</script>
+</body>
+</html>
