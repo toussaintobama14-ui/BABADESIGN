@@ -28,7 +28,7 @@ footer{background:#0b0b0b;color:#777;text-align:center;padding:26px;font-size:13
 </head>
 <body>
 <header class="topbar"><div class="topbar-inner"><a class="logo" href="index.html">Baba<span>Design</span></a><a class="back" href="index.html">← Retour au site</a></div></header>
-<section class="hero"><div class="hero-content"><span class="badge">BABA DESIGN • BOUTIQUE DIGITALE</span><h1>Votre espace <span class="gradient">Templates</span></h1><p>Choisissez votre modèle, profitez du code promo <strong>DESIGN</strong> si vous en avez un, renseignez vos informations et envoyez votre commande après paiement.</p></div></section>
+<section class="hero"><div class="hero-content"><span class="badge">BABA DESIGN • BOUTIQUE DIGITALE</span><h1>Votre espace <span class="gradient">Templates</span></h1><p>Choisissez votre modèle, profitez du code promo <strong></strong> si vous en avez un, renseignez vos informations et envoyez votre commande après paiement.</p></div></section>
 <section class="lock-wrap"><div class="panel" id="gate"><h2> Accès Boutique</h2><p class="muted">Entrez le code d'accès pour ouvrir la boutique.</p><div class="field"><label for="accessCode">Code d'accès</label><input id="accessCode" type="password" autocomplete="off" placeholder="Entrez le code"></div><button class="btn" id="openShop">Entrer dans la Boutique</button><div class="error" id="codeError">Code incorrect. Veuillez réessayer.</div></div></section>
 <main id="shop">
   <div class="shop-head"><span>Collection digitale</span><h2>Mini Boutique</h2><p>5 catégories de templates prêts à commander.</p></div>
@@ -57,11 +57,11 @@ const WHATSAPP_NUMBER='50940052773';
 const RATE=130;
 const PROMO='DESIGN';
 const PRODUCTS=[
- {id:'certificat',name:'Certificat',desc:'Templates professionnels de certificats.',regular:2.99,promo:1.99,cover:'boutique-certificat-cover.jpg',examples:['certificat-exemple-01.jpg','certificat-exemple-02.jpg']},
- {id:'calendrier',name:'Calendrier',desc:'Templates de calendriers prêts à personnaliser.',regular:2.99,promo:1.99,cover:'boutique-calendrier-cover.jpg',examples:['calendrier-exemple-01.jpg','calendrier-exemple-02.jpg']},
- {id:'badge',name:'Badge',desc:'Modèles de badges modernes et professionnels.',regular:2.99,promo:1.99,cover:'boutique-badge-cover.jpg',examples:['badge-exemple-01.jpg','badge-exemple-02.jpg']},
- {id:'couleurs',name:'Couleurs',desc:'Templates créatifs autour des palettes et couleurs.',regular:12,promo:9.99,cover:'boutique-couleurs-cover.jpg',examples:['couleurs-exemple-01.jpg','couleurs-exemple-02.jpg']},
- {id:'background-design',name:'Background & Design',desc:'Backgrounds et éléments de design pour vos créations.',regular:6.99,promo:4.99,cover:'boutique-background-design-cover.jpg',examples:['background-design-exemple-01.jpg','background-design-exemple-02.jpg']}
+ {id:'certificat',name:'Certificat',desc:'Templates professionnels de certificats.',regular:2.99,promo:1.99,cover:'Certificat.jpg',examples:['certificat-exemple-01.jpg','certificat-exemple-02.jpg']},
+ {id:'calendrier',name:'Calendrier',desc:'Templates de calendriers prêts à personnaliser.',regular:2.99,promo:1.99,cover:'Calendrier.jpg',examples:['calendrier-exemple-01.jpg','calendrier-exemple-02.jpg']},
+ {id:'badge',name:'Badge',desc:'Modèles de badges modernes et professionnels.',regular:2.99,promo:1.99,cover:'Badge.jpg',examples:['badge-exemple-01.jpg','badge-exemple-02.jpg']},
+ {id:'couleurs',name:'Couleurs',desc:'Templates créatifs autour des palettes et couleurs.',regular:12,promo:9.99,cover:'Couleurs.jpg',examples:['couleurs-exemple-01.jpg','couleurs-exemple-02.jpg']},
+ {id:'background-design',name:'Background & Design',desc:'Backgrounds et éléments de design pour vos créations.',regular:6.99,promo:4.99,cover:'Background & Design.jpg',examples:['background-design-exemple-01.jpg','background-design-exemple-02.jpg']}
 ];
 let selectedProduct=null;
 const $=id=>document.getElementById(id);
