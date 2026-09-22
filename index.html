@@ -901,6 +901,48 @@ footer strong{
 }
 
 /* =========================
+   WHATSAPP COMMUNITY LINK
+========================= */
+
+.community-link-box{
+    margin-top:14px;
+    padding:14px 16px;
+    border-radius:14px;
+    background:rgba(37,211,102,.08);
+    border:1px solid rgba(37,211,102,.25);
+}
+
+.community-link-box strong{
+    color:#111;
+}
+
+.community-link{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    margin-top:10px;
+    padding:11px 16px;
+    border-radius:11px;
+    background:#25D366;
+    color:#fff;
+    text-decoration:none;
+    font-weight:900;
+    transition:.25s ease;
+}
+
+.community-link:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(37,211,102,.22);
+}
+
+@media(max-width:700px){
+    .community-link{
+        width:100%;
+    }
+}
+
+/* =========================
    RESPONSIVE
 ========================= */
 
@@ -1185,6 +1227,11 @@ body{
     display:none;
 }
 
+.portal-link{
+    color:#ffd000 !important;
+}
+
+
 /* HERO */
 .hero-modern{
     min-height:760px;
@@ -1458,6 +1505,18 @@ body{
 
             <li>
                 <a href="#inscription">Inscription</a>
+            </li>
+
+            <li>
+                <a href="cours.html" class="portal-link">Cours</a>
+            </li>
+
+            <li>
+                <a href="agents.html" class="portal-link">Agents</a>
+            </li>
+
+            <li>
+                <a href="admin.html" class="portal-link">Admin</a>
             </li>
 
             <li>
@@ -1863,6 +1922,20 @@ body{
                     Pour toutes les images nécessaires à votre commande,
                     veuillez les envoyer directement sur notre WhatsApp
                     <strong>comme document</strong> afin de préserver leur qualité.
+
+                    <div class="community-link-box">
+                        <strong>Rejoignez notre communauté WhatsApp</strong><br>
+                        Pour recevoir les informations et rester connecté avec la communauté Baba Design.
+                        <br>
+                        <a
+                            href="https://chat.whatsapp.com/F3iDDSfobD3LQkXzFmbc9Z?mode=gi_t"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="community-link"
+                        >
+                            Rejoindre la communauté WhatsApp
+                        </a>
+                    </div>
 
                 </div>
 
@@ -2304,6 +2377,20 @@ body{
             <strong>photo ou vidéo sur notre WhatsApp comme document</strong>
             afin de préserver sa qualité.
 
+            <div class="community-link-box">
+                <strong>Rejoignez notre communauté WhatsApp</strong><br>
+                Cliquez sur le bouton ci-dessous pour entrer dans le groupe officiel.
+                <br>
+                <a
+                    href="https://chat.whatsapp.com/F3iDDSfobD3LQkXzFmbc9Z?mode=gi_t"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="community-link"
+                >
+                    Rejoindre la communauté WhatsApp
+                </a>
+            </div>
+
         </div>
 
 
@@ -2470,6 +2557,20 @@ body{
 
                 Envoyez ensuite votre
                 <strong>photo ou vidéo sur WhatsApp comme document</strong>.
+
+                <div class="community-link-box">
+                    <strong>Accès à la communauté</strong><br>
+                    Rejoignez le groupe officiel pour suivre les informations et annonces.
+                    <br>
+                    <a
+                        href="https://chat.whatsapp.com/F3iDDSfobD3LQkXzFmbc9Z?mode=gi_t"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="community-link"
+                    >
+                        Rejoindre la communauté WhatsApp
+                    </a>
+                </div>
 
             </div>
 
@@ -2830,6 +2931,20 @@ body{
                         +509 4005-2773
                     </strong>
 
+                    <div class="community-link-box">
+                        <strong>Rejoignez notre communauté WhatsApp</strong><br>
+                        Cliquez ici pour rejoindre le groupe officiel de la communauté.
+                        <br>
+                        <a
+                            href="https://chat.whatsapp.com/F3iDDSfobD3LQkXzFmbc9Z?mode=gi_t"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="community-link"
+                        >
+                            Rejoindre la communauté WhatsApp
+                        </a>
+                    </div>
+
                 </div>
 
 
@@ -3098,6 +3213,15 @@ body{
                 class="contact-btn email-btn"
             >
                 Email
+            </a>
+
+            <a
+                href="https://chat.whatsapp.com/F3iDDSfobD3LQkXzFmbc9Z?mode=gi_t"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="contact-btn"
+            >
+                Communauté WhatsApp
             </a>
 
         </div>
