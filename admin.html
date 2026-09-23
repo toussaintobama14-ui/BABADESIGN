@@ -1,137 +1,178 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Akademi Dizay — Administration</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:#090909;color:#fff;min-height:100vh}
-body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 20% 10%,rgba(150,0,0,.18),transparent 35%),radial-gradient(circle at 80% 80%,rgba(100,0,0,.14),transparent 35%);pointer-events:none}
-.wrap{width:min(1150px,92%);margin:auto;position:relative;z-index:1}.top{padding:28px 0}.brand{font-weight:900;letter-spacing:.12em;color:#e10000;font-size:13px}.top h1{font-size:clamp(30px,5vw,52px);margin:10px 0}.top p{color:#999}.card{background:rgba(20,20,20,.92);border:1px solid #292929;border-radius:22px;padding:24px;margin-bottom:18px;box-shadow:0 20px 60px rgba(0,0,0,.28)}
-input,select,textarea,button{width:100%;padding:13px 14px;border-radius:11px;border:1px solid #333;background:#0e0e0e;color:#fff;font:inherit;outline:none}textarea{min-height:120px;resize:vertical}input:focus,select:focus,textarea:focus{border-color:#c40000}button{background:#b80000;border-color:#d00000;font-weight:800;cursor:pointer;transition:.2s}button:hover{background:#d00000;transform:translateY(-1px)}.login{max-width:470px;margin:50px auto}.error{color:#ff6a6a;min-height:22px;margin-top:8px}.hidden{display:none}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stat{padding:18px;border:1px solid #2c2c2c;border-radius:16px;background:#111}.stat b{font-size:30px}.stat span{display:block;color:#888;font-size:12px;text-transform:uppercase}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}.tab{width:auto;background:#151515;border-color:#333;padding:10px 14px}.tab.active{background:#480000;border-color:#900000}.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.wide{grid-column:1/-1}.row{display:grid;grid-template-columns:1fr auto;gap:10px}.notice{padding:14px;border-left:3px solid #d00000;background:#160b0b;color:#ddd;border-radius:10px}.hint{color:#777;font-size:12px;line-height:1.6}.success{color:#66df9a;min-height:22px}.foot{text-align:center;color:#666;padding:20px;font-size:12px}
-@media(max-width:750px){.grid,.formgrid{grid-template-columns:1fr}.wide{grid-column:auto}.row{grid-template-columns:1fr}}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:#fff;color:#151515;min-height:100vh}
+body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 15% 5%,rgba(225,0,0,.07),transparent 35%),radial-gradient(circle at 90% 90%,rgba(225,0,0,.05),transparent 35%);pointer-events:none}
+.wrap{width:min(1180px,92%);margin:auto;position:relative;z-index:1}.top{padding:28px 0}.brand{font-weight:900;letter-spacing:.12em;color:#d40000;font-size:13px}.top h1{font-size:clamp(30px,5vw,52px);margin:10px 0}.top p{color:#666}.card{background:#fff;border:1px solid #e5e5e5;border-radius:22px;padding:24px;margin-bottom:18px;box-shadow:0 16px 50px rgba(0,0,0,.07)}
+input,select,textarea,button{width:100%;padding:13px 14px;border-radius:11px;border:1px solid #d8d8d8;background:#fff;color:#151515;font:inherit;outline:none}textarea{min-height:120px;resize:vertical}input:focus,select:focus,textarea:focus{border-color:#c40000;box-shadow:0 0 0 3px rgba(196,0,0,.08)}button{background:#c40000;border-color:#c40000;color:#fff;font-weight:800;cursor:pointer;transition:.2s}button:hover{background:#e00000;transform:translateY(-1px)}.login{max-width:470px;margin:50px auto}.error{color:#c40000;min-height:22px;margin-top:8px}.success{color:#07853f;min-height:22px;margin-top:8px}.hidden{display:none!important}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stat{padding:18px;border:1px solid #e5e5e5;border-radius:16px;background:#fafafa}.stat b{font-size:30px}.stat span{display:block;color:#777;font-size:12px;text-transform:uppercase}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.tab{width:auto;background:#f5f5f5;color:#222;border-color:#ddd;padding:10px 14px}.tab.active{background:#c40000;color:#fff;border-color:#c40000}.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.wide{grid-column:1/-1}.courseChecks{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:8px 0}.check{border:1px solid #ddd;border-radius:12px;padding:12px;display:flex;gap:10px;align-items:center;background:#fafafa}.check input{width:auto}.notice{padding:14px;border-left:3px solid #d00000;background:#fff5f5;color:#444;border-radius:10px}.hint{color:#777;font-size:12px;line-height:1.6}.agentRow{border:1px solid #e5e5e5;border-radius:16px;padding:16px;margin-top:10px;background:#fff;display:grid;grid-template-columns:1fr auto;gap:14px}.agentMeta{color:#666;font-size:13px;line-height:1.6}.smallBtn{width:auto;padding:9px 12px;font-size:13px;margin-top:5px}.danger{background:#fff;color:#c40000;border-color:#c40000}.danger:hover{background:#fff0f0}.foot{text-align:center;color:#888;padding:20px;font-size:12px}
+@media(max-width:750px){.grid,.formgrid,.courseChecks{grid-template-columns:1fr}.wide{grid-column:auto}.agentRow{grid-template-columns:1fr}}
 </style>
 </head>
-<body>
-<div class="wrap">
-<header class="top"><div class="brand">AKADEMI DIZAY</div><h1>Administration</h1><p>Centre de contrôle local pour vos agents et vos formations.</p></header>
+<body><div class="wrap">
+<header class="top"><div class="brand">AKADEMI DIZAY</div><h1>Administration</h1><p>Gestion centralisée des agents, formations et messages.</p></header>
 
 <section id="adminLogin" class="card login">
-  <h2>Connexion administrateur</h2>
-  <input id="adminCode" type="password" placeholder="Code administrateur" autocomplete="off">
-  <button onclick="adminLogin()">Ouvrir l'administration</button>
-  <div id="adminError" class="error"></div>
-  <p class="hint"></p>
+<h2>Connexion administrateur</h2>
+<p class="hint">Le panneau utilise votre code administrateur. Aucun email ni mot de passe n'est nécessaire.</p>
+<input id="adminCode" type="password" placeholder="Code administrateur" autocomplete="off">
+<button id="loginBtn">Ouvrir l'administration</button>
+<div id="adminError" class="error"></div>
 </section>
 
 <main id="dashboard" class="hidden">
-  <section class="grid">
-    <div class="stat"><span>Agents configurés</span><b id="agentCount">0</b></div>
-    <div class="stat"><span>Élèves configurés</span><b id="studentCount">0</b></div>
-    <div class="stat"><span>Formations</span><b>4</b></div>
-  </section>
+<section class="grid">
+<div class="stat"><span>Agents</span><b id="agentCount">0</b></div>
+<div class="stat"><span>Formations</span><b>4</b></div>
+<div class="stat"><span>Messages</span><b id="messageCount">—</b></div>
+</section>
 
-  <div class="tabs">
-    <button class="tab active" onclick="showTab('agents',this)">Agents</button>
-    <button class="tab" onclick="showTab('students',this)">Élèves</button>
-    <button class="tab" onclick="showTab('messages',this)">Messages</button>
-    <button class="tab" onclick="showTab('guide',this)">Guide</button>
-  </div>
+<div class="tabs">
+<button class="tab active" data-tab="agents">Agents</button>
+<button class="tab" data-tab="messages">Messages</button>
+<button class="tab" data-tab="guide">Guide</button>
+</div>
 
-  <section id="agents" class="card">
-    <h2>Ajouter un agent</h2>
-    <div class="formgrid">
-      <input id="aCode" placeholder="Code personnel, ex: AD003">
-      <input id="aName" placeholder="Nom complet">
-      <input id="aPhone" placeholder="Téléphone">
-      <input id="aRole" placeholder="Fonction">
-      <input id="aPhoto" class="wide" placeholder="Chemin de la photo, ex: images/agent-003.jpg">
-      <button class="wide" onclick="generateAgent()">Générer le code de l'agent</button>
-    </div>
-    <div id="agentOutput" class="notice" style="margin-top:14px">Le générateur vous donnera le bloc à copier dans <b>agents/index.html</b>.</div>
-  </section>
+<section id="agents" class="card tabPanel">
+<h2>Créer un nouvel agent</h2>
+<p class="hint">Le code que vous donnez ici sera le seul moyen de connexion de l'agent. Cochez directement les formations auxquelles il a accès.</p>
+<div class="formgrid">
+<input id="aCode" placeholder="Code personnel, ex: AD003">
+<input id="aName" placeholder="Nom complet">
+<input id="aPhone" placeholder="Téléphone">
+<input id="aRole" placeholder="Fonction" value="Agent">
+<input id="aPhoto" class="wide" placeholder="Chemin ou URL de la photo, ex: images/agent-003.jpg">
+<div class="wide"><b>Formations accessibles</b><div id="courseChecks" class="courseChecks"></div></div>
+<button id="createAgentBtn" class="wide">Créer l'agent et donner les accès</button>
+</div>
+<div id="agentOutput" class="notice" style="margin-top:14px">Les agents créés apparaîtront ci-dessous.</div>
+<div id="agentList"></div>
+</section>
 
-  <section id="students" class="card hidden">
-    <h2>Ajouter un élève</h2>
-    <div class="formgrid">
-      <input id="sCode" placeholder="Code personnel, ex: EL003">
-      <input id="sName" placeholder="Nom complet">
-      <input id="sPhone" placeholder="Téléphone">
-      <select id="sCourse">
-        <option value="calendrier">Calendrier</option>
-        <option value="video">Vidéo</option>
-        <option value="certificat">Certificat</option>
-        <option value="badge">Badge</option>
-      </select>
-      <button class="wide" onclick="generateStudent()">Générer le code de l'élève</button>
-    </div>
-    <div id="studentOutput" class="notice" style="margin-top:14px">Le générateur vous donnera le bloc à copier dans <b>cours/index.html</b>.</div>
-  </section>
+<section id="messages" class="card tabPanel hidden">
+<h2>Message général</h2>
+<p class="hint">Le dernier message envoyé ici s'affichera automatiquement dans l'espace Agent et l'espace Formations.</p>
+<textarea id="message" placeholder="Écrivez votre message à tous les membres..."></textarea>
+<button id="sendMessageBtn">Envoyer à tous les membres</button>
+<div id="messageOutput" class="success"></div>
+</section>
 
-  <section id="messages" class="card hidden">
-    <h2>Messages</h2>
-    <p class="hint">Ici vous préparez le texte qui sera affiché à tous les agents ou à tous les élèves. Comme cette version fonctionne sans serveur, après modification copiez le texte dans la variable <b>messageGeneral</b> du fichier concerné.</p>
-    <textarea id="message" placeholder="Écrivez votre message..."></textarea>
-    <button onclick="showMessageCode()">Générer le code du message</button>
-    <div id="messageOutput" class="notice" style="margin-top:14px"></div>
-  </section>
-
-  <section id="guide" class="card hidden">
-    <h2>Guide de gestion</h2>
-    <div class="notice">
-      <b>Agents :</b> ouvrez <b>agents/index.html</b>, trouvez <b>const agents = [...]</b> et ajoutez chaque personne avec son code, nom, téléphone, fonction et photo.<br><br>
-      <b>Élèves :</b> ouvrez <b>cours/index.html</b>, trouvez <b>const students = [...]</b> et ajoutez chaque élève avec son code et sa formation.<br><br>
-      <b>Photos :</b> créez un dossier <b>images</b> à côté du fichier agents et placez les badges dedans. Le chemin doit correspondre au champ photo.<br><br>
-      <b>Messages :</b> remplacez le contenu de <b>messageGeneral</b> dans le fichier concerné.<br><br>
-      <b>Important :</b> les modifications faites dans cette page Admin ne sont pas enregistrées automatiquement sur GitHub. Le panneau sert de générateur pour préparer les données à copier dans les fichiers.
-    </div>
-  </section>
+<section id="guide" class="card tabPanel hidden">
+<h2>Guide</h2>
+<div class="notice">
+<b>1.</b> Créez un agent avec un code unique.<br><br>
+<b>2.</b> Cochez les cours auxquels il doit avoir accès. L'accès est enregistré directement dans Supabase.<br><br>
+<b>3.</b> L'agent va sur <b>agents.html</b> ou <b>cours.html</b> et entre uniquement son code.<br><br>
+<b>4.</b> Un message envoyé ici devient le message général visible par les membres.<br><br>
+<b>5.</b> Les liens des 4 formations sont enregistrés dans Supabase et conservés automatiquement.
+</div>
+</section>
 </main>
 <div class="foot">Akademi Dizay • Administration</div>
 </div>
+
 <script>
-/* Changez ce code avant de mettre le fichier en ligne. */
-const ADMIN_CODE = "ADMIN2026";
+const SUPABASE_URL="https://nnnqwkogkqidxbmutxcg.supabase.co";
+const SUPABASE_KEY="sb_publishable_kuNo1NU3imlpfluHsfBvjA_uaWHBCM8";
+const {createClient}=supabase;
+const db=createClient(SUPABASE_URL,SUPABASE_KEY);
+const COURSE_NAMES={
+ calendrier:"Calendrier",video:"Vidéo",certificat:"Certificat",badge:"Badge"
+};
+let adminCode=sessionStorage.getItem("akademi_admin_code")||"";
+let agents=[];
 
-const demoAgents = [
- {code:"AD001",nom:"Nom de l'agent",telephone:"0000-0000",fonction:"Agent"},
- {code:"AD002",nom:"Nom de l'agent 2",telephone:"0000-0001",fonction:"Agent"}
-];
-const demoStudents = [
- {code:"EL001",nom:"Nom de l'élève",telephone:"0000-0000",formation:"calendrier"},
- {code:"EL002",nom:"Nom de l'élève 2",telephone:"0000-0001",formation:"video"}
-];
-document.getElementById("agentCount").textContent=demoAgents.length;
-document.getElementById("studentCount").textContent=demoStudents.length;
-
-function adminLogin(){
- const x=document.getElementById("adminCode").value;
- if(x!==ADMIN_CODE){document.getElementById("adminError").textContent="Code administrateur incorrect.";return}
- document.getElementById("adminLogin").classList.add("hidden");
- document.getElementById("dashboard").classList.remove("hidden");
+function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
+function selectedCourses(){return [...document.querySelectorAll("#courseChecks input:checked")].map(x=>x.value);}
+function renderCourseChecks(){
+ document.getElementById("courseChecks").innerHTML=Object.entries(COURSE_NAMES).map(([id,name])=>
+ `<label class="check"><input type="checkbox" value="${id}"> <span>${name}</span></label>`).join("");
 }
-function showTab(id,btn){
- document.querySelectorAll("#dashboard>section").forEach(x=>x.classList.add("hidden"));
- document.getElementById(id).classList.remove("hidden");
- document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
- btn.classList.add("active");
+async function rpc(name,args){
+ const {data,error}=await db.rpc(name,args);
+ if(error) throw error;
+ return data;
 }
-function q(v){return String(v||"").replace(/\\/g,"\\\\").replace(/"/g,'\\"').replace(/\n/g," ")}
-function generateAgent(){
- const c=document.getElementById("aCode").value.trim(),n=document.getElementById("aName").value.trim(),t=document.getElementById("aPhone").value.trim(),r=document.getElementById("aRole").value.trim(),p=document.getElementById("aPhoto").value.trim();
- if(!c||!n){document.getElementById("agentOutput").textContent="Remplissez au minimum le code et le nom.";return}
- document.getElementById("agentOutput").innerHTML=`Copiez ce bloc dans <b>const agents = [...]</b> :<br><br><code>{code:"${q(c)}",nom:"${q(n)}",telephone:"${q(t)}",fonction:"${q(r)}",photo:"${q(p)}"},</code>`;
+async function loginAdmin(){
+ const code=document.getElementById("adminCode").value.trim();
+ const err=document.getElementById("adminError"); err.textContent="";
+ if(!code){err.textContent="Entrez le code administrateur.";return;}
+ try{
+   const r=await rpc("admin_login",{p_code:code});
+   if(!r?.ok){err.textContent=r?.message||"Code administrateur incorrect.";return;}
+   adminCode=code; sessionStorage.setItem("akademi_admin_code",code);
+   document.getElementById("adminLogin").classList.add("hidden");
+   document.getElementById("dashboard").classList.remove("hidden");
+   await loadAgents();
+ }catch(e){err.textContent="Connexion Supabase impossible : "+e.message;}
 }
-function generateStudent(){
- const c=document.getElementById("sCode").value.trim(),n=document.getElementById("sName").value.trim(),t=document.getElementById("sPhone").value.trim(),f=document.getElementById("sCourse").value;
- if(!c||!n){document.getElementById("studentOutput").textContent="Remplissez au minimum le code et le nom.";return}
- document.getElementById("studentOutput").innerHTML=`Copiez ce bloc dans <b>const students = [...]</b> :<br><br><code>{code:"${q(c)}",nom:"${q(n)}",telephone:"${q(t)}",formation:"${f}"},</code>`;
+async function loadAgents(){
+ const r=await rpc("admin_list_agents",{p_admin_code:adminCode});
+ if(!r?.ok){sessionStorage.removeItem("akademi_admin_code");location.reload();return;}
+ agents=r.agents||[];
+ document.getElementById("agentCount").textContent=agents.length;
+ document.getElementById("agentList").innerHTML=agents.length?agents.map(a=>{
+   const courses=(a.courses||[]).map(x=>COURSE_NAMES[x]||x).join(", ")||"Aucun cours";
+   return `<div class="agentRow">
+    <div><b>${esc(a.nom)}</b><div class="agentMeta">${esc(a.telephone)} • ${esc(a.fonction)}<br>Accès : ${esc(courses)}<br>Statut : <b>${a.actif?"Actif":"Désactivé"}</b></div></div>
+    <div><button class="smallBtn" onclick="editCourses('${a.id}')">Modifier les cours</button>
+    <button class="smallBtn ${a.actif?"danger":""}" onclick="toggleAgent('${a.id}',${!a.actif})">${a.actif?"Désactiver":"Activer"}</button></div>
+   </div>`;
+ }).join(""):"<p class='hint'>Aucun agent créé pour le moment.</p>";
 }
-function showMessageCode(){
- const m=document.getElementById("message").value.trim();
- document.getElementById("messageOutput").textContent=m?`Remplacez messageGeneral par : "${q(m)}"`:"Écrivez d'abord votre message.";
+async function createAgent(){
+ const output=document.getElementById("agentOutput"); output.className="notice"; output.textContent="";
+ const code=document.getElementById("aCode").value.trim(), name=document.getElementById("aName").value.trim();
+ if(!code||!name){output.textContent="Le code et le nom sont obligatoires.";return;}
+ try{
+   const r=await rpc("admin_create_agent",{
+    p_admin_code:adminCode,p_agent_code:code,p_nom:name,
+    p_telephone:document.getElementById("aPhone").value.trim(),
+    p_fonction:document.getElementById("aRole").value.trim()||"Agent",
+    p_photo:document.getElementById("aPhoto").value.trim(),
+    p_course_ids:selectedCourses()
+   });
+   if(!r?.ok){output.textContent=r?.message||"Création impossible.";return;}
+   output.className="notice";output.innerHTML=`<b>Agent créé.</b> Code de connexion : <b>${esc(code)}</b>. Les accès aux cours sont déjà enregistrés.`;
+   document.getElementById("aCode").value="";document.getElementById("aName").value="";
+   document.getElementById("aPhone").value="";document.getElementById("aPhoto").value="";
+   document.querySelectorAll("#courseChecks input").forEach(x=>x.checked=false);
+   await loadAgents();
+ }catch(e){output.textContent="Erreur : "+e.message;}
 }
-document.getElementById("adminCode").addEventListener("keydown",e=>{if(e.key==="Enter")adminLogin()});
+async function editCourses(id){
+ const a=agents.find(x=>x.id===id); if(!a)return;
+ const chosen=prompt("Entrez les codes des formations séparés par des virgules.\ncalendrier, video, certificat, badge", (a.courses||[]).join(","));
+ if(chosen===null)return;
+ const ids=chosen.split(",").map(x=>x.trim()).filter(x=>COURSE_NAMES[x]);
+ try{
+   const r=await rpc("admin_set_agent_courses",{p_admin_code:adminCode,p_agent_id:id,p_course_ids:ids});
+   alert(r?.message||"Accès mis à jour."); await loadAgents();
+ }catch(e){alert(e.message);}
+}
+async function toggleAgent(id,status){
+ try{const r=await rpc("admin_set_agent_status",{p_admin_code:adminCode,p_agent_id:id,p_actif:status});alert(r?.message||"Statut mis à jour.");await loadAgents();}
+ catch(e){alert(e.message);}
+}
+async function sendMessage(){
+ const out=document.getElementById("messageOutput"),m=document.getElementById("message").value.trim();
+ out.textContent="";
+ try{const r=await rpc("admin_send_message",{p_admin_code:adminCode,p_contenu:m});out.textContent=r?.message||"Message envoyé.";if(r?.ok)document.getElementById("message").value="";}
+ catch(e){out.textContent="Erreur : "+e.message;}
+}
+document.getElementById("loginBtn").onclick=loginAdmin;
+document.getElementById("createAgentBtn").onclick=createAgent;
+document.getElementById("sendMessageBtn").onclick=sendMessage;
+document.getElementById("adminCode").addEventListener("keydown",e=>{if(e.key==="Enter")loginAdmin()});
+document.querySelectorAll(".tab").forEach(btn=>btn.onclick=()=>{
+ document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));btn.classList.add("active");
+ document.querySelectorAll(".tabPanel").forEach(x=>x.classList.add("hidden"));
+ document.getElementById(btn.dataset.tab).classList.remove("hidden");
+});
+renderCourseChecks();
+(async()=>{if(adminCode){try{const r=await rpc("admin_login",{p_code:adminCode});if(r?.ok){document.getElementById("adminLogin").classList.add("hidden");document.getElementById("dashboard").classList.remove("hidden");await loadAgents();}else{sessionStorage.removeItem("akademi_admin_code");adminCode="";}}catch(e){}}})();
 </script>
-</body>
-</html>
+</body></html>
