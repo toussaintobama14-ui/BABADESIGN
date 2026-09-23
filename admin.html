@@ -1,178 +1,36 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Akademi Dizay — Administration</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:#fff;color:#151515;min-height:100vh}
-body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 15% 5%,rgba(225,0,0,.07),transparent 35%),radial-gradient(circle at 90% 90%,rgba(225,0,0,.05),transparent 35%);pointer-events:none}
-.wrap{width:min(1180px,92%);margin:auto;position:relative;z-index:1}.top{padding:28px 0}.brand{font-weight:900;letter-spacing:.12em;color:#d40000;font-size:13px}.top h1{font-size:clamp(30px,5vw,52px);margin:10px 0}.top p{color:#666}.card{background:#fff;border:1px solid #e5e5e5;border-radius:22px;padding:24px;margin-bottom:18px;box-shadow:0 16px 50px rgba(0,0,0,.07)}
-input,select,textarea,button{width:100%;padding:13px 14px;border-radius:11px;border:1px solid #d8d8d8;background:#fff;color:#151515;font:inherit;outline:none}textarea{min-height:120px;resize:vertical}input:focus,select:focus,textarea:focus{border-color:#c40000;box-shadow:0 0 0 3px rgba(196,0,0,.08)}button{background:#c40000;border-color:#c40000;color:#fff;font-weight:800;cursor:pointer;transition:.2s}button:hover{background:#e00000;transform:translateY(-1px)}.login{max-width:470px;margin:50px auto}.error{color:#c40000;min-height:22px;margin-top:8px}.success{color:#07853f;min-height:22px;margin-top:8px}.hidden{display:none!important}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stat{padding:18px;border:1px solid #e5e5e5;border-radius:16px;background:#fafafa}.stat b{font-size:30px}.stat span{display:block;color:#777;font-size:12px;text-transform:uppercase}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.tab{width:auto;background:#f5f5f5;color:#222;border-color:#ddd;padding:10px 14px}.tab.active{background:#c40000;color:#fff;border-color:#c40000}.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.wide{grid-column:1/-1}.courseChecks{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:8px 0}.check{border:1px solid #ddd;border-radius:12px;padding:12px;display:flex;gap:10px;align-items:center;background:#fafafa}.check input{width:auto}.notice{padding:14px;border-left:3px solid #d00000;background:#fff5f5;color:#444;border-radius:10px}.hint{color:#777;font-size:12px;line-height:1.6}.agentRow{border:1px solid #e5e5e5;border-radius:16px;padding:16px;margin-top:10px;background:#fff;display:grid;grid-template-columns:1fr auto;gap:14px}.agentMeta{color:#666;font-size:13px;line-height:1.6}.smallBtn{width:auto;padding:9px 12px;font-size:13px;margin-top:5px}.danger{background:#fff;color:#c40000;border-color:#c40000}.danger:hover{background:#fff0f0}.foot{text-align:center;color:#888;padding:20px;font-size:12px}
-@media(max-width:750px){.grid,.formgrid,.courseChecks{grid-template-columns:1fr}.wide{grid-column:auto}.agentRow{grid-template-columns:1fr}}
-</style>
-</head>
-<body><div class="wrap">
-<header class="top"><div class="brand">AKADEMI DIZAY</div><h1>Administration</h1><p>Gestion centralisée des agents, formations et messages.</p></header>
-
-<section id="adminLogin" class="card login">
-<h2>Connexion administrateur</h2>
-<p class="hint">Le panneau utilise votre code administrateur. Aucun email ni mot de passe n'est nécessaire.</p>
-<input id="adminCode" type="password" placeholder="Code administrateur" autocomplete="off">
-<button id="loginBtn">Ouvrir l'administration</button>
-<div id="adminError" class="error"></div>
-</section>
-
-<main id="dashboard" class="hidden">
-<section class="grid">
-<div class="stat"><span>Agents</span><b id="agentCount">0</b></div>
-<div class="stat"><span>Formations</span><b>4</b></div>
-<div class="stat"><span>Messages</span><b id="messageCount">—</b></div>
-</section>
-
-<div class="tabs">
-<button class="tab active" data-tab="agents">Agents</button>
-<button class="tab" data-tab="messages">Messages</button>
-<button class="tab" data-tab="guide">Guide</button>
-</div>
-
-<section id="agents" class="card tabPanel">
-<h2>Créer un nouvel agent</h2>
-<p class="hint">Le code que vous donnez ici sera le seul moyen de connexion de l'agent. Cochez directement les formations auxquelles il a accès.</p>
-<div class="formgrid">
-<input id="aCode" placeholder="Code personnel, ex: AD003">
-<input id="aName" placeholder="Nom complet">
-<input id="aPhone" placeholder="Téléphone">
-<input id="aRole" placeholder="Fonction" value="Agent">
-<input id="aPhoto" class="wide" placeholder="Chemin ou URL de la photo, ex: images/agent-003.jpg">
-<div class="wide"><b>Formations accessibles</b><div id="courseChecks" class="courseChecks"></div></div>
-<button id="createAgentBtn" class="wide">Créer l'agent et donner les accès</button>
-</div>
-<div id="agentOutput" class="notice" style="margin-top:14px">Les agents créés apparaîtront ci-dessous.</div>
-<div id="agentList"></div>
-</section>
-
-<section id="messages" class="card tabPanel hidden">
-<h2>Message général</h2>
-<p class="hint">Le dernier message envoyé ici s'affichera automatiquement dans l'espace Agent et l'espace Formations.</p>
-<textarea id="message" placeholder="Écrivez votre message à tous les membres..."></textarea>
-<button id="sendMessageBtn">Envoyer à tous les membres</button>
-<div id="messageOutput" class="success"></div>
-</section>
-
-<section id="guide" class="card tabPanel hidden">
-<h2>Guide</h2>
-<div class="notice">
-<b>1.</b> Créez un agent avec un code unique.<br><br>
-<b>2.</b> Cochez les cours auxquels il doit avoir accès. L'accès est enregistré directement dans Supabase.<br><br>
-<b>3.</b> L'agent va sur <b>agents.html</b> ou <b>cours.html</b> et entre uniquement son code.<br><br>
-<b>4.</b> Un message envoyé ici devient le message général visible par les membres.<br><br>
-<b>5.</b> Les liens des 4 formations sont enregistrés dans Supabase et conservés automatiquement.
-</div>
-</section>
-</main>
-<div class="foot">Akademi Dizay • Administration</div>
-</div>
-
-<script>
-const SUPABASE_URL="https://nnnqwkogkqidxbmutxcg.supabase.co";
-const SUPABASE_KEY="sb_publishable_kuNo1NU3imlpfluHsfBvjA_uaWHBCM8";
-const {createClient}=supabase;
-const db=createClient(SUPABASE_URL,SUPABASE_KEY);
-const COURSE_NAMES={
- calendrier:"Calendrier",video:"Vidéo",certificat:"Certificat",badge:"Badge"
-};
-let adminCode=sessionStorage.getItem("akademi_admin_code")||"";
-let agents=[];
-
-function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
-function selectedCourses(){return [...document.querySelectorAll("#courseChecks input:checked")].map(x=>x.value);}
-function renderCourseChecks(){
- document.getElementById("courseChecks").innerHTML=Object.entries(COURSE_NAMES).map(([id,name])=>
- `<label class="check"><input type="checkbox" value="${id}"> <span>${name}</span></label>`).join("");
-}
-async function rpc(name,args){
- const {data,error}=await db.rpc(name,args);
- if(error) throw error;
- return data;
-}
-async function loginAdmin(){
- const code=document.getElementById("adminCode").value.trim();
- const err=document.getElementById("adminError"); err.textContent="";
- if(!code){err.textContent="Entrez le code administrateur.";return;}
- try{
-   const r=await rpc("admin_login",{p_code:code});
-   if(!r?.ok){err.textContent=r?.message||"Code administrateur incorrect.";return;}
-   adminCode=code; sessionStorage.setItem("akademi_admin_code",code);
-   document.getElementById("adminLogin").classList.add("hidden");
-   document.getElementById("dashboard").classList.remove("hidden");
-   await loadAgents();
- }catch(e){err.textContent="Connexion Supabase impossible : "+e.message;}
-}
-async function loadAgents(){
- const r=await rpc("admin_list_agents",{p_admin_code:adminCode});
- if(!r?.ok){sessionStorage.removeItem("akademi_admin_code");location.reload();return;}
- agents=r.agents||[];
- document.getElementById("agentCount").textContent=agents.length;
- document.getElementById("agentList").innerHTML=agents.length?agents.map(a=>{
-   const courses=(a.courses||[]).map(x=>COURSE_NAMES[x]||x).join(", ")||"Aucun cours";
-   return `<div class="agentRow">
-    <div><b>${esc(a.nom)}</b><div class="agentMeta">${esc(a.telephone)} • ${esc(a.fonction)}<br>Accès : ${esc(courses)}<br>Statut : <b>${a.actif?"Actif":"Désactivé"}</b></div></div>
-    <div><button class="smallBtn" onclick="editCourses('${a.id}')">Modifier les cours</button>
-    <button class="smallBtn ${a.actif?"danger":""}" onclick="toggleAgent('${a.id}',${!a.actif})">${a.actif?"Désactiver":"Activer"}</button></div>
-   </div>`;
- }).join(""):"<p class='hint'>Aucun agent créé pour le moment.</p>";
-}
-async function createAgent(){
- const output=document.getElementById("agentOutput"); output.className="notice"; output.textContent="";
- const code=document.getElementById("aCode").value.trim(), name=document.getElementById("aName").value.trim();
- if(!code||!name){output.textContent="Le code et le nom sont obligatoires.";return;}
- try{
-   const r=await rpc("admin_create_agent",{
-    p_admin_code:adminCode,p_agent_code:code,p_nom:name,
-    p_telephone:document.getElementById("aPhone").value.trim(),
-    p_fonction:document.getElementById("aRole").value.trim()||"Agent",
-    p_photo:document.getElementById("aPhoto").value.trim(),
-    p_course_ids:selectedCourses()
-   });
-   if(!r?.ok){output.textContent=r?.message||"Création impossible.";return;}
-   output.className="notice";output.innerHTML=`<b>Agent créé.</b> Code de connexion : <b>${esc(code)}</b>. Les accès aux cours sont déjà enregistrés.`;
-   document.getElementById("aCode").value="";document.getElementById("aName").value="";
-   document.getElementById("aPhone").value="";document.getElementById("aPhoto").value="";
-   document.querySelectorAll("#courseChecks input").forEach(x=>x.checked=false);
-   await loadAgents();
- }catch(e){output.textContent="Erreur : "+e.message;}
-}
-async function editCourses(id){
- const a=agents.find(x=>x.id===id); if(!a)return;
- const chosen=prompt("Entrez les codes des formations séparés par des virgules.\ncalendrier, video, certificat, badge", (a.courses||[]).join(","));
- if(chosen===null)return;
- const ids=chosen.split(",").map(x=>x.trim()).filter(x=>COURSE_NAMES[x]);
- try{
-   const r=await rpc("admin_set_agent_courses",{p_admin_code:adminCode,p_agent_id:id,p_course_ids:ids});
-   alert(r?.message||"Accès mis à jour."); await loadAgents();
- }catch(e){alert(e.message);}
-}
-async function toggleAgent(id,status){
- try{const r=await rpc("admin_set_agent_status",{p_admin_code:adminCode,p_agent_id:id,p_actif:status});alert(r?.message||"Statut mis à jour.");await loadAgents();}
- catch(e){alert(e.message);}
-}
-async function sendMessage(){
- const out=document.getElementById("messageOutput"),m=document.getElementById("message").value.trim();
- out.textContent="";
- try{const r=await rpc("admin_send_message",{p_admin_code:adminCode,p_contenu:m});out.textContent=r?.message||"Message envoyé.";if(r?.ok)document.getElementById("message").value="";}
- catch(e){out.textContent="Erreur : "+e.message;}
-}
-document.getElementById("loginBtn").onclick=loginAdmin;
-document.getElementById("createAgentBtn").onclick=createAgent;
-document.getElementById("sendMessageBtn").onclick=sendMessage;
-document.getElementById("adminCode").addEventListener("keydown",e=>{if(e.key==="Enter")loginAdmin()});
-document.querySelectorAll(".tab").forEach(btn=>btn.onclick=()=>{
- document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));btn.classList.add("active");
- document.querySelectorAll(".tabPanel").forEach(x=>x.classList.add("hidden"));
- document.getElementById(btn.dataset.tab).classList.remove("hidden");
-});
-renderCourseChecks();
-(async()=>{if(adminCode){try{const r=await rpc("admin_login",{p_code:adminCode});if(r?.ok){document.getElementById("adminLogin").classList.add("hidden");document.getElementById("dashboard").classList.remove("hidden");await loadAgents();}else{sessionStorage.removeItem("akademi_admin_code");adminCode="";}}catch(e){}}})();
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:#fff;color:#171717;min-height:100vh}
+body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 20% 10%,rgba(255,210,0,.18),transparent 35%),radial-gradient(circle at 80% 80%,rgba(255,210,0,.12),transparent 35%);pointer-events:none}
+.wrap{width:min(1150px,92%);margin:auto;position:relative;z-index:1}.top{padding:28px 0}.brand{font-weight:900;letter-spacing:.12em;color:#e2b800;font-size:13px}.top h1{font-size:clamp(30px,5vw,52px);margin:10px 0}.top p{color:#666}.card{background:rgba(255,255,255,.94);border:1px solid #e7e0b9;border-radius:22px;padding:24px;margin-bottom:18px;box-shadow:0 20px 60px rgba(80,65,0,.10)}input,select,textarea,button{width:100%;padding:13px 14px;border-radius:11px;border:1px solid #d9d3b4;background:#fff;color:#171717;font:inherit;outline:none}textarea{min-height:120px;resize:vertical}input:focus,select:focus,textarea:focus{border-color:#d7b500}button{background:#f2c900;border-color:#e0b900;font-weight:800;cursor:pointer;transition:.2s}button:hover{background:#ffd91a;transform:translateY(-1px)}.login{max-width:470px;margin:50px auto}.error{color:#c62828;min-height:22px;margin-top:8px}.success{color:#16864b;min-height:22px;margin-top:8px}.hidden{display:none}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stat{padding:18px;border:1px solid #e5dfbf;border-radius:16px;background:#fffdf2}.stat b{font-size:30px}.stat span{display:block;color:#777;font-size:12px;text-transform:uppercase}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}.tab{width:auto;background:#fff;border-color:#d9d3b4;padding:10px 14px}.tab.active{background:#f2c900;border-color:#e0b900}.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.wide{grid-column:1/-1}.notice{padding:14px;border-left:3px solid #e0b900;background:#fffbea;color:#444;border-radius:10px}.hint{color:#777;font-size:12px;line-height:1.6}.list{display:grid;gap:10px;margin-top:14px}.person{padding:14px;border:1px solid #e7e0b9;border-radius:12px;background:#fff}.checks{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}.checks label{padding:10px;border:1px solid #ddd6ad;border-radius:10px}.checks input{width:auto}.foot{text-align:center;color:#888;padding:20px;font-size:12px}@media(max-width:750px){.grid,.formgrid{grid-template-columns:1fr}.wide{grid-column:auto}}
+</style></head><body><div class="wrap">
+<header class="top"><div class="brand">AKADEMI DIZAY</div><h1>Administration</h1><p>Gestion centrale des agents, élèves, formations et messages.</p></header>
+<section id="adminLogin" class="card login"><h2>Connexion administrateur</h2><input id="adminCode" type="password" placeholder="Code administrateur" autocomplete="off"><button onclick="adminLogin()">Ouvrir l'administration</button><div id="adminError" class="error"></div><p class="hint">Le code administrateur reste celui configuré dans Supabase.</p></section>
+<main id="dashboard" class="hidden"><section class="grid"><div class="stat"><span>Agents</span><b id="agentCount">0</b></div><div class="stat"><span>Élèves</span><b id="studentCount">0</b></div><div class="stat"><span>Formations</span><b id="courseCount">0</b></div></section>
+<div class="tabs"><button class="tab active" onclick="showTab('agents',this)">Agents</button><button class="tab" onclick="showTab('students',this)">Élèves</button><button class="tab" onclick="showTab('messages',this)">Messages</button><button class="tab" onclick="showTab('guide',this)">Guide</button></div>
+<section id="agents" class="card"><h2>Créer un agent</h2><div class="formgrid"><input id="aCode" placeholder="Code personnel, ex: AD003"><input id="aName" placeholder="Nom complet"><input id="aPhone" placeholder="Téléphone"><input id="aRole" placeholder="Fonction" value="Agent"><input id="aPhoto" class="wide" placeholder="Chemin photo, ex: images/agent-003.jpg"><button class="wide" onclick="createAgent()">Créer l'agent directement</button></div><div id="agentResult" class="notice" style="margin-top:14px">L'agent sera enregistré dans Supabase immédiatement.</div><div id="agentList" class="list"></div></section>
+<section id="students" class="card hidden"><h2>Créer un élève + donner ses cours</h2><div class="formgrid"><input id="sCode" placeholder="Code personnel, ex: EL003"><input id="sName" placeholder="Nom complet"><input id="sPhone" placeholder="Téléphone"><div class="wide"><b>Formations accessibles</b><div id="courseChecks" class="checks"></div></div><button class="wide" onclick="createStudent()">Créer l'élève et enregistrer ses accès</button></div><div id="studentResult" class="notice" style="margin-top:14px">Les liens et codes des formations restent ceux définis dans la base.</div><div id="studentList" class="list"></div></section>
+<section id="messages" class="card hidden"><h2>Message de l'administration</h2><select id="audience"><option value="all">Tout le monde</option><option value="agents">Agents seulement</option><option value="students">Élèves seulement</option></select><textarea id="message" placeholder="Écrivez votre message..."></textarea><button onclick="sendMessage()">Envoyer le message</button><div id="messageResult" class="notice" style="margin-top:14px"></div><div id="messageList" class="list"></div></section>
+<section id="guide" class="card hidden"><h2>Guide</h2><div class="notice"><b>Agents :</b> ils utilisent uniquement leur code dans <b>agents.html</b>.<br><br><b>Élèves :</b> ils utilisent uniquement leur code dans <b>cours.html</b> et ne voient que les formations que vous leur attribuez.<br><br><b>Messages :</b> vous pouvez les envoyer aux agents, aux élèves ou à tout le monde.<br><br><b>Important :</b> aucune donnée agent/élève n'est plus à copier dans le HTML. Tout est enregistré dans Supabase.</div></section>
+</main><div class="foot">Akademi Dizay • Administration</div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+const SUPABASE_URL = "https://tlkuxqojbjpycgsaqone.supabase.co";
+const SUPABASE_KEY = "sb_publishable_AaCz0QDY9858XQtbOBybZw_uXhXfloL";
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 </script>
-</body></html>
+<script>
+let ADMIN_CODE_SESSION="";
+function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+async function adminLogin(){const code=document.getElementById("adminCode").value.trim();const e=document.getElementById("adminError");if(!code){e.textContent="Entrez le code administrateur.";return}const {data,error}=await db.rpc("admin_login",{p_code:code});if(error||!data?.ok){e.textContent=data?.message||error?.message||"Connexion impossible.";return}ADMIN_CODE_SESSION=code;document.getElementById("adminLogin").classList.add("hidden");document.getElementById("dashboard").classList.remove("hidden");await loadData()}
+function showTab(id,btn){document.querySelectorAll("#dashboard>section").forEach(x=>x.classList.add("hidden"));document.getElementById(id).classList.remove("hidden");document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));btn.classList.add("active")}
+let DATA={agents:[],students:[],courses:[],messages:[]};
+async function loadData(){const {data,error}=await db.rpc("get_admin_data",{p_code:ADMIN_CODE_SESSION});if(error||!data?.ok){alert(data?.message||error?.message||"Impossible de charger les données.");return}DATA=data;document.getElementById("agentCount").textContent=DATA.agents.length;document.getElementById("studentCount").textContent=DATA.students.length;document.getElementById("courseCount").textContent=DATA.courses.length;renderCourses();renderLists()}
+function renderCourses(){document.getElementById("courseChecks").innerHTML=DATA.courses.map(c=>`<label><input type="checkbox" value="${esc(c.slug)}"> ${esc(c.nom)}</label>`).join("")}
+function renderLists(){document.getElementById("agentList").innerHTML="<h3>Agents enregistrés</h3>"+DATA.agents.map(a=>`<div class="person"><b>${esc(a.nom)}</b> — ${esc(a.code)}<br>${esc(a.telephone)} · ${esc(a.fonction)}</div>`).join("")||"<div class=hint>Aucun agent.</div>";document.getElementById("studentList").innerHTML="<h3>Élèves enregistrés</h3>"+DATA.students.map(s=>`<div class="person"><b>${esc(s.nom)}</b> — ${esc(s.code)}<br>${esc(s.telephone)}<br><small>${s.courses.map(c=>esc(c.nom)).join(" · ")||"Aucun cours"}</small></div>`).join("")||"<div class=hint>Aucun élève.</div>";document.getElementById("messageList").innerHTML="<h3>Messages envoyés</h3>"+DATA.messages.map(m=>`<div class="person"><b>${esc(m.audience)}</b> · ${new Date(m.created_at).toLocaleString()}<br>${esc(m.message)}</div>`).join("")||"<div class=hint>Aucun message.</div>"}
+async function createAgent(){const vals=["aCode","aName","aPhone","aRole","aPhoto"].map(id=>document.getElementById(id).value.trim());const {data,error}=await db.rpc("create_agent",{p_admin_code:ADMIN_CODE_SESSION,p_code:vals[0],p_nom:vals[1],p_telephone:vals[2],p_fonction:vals[3],p_photo:vals[4]});const box=document.getElementById("agentResult");box.textContent=data?.message||(data?.ok?"Agent créé avec succès.":"Erreur.");if(data?.ok){["aCode","aName","aPhone","aPhoto"].forEach(id=>document.getElementById(id).value="");await loadData()}}
+async function createStudent(){const slugs=[...document.querySelectorAll("#courseChecks input:checked")].map(x=>x.value);const code=document.getElementById("sCode").value.trim(),nom=document.getElementById("sName").value.trim(),tel=document.getElementById("sPhone").value.trim();const {data,error}=await db.rpc("create_student",{p_admin_code:ADMIN_CODE_SESSION,p_code:code,p_nom:nom,p_telephone:tel,p_course_slugs:slugs});const box=document.getElementById("studentResult");box.textContent=data?.message||(data?.ok?"Élève créé avec ses accès.":"Erreur.");if(data?.ok){["sCode","sName","sPhone"].forEach(id=>document.getElementById(id).value="");document.querySelectorAll("#courseChecks input").forEach(x=>x.checked=false);await loadData()}}
+async function sendMessage(){const message=document.getElementById("message").value.trim(),audience=document.getElementById("audience").value;const {data,error}=await db.rpc("send_message",{p_admin_code:ADMIN_CODE_SESSION,p_message:message,p_audience:audience});const box=document.getElementById("messageResult");box.textContent=data?.message||(data?.ok?"Message envoyé.":"Erreur.");if(data?.ok){document.getElementById("message").value="";await loadData()}}
+document.getElementById("adminCode").addEventListener("keydown",e=>{if(e.key==="Enter")adminLogin()});
+</script></body></html>
