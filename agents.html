@@ -1,58 +1,15 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Akademi Dizay — Espace Agents</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Akademi Dizay — Espace Agents</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:#fff;color:#151515;min-height:100vh}
-body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 20% 10%,rgba(225,0,0,.07),transparent 35%),radial-gradient(circle at 80% 80%,rgba(225,0,0,.05),transparent 35%);pointer-events:none}
-.wrap{width:min(1050px,92%);margin:auto;position:relative;z-index:1}.top{padding:28px 0;text-align:center}.brand{font-weight:900;letter-spacing:.12em;color:#d40000;font-size:13px}.top h1{font-size:clamp(30px,6vw,58px);margin:12px 0 8px}.top p{color:#666;margin:0}.card{background:#fff;border:1px solid #e5e5e5;border-radius:24px;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.08)}input,button{width:100%;padding:15px 16px;border-radius:13px;border:1px solid #d8d8d8;background:#fff;color:#151515;font-size:16px;outline:none}input:focus{border-color:#c40000;box-shadow:0 0 0 3px rgba(196,0,0,.08)}button{margin-top:12px;background:#c40000;border-color:#c40000;color:#fff;font-weight:800;cursor:pointer;transition:.2s}button:hover{transform:translateY(-2px);background:#e00000}.error{color:#c40000;min-height:22px;margin-top:10px}.hidden{display:none!important}.profile{display:grid;grid-template-columns:240px 1fr;gap:28px;align-items:start}.photo{width:100%;aspect-ratio:1;border-radius:20px;object-fit:cover;background:#f2f2f2;border:1px solid #ddd}.tag{display:inline-block;background:#fff0f0;color:#c40000;padding:7px 11px;border-radius:99px;font-size:12px;font-weight:800}.name{font-size:clamp(28px,5vw,46px);margin:12px 0 4px}.role{color:#666;font-size:17px}.info{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:22px}.item{padding:16px;border:1px solid #e5e5e5;border-radius:15px;background:#fafafa}.label{color:#777;font-size:11px;text-transform:uppercase;letter-spacing:.08em}.value{margin-top:5px;font-weight:700}.message{margin-top:14px;padding:18px;border-left:3px solid #d00000;background:#fff5f5;border-radius:12px;color:#444;line-height:1.6}.logout{max-width:180px;background:#fff;color:#c40000;border-color:#c40000}.courseGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px}.course{padding:18px;border:1px solid #e5e5e5;border-radius:16px;background:#fafafa}.course h3{margin:0 0 7px}.course p{color:#666}.course a{display:block;padding:12px;border-radius:11px;text-align:center;text-decoration:none;color:#fff;background:#c40000;font-weight:700}.course button{background:#fff;color:#222;border-color:#ddd}.foot{text-align:center;color:#888;padding:25px;font-size:12px}
-@media(max-width:700px){.profile{grid-template-columns:1fr}.photo{max-width:230px;margin:auto}.info,.courseGrid{grid-template-columns:1fr}}
-</style>
-</head>
-<body><div class="wrap">
-<header class="top"><div class="brand">AKADEMI DIZAY</div><h1>Espace Agents</h1><p>Connectez-vous uniquement avec votre code personnel.</p></header>
-<section id="login" class="card">
-<h2>Accès personnel</h2><p style="color:#666">Entrez votre code d'accès pour consulter votre espace.</p>
-<input id="code" type="password" placeholder="Code d'accès personnel" autocomplete="off">
-<button id="loginBtn">Accéder à mon espace</button><div id="error" class="error"></div>
-</section>
-<section id="profile" class="card hidden"></section>
-<div class="foot">Akademi Dizay • Espace réservé aux membres</div>
-</div>
-<script>
-const SUPABASE_URL="https://nnnqwkogkqidxbmutxcg.supabase.co";
-const SUPABASE_KEY="sb_publishable_kuNo1NU3imlpfluHsfBvjA_uaWHBCM8";
-const db=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
-async function login(){
- const code=document.getElementById("code").value.trim(),err=document.getElementById("error");err.textContent="";
- if(!code){err.textContent="Entrez votre code.";return;}
- try{
-  const {data,error}=await db.rpc("agent_login",{p_code:code});
-  if(error)throw error;
-  if(!data?.ok){err.textContent=data?.message||"Code d'accès incorrect.";return;}
-  const a=data.agent||{},courses=data.courses||[];
-  document.getElementById("login").classList.add("hidden");
-  const p=document.getElementById("profile");p.classList.remove("hidden");
-  p.innerHTML=`<div class="profile">
-   <img class="photo" src="${esc(a.photo)}" alt="Photo de ${esc(a.nom)}" onerror="this.style.opacity='.25'">
-   <div><span class="tag">ESPACE AGENT</span>
-   <div class="name">${esc(a.nom)}</div><div class="role">${esc(a.fonction)}</div>
-   <div class="info">
-    <div class="item"><div class="label">Nom</div><div class="value">${esc(a.nom)}</div></div>
-    <div class="item"><div class="label">Téléphone</div><div class="value">${esc(a.telephone)}</div></div>
-    <div class="item"><div class="label">Fonction</div><div class="value">${esc(a.fonction)}</div></div>
-    <div class="item"><div class="label">Formations</div><div class="value">${courses.length}</div></div>
-   </div>
-   <div class="message"><strong>Message de l'administration</strong><br>${esc(data.message||"")}</div>
-   <h2 style="margin-top:24px">Mes formations</h2>
-   <div class="courseGrid">${courses.length?courses.map(c=>`<div class="course"><h3>${esc(c.nom)}</h3><p>Accès accordé par l'administration.</p><a href="${esc(c.lien)}" target="_blank" rel="noopener">Ouvrir la formation</a><button onclick="copyText('${encodeURIComponent(c.lien)}')">Copier le lien</button></div>`).join(""):"<p style='color:#666'>Aucune formation ne vous a encore été attribuée.</p>"}</div>
-   <button class="logout" onclick="location.reload()">Se déconnecter</button></div></div>`;
- }catch(e){err.textContent="Erreur de connexion : "+e.message;}
-}
-async function copyText(encoded){try{await navigator.clipboard.writeText(decodeURIComponent(encoded));alert("Lien copié !")}catch(e){alert("Copie impossible sur cet appareil.");}}
-document.getElementById("loginBtn").onclick=login;
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:#fff;color:#171717;min-height:100vh}body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 20% 10%,rgba(255,210,0,.18),transparent 35%),radial-gradient(circle at 80% 80%,rgba(255,210,0,.12),transparent 35%);pointer-events:none}.wrap{width:min(1050px,92%);margin:auto;position:relative;z-index:1}.top{padding:28px 0;text-align:center}.brand{font-weight:900;letter-spacing:.12em;color:#e2b800;font-size:13px}.top h1{font-size:clamp(30px,6vw,58px);margin:12px 0 8px}.top p{color:#666;margin:0}.card{background:rgba(255,255,255,.94);border:1px solid #e7e0b9;border-radius:24px;padding:28px;box-shadow:0 25px 70px rgba(80,65,0,.12)}input,button{width:100%;padding:15px 16px;border-radius:13px;border:1px solid #d9d3b4;background:#fff;color:#171717;font-size:16px;outline:none}input:focus{border-color:#d7b500}button{margin-top:12px;background:#f2c900;border-color:#e0b900;font-weight:800;cursor:pointer;transition:.25s}button:hover{transform:translateY(-2px);background:#ffd91a}.error{color:#c62828;min-height:22px;margin-top:10px}.hidden{display:none}.profile{display:grid;grid-template-columns:240px 1fr;gap:28px;align-items:start}.photo{width:100%;aspect-ratio:1;border-radius:20px;object-fit:cover;background:#eee;border:1px solid #ddd}.tag{display:inline-block;background:#fff4b8;color:#8b7100;padding:7px 11px;border-radius:99px;font-size:12px;font-weight:800}.name{font-size:clamp(28px,5vw,46px);margin:12px 0 4px}.role{color:#666;font-size:17px}.info{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:22px}.item{padding:16px;border:1px solid #e7e0b9;border-radius:15px;background:#fffdf2}.label{color:#777;font-size:11px;text-transform:uppercase;letter-spacing:.08em}.value{margin-top:5px;font-weight:700}.message{margin-top:14px;padding:18px;border-left:3px solid #e0b900;background:#fffbea;border-radius:12px;color:#444;line-height:1.6}.msg{padding:12px;border-bottom:1px solid #eee4b8}.logout{max-width:180px;background:#fff;border-color:#d9d3b4}.foot{text-align:center;color:#888;padding:25px;font-size:12px}@media(max-width:700px){.profile{grid-template-columns:1fr}.photo{max-width:230px;margin:auto}.info{grid-template-columns:1fr}}
+</style></head><body><div class="wrap"><header class="top"><div class="brand">AKADEMI DIZAY</div><h1>Espace Agents</h1><p>Connectez-vous avec votre code personnel.</p></header>
+<section id="login" class="card"><h2>Accès personnel</h2><p style="color:#666">Entrez votre code d'accès pour consulter votre espace.</p><input id="code" type="password" placeholder="Code d'accès personnel" autocomplete="off"><button onclick="login()">Accéder à mon espace</button><div id="error" class="error"></div></section>
+<section id="profile" class="card hidden"></section><div class="foot">Akademi Dizay • Espace réservé aux membres</div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+const SUPABASE_URL = "https://tlkuxqojbjpycgsaqone.supabase.co";
+const SUPABASE_KEY = "sb_publishable_AaCz0QDY9858XQtbOBybZw_uXhXfloL";
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+</script><script>
+function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+async function login(){const code=document.getElementById("code").value.trim(),err=document.getElementById("error");if(!code){err.textContent="Entrez votre code.";return}const {data,error}=await db.rpc("agent_login",{p_code:code});if(error||!data?.ok){err.textContent=data?.message||error?.message||"Connexion impossible.";return}err.textContent="";document.getElementById("login").classList.add("hidden");const a=data.agent;const msgs=data.messages||[];document.getElementById("profile").classList.remove("hidden");document.getElementById("profile").innerHTML=`<div class="profile"><img class="photo" src="${esc(a.photo)}" alt="Badge de ${esc(a.nom)}" onerror="this.style.opacity='.35'"><div><span class="tag">ESPACE AGENT</span><div class="name">${esc(a.nom)}</div><div class="role">${esc(a.fonction)}</div><div class="info"><div class="item"><div class="label">Nom</div><div class="value">${esc(a.nom)}</div></div><div class="item"><div class="label">Téléphone</div><div class="value">${esc(a.telephone)}</div></div><div class="item"><div class="label">Fonction</div><div class="value">${esc(a.fonction)}</div></div><div class="item"><div class="label">Code personnel</div><div class="value">••••••••</div></div></div><div class="message"><strong>Messages de l'administration</strong>${msgs.length?msgs.map(m=>`<div class="msg">${esc(m.message)}</div>`).join(""):"<div class=msg>Aucun nouveau message.</div>"}</div><button class="logout" onclick="location.reload()">Se déconnecter</button></div></div>`}
 document.getElementById("code").addEventListener("keydown",e=>{if(e.key==="Enter")login()});
 </script></body></html>
