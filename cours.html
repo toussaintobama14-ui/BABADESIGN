@@ -1,16 +1,775 @@
-<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Akademi Dizay — Formations</title>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Akademi Dizay — Formations</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:#fff;color:#171717;min-height:100vh}body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 20% 10%,rgba(255,210,0,.18),transparent 35%),radial-gradient(circle at 80% 80%,rgba(255,210,0,.12),transparent 35%);pointer-events:none}.wrap{width:min(1100px,92%);margin:auto;position:relative;z-index:1}.top{padding:28px 0;text-align:center}.brand{font-weight:900;letter-spacing:.12em;color:#e2b800;font-size:13px}.top h1{font-size:clamp(30px,6vw,58px);margin:12px 0 8px}.top p{color:#666;margin:0}.card{background:rgba(255,255,255,.94);border:1px solid #e7e0b9;border-radius:24px;padding:28px;box-shadow:0 25px 70px rgba(80,65,0,.12)}input,button{width:100%;padding:15px 16px;border-radius:13px;border:1px solid #d9d3b4;background:#fff;color:#171717;font-size:16px;outline:none}input:focus{border-color:#d7b500}button{margin-top:12px;background:#f2c900;border-color:#e0b900;font-weight:800;cursor:pointer;transition:.25s}button:hover{transform:translateY(-2px);background:#ffd91a}.error{color:#c62828;min-height:22px;margin-top:10px}.hidden{display:none}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:22px}.course{padding:22px;border:1px solid #e7e0b9;border-radius:18px;background:#fffdf2;transition:.25s}.course:hover{transform:translateY(-3px);border-color:#d7b500}.course h3{margin:0 0 7px}.course p{color:#666;margin:0 0 14px}.links{display:grid;gap:10px}.links a,.copy{padding:13px;border-radius:11px;text-align:center;text-decoration:none;color:#171717;background:#f2c900;border:1px solid #e0b900;font-weight:700;cursor:pointer}.copy{background:#fff;border-color:#d9d3b4}.message{margin-top:20px;padding:18px;border-left:3px solid #e0b900;background:#fffbea;border-radius:12px;color:#444;line-height:1.6}.head{display:flex;justify-content:space-between;gap:15px;align-items:center}.tag{display:inline-block;background:#fff4b8;color:#8b7100;padding:7px 11px;border-radius:99px;font-size:12px;font-weight:800}.logout{max-width:180px;background:#fff;border-color:#d9d3b4}.foot{text-align:center;color:#888;padding:25px;font-size:12px}.msg{padding:10px 0;border-bottom:1px solid #eadfba}@media(max-width:700px){.grid{grid-template-columns:1fr}.head{flex-direction:column;align-items:flex-start}}
-</style></head><body><div class="wrap"><header class="top"><div class="brand">AKADEMI DIZAY</div><h1>Espace Formations</h1><p>Accédez uniquement aux cours attribués à votre code.</p></header>
-<section id="login" class="card"><h2>Accès élève</h2><p style="color:#666">Entrez votre code personnel pour voir vos formations.</p><input id="code" type="password" placeholder="Code d'accès personnel" autocomplete="off"><button onclick="login()">Accéder à mes cours</button><div id="error" class="error"></div></section>
-<section id="student" class="card hidden"></section><div class="foot">Akademi Dizay • Espace Formations</div></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
-const SUPABASE_URL = "https://tlkuxqojbjpycgsaqone.supabase.co";
-const SUPABASE_KEY = "sb_publishable_AaCz0QDY9858XQtbOBybZw_uXhXfloL";
-const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-</script><script>
-function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
-async function copyText(v){try{await navigator.clipboard.writeText(v);alert("Copié !")}catch(e){alert("Copie impossible sur cet appareil.")}}
-async function login(){const code=document.getElementById("code").value.trim(),err=document.getElementById("error");if(!code){err.textContent="Entrez votre code.";return}const {data,error}=await db.rpc("student_login",{p_code:code});if(error||!data?.ok){err.textContent=data?.message||error?.message||"Connexion impossible.";return}const s=data.student,courses=data.courses||[],msgs=data.messages||[];err.textContent="";document.getElementById("login").classList.add("hidden");const el=document.getElementById("student");el.classList.remove("hidden");el.innerHTML=`<div class="head"><div><span class="tag">ÉLÈVE</span><h2 style="font-size:34px;margin:12px 0 3px">${esc(s.nom)}</h2><div style="color:#666">${esc(s.telephone)}</div></div></div><div class="message"><strong>Messages de l'administration</strong>${msgs.length?msgs.map(m=>`<div class="msg">${esc(m.message)}</div>`).join(""):"<div class=msg>Aucun nouveau message.</div>"}</div><div class="grid">${courses.length?courses.map(c=>`<div class="course"><h3>${esc(c.nom)}</h3><p>Votre formation est prête. Utilisez le lien ci-dessous pour rejoindre votre classe.</p><div class="links"><a href="${esc(c.lien)}" target="_blank" rel="noopener">Ouvrir la formation</a><button class="copy" onclick="copyText('${esc(c.lien)}')">Copier le lien</button><button class="copy" onclick="copyText('${esc(c.code)}')">Copier le code du cours : ${esc(c.code)}</button></div></div>`).join(""):"<div class=course><h3>Aucune formation</h3><p>Aucune formation n'a encore été attribuée à ce code.</p></div>"}</div><button class="logout" onclick="location.reload()">Se déconnecter</button>`}
-document.getElementById("code").addEventListener("keydown",e=>{if(e.key==="Enter")login()});
-</script></body></html>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;
+  background:#fff;
+  color:#171717;
+  min-height:100vh;
+}
+
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(circle at 15% 10%,rgba(255,193,7,.14),transparent 35%),
+    radial-gradient(circle at 85% 85%,rgba(255,193,7,.10),transparent 35%);
+  pointer-events:none;
+}
+
+.wrap{
+  width:min(1100px,92%);
+  margin:auto;
+  position:relative;
+  z-index:1;
+}
+
+.top{
+  padding:30px 0;
+  text-align:center;
+}
+
+.brand{
+  font-weight:900;
+  letter-spacing:.12em;
+  color:#e3a900;
+  font-size:13px;
+}
+
+.top h1{
+  font-size:clamp(30px,6vw,58px);
+  margin:12px 0 8px;
+}
+
+.top p{
+  color:#777;
+  margin:0;
+}
+
+.card{
+  background:#fff;
+  border:1px solid #e7e7e7;
+  border-radius:24px;
+  padding:28px;
+  box-shadow:0 20px 60px rgba(0,0,0,.08);
+}
+
+input,button{
+  width:100%;
+  padding:15px 16px;
+  border-radius:13px;
+  border:1px solid #ddd;
+  background:#fff;
+  color:#171717;
+  font-size:16px;
+  outline:none;
+}
+
+input:focus{
+  border-color:#e3a900;
+  box-shadow:0 0 0 3px rgba(227,169,0,.12);
+}
+
+button{
+  margin-top:12px;
+  background:#f4c400;
+  border-color:#e3a900;
+  color:#171717;
+  font-weight:800;
+  cursor:pointer;
+  transition:.25s;
+}
+
+button:hover{
+  transform:translateY(-2px);
+  background:#ffd21a;
+}
+
+.error{
+  color:#d93025;
+  min-height:22px;
+  margin-top:10px;
+}
+
+.success{
+  color:#16803c;
+  min-height:22px;
+  margin-top:10px;
+}
+
+.hidden{
+  display:none!important;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+  margin-top:22px;
+}
+
+.course{
+  padding:22px;
+  border:1px solid #e5e5e5;
+  border-radius:18px;
+  background:#fff;
+  transition:.25s;
+}
+
+.course:hover{
+  transform:translateY(-3px);
+  border-color:#f0c000;
+  box-shadow:0 12px 30px rgba(0,0,0,.07);
+}
+
+.course h3{
+  margin:0 0 7px;
+}
+
+.course p{
+  color:#777;
+  margin:0 0 14px;
+}
+
+.links{
+  display:grid;
+  gap:10px;
+}
+
+.links a,
+.copy{
+  padding:13px;
+  border-radius:11px;
+  text-align:center;
+  text-decoration:none;
+  color:#171717;
+  background:#f4c400;
+  border:1px solid #e3a900;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.copy{
+  background:#fff;
+  border-color:#ddd;
+}
+
+.message{
+  margin-top:20px;
+  padding:18px;
+  border-left:4px solid #f4c400;
+  background:#fff9dc;
+  border-radius:12px;
+  color:#333;
+  line-height:1.6;
+}
+
+.head{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  align-items:center;
+}
+
+.tag{
+  display:inline-block;
+  background:#fff4b8;
+  color:#8a6900;
+  padding:7px 11px;
+  border-radius:99px;
+  font-size:12px;
+  font-weight:800;
+}
+
+.student-info{
+  color:#777;
+  margin-top:5px;
+}
+
+.logout{
+  max-width:180px;
+  background:#fff;
+  border-color:#ddd;
+  color:#333;
+}
+
+.loading{
+  text-align:center;
+  padding:25px;
+  color:#777;
+}
+
+.empty{
+  text-align:center;
+  padding:30px 10px;
+  color:#777;
+  border:1px dashed #ddd;
+  border-radius:16px;
+}
+
+.foot{
+  text-align:center;
+  color:#888;
+  padding:25px;
+  font-size:12px;
+}
+
+@media(max-width:700px){
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .head{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<header class="top">
+  <div class="brand">AKADEMI DIZAY</div>
+  <h1>Espace Formations</h1>
+  <p>Accédez à vos cours avec votre code personnel.</p>
+</header>
+
+<section id="login" class="card">
+
+  <h2>Accès élève</h2>
+
+  <p style="color:#777">
+    Entrez votre code personnel pour voir vos formations.
+  </p>
+
+  <input
+    id="code"
+    type="password"
+    placeholder="Code d'accès personnel"
+    autocomplete="off"
+  >
+
+  <button onclick="login()">
+    Accéder à mes cours
+  </button>
+
+  <div id="error" class="error"></div>
+
+</section>
+
+
+<section id="student" class="card hidden"></section>
+
+
+<div class="foot">
+  Akademi Dizay • Espace Formations
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   CONFIGURATION SUPABASE
+   ========================================================= */
+
+const SUPABASE_URL =
+"https://tlkuxqojbjpycgsaqone.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_AaCz0QDY9858XQtbOBybZw_uXhXfloL";
+
+const supabaseClient =
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+
+/* =========================================================
+   LOGIN ÉLÈVE
+   ========================================================= */
+
+async function login(){
+
+  const code =
+    document.getElementById("code")
+    .value
+    .trim();
+
+  const error =
+    document.getElementById("error");
+
+  const loginBox =
+    document.getElementById("login");
+
+  const studentBox =
+    document.getElementById("student");
+
+
+  error.textContent = "";
+
+  if(!code){
+
+    error.textContent =
+      "Veuillez entrer votre code d'accès.";
+
+    return;
+  }
+
+
+  loginBox.querySelector("button").disabled = true;
+
+  loginBox.querySelector("button").textContent =
+    "Connexion...";
+
+
+  try{
+
+    /*
+      Appel de la fonction SQL
+      student_login(code)
+    */
+
+    const { data, error: dbError } =
+      await supabaseClient.rpc(
+        "student_login",
+        {
+          p_code: code
+        }
+      );
+
+
+    if(dbError){
+
+      console.error(dbError);
+
+      error.textContent =
+        "Erreur de connexion. Vérifiez la configuration Supabase.";
+
+      return;
+    }
+
+
+    if(!data || data.length === 0){
+
+      error.textContent =
+        "Code d'accès incorrect.";
+
+      return;
+    }
+
+
+    const student = data[0];
+
+
+    await afficherEspaceEleve(student);
+
+  }
+
+  catch(err){
+
+    console.error(err);
+
+    error.textContent =
+      "Une erreur est survenue. Veuillez réessayer.";
+
+  }
+
+  finally{
+
+    loginBox.querySelector("button").disabled = false;
+
+    loginBox.querySelector("button").textContent =
+      "Accéder à mes cours";
+
+  }
+}
+
+
+/* =========================================================
+   AFFICHER ESPACE ÉLÈVE
+   ========================================================= */
+
+async function afficherEspaceEleve(student){
+
+  const loginBox =
+    document.getElementById("login");
+
+  const studentBox =
+    document.getElementById("student");
+
+
+  loginBox.classList.add("hidden");
+
+  studentBox.classList.remove("hidden");
+
+
+  studentBox.innerHTML = `
+
+    <div class="head">
+
+      <div>
+
+        <span class="tag">
+          ÉLÈVE
+        </span>
+
+        <h2 style="
+          font-size:34px;
+          margin:12px 0 3px;
+        ">
+          ${escapeHtml(student.nom)}
+        </h2>
+
+        <div class="student-info">
+          ${escapeHtml(student.telephone || "")}
+        </div>
+
+      </div>
+
+    </div>
+
+    <div id="messageContainer"></div>
+
+    <h2 style="margin-top:28px">
+      Mes formations
+    </h2>
+
+    <div id="coursesContainer"
+         class="loading">
+
+      Chargement de vos formations...
+
+    </div>
+
+    <button
+      class="logout"
+      onclick="logout()">
+
+      Se déconnecter
+
+    </button>
+  `;
+
+
+  await chargerMessages();
+
+  await chargerCours(student.id);
+}
+
+
+/* =========================================================
+   CHARGER LES COURS DE L'ÉLÈVE
+   ========================================================= */
+
+async function chargerCours(studentId){
+
+  const container =
+    document.getElementById("coursesContainer");
+
+
+  try{
+
+    /*
+      On récupère uniquement les cours
+      attribués à cet élève.
+    */
+
+    const { data, error } =
+      await supabaseClient
+      .from("student_courses")
+      .select(`
+        course_id,
+        courses (
+          id,
+          nom,
+          lien,
+          code
+        )
+      `)
+      .eq("student_id", studentId);
+
+
+    if(error){
+
+      console.error(error);
+
+      container.innerHTML = `
+        <div class="empty">
+          Impossible de charger vos formations.
+        </div>
+      `;
+
+      return;
+    }
+
+
+    if(!data || data.length === 0){
+
+      container.innerHTML = `
+        <div class="empty">
+          Aucune formation ne vous a encore été attribuée.
+        </div>
+      `;
+
+      return;
+    }
+
+
+    container.className = "grid";
+
+
+    container.innerHTML =
+      data
+      .filter(item => item.courses)
+      .map(item => {
+
+        const course =
+          item.courses;
+
+        return `
+
+          <div class="course">
+
+            <h3>
+              ${escapeHtml(course.nom)}
+            </h3>
+
+            <p>
+              Votre formation est prête.
+              Utilisez les boutons ci-dessous
+              pour accéder à votre cours.
+            </p>
+
+            <div class="links">
+
+              <a
+                href="${escapeHtml(course.lien)}"
+                target="_blank"
+                rel="noopener">
+
+                Ouvrir la formation
+
+              </a>
+
+
+              <button
+                class="copy"
+                onclick="copyText(
+                  '${encodeURIComponent(course.lien)}'
+                )">
+
+                Copier le lien
+
+              </button>
+
+
+              <button
+                class="copy"
+                onclick="copyText(
+                  '${encodeURIComponent(course.code || "")}'
+                )">
+
+                Copier le code du cours :
+                ${escapeHtml(course.code || "")}
+
+              </button>
+
+            </div>
+
+          </div>
+
+        `;
+
+      })
+      .join("");
+
+  }
+
+  catch(err){
+
+    console.error(err);
+
+    container.innerHTML = `
+      <div class="empty">
+        Erreur lors du chargement des formations.
+      </div>
+    `;
+
+  }
+}
+
+
+/* =========================================================
+   CHARGER LES MESSAGES ADMIN
+   ========================================================= */
+
+async function chargerMessages(){
+
+  const container =
+    document.getElementById("messageContainer");
+
+
+  try{
+
+    const { data, error } =
+      await supabaseClient
+      .from("messages")
+      .select("*")
+      .in(
+        "audience",
+        ["all","students"]
+      )
+      .order(
+        "created_at",
+        {
+          ascending:false
+        }
+      );
+
+
+    if(error){
+
+      console.error(error);
+
+      return;
+    }
+
+
+    if(!data || data.length === 0){
+
+      return;
+    }
+
+
+    container.innerHTML =
+      data
+      .map(message => `
+
+        <div class="message">
+
+          <strong>
+            Message de l'administration
+          </strong>
+
+          <br>
+
+          ${escapeHtml(message.message)}
+
+        </div>
+
+      `)
+      .join("");
+
+  }
+
+  catch(err){
+
+    console.error(err);
+
+  }
+}
+
+
+/* =========================================================
+   COPIER UN TEXTE
+   ========================================================= */
+
+async function copyText(encoded){
+
+  try{
+
+    const text =
+      decodeURIComponent(encoded);
+
+    await navigator.clipboard.writeText(text);
+
+    alert("Copié !");
+
+  }
+
+  catch(e){
+
+    alert(
+      "Copie impossible sur cet appareil."
+    );
+
+  }
+}
+
+
+/* =========================================================
+   DÉCONNEXION
+   ========================================================= */
+
+function logout(){
+
+  location.reload();
+
+}
+
+
+/* =========================================================
+   PROTECTION HTML
+   ========================================================= */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replace(
+      /[&<>"']/g,
+      function(m){
+
+        return {
+          "&":"&amp;",
+          "<":"&lt;",
+          ">":"&gt;",
+          '"':"&quot;",
+          "'":"&#039;"
+        }[m];
+
+      }
+    );
+
+}
+
+
+/* =========================================================
+   ENTER POUR SE CONNECTER
+   ========================================================= */
+
+document
+  .getElementById("code")
+  .addEventListener(
+    "keydown",
+    function(e){
+
+      if(e.key === "Enter"){
+
+        login();
+
+      }
+
+    }
+  );
+
+</script>
+
+</body>
+</html>
