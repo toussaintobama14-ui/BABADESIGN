@@ -1497,6 +1497,13 @@ body{
             </li>
 
             <li>
+                <!-- BOUTIQUE_CONNECT: boutique.html -->
+                <a href="boutique.html" class="nav-boutique">
+                    Boutique
+                </a>
+            </li>
+
+            <li>
                 <a href="#inscription">Inscription</a>
             </li>
 
@@ -1655,7 +1662,7 @@ body{
                 <div class="field">
 
                     <label>
-                        Téléphone
+                        Numéro WhatsApp
                     </label>
 
                     <input
@@ -1912,7 +1919,9 @@ body{
 
                     <strong>Important :</strong><br>
 
-                    Ajoutez directement les fichiers nécessaires à votre demande en ligne. Les demandes sont traitées depuis votre espace.
+                    Pour toutes les images nécessaires à votre commande,
+                    veuillez les envoyer directement sur notre WhatsApp
+                    <strong>comme document</strong> afin de préserver leur qualité.
 
                     <div class="community-link-box">
                         <strong>Rejoignez notre communauté WhatsApp</strong><br>
@@ -1953,6 +1962,97 @@ body{
                 </div>
 
 
+                <div class="notice" style="margin-top:15px;">
+
+                    <strong>Méthode de paiement : NatCash</strong>
+
+                    <br><br>
+
+                    Numéro :
+                    <strong>+509 4005-2773</strong>
+
+                    <br>
+
+                    Nom :
+                    <strong>Marie Alberte Darisme</strong>
+
+                    <br><br>
+
+                    Après le paiement, sélectionnez
+                    <strong>« Oui, j'ai payé »</strong>
+                    et indiquez votre
+                    <strong>transcode</strong>.
+
+                </div>
+
+
+                <br>
+
+
+                <label>
+                    Avez-vous déjà effectué le paiement ?
+                    <span class="required">*</span>
+                </label>
+
+
+                <div class="radio-group">
+
+                    <div class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="paid"
+                            id="paidYes"
+                            value="Oui"
+                            required
+                        >
+
+                        <label for="paidYes">
+                            Oui, j'ai payé
+                        </label>
+
+                    </div>
+
+
+                    <div class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="paid"
+                            id="paidNo"
+                            value="Non"
+                            required
+                        >
+
+                        <label for="paidNo">
+                            Non, pas encore
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="field hidden"
+                    id="transcodeBox"
+                    style="margin-top:20px;"
+                >
+
+                    <label>
+                        Transcode de paiement
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="transcode"
+                        placeholder="Entrez votre transcode de paiement"
+                    >
+
+                </div>
+
+
                 <div class="payment-info">
 
                     <div class="money-box">
@@ -1971,7 +2071,7 @@ body{
                     <div class="money-box deposit">
 
                         <span>
-                            Prix de base 70%
+                            Dépôt 70%
                         </span>
 
                         <strong id="depositPrice">
@@ -1984,7 +2084,7 @@ body{
                     <div class="money-box remaining">
 
                         <span>
-                            Reste 30%
+                            Solde 30%
                         </span>
 
                         <strong id="remainingPrice">
@@ -2044,7 +2144,7 @@ body{
                     type="submit"
                     class="submit-btn"
                 >
-                    Commander le service en ligne
+                    Envoyer ma commande sur WhatsApp
                 </button>
 
             </div>
@@ -2274,7 +2374,7 @@ body{
             et le type de publicité.
 
             Après paiement, envoyez votre
-            <strong>photo ou vidéo comme document</strong>
+            <strong>photo ou vidéo sur notre WhatsApp comme document</strong>
             afin de préserver sa qualité.
 
             <div class="community-link-box">
@@ -2316,7 +2416,7 @@ body{
             <div class="field">
 
                 <label>
-                    Téléphone
+                    Numéro WhatsApp
                     <span class="required">*</span>
                 </label>
 
@@ -2445,7 +2545,18 @@ body{
 
                 <strong>Important :</strong><br>
 
-               Envoyez les photos ou les vidéos en bonne qualité. 
+                Après avoir payé, choisissez
+                <strong>« Oui, j'ai payé »</strong>
+                et entrez votre
+                <strong>transcode</strong>.
+
+                Sans paiement confirmé avec un transcode,
+                la demande ne sera pas envoyée pour traitement.
+
+                <br><br>
+
+                Envoyez ensuite votre
+                <strong>photo ou vidéo sur WhatsApp comme document</strong>.
 
                 <div class="community-link-box">
                     <strong>Accès à la communauté</strong><br>
@@ -2464,12 +2575,76 @@ body{
             </div>
 
 
+            <label>
+                Avez-vous déjà effectué le paiement ?
+                <span class="required">*</span>
+            </label>
+
+
+            <div class="radio-group">
+
+                <div class="radio-option">
+
+                    <input
+                        type="radio"
+                        name="pubPaid"
+                        id="pubPaidYes"
+                        value="Oui"
+                        required
+                    >
+
+                    <label for="pubPaidYes">
+                        Oui, j'ai payé
+                    </label>
+
+                </div>
+
+
+                <div class="radio-option">
+
+                    <input
+                        type="radio"
+                        name="pubPaid"
+                        id="pubPaidNo"
+                        value="Non"
+                        required
+                    >
+
+                    <label for="pubPaidNo">
+                        Non, pas encore
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="field hidden"
+                id="pubTranscodeBox"
+                style="margin-top:20px;"
+            >
+
+                <label>
+                    Transcode de paiement
+                    <span class="required">*</span>
+                </label>
+
+                <input
+                    type="text"
+                    id="pubTranscode"
+                    placeholder="Entrez votre transcode de paiement"
+                >
+
+            </div>
+
+
             <button
                 type="submit"
                 class="submit-btn"
                 style="margin-top:20px;"
             >
-                Commander la publicité en ligne
+                Envoyer ma demande de publicité sur WhatsApp
             </button>
 
         </form>
@@ -2493,7 +2668,7 @@ body{
 
         <p>
             Remplissez le formulaire et envoyez
-            votre inscription directement depuis votre espace personnel.
+            votre inscription directement sur WhatsApp.
         </p>
 
     </div>
@@ -2687,7 +2862,51 @@ body{
                     >
 
                 </div>
-<!-- AGENT INFO -->
+
+
+                <!-- =========================
+                     NOUVEAU : INFOS NATCASH AGENT
+                ========================= -->
+
+                <div
+                    class="field hidden"
+                    id="agentNatCashBox"
+                >
+
+                    <label>
+                        Numéro NatCash pour recevoir les paiements
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="agentNatCash"
+                        placeholder="Ex : 40000000"
+                    >
+
+                </div>
+
+
+                <div
+                    class="field hidden"
+                    id="agentNatCashNameBox"
+                >
+
+                    <label>
+                        Nom sur le compte NatCash
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="agentNatCashName"
+                        placeholder="Nom complet sur le compte NatCash"
+                    >
+
+                </div>
+
+
+                <!-- AGENT INFO -->
 
                 <div
                     class="notice hidden"
@@ -2700,11 +2919,17 @@ body{
 
                     <br><br>
 
-                    Après votre inscription, les informations sont conservées dans votre espace personnel pour le traitement du dossier.
+                    Après votre inscription,
+                    envoyez votre photo directement
+                    sur notre WhatsApp pour la création
+                    de votre badge.
 
                     <br><br>
 
-                    <strong>Traitement en ligne depuis votre espace personnel</strong>
+                    <strong>
+                        WhatsApp :
+                        +509 4005-2773
+                    </strong>
 
                     <div class="community-link-box">
                         <strong>Rejoignez notre communauté WhatsApp</strong><br>
@@ -2723,6 +2948,114 @@ body{
                 </div>
 
 
+                <!-- PAYMENT -->
+
+                <div class="notice">
+
+                    <strong>
+                        Paiement NatCash
+                    </strong>
+
+                    <br><br>
+
+                    Numéro :
+                    <strong>
+                        +509 4005-2773
+                    </strong>
+
+                    <br>
+
+                    Nom :
+                    <strong>
+                        Marie Alberte Darisme
+                    </strong>
+
+                    <br><br>
+
+                    Après paiement,
+                    sélectionnez « Oui, j'ai payé »
+                    et entrez votre transcode.
+
+                </div>
+
+
+                <br>
+
+
+                <label>
+
+                    Avez-vous déjà effectué le paiement ?
+
+                    <span class="required">*</span>
+
+                </label>
+
+
+                <div class="radio-group">
+
+                    <div class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="regPaid"
+                            id="regPaidYes"
+                            value="Oui"
+                            required
+                        >
+
+                        <label for="regPaidYes">
+                            Oui, j'ai payé
+                        </label>
+
+                    </div>
+
+
+                    <div class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="regPaid"
+                            id="regPaidNo"
+                            value="Non"
+                            required
+                        >
+
+                        <label for="regPaidNo">
+                            Non, pas encore
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TRANSCODE INSCRIPTION -->
+
+                <div
+                    class="field hidden"
+                    id="regTranscodeBox"
+                    style="margin-top:20px;"
+                >
+
+                    <label>
+
+                        Transcode de paiement
+
+                        <span class="required">
+                            *
+                        </span>
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="regTranscode"
+                        placeholder="Entrez votre transcode"
+                    >
+
+                </div>
+
+
                 <br>
 
 
@@ -2730,7 +3063,7 @@ body{
                     type="submit"
                     class="submit-btn"
                 >
-                    Créer mon espace et envoyer ma demande
+                    Envoyer mon inscription sur WhatsApp
                 </button>
 
             </div>
@@ -2986,6 +3319,25 @@ const remainingPrice =
         "remainingPrice"
     );
 
+const paidYes =
+    document.getElementById(
+        "paidYes"
+    );
+
+const paidNo =
+    document.getElementById(
+        "paidNo"
+    );
+
+const transcodeBox =
+    document.getElementById(
+        "transcodeBox"
+    );
+
+const transcode =
+    document.getElementById(
+        "transcode"
+    );
 
 const customService =
     document.getElementById(
@@ -3059,6 +3411,43 @@ serviceInputs.forEach(
 );
 
 
+paidYes.addEventListener(
+    "change",
+    function(){
+
+        if(this.checked){
+
+            transcodeBox.classList.remove(
+                "hidden"
+            );
+
+            transcode.required = true;
+
+        }
+
+    }
+);
+
+
+paidNo.addEventListener(
+    "change",
+    function(){
+
+        if(this.checked){
+
+            transcodeBox.classList.add(
+                "hidden"
+            );
+
+            transcode.required = false;
+
+            transcode.value = "";
+
+        }
+
+    }
+);
+
 
 /* ==================================================
    FORMULAIRE SERVICES → WHATSAPP
@@ -3129,8 +3518,47 @@ document
             .trim();
 
 
-        const paymentValue = "Géré depuis le compte en ligne";
-        const transcodeValue = "Géré par la recharge du compte";
+        const payment =
+            document.querySelector(
+                'input[name="paid"]:checked'
+            );
+
+
+        if(!payment){
+
+            alert(
+                "Veuillez indiquer votre statut de paiement."
+            );
+
+            return;
+
+        }
+
+
+        const paymentValue =
+            payment.value;
+
+
+        let transcodeValue =
+            "Non fourni";
+
+
+        if(paymentValue === "Oui"){
+
+            transcodeValue =
+                transcode.value.trim();
+
+            if(!transcodeValue){
+
+                alert(
+                    "Veuillez entrer votre transcode de paiement."
+                );
+
+                return;
+
+            }
+
+        }
 
 
         const agentId =
@@ -3164,10 +3592,10 @@ ${service}
  *Prix :*
 ${formatMoney(price)}
 
- *Prix de base 70% :*
+ *Dépôt 70% :*
 ${formatMoney(deposit)}
 
- *Reste 30% :*
+ *Solde 30% :*
 ${formatMoney(remaining)}
 
  *Délai :*
@@ -3176,7 +3604,13 @@ ${deadline}
  *Informations du visuel :*
 ${designInfo}
 
-  *ID Agent :*
+ *Paiement effectué :*
+${paymentValue}
+
+ *Transcode :*
+${transcodeValue}
+
+ *ID Agent :*
 ${agentId || "Aucun"}
 
 ${custom ? ` *Autre service demandé :*\n${custom}` : ""}
@@ -3279,12 +3713,19 @@ studentType.addEventListener(
 
             /* Masquer les informations NatCash Agent */
 
-            agentNatCashBox?.classList.add("hidden");
+            agentNatCashBox.classList.add(
+                "hidden"
+            );
 
-            agentNatCashNameBox?.classList.add("hidden");
+            agentNatCashNameBox.classList.add(
+                "hidden"
+            );
 
-            if(agentNatCash){ agentNatCash.required=false; agentNatCash.value=""; }
-            if(agentNatCashName){ agentNatCashName.required=false; agentNatCashName.value=""; }
+            agentNatCash.required = false;
+            agentNatCashName.required = false;
+
+            agentNatCash.value = "";
+            agentNatCashName.value = "";
 
         }
 
@@ -3317,12 +3758,16 @@ agentType.addEventListener(
 
             /* Afficher les informations NatCash Agent */
 
-            agentNatCashBox?.classList.remove("hidden");
+            agentNatCashBox.classList.remove(
+                "hidden"
+            );
 
-            agentNatCashNameBox?.classList.remove("hidden");
+            agentNatCashNameBox.classList.remove(
+                "hidden"
+            );
 
-            if(agentNatCash) agentNatCash.required=true;
-            if(agentNatCashName) agentNatCashName.required=true;
+            agentNatCash.required = true;
+            agentNatCashName.required = true;
 
         }
 
@@ -3333,6 +3778,64 @@ agentType.addEventListener(
 /* ==================================================
    AKADEMI PAYMENT
 ================================================== */
+
+const regPaidYes =
+    document.getElementById(
+        "regPaidYes"
+    );
+
+const regPaidNo =
+    document.getElementById(
+        "regPaidNo"
+    );
+
+const regTranscodeBox =
+    document.getElementById(
+        "regTranscodeBox"
+    );
+
+const regTranscode =
+    document.getElementById(
+        "regTranscode"
+    );
+
+
+regPaidYes.addEventListener(
+    "change",
+    function(){
+
+        if(this.checked){
+
+            regTranscodeBox.classList.remove(
+                "hidden"
+            );
+
+            regTranscode.required = true;
+
+        }
+
+    }
+);
+
+
+regPaidNo.addEventListener(
+    "change",
+    function(){
+
+        if(this.checked){
+
+            regTranscodeBox.classList.add(
+                "hidden"
+            );
+
+            regTranscode.required = false;
+
+            regTranscode.value = "";
+
+        }
+
+    }
+);
 
 
 /* ==================================================
@@ -3390,12 +3893,103 @@ document
            RÉCUPÉRER LES INFOS NATCASH DE L'AGENT
         ================================================== */
 
-        const agentNatCashValue = agentNatCash?.value.trim() || "";
-        const agentNatCashNameValue = agentNatCashName?.value.trim() || "";
+        const agentNatCashValue =
+            agentNatCash.value.trim();
+
+        const agentNatCashNameValue =
+            agentNatCashName.value.trim();
 
 
-        const paymentValue = "Géré depuis le compte en ligne";
-        const transcodeValue = "Géré par la recharge du compte";
+        const payment =
+            document.querySelector(
+                'input[name="regPaid"]:checked'
+            );
+
+
+        if(!type){
+
+            alert(
+                "Veuillez choisir le type d'inscription."
+            );
+
+            return;
+
+        }
+
+
+        if(type.value === "Étudiant" && !formation){
+
+            alert(
+                "Veuillez sélectionner une formation."
+            );
+
+            return;
+
+        }
+
+
+        /* ==================================================
+           VÉRIFICATION NATCASH AGENT
+        ================================================== */
+
+        if(type.value === "Agent"){
+
+            if(!agentNatCashValue){
+
+                alert(
+                    "Veuillez entrer le numéro NatCash de l'agent."
+                );
+
+                return;
+
+            }
+
+
+            if(!agentNatCashNameValue){
+
+                alert(
+                    "Veuillez entrer le nom sur le compte NatCash."
+                );
+
+                return;
+
+            }
+
+        }
+
+
+        if(!payment){
+
+            alert(
+                "Veuillez indiquer votre statut de paiement."
+            );
+
+            return;
+
+        }
+
+
+        let transcodeValue =
+            "Non fourni";
+
+
+        if(payment.value === "Oui"){
+
+            transcodeValue =
+                regTranscode.value.trim();
+
+
+            if(!transcodeValue){
+
+                alert(
+                    "Veuillez entrer votre transcode de paiement."
+                );
+
+                return;
+
+            }
+
+        }
 
 
         const registrationFee =
@@ -3998,6 +4592,17 @@ const pubUsd =
 const pubHtg =
     document.getElementById("pubHtg");
 
+const pubPaidYes =
+    document.getElementById("pubPaidYes");
+
+const pubPaidNo =
+    document.getElementById("pubPaidNo");
+
+const pubTranscodeBox =
+    document.getElementById("pubTranscodeBox");
+
+const pubTranscode =
+    document.getElementById("pubTranscode");
 
 
 const pubPrices = {
@@ -4057,7 +4662,157 @@ pubDuration.addEventListener(
 );
 
 
-/* Publicité legacy submit disabled: online Supabase handler below handles this form. */
+pubPaidYes.addEventListener(
+    "change",
+    function(){
+
+        pubTranscodeBox.classList.remove(
+            "hidden"
+        );
+
+        pubTranscode.required = true;
+
+    }
+);
+
+
+pubPaidNo.addEventListener(
+    "change",
+    function(){
+
+        pubTranscodeBox.classList.add(
+            "hidden"
+        );
+
+        pubTranscode.required = false;
+
+        pubTranscode.value = "";
+
+    }
+);
+
+
+document
+.getElementById("publiciteForm")
+.addEventListener(
+    "submit",
+    function(event){
+
+        event.preventDefault();
+
+
+        const key =
+            pubType.value +
+            "|" +
+            pubDuration.value;
+
+
+        const usd =
+            pubPrices[key] || 0;
+
+
+        const htg =
+            usd * 130;
+
+
+        const payment =
+            document.querySelector(
+                'input[name="pubPaid"]:checked'
+            );
+
+
+        if(!usd){
+
+            alert(
+                "Veuillez choisir le type et la durée de la publicité."
+            );
+
+            return;
+
+        }
+
+
+        if(
+            !payment ||
+            payment.value !== "Oui"
+        ){
+
+            alert(
+                "Vous devez effectuer le paiement et sélectionner « Oui, j'ai payé » avec votre transcode avant d'envoyer la demande."
+            );
+
+            return;
+
+        }
+
+
+        const transcodeValue =
+            pubTranscode.value.trim();
+
+
+        if(!transcodeValue){
+
+            alert(
+                "Veuillez entrer votre transcode de paiement."
+            );
+
+            return;
+
+        }
+
+
+        const message =
+`*NOUVELLE DEMANDE DE PUBLICITÉ — BABA DESIGN*
+
+*Nom complet :*
+${pubName.value.trim()}
+
+*WhatsApp :*
+${pubPhone.value.trim()}
+
+*Type de publicité :*
+${pubType.value}
+
+*Durée :*
+${pubDuration.value}
+
+*Prix :*
+${usd.toFixed(2)} $
+
+*Prix en gourdes :*
+${Math.round(htg).toLocaleString("fr-FR")} HTG
+
+*Taux utilisé :*
+130 HTG pour 1 $
+
+*Paiement effectué :*
+Oui
+
+*Transcode :*
+${transcodeValue}
+
+*Fichier publicitaire :*
+À envoyer sur WhatsApp comme document
+
+Merci.
+*Baba Design*`;
+
+
+        const url =
+            "https://wa.me/" +
+            whatsappNumber +
+            "?text=" +
+            encodeURIComponent(message);
+
+
+        window.open(
+            url,
+            "_blank"
+        );
+
+    }
+);
+
 </script>
 
 <!-- =====================================================
@@ -4083,123 +4838,5 @@ pubDuration.addEventListener(
   restart();
 })();
 </script>
-
-<style>
-.bd-new-admin-btn{position:fixed;right:18px;bottom:88px;z-index:99999;width:46px;height:46px;border:0;border-radius:50%;background:#111;color:#ffd000;font-weight:1000;font-size:22px;box-shadow:0 12px 35px rgba(0,0,0,.28);cursor:pointer;border:2px solid rgba(255,208,0,.55)}
-.bd-new-admin-btn:hover{transform:scale(1.06)}
-</style>
-<button id="bdNewAdminBtn" class="bd-new-admin-btn" title="Nouvel espace administrateur">B</button>
-
-<!-- BABA DESIGN — SUPABASE / COMPTE / COMMANDE EN LIGNE -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-(() => {
-  'use strict';
-  const SUPABASE_URL = 'https://lohqdskikuyklsxbwpkz.supabase.co';
-  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_CUIIxzuJQmyI06XxKV7nyg_iW3RL4Es';
-  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
-
-  const css = `
-  .bd-account-bar{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:99998;width:min(720px,calc(100% - 20px));display:flex;gap:8px;padding:8px;border:1px solid rgba(255,255,255,.14);background:rgba(10,10,12,.88);backdrop-filter:blur(18px);border-radius:18px;box-shadow:0 18px 60px rgba(0,0,0,.28)}
-  .bd-account-bar button,.bd-account-bar a{flex:1;border:0;border-radius:12px;padding:11px 10px;text-align:center;text-decoration:none;font-weight:900;font-size:12px;cursor:pointer;background:#202024;color:#fff}.bd-account-bar .primary{background:linear-gradient(135deg,#e60000,#ff7300,#ffd000)}
-  .bd-user-pill{display:none;color:#fff;padding:0 8px;align-items:center;gap:6px;font-size:11px;font-weight:900;white-space:nowrap}.bd-user-pill b{color:#ffd000}
-  .bd-modal{position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,.76);display:none;align-items:center;justify-content:center;padding:18px}.bd-modal.open{display:flex}.bd-modal-card{width:min(520px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:24px;padding:24px;box-shadow:0 30px 100px rgba(0,0,0,.4)}.bd-modal-card h3{margin-bottom:8px}.bd-tabs{display:flex;gap:8px;margin:18px 0}.bd-tabs button{flex:1;padding:11px;border:1px solid #ddd;background:#f5f5f5;border-radius:11px;font-weight:900;cursor:pointer}.bd-tabs button.active{background:#111;color:#fff}.bd-auth-form{display:grid;gap:10px}.bd-auth-form input{width:100%;padding:13px;border:1px solid #ddd;border-radius:12px}.bd-auth-form button{padding:13px;border:0;border-radius:12px;background:linear-gradient(135deg,#e60000,#ff7300,#ffd000);color:#fff;font-weight:900;cursor:pointer}.bd-close{float:right;border:0;background:#eee;border-radius:50%;width:34px;height:34px;cursor:pointer;font-size:18px}.bd-msg{margin-top:10px;padding:10px;border-radius:10px;background:#f7f7f7;font-size:12px}.bd-balance{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:15px 0}.bd-balance div{padding:14px;border-radius:14px;background:#111;color:#fff}.bd-balance span{display:block;color:#aaa;font-size:11px}.bd-balance strong{font-size:18px;color:#ffd000}.bd-hidden{display:none!important}
-  @media(max-width:560px){.bd-account-bar{bottom:8px}.bd-account-bar a,.bd-account-bar button{font-size:10px;padding:10px 5px}.bd-user-pill{display:none}}
-  `;
-  const st=document.createElement('style'); st.textContent=css; document.head.appendChild(st);
-
-  const bar=document.createElement('div'); bar.className='bd-account-bar'; bar.innerHTML=`
-    <button id="bdAccountBtn" class="primary">Mon espace</button>
-    <a href="boutique.html">Boutique</a>
-    <button id="bdRechargeBtn">Recharger</button>
-    <a href="agents.html">Agent</a><a href="cours.html">Cours</a>`; document.body.appendChild(bar);
-  document.getElementById('bdNewAdminBtn')?.addEventListener('click',()=>{location.href='admin1.html'});
-
-  const modal=document.createElement('div'); modal.className='bd-modal'; modal.id='bdModal'; modal.innerHTML=`<div class="bd-modal-card">
-    <button class="bd-close" id="bdClose">×</button><h3 id="bdTitle">Mon espace</h3><p class="muted">Créez votre espace privé ou connectez-vous avec votre nom d'utilisateur ou votre email.</p>
-    <div class="bd-tabs"><button id="bdLoginTab" class="active">Connexion</button><button id="bdSignupTab">Créer un compte</button></div>
-    <form id="bdAuthForm" class="bd-auth-form">
-      <input id="bdName" placeholder="Nom complet" class="bd-hidden">
-      <input id="bdUsername" placeholder="Nom d'utilisateur" autocomplete="username">
-      <input id="bdEmail" type="email" placeholder="Email" autocomplete="email" class="bd-hidden">
-      <input id="bdPhone" placeholder="Téléphone" class="bd-hidden">
-      <input id="bdPassword" type="password" placeholder="Mot de passe" autocomplete="current-password" required>
-      <button type="submit" id="bdAuthSubmit">Se connecter</button>
-    </form><div class="bd-msg" id="bdMsg"></div>
-    <div id="bdAccountView" class="bd-hidden"><div class="bd-balance"><div><span>Solde disponible</span><strong id="bdBalance">0 HTG</strong></div><div><span>Statut</span><strong id="bdRole">Client</strong></div></div><button class="btn" id="bdGoRecharge">Faire une recharge</button><button class="btn" id="bdLogout" style="background:#111">Se déconnecter</button></div>
-  </div>`; document.body.appendChild(modal);
-
-  const $=id=>document.getElementById(id); let signup=false;
-  function showModal(){modal.classList.add('open'); renderAuth();}
-  function hideModal(){modal.classList.remove('open');}
-  function renderAuth(){
-    $('bdLoginTab').classList.toggle('active',!signup); $('bdSignupTab').classList.toggle('active',signup);
-    ['bdName','bdEmail','bdPhone'].forEach(id=>$(id).classList.toggle('bd-hidden',!signup));
-    $('bdUsername').classList.toggle('bd-hidden',!signup?false:false); $('bdAuthSubmit').textContent=signup?'Créer mon compte':'Se connecter';
-    $('bdTitle').textContent=signup?'Créer mon espace':'Mon espace'; $('bdAuthForm').classList.remove('bd-hidden'); $('bdAccountView').classList.add('bd-hidden');
-  }
-  async function loadProfile(){
-    const {data:{user}}=await sb.auth.getUser();
-    if(!user){$('bdAccountBtn').textContent='Mon espace'; return null;}
-    const {data:profile}=await sb.from('bd_profiles').select('username,full_name,balance,role').eq('id',user.id).maybeSingle();
-    $('bdAccountBtn').textContent=profile?.username?`@${profile.username}`:'Mon espace';
-    return {user,profile};
-  }
-  async function openAccount(){
-    const x=await loadProfile(); showModal();
-    if(x?.user){ signup=false; $('bdAuthForm').classList.add('bd-hidden'); $('bdAccountView').classList.remove('bd-hidden'); $('bdTitle').textContent='Mon espace'; $('bdMsg').textContent=`Connecté : ${x.profile?.full_name||x.user.email||''}`; $('bdBalance').textContent=`${Number(x.profile?.balance||0).toLocaleString('fr-FR')} HTG`; $('bdRole').textContent=x.profile?.role==='admin'?'Administrateur':'Client'; }
-  }
-  async function ensureAuth(action){
-    const {data:{user}}=await sb.auth.getUser(); if(user) return user; showModal(); $('bdMsg').textContent='Connectez-vous ou créez un compte pour continuer.'; return null;
-  }
-  $('bdAccountBtn').onclick=openAccount; $('bdClose').onclick=hideModal; modal.addEventListener('click',e=>{if(e.target===modal)hideModal()});
-  $('bdLoginTab').onclick=()=>{signup=false;renderAuth()}; $('bdSignupTab').onclick=()=>{signup=true;renderAuth()};
-  $('bdAuthForm').addEventListener('submit',async e=>{e.preventDefault(); $('bdMsg').textContent='Traitement…';
-    try{
-      const email=$('bdEmail').value.trim(); const password=$('bdPassword').value; const username=$('bdUsername').value.trim().toLowerCase();
-      if(signup){
-        if(!email||!username||!password||!$('bdName').value.trim()) throw new Error('Remplissez nom, nom d’utilisateur, email et mot de passe.');
-        const {data,error}=await sb.auth.signUp({email,password,options:{data:{full_name:$('bdName').value.trim(),username,phone:$('bdPhone').value.trim()}}}); if(error) throw error;
-        $('bdMsg').textContent='Compte créé. Si Supabase demande une confirmation email, confirmez votre email puis reconnectez-vous.';
-      }else{
-        let loginEmail=email;
-        if(!loginEmail){const u=username;if(!u) throw new Error('Entrez votre email ou votre nom d’utilisateur.'); const {data,error}=await sb.rpc('bd_get_login_email',{p_username:u}); if(error) throw error; if(!data) throw new Error('Nom d’utilisateur introuvable.'); loginEmail=data;}
-        const {error}=await sb.auth.signInWithPassword({email:loginEmail,password}); if(error) throw error; hideModal(); await loadProfile();
-      }
-    }catch(err){$('bdMsg').textContent=err.message||'Une erreur est survenue.';}
-  });
-  $('bdLogout').onclick=async()=>{await sb.auth.signOut(); hideModal(); await loadProfile();};
-  $('bdGoRecharge').onclick=()=>{hideModal(); location.href='boutique.html#recharge';};
-  $('bdRechargeBtn').onclick=async()=>{const u=await ensureAuth(); if(u) location.href='boutique.html#recharge';};
-
-  async function saveForm(form,type){
-    const user=await ensureAuth(); if(!user) return false;
-    const data=Object.fromEntries(new FormData(form).entries());
-    const payload={user_id:user.id,order_type:type,details:data,status:'pending'};
-    const {error}=await sb.from('bd_orders').insert(payload); if(error){$('bdMsg').textContent=error.message;showModal();return false;}
-    alert('Demande enregistrée. Vous pourrez suivre son statut dans votre espace.'); return true;
-  }
-  document.addEventListener('submit',async e=>{
-    const f=e.target;
-    if(f.id==='orderForm'||f.id==='publiciteForm'||f.id==='registrationForm'){
-      e.preventDefault(); e.stopImmediatePropagation();
-      const type=f.id==='orderForm'?'service':f.id==='publiciteForm'?'publicite':'inscription';
-      await saveForm(f,type);
-    }
-  },true);
-
-  function cleanWhatsApp(sectionId){const sec=document.getElementById(sectionId); if(!sec)return; sec.querySelectorAll('a[href*="wa.me"],a[href*="whatsapp.com"]').forEach(a=>a.remove()); sec.querySelectorAll('button').forEach(b=>{if(/whatsapp/i.test(b.textContent))b.textContent=sectionId==='publicite'?'Commander la publicité en ligne':sectionId==='inscription'?'Créer mon espace':'Commander le service en ligne';});}
-  ['services','publicite','inscription'].forEach(cleanWhatsApp);
-  ['services','publicite','inscription'].forEach(id=>{const sec=document.getElementById(id);if(!sec)return;sec.querySelectorAll('.community-link-box').forEach(el=>el.remove());});
-
-
-  // Agent/Cours use the existing menu destinations. Boutique exists only in the bottom action bar.
-  document.querySelectorAll('a[href="agents.html"]').forEach(a=>a.title='Ouvrir la partie Agents');
-  document.querySelectorAll('a[href="cours.html"]').forEach(a=>a.title='Ouvrir la partie Cours');
-
-  sb.auth.onAuthStateChange(()=>{loadProfile();}); loadProfile();
-})();
-</script>
-
 </body>
 </html>
