@@ -48,7 +48,54 @@ async function createAgent(){
  if(!data?.ok){await db.storage.from("agent-photos").remove([path]);return}
  ["aCode","aName","aPhone"].forEach(id=>document.getElementById(id).value="");document.getElementById("aPhoto").value="";document.getElementById("photoPreview").classList.add("hidden");await loadData()
 }
-async function createStudent(){const slugs=[...document.querySelectorAll("#courseChecks input:checked")].map(x=>x.value);const code=document.getElementById("sCode").value.trim(),nom=document.getElementById("sName").value.trim(),tel=document.getElementById("sPhone").value.trim();const {data,error}=await db.rpc("create_student",{p_admin_code:ADMIN_CODE_SESSION,p_code:code,p_nom:nom,p_telephone:tel,p_course_slugs:slugs});const box=document.getElementById("studentResult");box.textContent=data?.message||(data?.ok?"Élève créé avec ses accès.":"Erreur.");if(data?.ok){["sCode","sName","sPhone"].forEach(id=>document.getElementById(id).value="");document.querySelectorAll("#courseChecks input").forEach(x=>x.checked=false);await loadData()}}
+async function createStudent(){
+  const slugs = [...document.querySelectorAll("#courseChecks input:checked")]
+    .map(x => x.value);
+
+  const code = document.getElementById("sCode").value.trim();
+  const nom = document.getElementById("sName").value.trim();
+  const tel = document.getElementById("sPhone").value.trim();
+  const box = document.getElementById("studentResult");
+
+  if (!code || !nom) {
+    box.textContent = "Code et nom obligatoires.";
+    return;
+  }
+
+  box.textContent = "Création de l'élève...";
+
+  const { data, error } = await db.rpc("create_student", {
+    p_admin_code: ADMIN_CODE_SESSION,
+    p_code: code,
+    p_nom: nom,
+    p_telephone: tel,
+    p_course_slugs: slugs
+  });
+
+  console.log("create_student data:", data);
+  console.log("create_student error:", error);
+
+  if (error) {
+    box.textContent = "Erreur Supabase : " + error.message;
+    return;
+  }
+
+  if (!data?.ok) {
+    box.textContent = data?.message || "La création a échoué.";
+    return;
+  }
+
+  box.textContent = "Élève créé avec succès.";
+
+  ["sCode","sName","sPhone"].forEach(id => {
+    document.getElementById(id).value = "";
+  });
+
+  document.querySelectorAll("#courseChecks input")
+    .forEach(x => x.checked = false);
+
+  await loadData();
+}
 async function sendMessage(){const message=document.getElementById("message").value.trim(),audience=document.getElementById("audience").value;const {data,error}=await db.rpc("send_message",{p_admin_code:ADMIN_CODE_SESSION,p_message:message,p_audience:audience});const box=document.getElementById("messageResult");box.textContent=data?.message||(data?.ok?"Message envoyé.":"Erreur.");if(data?.ok){document.getElementById("message").value="";await loadData()}}
 document.getElementById("aPhoto").addEventListener("change",e=>{const f=e.target.files[0],img=document.getElementById("photoPreview");if(!f){img.classList.add("hidden");return}img.src=URL.createObjectURL(f);img.classList.remove("hidden")});
 document.getElementById("adminCode").addEventListener("keydown",e=>{if(e.key==="Enter")adminLogin()});
