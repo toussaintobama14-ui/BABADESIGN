@@ -366,19 +366,12 @@ async function login(){
     }
 
 
-    if(!data || data.length === 0){
+    if (!data || data.ok !== true || !data.student) {
+  throw new Error(data?.message || "Code d'accès incorrect.");
+}
 
-      error.textContent =
-        "Code d'accès incorrect.";
-
-      return;
-    }
-
-
-    const student = data[0];
-
-
-    await afficherEspaceEleve(student);
+const student = data.student;
+await afficherEspaceEleve(student);
 
   }
 
