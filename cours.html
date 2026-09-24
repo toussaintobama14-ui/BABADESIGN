@@ -463,7 +463,7 @@ async function afficherEspaceEleve(student){
 
   await chargerMessages();
 
-  await chargerCours(student.id);
+  afficherCours(student.courses);
 }
 
 
@@ -471,127 +471,79 @@ async function afficherEspaceEleve(student){
    CHARGER LES COURS DE L'ÉLÈVE
    ========================================================= */
 
-async function chargerCours(studentId){
+function afficherCours(courses){
 
   const container =
     document.getElementById("coursesContainer");
 
+  if(!courses || courses.length === 0){
 
-  try{
+    container.innerHTML = `
+      <div class="empty">
+        Aucune formation ne vous a encore été attribuée.
+      </div>
+    `;
 
-    /*
-      On récupère uniquement les cours
-      attribués à cet élève.
-    */
+    return;
+  }
 
-    const { data, error } =
-      await supabaseClient
-      .from("student_courses")
-      .select(`
-        course_id,
-        courses (
-          id,
-          nom,
-          lien,
-          code
-        )
-      `)
-      .eq("student_id", studentId);
+  container.className = "grid";
 
+  container.innerHTML =
+    courses
+    .map(course => `
 
-    if(error){
+      <div class="course">
 
-      console.error(error);
+        <h3>
+          ${escapeHtml(course.nom)}
+        </h3>
 
-      container.innerHTML = `
-        <div class="empty">
-          Impossible de charger vos formations.
+        <p>
+          Votre formation est prête.
+          Utilisez les boutons ci-dessous
+          pour accéder à votre cours.
+        </p>
+
+        <div class="links">
+
+          <a
+            href="${escapeHtml(course.lien)}"
+            target="_blank"
+            rel="noopener">
+
+            Ouvrir la formation
+
+          </a>
+
+          <button
+            class="copy"
+            onclick="copyText(
+              '${encodeURIComponent(course.lien || "")}'
+            )">
+
+            Copier le lien
+
+          </button>
+
+          <button
+            class="copy"
+            onclick="copyText(
+              '${encodeURIComponent(course.code || "")}'
+            )">
+
+            Copier le code du cours :
+            ${escapeHtml(course.code || "")}
+
+          </button>
+
         </div>
-      `;
 
-      return;
-    }
+      </div>
 
-
-    if(!data || data.length === 0){
-
-      container.innerHTML = `
-        <div class="empty">
-          Aucune formation ne vous a encore été attribuée.
-        </div>
-      `;
-
-      return;
-    }
-
-
-    container.className = "grid";
-
-
-    container.innerHTML =
-      data
-      .filter(item => item.courses)
-      .map(item => {
-
-        const course =
-          item.courses;
-
-        return `
-
-          <div class="course">
-
-            <h3>
-              ${escapeHtml(course.nom)}
-            </h3>
-
-            <p>
-              Votre formation est prête.
-              Utilisez les boutons ci-dessous
-              pour accéder à votre cours.
-            </p>
-
-            <div class="links">
-
-              <a
-                href="${escapeHtml(course.lien)}"
-                target="_blank"
-                rel="noopener">
-
-                Ouvrir la formation
-
-              </a>
-
-
-              <button
-                class="copy"
-                onclick="copyText(
-                  '${encodeURIComponent(course.lien)}'
-                )">
-
-                Copier le lien
-
-              </button>
-
-
-              <button
-                class="copy"
-                onclick="copyText(
-                  '${encodeURIComponent(course.code || "")}'
-                )">
-
-                Copier le code du cours :
-                ${escapeHtml(course.code || "")}
-
-              </button>
-
-            </div>
-
-          </div>
-
-        `;
-
-      })
-      .join("");
+    `)
+    .join("");
+}
 
   }
 
