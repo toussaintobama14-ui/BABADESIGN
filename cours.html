@@ -370,7 +370,11 @@ async function login(){
   throw new Error(data?.message || "Code d'accès incorrect.");
 }
 
-const student = data.student;
+const student = {
+  ...data.student,
+  courses: data.courses || []
+};
+
 await afficherEspaceEleve(student);
 
   }
