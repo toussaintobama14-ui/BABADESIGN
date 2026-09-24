@@ -508,7 +508,7 @@ function afficherCours(courses){
         <div class="links">
 
           <a
-            href="${escapeHtml(course.lien)}"
+            href="${escapeHtml(course.lien || "")}"
             target="_blank"
             rel="noopener">
 
@@ -517,20 +517,18 @@ function afficherCours(courses){
           </a>
 
           <button
+            type="button"
             class="copy"
-            onclick="copyText(
-              '${encodeURIComponent(course.lien || "")}'
-            )">
+            onclick="copyText('${encodeURIComponent(course.lien || "")}')">
 
             Copier le lien
 
           </button>
 
           <button
+            type="button"
             class="copy"
-            onclick="copyText(
-              '${encodeURIComponent(course.code || "")}'
-            )">
+            onclick="copyText('${encodeURIComponent(course.code || "")}')">
 
             Copier le code du cours :
             ${escapeHtml(course.code || "")}
@@ -543,21 +541,6 @@ function afficherCours(courses){
 
     `)
     .join("");
-}
-
-  }
-
-  catch(err){
-
-    console.error(err);
-
-    container.innerHTML = `
-      <div class="empty">
-        Erreur lors du chargement des formations.
-      </div>
-    `;
-
-  }
 }
 
 
