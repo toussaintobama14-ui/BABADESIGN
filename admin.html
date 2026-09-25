@@ -5,12 +5,38 @@
 *{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:#fff;color:#171717;min-height:100vh}
 body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 20% 10%,rgba(255,210,0,.18),transparent 35%),radial-gradient(circle at 80% 80%,rgba(255,210,0,.12),transparent 35%);pointer-events:none}
 .wrap{width:min(1150px,92%);margin:auto;position:relative;z-index:1}.top{padding:28px 0}.brand{font-weight:900;letter-spacing:.12em;color:#e2b800;font-size:13px}.top h1{font-size:clamp(30px,5vw,52px);margin:10px 0}.top p{color:#666}.card{background:rgba(255,255,255,.94);border:1px solid #e7e0b9;border-radius:22px;padding:24px;margin-bottom:18px;box-shadow:0 20px 60px rgba(80,65,0,.10)}input,select,textarea,button{width:100%;padding:13px 14px;border-radius:11px;border:1px solid #d9d3b4;background:#fff;color:#171717;font:inherit;outline:none}textarea{min-height:120px;resize:vertical}input:focus,select:focus,textarea:focus{border-color:#d7b500}button{background:#f2c900;border-color:#e0b900;font-weight:800;cursor:pointer;transition:.2s}button:hover{background:#ffd91a;transform:translateY(-1px)}.login{max-width:470px;margin:50px auto}.error{color:#c62828;min-height:22px;margin-top:8px}.success{color:#16864b;min-height:22px;margin-top:8px}.hidden{display:none}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stat{padding:18px;border:1px solid #e5dfbf;border-radius:16px;background:#fffdf2}.stat b{font-size:30px}.stat span{display:block;color:#777;font-size:12px;text-transform:uppercase}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}.tab{width:auto;background:#fff;border-color:#d9d3b4;padding:10px 14px}.tab.active{background:#f2c900;border-color:#e0b900}.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.wide{grid-column:1/-1}.notice{padding:14px;border-left:3px solid #e0b900;background:#fffbea;color:#444;border-radius:10px}.hint{color:#777;font-size:12px;line-height:1.6}.list{display:grid;gap:10px;margin-top:14px}.person{padding:14px;border:1px solid #e7e0b9;border-radius:12px;background:#fff}.checks{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}.checks label{padding:10px;border:1px solid #ddd6ad;border-radius:10px}.checks input{width:auto}.foot{text-align:center;color:#888;padding:20px;font-size:12px}@media(max-width:750px){.grid,.formgrid{grid-template-columns:1fr}.wide{grid-column:auto}}
+
+.finance-panel{margin-top:22px;padding:20px;border:1px solid #e7e0b9;border-radius:18px;background:linear-gradient(180deg,#fffdf3,#fff)}
+.finance-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.finance-head h3{margin:5px 0 0}
+.finance-kicker{font-size:11px;font-weight:900;letter-spacing:.12em;color:#a48300}
+.finance-form{display:grid;grid-template-columns:1.2fr 1fr .8fr 1.2fr;gap:10px}.finance-form button{margin:0}
+.finance-list{display:grid;gap:12px;margin-top:16px}.finance-agent{border:1px solid #e7e0b9;border-radius:16px;padding:16px;background:#fff}
+.finance-agent-top{display:flex;justify-content:space-between;gap:12px;align-items:center}.finance-agent-name{font-weight:900;font-size:17px}.finance-agent-code{font-size:12px;color:#777}
+.money-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.money-stat{padding:11px;border-radius:12px;background:#fffdf2;border:1px solid #eee5bd}.money-stat span{display:block;color:#777;font-size:10px;text-transform:uppercase}.money-stat b{display:block;margin-top:3px}
+.money-actions{display:flex;gap:8px;flex-wrap:wrap}.money-actions button{width:auto;margin:0;padding:9px 12px}.btn-light{background:#fff;border-color:#d9d3b4}.money-history{margin-top:10px;border-top:1px solid #eee4b8;padding-top:10px}.money-row{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid #f1ecd5;font-size:13px}.money-row:last-child{border-bottom:0}.money-revenu{font-weight:800}.money-retrait{font-weight:800}
+@media(max-width:900px){.finance-form{grid-template-columns:1fr 1fr}}@media(max-width:600px){.finance-form,.money-stats{grid-template-columns:1fr}.money-row{flex-direction:column}}
 </style></head><body><div class="wrap">
 <header class="top"><div class="brand">AKADEMI DIZAY</div><h1>BABA DESIGN</h1><p>Gestion centrale</p></header>
 <section id="adminLogin" class="card login"><h2>Connexion</h2><input id="adminCode" type="password" placeholder="Code" autocomplete="off"><button onclick="adminLogin()">Ouvrir</button><div id="Error" class="error"></div><p class="hint">Baba Design</p></section>
 <main id="dashboard" class="hidden"><section class="grid"><div class="stat"><span>Agents</span><b id="agentCount">0</b></div><div class="stat"><span>Élèves</span><b id="studentCount">0</b></div><div class="stat"><span>Formations</span><b id="courseCount">0</b></div></section>
 <div class="tabs"><button class="tab active" onclick="showTab('agents',this)">Agents</button><button class="tab" onclick="showTab('students',this)">Élèves</button><button class="tab" onclick="showTab('messages',this)">Messages</button><button class="tab" onclick="showTab('guide',this)">Guide</button></div>
-<section id="agents" class="card"><h2>Créer un agent</h2><div class="formgrid"><input id="aCode" placeholder="Code personnel, ex: AD003"><input id="aName" placeholder="Nom complet"><input id="aPhone" placeholder="Téléphone"><input id="aRole" placeholder="Fonction" value="Agent"><div class="wide"><label for="aPhoto"><b>Photo de l’agent</b></label><input id="aPhoto" type="file" accept="image/jpeg,image/png,image/webp" style="margin-top:8px"><div class="hint" style="margin-top:6px">Choisissez directement la photo depuis votre ordinateur. Elle sera envoyée dans Supabase automatiquement.</div><img id="photoPreview" class="hidden" style="margin-top:10px;width:110px;height:110px;object-fit:cover;border-radius:16px;border:1px solid #e7e0b9"></div><button class="wide" onclick="createAgent()">Créer l'agent directement</button></div><div id="agentResult" class="notice" style="margin-top:14px">L'agent sera enregistré dans Supabase immédiatement.</div><div id="agentList" class="list"></div></section>
+<section id="agents" class="card"><h2>Créer un agent</h2><div class="formgrid"><input id="aCode" placeholder="Code personnel, ex: AD003"><input id="aName" placeholder="Nom complet"><input id="aPhone" placeholder="Téléphone"><input id="aRole" placeholder="Fonction" value="Agent"><div class="wide"><label for="aPhoto"><b>Photo de l’agent</b></label><input id="aPhoto" type="file" accept="image/jpeg,image/png,image/webp" style="margin-top:8px"><div class="hint" style="margin-top:6px">Choisissez directement la photo depuis votre ordinateur. Elle sera envoyée dans Supabase automatiquement.</div><img id="photoPreview" class="hidden" style="margin-top:10px;width:110px;height:110px;object-fit:cover;border-radius:16px;border:1px solid #e7e0b9"></div><button class="wide" onclick="createAgent()">Créer l'agent directement</button></div><div id="agentResult" class="notice" style="margin-top:14px">L'agent sera enregistré dans Supabase immédiatement.</div>
+<div class="finance-panel">
+  <div class="finance-head"><div><span class="finance-kicker">GESTION FINANCIÈRE</span><h3>Revenus & retraits des agents</h3></div></div>
+  <div class="finance-form">
+    <select id="moneyAgent"></select>
+    <select id="moneyType">
+      <option value="revenu">Ajouter aux revenus</option>
+      <option value="retrait">Retirer / enregistrer un retrait</option>
+    </select>
+    <input id="moneyAmount" type="number" min="0.01" step="0.01" placeholder="Montant en HTG">
+    <input id="moneyDescription" placeholder="Description (optionnelle)">
+    <button onclick="saveAgentMoney()">Enregistrer le mouvement</button>
+  </div>
+  <div id="moneyResult" class="notice" style="margin-top:12px"></div>
+  <div id="financeAgents" class="finance-list"></div>
+</div>
+<div id="agentList" class="list"></div></section>
 <section id="students" class="card hidden"><h2>Créer un élève + donner ses cours</h2><div class="formgrid"><input id="sCode" placeholder="Code personnel, ex: EL003"><input id="sName" placeholder="Nom complet"><input id="sPhone" placeholder="Téléphone"><div class="wide"><b>Formations accessibles</b><div id="courseChecks" class="checks"></div></div><button class="wide" onclick="createStudent()">Créer l'élève et enregistrer ses accès</button></div><div id="studentResult" class="notice" style="margin-top:14px">Les liens et codes des formations restent ceux définis dans la base.</div><div id="studentList" class="list"></div></section>
 <section id="messages" class="card hidden"><h2>Message de l'administration</h2><select id="audience"><option value="all">Tout le monde</option><option value="agents">Agents seulement</option><option value="students">Élèves seulement</option></select><textarea id="message" placeholder="Écrivez votre message..."></textarea><button onclick="sendMessage()">Envoyer le message</button><div id="messageResult" class="notice" style="margin-top:14px"></div><div id="messageList" class="list"></div></section>
 <section id="guide" class="card hidden"><h2>Guide</h2><div class="notice"><b>Agents :</b> ils utilisent uniquement leur code dans <b>agents.html</b>.<br><br><b>Élèves :</b> ils utilisent uniquement leur code dans <b>cours.html</b> et ne voient que les formations que vous leur attribuez.<br><br><b>Messages :</b> vous pouvez les envoyer aux agents, aux élèves ou à tout le monde.<br><br><b>Important :</b> aucune donnée agent/élève n'est plus à copier dans le HTML. Tout est enregistré dans Supabase.</div></section>
@@ -26,7 +52,7 @@ function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&l
 async function adminLogin(){const code=document.getElementById("adminCode").value.trim();const e=document.getElementById("adminError");if(!code){e.textContent="Entrez le code administrateur.";return}const {data,error}=await db.rpc("admin_login",{p_code:code});if(error||!data?.ok){e.textContent=data?.message||error?.message||"Connexion impossible.";return}ADMIN_CODE_SESSION=code;document.getElementById("adminLogin").classList.add("hidden");document.getElementById("dashboard").classList.remove("hidden");await loadData()}
 function showTab(id,btn){document.querySelectorAll("#dashboard>section").forEach(x=>x.classList.add("hidden"));document.getElementById(id).classList.remove("hidden");document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));btn.classList.add("active")}
 let DATA={agents:[],students:[],courses:[],messages:[]};
-async function loadData(){const {data,error}=await db.rpc("get_admin_data",{p_code:ADMIN_CODE_SESSION});if(error||!data?.ok){alert(data?.message||error?.message||"Impossible de charger les données.");return}DATA=data;document.getElementById("agentCount").textContent=DATA.agents.length;document.getElementById("studentCount").textContent=DATA.students.length;document.getElementById("courseCount").textContent=DATA.courses.length;renderCourses();renderLists()}
+async function loadData(){const {data,error}=await db.rpc("get_admin_data",{p_code:ADMIN_CODE_SESSION});if(error||!data?.ok){alert(data?.message||error?.message||"Impossible de charger les données.");return}DATA=data;document.getElementById("agentCount").textContent=DATA.agents.length;document.getElementById("studentCount").textContent=DATA.students.length;document.getElementById("courseCount").textContent=DATA.courses.length;renderCourses();renderLists();await loadAgentMoney()}
 function renderCourses(){document.getElementById("courseChecks").innerHTML=DATA.courses.map(c=>`<label><input type="checkbox" value="${esc(c.slug)}"> ${esc(c.nom)}</label>`).join("")}
 function renderLists(){document.getElementById("agentList").innerHTML="<h3>Agents enregistrés</h3>"+DATA.agents.map(a=>`<div class="person"><b>${esc(a.nom)}</b> — ${esc(a.code)}<br>${esc(a.telephone)} · ${esc(a.fonction)}</div>`).join("")||"<div class=hint>Aucun agent.</div>";document.getElementById("studentList").innerHTML="<h3>Élèves enregistrés</h3>"+DATA.students.map(s=>`<div class="person"><b>${esc(s.nom)}</b> — ${esc(s.code)}<br>${esc(s.telephone)}<br><small>${s.courses.map(c=>esc(c.nom)).join(" · ")||"Aucun cours"}</small></div>`).join("")||"<div class=hint>Aucun élève.</div>";document.getElementById("messageList").innerHTML="<h3>Messages envoyés</h3>"+DATA.messages.map(m=>`<div class="person"><b>${esc(m.audience)}</b> · ${new Date(m.created_at).toLocaleString()}<br>${esc(m.message)}</div>`).join("")||"<div class=hint>Aucun message.</div>"}
 async function createAgent(){
@@ -96,6 +122,86 @@ async function createStudent(){
 
   await loadData();
 }
+
+let MONEY_DATA={};
+
+function moneyHTG(v){return Number(v||0).toLocaleString("fr-FR",{minimumFractionDigits:2,maximumFractionDigits:2})+" HTG"}
+
+async function loadAgentMoney(){
+  const select=document.getElementById("moneyAgent");
+  if(!select)return;
+  select.innerHTML=DATA.agents.length
+    ? DATA.agents.map(a=>`<option value="${esc(a.code)}">${esc(a.nom)} — ${esc(a.code)}</option>`).join("")
+    : `<option value="">Aucun agent</option>`;
+
+  const results=await Promise.all(DATA.agents.map(async a=>{
+    const {data,error}=await db.rpc("get_agent_money",{p_agent_code:a.code});
+    return [a.code, error||!data?.ok ? {ok:false,total_revenu:0,total_retrait:0,solde:0,history:[]} : data];
+  }));
+  MONEY_DATA=Object.fromEntries(results);
+  renderFinanceAgents();
+}
+
+function renderFinanceAgents(){
+  const box=document.getElementById("financeAgents");
+  if(!box)return;
+  if(!DATA.agents.length){box.innerHTML='<div class="hint">Aucun agent.</div>';return}
+  box.innerHTML=DATA.agents.map(a=>{
+    const m=MONEY_DATA[a.code]||{total_revenu:0,total_retrait:0,solde:0,history:[]};
+    const hist=(m.history||[]).slice(0,8).map(x=>{
+      const sign=x.movement_type==="retrait"?"−":"+";
+      const cls=x.movement_type==="retrait"?"money-retrait":"money-revenu";
+      return `<div class="money-row"><span>${new Date(x.created_at).toLocaleString("fr-FR")} · ${esc(x.description||x.movement_type)}</span><span class="${cls}">${sign}${moneyHTG(x.amount)} <button class="btn-light" style="display:inline-block;width:auto;padding:5px 8px;margin:0 0 0 5px" onclick="editAgentMoney(${x.id},'${esc(a.code)}',${Number(x.amount)},'${esc(x.movement_type)}',${JSON.stringify(x.description||"")})">Modifier</button> <button class="btn-light" style="display:inline-block;width:auto;padding:5px 8px;margin:0" onclick="deleteAgentMoney(${x.id})">Supprimer</button></span></div>`;
+    }).join("");
+    return `<div class="finance-agent">
+      <div class="finance-agent-top"><div><div class="finance-agent-name">${esc(a.nom)}</div><div class="finance-agent-code">${esc(a.code)} · ${esc(a.telephone||"")}</div></div></div>
+      <div class="money-stats">
+        <div class="money-stat"><span>Revenus</span><b>${moneyHTG(m.total_revenu)}</b></div>
+        <div class="money-stat"><span>Retraits</span><b>${moneyHTG(m.total_retrait)}</b></div>
+        <div class="money-stat"><span>Solde</span><b>${moneyHTG(m.solde)}</b></div>
+      </div>
+      <div class="money-history">${hist||'<div class="hint">Aucun mouvement enregistré.</div>'}</div>
+    </div>`;
+  }).join("");
+}
+
+async function saveAgentMoney(){
+  const code=document.getElementById("moneyAgent").value;
+  const type=document.getElementById("moneyType").value;
+  const amount=Number(document.getElementById("moneyAmount").value);
+  const description=document.getElementById("moneyDescription").value.trim();
+  const box=document.getElementById("moneyResult");
+  if(!code){box.textContent="Sélectionnez un agent.";return}
+  if(!amount||amount<=0){box.textContent="Entrez un montant valide.";return}
+  const fn=type==="retrait"?"withdraw_agent_money":"add_agent_money";
+  const {data,error}=await db.rpc(fn,{p_admin_code:ADMIN_CODE_SESSION,p_agent_code:code,p_amount:amount,p_description:description});
+  box.textContent=data?.message||error?.message||"Erreur.";
+  if(data?.ok){document.getElementById("moneyAmount").value="";document.getElementById("moneyDescription").value="";await loadAgentMoney()}
+}
+
+async function editAgentMoney(id,agentCode,amount,type,description){
+  const newAmount=prompt("Nouveau montant HTG :",amount);
+  if(newAmount===null)return;
+  const parsed=Number(newAmount);
+  if(!parsed||parsed<=0){alert("Montant invalide.");return}
+  const newType=prompt("Type : revenu ou retrait",type);
+  if(newType===null)return;
+  const normalized=newType.trim().toLowerCase();
+  if(!["revenu","retrait"].includes(normalized)){alert("Type invalide.");return}
+  const newDescription=prompt("Description :",description);
+  if(newDescription===null)return;
+  const {data,error}=await db.rpc("update_agent_money",{p_admin_code:ADMIN_CODE_SESSION,p_id:id,p_amount:parsed,p_movement_type:normalized,p_description:newDescription});
+  alert(data?.message||error?.message||"Erreur.");
+  if(data?.ok)await loadAgentMoney();
+}
+
+async function deleteAgentMoney(id){
+  if(!confirm("Supprimer ce mouvement ?"))return;
+  const {data,error}=await db.rpc("delete_agent_money",{p_admin_code:ADMIN_CODE_SESSION,p_id:id});
+  alert(data?.message||error?.message||"Erreur.");
+  if(data?.ok)await loadAgentMoney();
+}
+
 async function sendMessage(){const message=document.getElementById("message").value.trim(),audience=document.getElementById("audience").value;const {data,error}=await db.rpc("send_message",{p_admin_code:ADMIN_CODE_SESSION,p_message:message,p_audience:audience});const box=document.getElementById("messageResult");box.textContent=data?.message||(data?.ok?"Message envoyé.":"Erreur.");if(data?.ok){document.getElementById("message").value="";await loadData()}}
 document.getElementById("aPhoto").addEventListener("change",e=>{const f=e.target.files[0],img=document.getElementById("photoPreview");if(!f){img.classList.add("hidden");return}img.src=URL.createObjectURL(f);img.classList.remove("hidden")});
 document.getElementById("adminCode").addEventListener("keydown",e=>{if(e.key==="Enter")adminLogin()});
