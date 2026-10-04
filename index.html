@@ -1163,6 +1163,190 @@ footer strong{
 .portfolio-dot{width:8px;height:8px;border:0;border-radius:99px;background:rgba(255,255,255,.45);cursor:pointer;transition:.3s;padding:0;}
 .portfolio-dot.active{width:26px;background:#ffd000;}
 @media(max-width:600px){.portfolio-slider{height:470px;border-radius:22px}.portfolio-glass{left:14px;bottom:14px;right:14px;min-width:0}.portfolio-arrow{width:42px;height:42px}.portfolio-dots{right:50%;transform:translateX(50%);bottom:17px}.portfolio-glass small{padding-bottom:15px}}
+
+/* =========================================================
+   NOUVEAU ESPACE CLIENT / CONTROLEUR
+========================================================= */
+.portal-section{max-width:1200px;margin:auto;padding:80px 20px;display:none}
+.portal-section.active{display:block;animation:fadeUp .5s ease}
+.portal-grid{display:grid;grid-template-columns:280px 1fr;gap:22px}
+.portal-side,.portal-main,.auth-card,.chat-card{background:#fff;border:1px solid #eee;border-radius:22px;box-shadow:0 15px 40px rgba(0,0,0,.07)}
+.portal-side{padding:20px;height:max-content;position:sticky;top:90px}
+.portal-side button{width:100%;border:0;background:#f7f7f7;padding:13px 14px;margin:5px 0;border-radius:12px;text-align:left;font-weight:800;cursor:pointer}
+.portal-side button.active,.portal-side button:hover{background:linear-gradient(135deg,#e60000,#ff7300);color:#fff}
+.portal-main{padding:24px;min-height:420px}
+.auth-wrap{max-width:560px;margin:auto}
+.auth-tabs{display:flex;gap:8px;margin-bottom:18px}.auth-tabs button{flex:1;border:0;padding:13px;border-radius:12px;font-weight:900;cursor:pointer;background:#f2f2f2}.auth-tabs button.active{background:#111;color:#fff}
+.auth-card{padding:28px}.auth-card h3{margin:0 0 8px}.auth-card p{color:#666;line-height:1.6}
+.portal-field{margin:14px 0}.portal-field label{display:block;font-weight:800;margin-bottom:7px}.portal-field input,.portal-field textarea,.portal-field select{width:100%;padding:13px;border:1px solid #ddd;border-radius:12px;font:inherit;box-sizing:border-box}
+.portal-btn{border:0;padding:13px 18px;border-radius:12px;background:linear-gradient(135deg,#e60000,#ff7300);color:#fff;font-weight:900;cursor:pointer}
+.portal-btn.dark{background:#111}.portal-btn.small{padding:9px 12px;font-size:12px}
+.portal-top{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;margin-bottom:20px}
+.portal-user{font-weight:900}.portal-user small{display:block;color:#777;font-weight:500;margin-top:3px}
+.progress-shell{background:#eee;border-radius:999px;height:14px;overflow:hidden}.progress-fill{height:100%;width:0;background:linear-gradient(90deg,#e60000,#ff7300,#ffd000);border-radius:999px;transition:width .8s ease}
+.progress-value{font-size:30px;font-weight:950;margin:5px 0 12px}.order-item,.file-item,.msg-item{border:1px solid #eee;border-radius:16px;padding:15px;margin:10px 0;background:#fafafa}
+.status-pill{display:inline-block;padding:5px 9px;border-radius:999px;background:#111;color:#fff;font-size:11px;font-weight:900}.status-pill.approved{background:#16833b}.status-pill.rejected{background:#c40000}.status-pill.pending{background:#ff7300}
+.chat-card{overflow:hidden}.chat-head{padding:16px;background:#111;color:#fff;font-weight:900}.chat-messages{height:340px;overflow:auto;padding:15px;background:#f7f7f7}.chat-bubble{max-width:78%;padding:10px 12px;border-radius:16px;margin:7px 0;line-height:1.45}.chat-bubble.me{margin-left:auto;background:#ff7300;color:#fff;border-bottom-right-radius:4px}.chat-bubble.other{background:#fff;border:1px solid #eee;border-bottom-left-radius:4px}.chat-meta{font-size:10px;opacity:.75;margin-top:4px}.chat-compose{display:flex;gap:8px;padding:12px;border-top:1px solid #eee}.chat-compose textarea{flex:1;resize:none;border:1px solid #ddd;border-radius:12px;padding:11px}.emoji-row{display:flex;gap:5px;padding:0 12px 10px;flex-wrap:wrap}.emoji-row button{border:0;background:#f3f3f3;border-radius:9px;padding:7px;cursor:pointer}.file-list{display:grid;gap:8px}.file-item{display:flex;justify-content:space-between;align-items:center;gap:10px}.waiting-overlay{position:fixed;inset:0;background:rgba(17,17,17,.78);z-index:99999;display:none;align-items:center;justify-content:center}.waiting-overlay.show{display:flex}.waiting-box{background:#fff;border-radius:22px;padding:30px;text-align:center;min-width:250px;box-shadow:0 25px 70px rgba(0,0,0,.3)}.loader-ring{width:54px;height:54px;border:5px solid #eee;border-top-color:#ff7300;border-right-color:#e60000;border-radius:50%;animation:portalSpin 1s linear infinite;margin:0 auto 15px}@keyframes portalSpin{to{transform:rotate(360deg)}}
+.success-pop{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(17,17,17,.65);z-index:100000}.success-pop.show{display:flex}.success-box{background:#fff;border-radius:25px;padding:35px;text-align:center;animation:successIn .45s ease;max-width:380px}.success-icon{font-size:60px;animation:successBounce .8s ease}.success-box h3{margin:8px 0}.success-box button{margin-top:15px}@keyframes successIn{from{transform:scale(.75);opacity:0}to{transform:scale(1);opacity:1}}@keyframes successBounce{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
+.bot-fab{position:fixed;right:20px;bottom:20px;width:58px;height:58px;border:0;border-radius:50%;background:linear-gradient(135deg,#e60000,#ff7300);color:#fff;font-size:25px;box-shadow:0 12px 30px rgba(0,0,0,.2);cursor:pointer;z-index:9000}.bot-panel{position:fixed;right:20px;bottom:88px;width:min(360px,calc(100vw - 40px));background:#fff;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,.25);z-index:9000;display:none;overflow:hidden}.bot-panel.show{display:block}.bot-head{background:#111;color:#fff;padding:14px;font-weight:900}.bot-body{height:300px;overflow:auto;padding:12px;background:#f7f7f7}.bot-compose{display:flex;gap:6px;padding:10px}.bot-compose input{flex:1;padding:10px;border:1px solid #ddd;border-radius:10px}
+
+/* ===== PREMIUM BOTTOM NAV ===== */
+.premium-bottom-nav{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:8500;display:flex;align-items:center;gap:8px;padding:8px;background:#fff;border:1px solid #eee;border-radius:22px;box-shadow:0 18px 55px rgba(17,17,17,.18)}
+.premium-bottom-nav a{display:flex;align-items:center;gap:9px;padding:11px 17px;border-radius:15px;text-decoration:none;color:#111;font-weight:900;font-size:13px;transition:.25s ease}
+.premium-bottom-nav a:hover,.premium-bottom-nav a.active{background:linear-gradient(135deg,#e60000,#ff7300);color:#fff;transform:translateY(-2px);box-shadow:0 8px 22px rgba(230,0,0,.22)}
+.premium-bottom-nav svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+/* ===== PREMIUM NATCASH CARD ===== */
+.natcash-premium{position:relative;overflow:hidden;padding:22px!important;border:1px solid #f0c400!important;border-radius:20px!important;background:linear-gradient(135deg,#111 0%,#1d1d1d 58%,#ff7300 180%)!important;color:#fff!important;box-shadow:0 18px 45px rgba(17,17,17,.18)!important;animation:natcashFloat 4s ease-in-out infinite}
+.natcash-premium:before{content:"";position:absolute;width:180px;height:180px;border-radius:50%;right:-75px;top:-85px;background:#ffd000;opacity:.12;animation:natcashOrb 5s ease-in-out infinite}
+.natcash-premium:after{content:"";position:absolute;width:120px;height:120px;border-radius:50%;left:-65px;bottom:-75px;background:#e60000;opacity:.12;animation:natcashOrb 6s ease-in-out infinite reverse}
+.natcash-premium>*{position:relative;z-index:1}
+.natcash-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.natcash-brand{display:flex;align-items:center;gap:11px;font-weight:1000;letter-spacing:.2px}
+.natcash-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(135deg,#e60000,#ff7300);box-shadow:0 8px 22px rgba(230,0,0,.28)}
+.natcash-icon svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.natcash-badge{padding:6px 10px;border-radius:999px;background:#ffd000;color:#111;font-size:10px;font-weight:1000;letter-spacing:.5px}
+.natcash-line{height:1px;background:rgba(255,255,255,.14);margin:14px 0}
+.natcash-number{font-size:clamp(24px,4vw,32px);font-weight:1000;letter-spacing:1.5px;line-height:1.1}
+.natcash-name{margin-top:6px;color:#f1f1f1;font-weight:700}
+.natcash-label{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:#ffd000;font-weight:1000;margin-bottom:6px}
+.natcash-card-note{margin-top:15px;color:#ddd;font-size:12px;line-height:1.55}
+@keyframes natcashFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes natcashOrb{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+/* ===== UNIFIED NATCASH PAYMENT STYLE ===== */
+.natcash-payment-unified{
+    margin:16px 0;
+    transform:translateZ(0);
+}
+.natcash-payment-unified .natcash-number{
+    text-shadow:0 0 22px rgba(255,208,0,.18);
+    animation:natcashNumberGlow 2.8s ease-in-out infinite;
+}
+.natcash-payment-unified .natcash-icon{
+    animation:natcashIconPulse 2.6s ease-in-out infinite;
+}
+@keyframes natcashNumberGlow{
+    0%,100%{text-shadow:0 0 8px rgba(255,208,0,.08)}
+    50%{text-shadow:0 0 24px rgba(255,208,0,.32)}
+}
+@keyframes natcashIconPulse{
+    0%,100%{transform:scale(1);box-shadow:0 8px 22px rgba(230,0,0,.28)}
+    50%{transform:scale(1.045);box-shadow:0 10px 30px rgba(255,115,0,.42)}
+}
+
+/* ===== GLACIAL PREMIUM BOTTOM NAV ===== */
+.premium-bottom-nav{
+    background:linear-gradient(135deg,rgba(255,255,255,.94),rgba(247,247,247,.78))!important;
+    border:1px solid rgba(255,255,255,.96)!important;
+    box-shadow:
+        0 20px 60px rgba(17,17,17,.20),
+        inset 0 1px 0 rgba(255,255,255,1),
+        inset 0 -1px 0 rgba(230,0,0,.08)!important;
+    backdrop-filter:blur(22px) saturate(160%);
+    -webkit-backdrop-filter:blur(22px) saturate(160%);
+    padding:7px!important;
+}
+.premium-bottom-nav::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:inherit;
+    pointer-events:none;
+    background:linear-gradient(120deg,rgba(255,255,255,.7),transparent 45%,rgba(255,208,0,.10));
+}
+.premium-bottom-nav a{
+    position:relative;
+    z-index:1;
+    min-width:128px;
+    justify-content:center;
+    border:1px solid transparent;
+}
+.premium-bottom-nav a:hover,
+.premium-bottom-nav a.active{
+    background:linear-gradient(135deg,#111,#2a2a2a 48%,#e60000)!important;
+    color:#fff!important;
+    border-color:rgba(255,208,0,.32);
+    box-shadow:0 10px 28px rgba(17,17,17,.24),0 0 0 1px rgba(255,255,255,.10) inset;
+}
+.premium-bottom-nav a svg{
+    filter:drop-shadow(0 2px 5px rgba(0,0,0,.12));
+}
+@media(max-width:600px){
+    .premium-bottom-nav{
+        background:linear-gradient(135deg,rgba(255,255,255,.97),rgba(247,247,247,.86))!important;
+        box-shadow:0 16px 45px rgba(17,17,17,.22)!important;
+    }
+    .premium-bottom-nav a{min-width:0}
+}
+
+/* ===== UNIFIED NATCASH PAYMENT STYLE ===== */
+.natcash-payment-unified{
+    margin:16px 0;
+    transform:translateZ(0);
+}
+.natcash-payment-unified .natcash-number{
+    text-shadow:0 0 8px rgba(255,208,0,.08);
+    animation:natcashNumberGlow 2.8s ease-in-out infinite;
+}
+.natcash-payment-unified .natcash-icon{
+    animation:natcashIconPulse 2.6s ease-in-out infinite;
+}
+@keyframes natcashNumberGlow{
+    0%,100%{text-shadow:0 0 8px rgba(255,208,0,.08)}
+    50%{text-shadow:0 0 24px rgba(255,208,0,.32)}
+}
+@keyframes natcashIconPulse{
+    0%,100%{transform:scale(1);box-shadow:0 8px 22px rgba(230,0,0,.28)}
+    50%{transform:scale(1.045);box-shadow:0 10px 30px rgba(255,115,0,.42)}
+}
+
+/* ===== GLACIAL PREMIUM BOTTOM NAV ===== */
+.premium-bottom-nav{
+    background:linear-gradient(135deg,rgba(255,255,255,.94),rgba(247,247,247,.78))!important;
+    border:1px solid rgba(255,255,255,.96)!important;
+    box-shadow:0 20px 60px rgba(17,17,17,.20),inset 0 1px 0 rgba(255,255,255,1),inset 0 -1px 0 rgba(230,0,0,.08)!important;
+    backdrop-filter:blur(22px) saturate(160%);
+    -webkit-backdrop-filter:blur(22px) saturate(160%);
+    padding:7px!important;
+}
+.premium-bottom-nav::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:inherit;
+    pointer-events:none;
+    background:linear-gradient(120deg,rgba(255,255,255,.7),transparent 45%,rgba(255,208,0,.10));
+}
+.premium-bottom-nav a{
+    position:relative;
+    z-index:1;
+    min-width:128px;
+    justify-content:center;
+    border:1px solid transparent;
+}
+.premium-bottom-nav a:hover,
+.premium-bottom-nav a.active{
+    background:linear-gradient(135deg,#111,#2a2a2a 48%,#e60000)!important;
+    color:#fff!important;
+    border-color:rgba(255,208,0,.32);
+    box-shadow:0 10px 28px rgba(17,17,17,.24),0 0 0 1px rgba(255,255,255,.10) inset;
+}
+@media(max-width:600px){
+    .premium-bottom-nav{
+        background:linear-gradient(135deg,rgba(255,255,255,.97),rgba(247,247,247,.86))!important;
+        box-shadow:0 16px 45px rgba(17,17,17,.22)!important;
+    }
+    .premium-bottom-nav a{min-width:0}
+}
+
+/* Controller/account sidebar icons */
+.portal-side button{display:flex;align-items:center;gap:10px;text-align:left}
+.portal-side .side-icon{width:18px;height:18px;flex:0 0 18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:600px){.premium-bottom-nav{left:10px;right:10px;bottom:10px;transform:none;justify-content:space-around;border-radius:18px;padding:7px}.premium-bottom-nav a{flex:1;justify-content:center;padding:11px 10px}.premium-bottom-nav a span{font-size:12px}.portal-section{padding-bottom:95px}.natcash-premium{padding:18px!important}}
+
+@media(max-width:800px){.portal-grid{grid-template-columns:1fr}.portal-side{position:static}.portal-main{padding:16px}.chat-messages{height:300px}.chat-compose{align-items:stretch}.file-item{align-items:flex-start;flex-direction:column}}
+
+.portal-upload-field{margin-top:18px}.portal-upload-field input{padding:10px}
+#regPaidYes,#regPaidNo,#transcodeBox,#regTranscodeBox,#pubPaidYes,#pubPaidNo,#pubTranscodeBox{display:none!important}
 </style>
 
 <style>
@@ -1458,19 +1642,6 @@ body{
 }
 </style>
 
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-
-<style id="baba-new-bottom-nav">
-.baba-bottom-nav{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);z-index:2000;width:min(94%,560px);background:#111;border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:8px;display:grid;grid-template-columns:repeat(4,1fr);gap:5px;box-shadow:0 14px 40px rgba(0,0,0,.28)}
-.baba-bottom-nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:55px;border-radius:16px;color:#fff;text-decoration:none;font-size:11px;font-weight:700;transition:.2s}
-.baba-bottom-nav a:hover,.baba-bottom-nav a.active{background:linear-gradient(135deg,#e60000,#ff7300);transform:translateY(-2px)}
-.baba-bottom-nav svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-@media(min-width:800px){.baba-bottom-nav{bottom:18px}.baba-bottom-nav a{min-height:50px}}
-body{padding-bottom:88px}
-</style>
-
 </head>
 
 <body>
@@ -1538,6 +1709,7 @@ body{padding-bottom:88px}
 
             <li>
                 <a href="#contact">Contact</a>
+                <a href="#mon-espace" class="nav-account-link">Mon espace</a>
             </li>
 
         </ul>
@@ -1932,28 +2104,114 @@ body{padding-bottom:88px}
 
                     <strong>Important :</strong><br>
 
-                    Pour les images nécessaires à votre commande, vous pourrez les envoyer directement depuis <strong>Mon espace</strong>, sans passer par WhatsApp.
-
-                    <div class="community-link-box">
-                        <strong>Rejoignez notre communauté WhatsApp</strong><br>
-                        Pour recevoir les informations et rester connecté avec la communauté Baba Design.
-                        <br>
-                        <a
-                            href="https://chat.whatsapp.com/F3iDDSfobD3LQkXzFmbc9Z?mode=gi_t"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="community-link"
-                        >
-                            Rejoindre la communauté WhatsApp
-                        </a>
-                    </div>
-
-                </div>
+                    Pour toutes les images nécessaires à votre commande,
+                    veuillez les envoyer directement sur notre WhatsApp
+                    <strong>comme document</strong> afin de préserver leur qualité.
+</div>
 
             </div>
 
 
             <div class="card">
+
+                <div class="section-title">
+                    <div class="number">5</div>
+                    Paiement
+                </div>
+
+                <div class="notice">
+
+                    Pour commencer votre commande, un
+                    <strong>dépôt de 70%</strong> du prix du service est demandé.
+
+                    <br><br>
+
+                    Les <strong>30% restants</strong> seront payés selon
+                    les conditions convenues pour finaliser la commande.
+
+                </div>
+
+
+                <div class="notice natcash-premium" style="margin-top:15px;">
+                    <div class="natcash-head">
+                        <div class="natcash-brand"><span class="natcash-icon"><svg viewBox="0 0 24 24"><path d="M6 3h12v18H6z"/><path d="M9 7h6M9 11h6M9 15h3"/></svg></span><span>PAIEMENT NATCASH</span></div>
+                        <span class="natcash-badge">SÉCURISÉ</span>
+                    </div>
+                    <div class="natcash-line"></div>
+                    <div class="natcash-label">Numéro de paiement</div>
+                    <div class="natcash-number">+509 4005-2773</div>
+                    <div class="natcash-label" style="margin-top:14px">Titulaire du compte</div>
+                    <div class="natcash-name">Marie Alberte Darisme</div>
+                    <div class="natcash-card-note">Après le paiement, joins ta preuve de paiement dans le formulaire. Le contrôleur vérifiera ensuite la transaction.</div>
+                </div>
+
+
+                <br>
+
+
+                <label>
+                    Avez-vous déjà effectué le paiement ?
+                    <span class="required">*</span>
+                </label>
+
+
+                <div class="radio-group">
+
+                    <div class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="paid"
+                            id="paidYes"
+                            value="Oui"
+                            required
+                        >
+
+                        <label for="paidYes">
+                            Oui, j'ai payé
+                        </label>
+
+                    </div>
+
+
+                    <div class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="paid"
+                            id="paidNo"
+                            value="Non"
+                            required
+                        >
+
+                        <label for="paidNo">
+                            Non, pas encore
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="field hidden"
+                    id="transcodeBox"
+                    style="margin-top:20px;"
+                >
+
+                    <label>
+                        Transcode de paiement
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="transcode"
+                        placeholder="Entrez votre transcode de paiement"
+                    >
+
+                </div>
+
 
                 <div class="payment-info">
 
@@ -2042,7 +2300,9 @@ body{padding-bottom:88px}
 
             <div class="card">
 
-                <button
+                <div class="field portal-upload-field"><label>Preuve de paiement <span class="required">*</span></label><input id="paymentProof" type="file" accept="image/*,.pdf" required></div><div class="field portal-upload-field"><label>Photos / fichiers de votre projet</label><input id="orderFiles" type="file" accept="image/*,.pdf,.doc,.docx" multiple></div>
+
+<button
                     type="submit"
                     class="submit-btn"
                 >
@@ -2275,25 +2535,10 @@ body{padding-bottom:88px}
             Remplissez le formulaire ci-dessous, choisissez la durée
             et le type de publicité.
 
-            Envoyez votre
+            Après paiement, envoyez votre
             <strong>photo ou vidéo sur notre WhatsApp comme document</strong>
             afin de préserver sa qualité.
-
-            <div class="community-link-box">
-                <strong>Rejoignez notre communauté WhatsApp</strong><br>
-                Cliquez sur le bouton ci-dessous pour entrer dans le groupe officiel.
-                <br>
-                <a
-                    href="https://chat.whatsapp.com/F3iDDSfobD3LQkXzFmbc9Z?mode=gi_t"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="community-link"
-                >
-                    Rejoindre la communauté WhatsApp
-                </a>
-            </div>
-
-        </div>
+</div>
 
 
         <form id="publiciteForm">
@@ -2444,24 +2689,89 @@ body{padding-bottom:88px}
 
 
             <div class="publicite-notice">
-                <strong>Informations :</strong><br>
-                Envoyez votre photo ou vidéo comme document pour votre demande.
-                <div class="community-link-box">
-                    <strong>Accès à la communauté</strong><br>
-                    Rejoignez le groupe officiel pour suivre les informations et annonces.
-                    <br>
-                    <a
-                        href="https://chat.whatsapp.com/F3iDDSfobD3LQkXzFmbc9Z?mode=gi_t"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="community-link"
+
+                <strong>Important :</strong><br>
+
+                Après avoir payé, choisissez
+                <strong>« Oui, j'ai payé »</strong>
+                et entrez votre
+                <strong>preuve de paiement</strong>.
+
+                Sans preuve de paiement validée,
+                la demande ne sera pas envoyée pour traitement.
+
+                <br><br>
+
+                Envoyez ensuite votre
+                <strong>photo ou vidéo sur WhatsApp comme document</strong>.
+</div>
+
+
+            <label>
+                Avez-vous déjà effectué le paiement ?
+                <span class="required">*</span>
+            </label>
+
+
+            <div class="radio-group">
+
+                <div class="radio-option">
+
+                    <input
+                        type="radio"
+                        name="pubPaid"
+                        id="pubPaidYes"
+                        value="Oui"
+                        required
                     >
-                        Rejoindre la communauté WhatsApp
-                    </a>
+
+                    <label for="pubPaidYes">
+                        Oui, j'ai payé
+                    </label>
+
+                </div>
+
+
+                <div class="radio-option">
+
+                    <input
+                        type="radio"
+                        name="pubPaid"
+                        id="pubPaidNo"
+                        value="Non"
+                        required
+                    >
+
+                    <label for="pubPaidNo">
+                        Non, pas encore
+                    </label>
+
                 </div>
 
             </div>
 
+
+            <div
+                class="field hidden"
+                id="pubTranscodeBox"
+                style="margin-top:20px;"
+            >
+
+                <label>
+                    Transcode de paiement
+                    <span class="required">*</span>
+                </label>
+
+                <input
+                    type="text"
+                    id="pubTranscode"
+                    placeholder="Entrez votre transcode de paiement"
+                >
+
+            </div>
+
+
+            <div class="field portal-upload-field"><label>Preuve de paiement <span class="required">*</span></label><input id="pubPaymentProof" type="file" accept="image/*,.pdf" required></div>
 
             <button
                 type="submit"
@@ -2754,22 +3064,118 @@ body{padding-bottom:88px}
                         WhatsApp :
                         +509 4005-2773
                     </strong>
+</div>
 
-                    <div class="community-link-box">
-                        <strong>Rejoignez notre communauté WhatsApp</strong><br>
-                        Cliquez ici pour rejoindre le groupe officiel de la communauté.
-                        <br>
-                        <a
-                            href="https://chat.whatsapp.com/F3iDDSfobD3LQkXzFmbc9Z?mode=gi_t"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="community-link"
+
+                <!-- PAYMENT — NATCASH PREMIUM -->
+
+                <div class="natcash-premium natcash-payment-unified">
+                    <div class="natcash-head">
+                        <div class="natcash-brand">
+                            <span class="natcash-icon">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M6 3h12v18H6z"/>
+                                    <path d="M9 7h6M9 11h6M9 15h3"/>
+                                </svg>
+                            </span>
+                            <span>PAIEMENT NATCASH</span>
+                        </div>
+                        <span class="natcash-badge">SÉCURISÉ</span>
+                    </div>
+                    <div class="natcash-line"></div>
+                    <div class="natcash-label">Numéro de paiement</div>
+                    <div class="natcash-number">+509 4005-2773</div>
+                    <div class="natcash-label" style="margin-top:14px">Titulaire du compte</div>
+                    <div class="natcash-name">Marie Alberte Darisme</div>
+                    <div class="natcash-card-note">
+                        Après paiement, sélectionnez « Oui, j'ai payé »
+                        et téléversez votre preuve de paiement.
+                    </div>
+                </div>
+
+
+                <br>
+
+
+                <label>
+
+                    Avez-vous déjà effectué le paiement ?
+
+                    <span class="required">*</span>
+
+                </label>
+
+
+                <div class="radio-group">
+
+                    <div class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="regPaid"
+                            id="regPaidYes"
+                            value="Oui"
+                            required
                         >
-                            Rejoindre la communauté WhatsApp
-                        </a>
+
+                        <label for="regPaidYes">
+                            Oui, j'ai payé
+                        </label>
+
+                    </div>
+
+
+                    <div class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="regPaid"
+                            id="regPaidNo"
+                            value="Non"
+                            required
+                        >
+
+                        <label for="regPaidNo">
+                            Non, pas encore
+                        </label>
+
                     </div>
 
                 </div>
+
+
+                <!-- TRANSCODE INSCRIPTION -->
+
+                <div
+                    class="field hidden"
+                    id="regTranscodeBox"
+                    style="margin-top:20px;"
+                >
+
+                    <label>
+
+                        Transcode de paiement
+
+                        <span class="required">
+                            *
+                        </span>
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="regTranscode"
+                        placeholder="Entrez votre transcode"
+                    >
+
+                </div>
+
+
+                <br>
+
+
+                <div class="field portal-upload-field"><label>Photo pour mon badge (Agent)</label><input id="agentBadgePhoto" type="file" accept="image/*"></div>
+
 <button
                     type="submit"
                     class="submit-btn"
@@ -2942,6 +3348,57 @@ body{padding-bottom:88px}
 </section>
 
 
+
+<!-- =========================================================
+     MON ESPACE — CLIENT / AGENT / ETUDIANT / CONTROLEUR
+========================================================= -->
+<section class="portal-section" id="mon-espace">
+  <div class="section-header"><span>Espace privé</span><h2>Mon espace</h2><p>Connectez-vous pour suivre vos commandes, paiements, fichiers et conversations.</p></div>
+  <div id="portalAuth" class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-tabs"><button id="tabLogin" class="active" type="button">Connexion</button><button id="tabSignup" type="button">Créer un compte</button></div>
+      <form id="portalLoginForm">
+        <div class="portal-field"><label>Email</label><input id="loginEmail" type="email" required autocomplete="email"></div>
+        <div class="portal-field"><label>Mot de passe</label><input id="loginPassword" type="password" required autocomplete="current-password"></div>
+        <button class="portal-btn" type="submit">Se connecter</button>
+      </form>
+      <form id="portalSignupForm" style="display:none">
+        <div class="portal-field"><label>Nom complet</label><input id="signupName" required></div>
+        <div class="portal-field"><label>Email</label><input id="signupEmail" type="email" required autocomplete="email"></div>
+        <div class="portal-field"><label>Téléphone</label><input id="signupPhone" type="tel"></div>
+        <div class="portal-field"><label>Mot de passe</label><input id="signupPassword" type="password" minlength="6" required autocomplete="new-password"></div>
+        <button class="portal-btn" type="submit">Créer mon compte</button>
+      </form>
+      <p id="authNotice"></p>
+    </div>
+  </div>
+  <div id="portalApp" style="display:none">
+    <div class="portal-top"><div class="portal-user" id="portalUser"></div><button class="portal-btn dark" id="logoutBtn" type="button">Déconnexion</button></div>
+    <div class="portal-grid">
+      <aside class="portal-side">
+        <button class="active" data-portal-view="dashboard" type="button"><svg class="side-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Tableau de bord</button>
+        <button data-portal-view="orders" type="button"><svg class="side-icon" viewBox="0 0 24 24"><path d="M6 2h9l4 4v16H6z"/><path d="M15 2v5h5M9 13h6M9 17h6"/></svg>Mes services</button>
+        <button data-portal-view="files" type="button"><svg class="side-icon" viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h5"/></svg>Mes fichiers</button>
+        <button data-portal-view="chat" type="button"><svg class="side-icon" viewBox="0 0 24 24"><path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 8.8 8.8 0 0 1-3-.5L4 20l1.5-3A7.5 7.5 0 1 1 20 11.5z"/></svg>Conversation privée</button>
+        <button data-portal-view="profile" type="button"><svg class="side-icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 21a7 7 0 0 1 14 0"/></svg>Mon profil</button>
+        <button id="controllerNav" data-portal-view="controller" type="button" style="display:none"><svg class="side-icon" viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="4"/></svg>Contrôle</button>
+      </aside>
+      <main class="portal-main" id="portalMain"></main>
+    </div>
+  </div>
+</section>
+
+<div class="waiting-overlay" id="waitingOverlay"><div class="waiting-box"><div class="loader-ring"></div><strong id="waitingText">Traitement en cours…</strong><p>Patientez quelques secondes.</p></div></div>
+<div class="success-pop" id="successPop"><div class="success-box"><div class="success-icon">🎉</div><h3 id="successTitle">Paiement réussi</h3><p id="successMessage">Votre opération a été enregistrée avec succès.</p><button class="portal-btn" id="successClose" type="button">Continuer</button></div></div>
+<button class="bot-fab" id="akadeFab" title="Akade">🤖</button>
+<div class="bot-panel" id="akadePanel"><div class="bot-head">🤖 Akade — Assistant Baba Design</div><div class="bot-body" id="akadeBody"><div class="order-item"><strong>Akade :</strong> Bonjour 👋 Je suis Akade. Comment puis-je t'aider ?</div></div><div class="emoji-row"><button type="button" data-bot-emoji="😊">😊</button><button type="button" data-bot-emoji="😂">😂</button><button type="button" data-bot-emoji="😍">😍</button><button type="button" data-bot-emoji="👍">👍</button><button type="button" data-bot-emoji="🙏">🙏</button><button type="button" data-bot-emoji="🔥">🔥</button><button type="button" data-bot-emoji="❤️">❤️</button><button type="button" data-bot-emoji="🎉">🎉</button><button type="button" data-bot-emoji="😎">😎</button><button type="button" data-bot-emoji="💯">💯</button><button type="button" data-bot-emoji="✨">✨</button><button type="button" data-bot-emoji="🤝">🤝</button></div><div class="bot-compose"><input id="akadeInput" placeholder="Écris à Akade…"><button class="portal-btn small" id="akadeSend" type="button">Envoyer</button></div></div>
+
+<!-- ===== NAVIGATION RAPIDE ===== -->
+<nav class="premium-bottom-nav" aria-label="Navigation rapide">
+  <a href="#accueil" class="bottom-home"><svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-5h5v5"/></svg><span>Accueil</span></a>
+  <a href="#mon-espace" class="bottom-account"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 21a7 7 0 0 1 14 0"/></svg><span>Mon espace</span></a>
+</nav>
+
 <!-- =========================
      FOOTER
 ========================= -->
@@ -3030,40 +3487,320 @@ const remainingPrice =
         "remainingPrice"
     );
 
+const paidYes =
+    document.getElementById(
+        "paidYes"
+    );
+
+const paidNo =
+    document.getElementById(
+        "paidNo"
+    );
+
+const transcodeBox =
+    document.getElementById(
+        "transcodeBox"
+    );
+
+const transcode =
+    document.getElementById(
+        "transcode"
+    );
+
+const customService =
+    document.getElementById(
+        "customService"
+    );
+
+
+function formatMoney(number){
+
+    return new Intl.NumberFormat(
+        "fr-FR"
+    ).format(number) + " HTG";
+
+}
+
+
+function getSelectedService(){
+
+    return document.querySelector(
+        'input[name="service"]:checked'
+    );
+
+}
+
+
+function updatePrice(){
+
+    const selected =
+        getSelectedService();
+
+    let price = 0;
+
+    if(selected){
+
+        price =
+            parseFloat(
+                selected.dataset.price
+            ) || 0;
+
+    }
+
+
+    const deposit =
+        price * 0.70;
+
+    const remaining =
+        price * 0.30;
+
+
+    totalPrice.textContent =
+        formatMoney(price);
+
+    depositPrice.textContent =
+        formatMoney(deposit);
+
+    remainingPrice.textContent =
+        formatMoney(remaining);
+
+}
+
+
+serviceInputs.forEach(
+    function(input){
+
+        input.addEventListener(
+            "change",
+            updatePrice
+        );
+
+    }
+);
+
+
+paidYes.addEventListener(
+    "change",
+    function(){
+
+        if(this.checked){
+
+            transcodeBox.classList.remove(
+                "hidden"
+            );
+
+            transcode.required = true;
+
+        }
+
+    }
+);
+
+
+paidNo.addEventListener(
+    "change",
+    function(){
+
+        if(this.checked){
+
+            transcodeBox.classList.add(
+                "hidden"
+            );
+
+            transcode.required = false;
+
+            transcode.value = "";
+
+        }
+
+    }
+);
+
+
 /* ==================================================
-   FORMULAIRE SERVICES → NOUVEAU SYSTÈME
+   FORMULAIRE SERVICES → WHATSAPP
 ================================================== */
 
-const BABA_SUPABASE_URL = "https://lfihazvagywraxhbjcqr.supabase.co";
-const BABA_SUPABASE_KEY = "sb_publishable_IbhpDt8dvcHZOuxy17uGzQ_YaqUHIpm";
-const babaSupabase = window.supabase.createClient(BABA_SUPABASE_URL, BABA_SUPABASE_KEY);
+document
+.getElementById("orderForm")
+.addEventListener(
+    "submit",
+    function(event){
 
-document.getElementById("orderForm").addEventListener("submit", async function(event){
-    event.preventDefault();
-    const selected = getSelectedService();
-    if(!selected){ alert("Veuillez sélectionner un service."); return; }
-const {data:{user}} = await babaSupabase.auth.getUser();
-    if(!user){
-        alert("Connectez-vous ou créez votre compte avant d'envoyer une commande.");
-        window.location.href = "compte.html?redirect=commande";
-        return;
+        event.preventDefault();
+
+
+        const clientName =
+            document
+            .getElementById("clientName")
+            .value
+            .trim();
+
+
+        const clientPhone =
+            document
+            .getElementById("clientPhone")
+            .value
+            .trim();
+
+
+        const selected =
+            getSelectedService();
+
+
+        if(!selected){
+
+            alert(
+                "Veuillez sélectionner un service."
+            );
+
+            return;
+
+        }
+
+
+        const service =
+            selected.value;
+
+
+        const price =
+            parseFloat(
+                selected.dataset.price
+            );
+
+
+        const custom =
+            customService.value.trim();
+
+
+        const deadline =
+            document
+            .getElementById("deadline")
+            .value;
+
+
+        const designInfo =
+            document
+            .getElementById("designInfo")
+            .value
+            .trim();
+
+
+        const payment =
+            document.querySelector(
+                'input[name="paid"]:checked'
+            );
+
+
+        if(!payment){
+
+            alert(
+                "Veuillez indiquer votre statut de paiement."
+            );
+
+            return;
+
+        }
+
+
+        const paymentValue =
+            payment.value;
+
+
+        let transcodeValue =
+            "Non fourni";
+
+
+        if(paymentValue === "Oui"){
+
+            transcodeValue =
+                transcode.value.trim();
+
+            if(!transcodeValue){
+
+                alert(
+                    "Veuillez entrer votre transcode de paiement."
+                );
+
+                return;
+
+            }
+
+        }
+
+
+        const agentId =
+            document
+            .getElementById("agentId")
+            .value
+            .trim();
+
+
+        const deposit =
+            price * 0.70;
+
+
+        const remaining =
+            price * 0.30;
+
+
+        let message =
+
+`*NOUVELLE COMMANDE — BABA DESIGN*
+
+ *Client :*
+${clientName}
+
+ *WhatsApp :*
+${clientPhone || "Non fourni"}
+
+ *Service :*
+${service}
+
+ *Prix :*
+${formatMoney(price)}
+
+ *Dépôt 70% :*
+${formatMoney(deposit)}
+
+ *Solde 30% :*
+${formatMoney(remaining)}
+
+ *Délai :*
+${deadline}
+
+ *Informations du visuel :*
+${designInfo}
+
+ *Paiement effectué :*
+${paymentValue}
+
+ *Transcode :*
+${transcodeValue}
+
+ *ID Agent :*
+${agentId || "Aucun"}
+
+${custom ? ` *Autre service demandé :*\n${custom}` : ""}
+
+Merci pour votre commande.
+*Baba Design*`;
+
+
+        const url =
+            "https://wa.me/" +
+            whatsappNumber +
+            "?text=" +
+            encodeURIComponent(message);
+
+
+        window.open(
+            url,
+            "_blank"
+        );
+
     }
-    const price=parseFloat(selected.dataset.price)||0;
-    const payload={
-        service_name:selected.value, price_htg:price, deposit_htg:price*.70, remaining_htg:price*.30,
-        client_name:document.getElementById("clientName").value.trim(),
-        client_phone:document.getElementById("clientPhone").value.trim()||null,
-        deadline:document.getElementById("deadline").value||null,
-        design_info:document.getElementById("designInfo").value.trim(),
-        payment_status:"pending", payment_reference:null,
-        agent_code:document.getElementById("agentId").value.trim()||null,
-        custom_service:document.getElementById("customService").value.trim()||null, status:"pending"
-    };
-    const {error}=await babaSupabase.from("orders").insert(payload);
-    if(error){console.error(error); alert("Impossible d'enregistrer la commande. Vérifiez votre connexion puis réessayez."); return;}
-    alert("Commande envoyée avec succès. Vous pourrez suivre son évolution depuis Mon espace.");
-    window.location.href="compte.html#commandes";
-});
+);
 
 
 /* ==================================================
@@ -3207,6 +3944,69 @@ agentType.addEventListener(
 
 
 /* ==================================================
+   AKADEMI PAYMENT
+================================================== */
+
+const regPaidYes =
+    document.getElementById(
+        "regPaidYes"
+    );
+
+const regPaidNo =
+    document.getElementById(
+        "regPaidNo"
+    );
+
+const regTranscodeBox =
+    document.getElementById(
+        "regTranscodeBox"
+    );
+
+const regTranscode =
+    document.getElementById(
+        "regTranscode"
+    );
+
+
+regPaidYes.addEventListener(
+    "change",
+    function(){
+
+        if(this.checked){
+
+            regTranscodeBox.classList.remove(
+                "hidden"
+            );
+
+            regTranscode.required = true;
+
+        }
+
+    }
+);
+
+
+regPaidNo.addEventListener(
+    "change",
+    function(){
+
+        if(this.checked){
+
+            regTranscodeBox.classList.add(
+                "hidden"
+            );
+
+            regTranscode.required = false;
+
+            regTranscode.value = "";
+
+        }
+
+    }
+);
+
+
+/* ==================================================
    INSCRIPTION → WHATSAPP
 ================================================== */
 
@@ -3215,76 +4015,216 @@ document
 .addEventListener(
     "submit",
     function(event){
+
         event.preventDefault();
 
-        const name = document.getElementById("regName").value.trim();
-        const phone = document.getElementById("regPhone").value.trim();
-        const email = document.getElementById("regEmail").value.trim();
-        const type = document.querySelector('input[name="memberType"]:checked');
-        const formation = regFormation.value;
-        const agentId = document.getElementById("regAgentId").value.trim();
-        const agentNatCashValue = agentNatCash.value.trim();
-        const agentNatCashNameValue = agentNatCashName.value.trim();
+
+        const name =
+            document
+            .getElementById("regName")
+            .value
+            .trim();
+
+
+        const phone =
+            document
+            .getElementById("regPhone")
+            .value
+            .trim();
+
+
+        const email =
+            document
+            .getElementById("regEmail")
+            .value
+            .trim();
+
+
+        const type =
+            document.querySelector(
+                'input[name="memberType"]:checked'
+            );
+
+
+        const formation =
+            regFormation.value;
+
+
+        const agentId =
+            document
+            .getElementById("regAgentId")
+            .value
+            .trim();
+
+
+        /* ==================================================
+           RÉCUPÉRER LES INFOS NATCASH DE L'AGENT
+        ================================================== */
+
+        const agentNatCashValue =
+            agentNatCash.value.trim();
+
+        const agentNatCashNameValue =
+            agentNatCashName.value.trim();
+
+
+        const payment =
+            document.querySelector(
+                'input[name="regPaid"]:checked'
+            );
+
 
         if(!type){
-            alert("Veuillez choisir le type d'inscription.");
+
+            alert(
+                "Veuillez choisir le type d'inscription."
+            );
+
             return;
+
         }
+
+
         if(type.value === "Étudiant" && !formation){
-            alert("Veuillez sélectionner une formation.");
+
+            alert(
+                "Veuillez sélectionner une formation."
+            );
+
             return;
+
         }
+
+
+        /* ==================================================
+           VÉRIFICATION NATCASH AGENT
+        ================================================== */
+
         if(type.value === "Agent"){
+
             if(!agentNatCashValue){
-                alert("Veuillez entrer le numéro NatCash de l'agent.");
+
+                alert(
+                    "Veuillez entrer le numéro NatCash de l'agent."
+                );
+
                 return;
+
             }
+
+
             if(!agentNatCashNameValue){
-                alert("Veuillez entrer le nom sur le compte NatCash.");
+
+                alert(
+                    "Veuillez entrer le nom sur le compte NatCash."
+                );
+
                 return;
+
             }
+
         }
 
-        const registrationFee = type.value === "Agent" ? "150 HTG" : "250 HTG";
-        const message = `*NOUVELLE INSCRIPTION — AKADEMI DIZAY*
 
-*Nom complet :*
+        if(!payment){
+
+            alert(
+                "Veuillez indiquer votre statut de paiement."
+            );
+
+            return;
+
+        }
+
+
+        let transcodeValue =
+            "Non fourni";
+
+
+        if(payment.value === "Oui"){
+
+            transcodeValue =
+                regTranscode.value.trim();
+
+
+            if(!transcodeValue){
+
+                alert(
+                    "Veuillez entrer votre transcode de paiement."
+                );
+
+                return;
+
+            }
+
+        }
+
+
+        const registrationFee =
+            type.value === "Agent"
+            ? "150 HTG"
+            : "250 HTG";
+
+
+        let message =
+
+`*NOUVELLE INSCRIPTION — AKADEMI DIZAY*
+
+ *Nom complet :*
 ${name}
 
-*Téléphone :*
+ *Téléphone :*
 ${phone}
 
-*Email :*
+ *Email :*
 ${email || "Non fourni"}
 
-*Type :*
+ *Type :*
 ${type.value}
 
-*Formation :*
+ *Formation :*
 ${type.value === "Étudiant" ? formation : "Agent"}
 
-*Frais d'inscription :*
+ *Frais d'inscription :*
 ${registrationFee}
 
-*ID Agent :*
+ *Paiement effectué :*
+${payment.value}
+
+ *Transcode :*
+${transcodeValue}
+
+ *ID Agent :*
 ${agentId || "Aucun"}
 
-*Numéro NatCash Agent :*
+ *Numéro NatCash Agent :*
 ${type.value === "Agent" ? agentNatCashValue : "Non applicable"}
 
-*Nom sur le compte NatCash :*
+ *Nom sur le compte NatCash :*
 ${type.value === "Agent" ? agentNatCashNameValue : "Non applicable"}
 
-*Photo badge :*
+ *Photo badge :*
 ${type.value === "Agent" ? "À envoyer sur WhatsApp" : "Non applicable"}
 
 Merci.
 *Akademi Dizay*`;
 
-        const url = "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(message);
-        window.open(url, "_blank");
+
+        const url =
+            "https://wa.me/" +
+            whatsappNumber +
+            "?text=" +
+            encodeURIComponent(message);
+
+
+        window.open(
+            url,
+            "_blank"
+        );
+
     }
 );
+
 </script>
 
 
@@ -3819,6 +4759,20 @@ const pubUsd =
 
 const pubHtg =
     document.getElementById("pubHtg");
+
+const pubPaidYes =
+    document.getElementById("pubPaidYes");
+
+const pubPaidNo =
+    document.getElementById("pubPaidNo");
+
+const pubTranscodeBox =
+    document.getElementById("pubTranscodeBox");
+
+const pubTranscode =
+    document.getElementById("pubTranscode");
+
+
 const pubPrices = {
 
     "Photo|3 jours": 3.85,
@@ -3874,6 +4828,38 @@ pubDuration.addEventListener(
     "change",
     updatePubPrice
 );
+
+
+pubPaidYes.addEventListener(
+    "change",
+    function(){
+
+        pubTranscodeBox.classList.remove(
+            "hidden"
+        );
+
+        pubTranscode.required = true;
+
+    }
+);
+
+
+pubPaidNo.addEventListener(
+    "change",
+    function(){
+
+        pubTranscodeBox.classList.add(
+            "hidden"
+        );
+
+        pubTranscode.required = false;
+
+        pubTranscode.value = "";
+
+    }
+);
+
+
 document
 .getElementById("publiciteForm")
 .addEventListener(
@@ -3895,7 +4881,15 @@ document
 
         const htg =
             usd * 130;
-if(!usd){
+
+
+        const payment =
+            document.querySelector(
+                'input[name="pubPaid"]:checked'
+            );
+
+
+        if(!usd){
 
             alert(
                 "Veuillez choisir le type et la durée de la publicité."
@@ -3904,7 +4898,38 @@ if(!usd){
             return;
 
         }
-const message =
+
+
+        if(
+            !payment ||
+            payment.value !== "Oui"
+        ){
+
+            alert(
+                "Vous devez effectuer le paiement et sélectionner « Oui, j'ai payé » avec votre transcode avant d'envoyer la demande."
+            );
+
+            return;
+
+        }
+
+
+        const transcodeValue =
+            pubTranscode.value.trim();
+
+
+        if(!transcodeValue){
+
+            alert(
+                "Veuillez entrer votre transcode de paiement."
+            );
+
+            return;
+
+        }
+
+
+        const message =
 `*NOUVELLE DEMANDE DE PUBLICITÉ — BABA DESIGN*
 
 *Nom complet :*
@@ -3927,6 +4952,12 @@ ${Math.round(htg).toLocaleString("fr-FR")} HTG
 
 *Taux utilisé :*
 130 HTG pour 1 $
+
+*Paiement effectué :*
+Oui
+
+*Transcode :*
+${transcodeValue}
 
 *Fichier publicitaire :*
 À envoyer sur WhatsApp comme document
@@ -3976,12 +5007,119 @@ Merci.
 })();
 </script>
 
-<nav class="baba-bottom-nav" aria-label="Navigation rapide">
-<a href="#accueil" class="active" aria-label="Accueil"><svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V20h14v-9.5"/><path d="M9 20v-6h6v6"/></svg><span>Accueil</span></a>
-<a href="compte.html" aria-label="Mon espace"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.8-4 3.1-6 7-6s6.2 2 7 6"/></svg><span>Mon espace</span></a>
-<a href="solde.html" aria-label="Solde"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M16 13h.01"/><path d="M3 10h18"/><path d="M7 3v3M17 3v3"/></svg><span>Solde</span></a>
-<a href="commandes.html" aria-label="Mes commandes"><svg viewBox="0 0 24 24"><path d="M6 3h12v18H6z"/><path d="M9 7h6M9 11h6M9 15h4"/></svg><span>Commandes</span></a>
-</nav>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(() => {
+  const SUPABASE_URL = "https://drvcneeaothydjmqpdzg.supabase.co";
+  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_k8DUVt12k1GN4n7yiYBnYw_gXltrpmp";
+  const CONTROLLER_EMAIL = "enlignecours109@gmail.com";
+  const BUCKET = "client-files";
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+  window.babaSupabase = sb;
+  // Legacy payment/transcode controls are no longer used by the new Supabase flow.
+  document.querySelectorAll('#regPaidYes,#regPaidNo,#transcode,#pubPaidYes,#pubPaidNo,#pubTranscode').forEach(el=>el.required=false);
+
+
+  const $ = id => document.getElementById(id);
+  const wait = (on,text="Traitement en cours…") => { $('waitingText').textContent=text; $('waitingOverlay').classList.toggle('show',on); };
+  const toast = (title,msg) => { $('successTitle').textContent=title; $('successMessage').textContent=msg; $('successPop').classList.add('show'); };
+  $('successClose').onclick=()=> $('successPop').classList.remove('show');
+  const portal = $('mon-espace');
+  document.querySelectorAll('a[href="#mon-espace"]').forEach(a=>a.addEventListener('click',()=>{portal.classList.add('active');setTimeout(()=>portal.scrollIntoView({behavior:'smooth'}),30)}));
+
+  function switchAuth(which){
+    $('portalLoginForm').style.display=which==='login'?'block':'none'; $('portalSignupForm').style.display=which==='signup'?'block':'none';
+    $('tabLogin').classList.toggle('active',which==='login'); $('tabSignup').classList.toggle('active',which==='signup'); $('authNotice').textContent='';
+  }
+  $('tabLogin').onclick=()=>switchAuth('login'); $('tabSignup').onclick=()=>switchAuth('signup');
+
+  async function getProfile(){
+    const {data:{user}}=await sb.auth.getUser(); if(!user) return null;
+    const {data,error}=await sb.from('profiles').select('*').eq('id',user.id).maybeSingle();
+    if(error) throw error;
+    return data || {id:user.id,email:user.email,full_name:user.user_metadata?.full_name||'',role:user.email?.toLowerCase()===CONTROLLER_EMAIL?'controller':'client'};
+  }
+  function showPortal(){portal.classList.add('active'); $('portalAuth').style.display='none'; $('portalApp').style.display='block'; loadPortal();}
+  function showAuth(){portal.classList.add('active'); $('portalAuth').style.display='block'; $('portalApp').style.display='none';}
+
+  $('portalSignupForm').addEventListener('submit',async e=>{e.preventDefault(); wait(true,'Création de votre compte…'); try{
+    const email=$('signupEmail').value.trim().toLowerCase(), password=$('signupPassword').value, name=$('signupName').value.trim(), phone=$('signupPhone').value.trim();
+    const {data,error}=await sb.auth.signUp({email,password,options:{data:{full_name:name,phone}}}); if(error) throw error;
+    if(data.user){ await sb.from('profiles').upsert({id:data.user.id,email,full_name:name,phone,role:email===CONTROLLER_EMAIL?'controller':'client'},{onConflict:'id'}); }
+    $('authNotice').textContent=data.session?'Compte créé.':'Compte créé. Vérifie ton email si la confirmation est activée dans Supabase.'; if(data.session) showPortal();
+  }catch(err){$('authNotice').textContent=err.message||'Impossible de créer le compte.';}finally{wait(false);}});
+
+  $('portalLoginForm').addEventListener('submit',async e=>{e.preventDefault();wait(true,'Connexion sécurisée…');try{const {error}=await sb.auth.signInWithPassword({email:$('loginEmail').value.trim().toLowerCase(),password:$('loginPassword').value});if(error)throw error;showPortal();}catch(err){$('authNotice').textContent=err.message||'Connexion impossible.';}finally{wait(false);}});
+  $('logoutBtn').onclick=async()=>{await sb.auth.signOut();showAuth();switchAuth('login');};
+
+  function setView(name){document.querySelectorAll('[data-portal-view]').forEach(b=>b.classList.toggle('active',b.dataset.portalView===name)); renderView(name);}
+  document.querySelectorAll('[data-portal-view]').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.portalView)));
+
+  async function loadPortal(){const p=await getProfile();if(!p)return showAuth();$('portalUser').innerHTML=`${esc(p.full_name||p.email)}<small>${esc(p.email)} · ${esc(p.role||'client')}</small>`; $('controllerNav').style.display=p.role==='controller'?'block':'none'; setView(p.role==='controller'?'controller':'dashboard');}
+  const esc=v=>String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+  const fmt=d=>d?new Date(d).toLocaleString('fr-FR'):'—';
+
+  async function myOrders(){const {data,error}=await sb.from('orders').select('*').order('created_at',{ascending:false});if(error)throw error;return data||[];}
+  async function renderView(view){const p=await getProfile();if(!p)return;const m=$('portalMain');
+    if(view==='dashboard'){const orders=await myOrders();const {data:notifs}=await sb.from('notifications').select('*').eq('user_id',p.id).order('created_at',{ascending:false}).limit(5);const latest=(notifs||[])[0];if(latest&&latest.type==='success'&&!latest.read_at)toast(latest.title,latest.body);const avg=orders.length?Math.round(orders.reduce((a,o)=>a+(o.progress||0),0)/orders.length):0;m.innerHTML=`<div class="order-item"><h3>Bienvenue 👋</h3><p>Ton espace privé est prêt.</p><div class="progress-value">${avg}%</div><div class="progress-shell"><div class="progress-fill" style="width:${avg}%"></div></div><p>Progression moyenne de tes services.</p></div><div class="order-item"><strong>${orders.length}</strong> service(s) enregistré(s).</div>`;return;}
+    if(view==='orders'){const orders=await myOrders();m.innerHTML='<h3>🧾 Mes services</h3>'+(orders.length?orders.map(o=>`<div class="order-item"><div class="portal-top"><strong>${esc(o.service_name)}</strong><span class="status-pill ${esc(o.payment_status)}">${esc(o.payment_status)}</span></div><div class="progress-value">${o.progress||0}%</div><div class="progress-shell"><div class="progress-fill" style="width:${o.progress||0}%"></div></div><p>${esc(o.status||'En attente')} · ${fmt(o.created_at)}</p></div>`).join(''):'<p>Aucun service pour le moment.</p>');return;}
+    if(view==='files'){const {data,error}=await sb.from('files').select('*').order('created_at',{ascending:false});if(error)throw error;m.innerHTML='<h3>📁 Mes fichiers</h3><div class="file-list">'+((data||[]).map(f=>`<div class="file-item"><div><strong>${esc(f.file_name)}</strong><br><small>${esc(f.kind)} · ${fmt(f.created_at)}</small></div><button class="portal-btn small" data-download="${esc(f.storage_path)}">Télécharger</button></div>`).join('')||'<p>Aucun fichier.</p>')+'</div>';m.querySelectorAll('[data-download]').forEach(b=>b.onclick=()=>downloadFile(b.dataset.download));return;}
+    if(view==='chat'){m.innerHTML=`<div class="chat-card"><div class="chat-head">💬 Conversation privée avec le contrôleur</div><div class="chat-messages" id="chatMessages"></div><div class="emoji-row">${['😊','👍','🔥','❤️','😂','🙏','🎉','😎'].map(x=>`<button type="button" data-emoji="${x}">${x}</button>`).join('')}</div><div class="chat-compose"><textarea id="chatInput" rows="2" placeholder="Écrire un message…"></textarea><button class="portal-btn" id="chatSend" type="button">Envoyer</button></div></div>`;m.querySelectorAll('[data-emoji]').forEach(b=>b.onclick=()=>{$('chatInput').value+=b.dataset.emoji;$('chatInput').focus()});$('chatSend').onclick=sendChat;$('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat()}});await refreshChat();return;}
+    if(view==='profile'){m.innerHTML=`<h3>👤 Mon profil</h3><div class="portal-field"><label>Nom</label><input id="profileName" value="${esc(p.full_name)}"></div><div class="portal-field"><label>Téléphone</label><input id="profilePhone" value="${esc(p.phone||'')}"></div><button class="portal-btn" id="saveProfile">Enregistrer</button>`;$('saveProfile').onclick=async()=>{const {error}=await sb.from('profiles').update({full_name:$('profileName').value.trim(),phone:$('profilePhone').value.trim(),updated_at:new Date().toISOString()}).eq('id',p.id);if(error)alert(error.message);else toast('Profil mis à jour','Tes informations ont été enregistrées.');};return;}
+    if(view==='controller'){if(p.role!=='controller')return;await renderController(m);}
+  }
+
+  async function sendChat(){const body=$('chatInput')?.value.trim();if(!body)return;const p=await getProfile();const {data:conv}=await sb.from('conversations').upsert({user_id:p.id},{onConflict:'user_id'}).select().single();if(!conv)return;const {error}=await sb.from('messages').insert({conversation_id:conv.id,sender_id:p.id,body});if(error)alert(error.message);else{$('chatInput').value='';await refreshChat();}}
+  async function refreshChat(){const p=await getProfile();const {data:conv}=await sb.from('conversations').select('id').eq('user_id',p.id).maybeSingle();const box=$('chatMessages');if(!box)return;if(!conv){box.innerHTML='<p>Aucun message. Écris au contrôleur 👋</p>';return;}const {data,error}=await sb.from('messages').select('*').eq('conversation_id',conv.id).order('created_at');if(error){box.innerHTML='<p>Impossible de charger les messages.</p>';return;}box.innerHTML=(data||[]).map(x=>`<div class="chat-bubble ${x.sender_id===p.id?'me':'other'}">${esc(x.body)}<div class="chat-meta">${fmt(x.created_at)} <button style="border:0;background:none;cursor:pointer" data-del-msg="${x.id}" title="Supprimer">🗑️</button></div></div>`).join('')||'<p>Aucun message.</p>';box.querySelectorAll('[data-del-msg]').forEach(b=>b.onclick=()=>deleteMessage(b.dataset.delMsg));box.scrollTop=box.scrollHeight;}
+  async function deleteMessage(id){if(!confirm('Supprimer ce message définitivement ?'))return;const {error}=await sb.from('messages').delete().eq('id',id);if(error)alert(error.message);else await refreshChat();}
+
+  async function downloadFile(path){const {data,error}=await sb.storage.from(BUCKET).createSignedUrl(path,120);if(error) return alert(error.message);window.open(data.signedUrl,'_blank');}
+
+  async function uploadOne(file,userId,kind,orderId=null,expiresHours=null){const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');const path=`${userId}/${crypto.randomUUID()}_${safe}`;const {error}=await sb.storage.from(BUCKET).upload(path,file,{upsert:false});if(error)throw error;const {error:e2}=await sb.from('files').insert({user_id:userId,order_id:orderId,file_name:file.name,storage_path:path,kind,expires_at:expiresHours?new Date(Date.now()+expiresHours*3600000).toISOString():null});if(e2){await sb.storage.from(BUCKET).remove([path]);throw e2;}return path;}
+
+  async function submitOrder(form){const p=await getProfile();if(!p){$('portalAuth').style.display='block';showAuth();toast('Compte requis','Connecte-toi ou crée ton compte avant d’envoyer une commande.');return;}const proof=$('paymentProof')?.files?.[0];if(!proof){alert('La preuve de paiement est obligatoire.');return;}wait(true,'Enregistrement de votre commande…');try{const service=document.querySelector('input[name="service"]:checked')?.value||document.getElementById('service')?.value||'Service design';const desc=[document.getElementById('customService')?.value,document.getElementById('designInfo')?.value].filter(Boolean).join('\n');const priceText=document.getElementById('totalPrice')?.textContent||'0';const price=parseFloat(priceText.replace(/[^0-9,.-]/g,'').replace(/\./g,'').replace(',','.'))||0;const {data:o,error}=await sb.from('orders').insert({user_id:p.id,service_name:service,description:desc,price_htg:price}).select().single();if(error)throw error;await uploadOne(proof,p.id,'payment_proof',o.id,null);for(const f of Array.from($('orderFiles')?.files||[]))await uploadOne(f,p.id,'client_project',o.id,null);toast('Commande envoyée 🎉','Ta commande et ta preuve de paiement sont maintenant chez le contrôleur.');form.reset();}catch(err){alert(err.message||'Erreur lors de l’envoi.');}finally{wait(false);}}
+
+  async function submitRegistration(form){const p=await getProfile();if(!p){showAuth();toast('Compte requis','Crée ton compte une seule fois, puis utilise-le pour tous tes services.');return;}const badge=$('agentBadgePhoto')?.files?.[0];const type=document.querySelector('input[name="memberType"]:checked')?.value||'Étudiant';wait(true,'Enregistrement de l’inscription…');try{await sb.from('profiles').update({role:type==='Agent'?'agent':'student'}).eq('id',p.id);if(badge&&type==='Agent')await uploadOne(badge,p.id,'agent_badge',null,null);toast('Inscription envoyée 🎉','Le contrôleur a reçu tes informations.');form.reset();}catch(err){alert(err.message||'Erreur.');}finally{wait(false);}}
+
+  async function submitPublicite(form){const p=await getProfile();if(!p){showAuth();toast('Compte requis','Connecte-toi avant de commander une publicité.');return;}const proof=$('pubPaymentProof')?.files?.[0];if(!proof){alert('La preuve de paiement est obligatoire.');return;}wait(true,'Envoi de la demande…');try{const type=$('pubType')?.value||'Publicité',duration=$('pubDuration')?.value||'';const price=parseFloat(($('pubHtg')?.textContent||'0').replace(/[^0-9]/g,''))||0;const {data:o,error}=await sb.from('orders').insert({user_id:p.id,service_name:`Publicité ${type} ${duration}`,price_htg:price,description:'Demande de publicité'}).select().single();if(error)throw error;await uploadOne(proof,p.id,'payment_proof',o.id,null);toast('Demande envoyée 🎉','La preuve de paiement et la demande sont chez le contrôleur.');form.reset();}catch(err){alert(err.message||'Erreur.');}finally{wait(false);}}
+
+  // Capture phase: blocks the old WhatsApp-only submit handlers and routes everything to Supabase.
+  document.addEventListener('submit',e=>{if(e.target.id==='orderForm'){e.preventDefault();e.stopImmediatePropagation();submitOrder(e.target)}else if(e.target.id==='registrationForm'){e.preventDefault();e.stopImmediatePropagation();submitRegistration(e.target)}else if(e.target.id==='publiciteForm'){e.preventDefault();e.stopImmediatePropagation();submitPublicite(e.target)}},true);
+
+  // Realtime chat/order updates.
+  sb.channel('portal-live').on('postgres_changes',{event:'*',schema:'public',table:'messages'},()=>{if($('chatMessages'))refreshChat()}).on('postgres_changes',{event:'*',schema:'public',table:'orders'},()=>{if($('portalMain'))renderView('orders').catch(()=>{})}).subscribe();
+
+  // Simple local Akade assistant. Real LLM can be attached later through a protected Edge Function.
+  const akadeReply=t=>{const x=t.toLowerCase();if(x.includes('bonjour')||x.includes('salut'))return 'Bonjour 👋 Je suis Akade. Comment puis-je t’aider ?';if(x.includes('prix')||x.includes('tarif'))return 'Tu peux choisir un service dans la section Services. Le prix affiché sera enregistré avec ta commande.';if(x.includes('paiement'))return 'Après ton paiement, téléverse la capture comme preuve. Le contrôleur la vérifiera.';if(x.includes('commande')||x.includes('service'))return 'Connecte-toi à Mon espace pour suivre tes services et leur progression.';if(x.includes('contrôleur')||x.includes('admin'))return 'Je peux t’aider à préparer ta demande. Pour une action privée, je te dirige vers le contrôleur.';return 'Je comprends ta demande 👌 Pour une question spécifique, explique-moi ce dont tu as besoin et je vais t’orienter.';};
+  function botSend(){const inp=$('akadeInput'),t=inp.value.trim();if(!t)return;$('akadeBody').insertAdjacentHTML('beforeend',`<div class="order-item"><strong>Toi :</strong> ${esc(t)}</div><div class="order-item"><strong>Akade :</strong> ${esc(akadeReply(t))}</div>`);inp.value='';$('akadeBody').scrollTop=$('akadeBody').scrollHeight;}
+  $('akadeFab').onclick=()=> $('akadePanel').classList.toggle('show');$('akadeSend').onclick=botSend;$('akadeInput').addEventListener('keydown',e=>{if(e.key==='Enter')botSend()});document.querySelectorAll('[data-bot-emoji]').forEach(b=>b.onclick=()=>{$('akadeInput').value+=b.dataset.botEmoji;$('akadeInput').focus()});
+
+  async function openControllerChat(conversationId, m){
+    const {data:conv}=await sb.from('conversations').select('*').eq('id',conversationId).single();
+    if(!conv) return;
+    m.innerHTML=`<div class="chat-card"><div class="chat-head">💬 Conversation privée · Client ${esc(conv.user_id)}</div><div class="chat-messages" id="controllerChatMessages"></div><div class="emoji-row">${['😊','👍','🔥','❤️','😂','🙏','🎉','😎'].map(x=>`<button type="button" data-cemoji="${x}">${x}</button>`).join('')}</div><div class="chat-compose"><textarea id="controllerChatInput" rows="2" placeholder="Répondre au client…"></textarea><button class="portal-btn" id="controllerChatSend" type="button">Envoyer</button></div><div style="padding:12px;border-top:1px solid #eee"><label style="font-weight:800">📎 Envoyer une photo/document — suppression automatique après 48h</label><input id="controllerChatFile" type="file" accept="image/*,.pdf,.doc,.docx" style="display:block;margin-top:8px"><button class="portal-btn small" id="controllerFileSend" type="button" style="margin-top:8px">Envoyer le fichier</button></div><div style="padding:12px"><button class="portal-btn dark small" id="backController" type="button">← Retour au contrôle</button></div></div>`;
+    const refresh=async()=>{const {data}=await sb.from('messages').select('*').eq('conversation_id',conversationId).order('created_at');const box=$('controllerChatMessages');if(!box)return;box.innerHTML=(data||[]).map(x=>`<div class="chat-bubble ${x.sender_id===conv.user_id?'other':'me'}">${esc(x.body)}<div class="chat-meta">${fmt(x.created_at)} ${x.sender_id!==conv.user_id?`<button style="border:0;background:none;cursor:pointer" data-cmsgdel="${x.id}">🗑️</button>`:''}</div></div>`).join('')||'<p>Aucun message.</p>';box.querySelectorAll('[data-cmsgdel]').forEach(b=>b.onclick=async()=>{if(confirm('Supprimer ce message définitivement ?')){await sb.from('messages').delete().eq('id',b.dataset.cmsgdel);refresh();}});box.scrollTop=box.scrollHeight;};
+    m.querySelectorAll('[data-cemoji]').forEach(b=>b.onclick=()=>{$('controllerChatInput').value+=b.dataset.cemoji;$('controllerChatInput').focus()});
+    $('controllerChatSend').onclick=async()=>{const body=$('controllerChatInput').value.trim();if(!body)return;const me=await getProfile();const {error}=await sb.from('messages').insert({conversation_id:conversationId,sender_id:me.id,body});if(error)alert(error.message);else{$('controllerChatInput').value='';refresh();}};
+    $('controllerFileSend').onclick=async()=>{const f=$('controllerChatFile').files[0];if(!f)return alert('Choisis un fichier.');wait(true,'Envoi du document…');try{await uploadOne(f,conv.user_id,'controller_file',null,48);toast('Fichier envoyé 📎','Le client pourra le télécharger. Il expirera après 48h.');$('controllerChatFile').value='';}catch(e){alert(e.message)}finally{wait(false);}};
+    $('backController').onclick=()=>renderController(m);
+    await refresh();
+  }
+
+  async function renderController(m){const {data:orders}=await sb.from('orders').select('*').order('created_at',{ascending:false});const {data:files}=await sb.from('files').select('*').order('created_at',{ascending:false});const {data:convs}=await sb.from('conversations').select('*').order('last_message_at',{ascending:false});m.innerHTML=`<h3>🛠️ Contrôle</h3><p>Gestion des commandes, paiements, progression, fichiers et conversations.</p><div class="order-item"><strong>${(orders||[]).length}</strong> commandes · <strong>${(files||[]).length}</strong> fichiers</div><h4>Commandes</h4>${(orders||[]).map(o=>`<div class="order-item"><div class="portal-top"><strong>${esc(o.service_name)}</strong><span>${esc(o.payment_status)}</span></div><small>Client: ${esc(o.user_id)}</small><div class="portal-field"><label>Progression: <span id="pv-${o.id}">${o.progress||0}%</span></label><input type="range" min="0" max="100" value="${o.progress||0}" data-progress="${o.id}"></div><button class="portal-btn small" data-approve="${o.id}">✅ Valider paiement</button> <button class="portal-btn small dark" data-reject="${o.id}">❌ Refuser</button></div>`).join('')||'<p>Aucune commande.</p>'}<h4>Fichiers</h4><div class="file-list">${(files||[]).map(f=>`<div class="file-item"><div><strong>${esc(f.file_name)}</strong><br><small>${esc(f.kind)} · ${fmt(f.created_at)}</small></div><span><button class="portal-btn small" data-file-download="${esc(f.storage_path)}">⬇️</button> <button class="portal-btn small dark" data-file-delete="${f.id}" data-path="${esc(f.storage_path)}">🗑️</button></span></div>`).join('')||'<p>Aucun fichier.</p>'}</div><h4>Conversations</h4>${(convs||[]).map(c=>`<div class="order-item"><strong>Client ${esc(c.user_id)}</strong><br><button class="portal-btn small" data-open-chat="${c.id}">Ouvrir</button> <button class="portal-btn small dark" data-clear-chat="${c.id}">🗑️ Effacer messages</button></div>`).join('')||'<p>Aucune conversation.</p>'}`;
+    m.querySelectorAll('[data-progress]').forEach(x=>x.oninput=async()=>{$('pv-'+x.dataset.progress).textContent=x.value+'%';await sb.from('orders').update({progress:+x.value,updated_at:new Date().toISOString()}).eq('id',x.dataset.progress)});
+    m.querySelectorAll('[data-approve]').forEach(b=>b.onclick=async()=>{await sb.from('orders').update({payment_status:'approved',status:'Paiement validé',updated_at:new Date().toISOString()}).eq('id',b.dataset.approve);toast('Paiement réussi 🎉','Le client recevra la confirmation.');await renderController(m)});
+    m.querySelectorAll('[data-reject]').forEach(b=>b.onclick=async()=>{await sb.from('orders').update({payment_status:'rejected',status:'Paiement refusé',updated_at:new Date().toISOString()}).eq('id',b.dataset.reject);await renderController(m)});
+    m.querySelectorAll('[data-file-download]').forEach(b=>b.onclick=()=>downloadFile(b.dataset.fileDownload));
+    m.querySelectorAll('[data-file-delete]').forEach(b=>b.onclick=async()=>{if(!confirm('Télécharger le fichier avant suppression si nécessaire. Supprimer définitivement de Storage et de la base ?'))return;wait(true,'Suppression définitive…');try{const {error}=await sb.storage.from(BUCKET).remove([b.dataset.path]);if(error)throw error;const {error:e2}=await sb.from('files').delete().eq('id',b.dataset.fileDelete);if(e2)throw e2;await renderController(m);}catch(e){alert(e.message)}finally{wait(false)}});
+    m.querySelectorAll('[data-open-chat]').forEach(b=>b.onclick=()=>openControllerChat(b.dataset.openChat,m));
+    m.querySelectorAll('[data-clear-chat]').forEach(b=>b.onclick=async()=>{if(!confirm('Effacer tous les messages de cette conversation ?'))return;const {error}=await sb.from('messages').delete().eq('conversation_id',b.dataset.clearChat);if(error)alert(error.message);else await renderController(m)});
+  }
+
+  sb.auth.onAuthStateChange((event,session)=>{if(session)showPortal();else showAuth();});
+  sb.auth.getSession().then(({data})=>data.session?showPortal():showAuth());
+})();
+</script>
 
 </body>
 </html>
