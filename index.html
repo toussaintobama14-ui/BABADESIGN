@@ -1188,7 +1188,7 @@ footer strong{
 .status-pill{display:inline-block;padding:5px 9px;border-radius:999px;background:#111;color:#fff;font-size:11px;font-weight:900}.status-pill.approved{background:#16833b}.status-pill.rejected{background:#c40000}.status-pill.pending{background:#ff7300}
 .chat-card{overflow:hidden}.chat-head{padding:16px;background:#111;color:#fff;font-weight:900}.chat-messages{height:340px;overflow:auto;padding:15px;background:#f7f7f7}.chat-bubble{max-width:78%;padding:10px 12px;border-radius:16px;margin:7px 0;line-height:1.45}.chat-bubble.me{margin-left:auto;background:#ff7300;color:#fff;border-bottom-right-radius:4px}.chat-bubble.other{background:#fff;border:1px solid #eee;border-bottom-left-radius:4px}.chat-meta{font-size:10px;opacity:.75;margin-top:4px}.chat-compose{display:flex;gap:8px;padding:12px;border-top:1px solid #eee}.chat-compose textarea{flex:1;resize:none;border:1px solid #ddd;border-radius:12px;padding:11px}.emoji-row{display:flex;gap:5px;padding:0 12px 10px;flex-wrap:wrap}.emoji-row button{border:0;background:#f3f3f3;border-radius:9px;padding:7px;cursor:pointer}.file-list{display:grid;gap:8px}.file-item{display:flex;justify-content:space-between;align-items:center;gap:10px}.waiting-overlay{position:fixed;inset:0;background:rgba(17,17,17,.78);z-index:99999;display:none;align-items:center;justify-content:center}.waiting-overlay.show{display:flex}.waiting-box{background:#fff;border-radius:22px;padding:30px;text-align:center;min-width:250px;box-shadow:0 25px 70px rgba(0,0,0,.3)}.loader-ring{width:54px;height:54px;border:5px solid #eee;border-top-color:#ff7300;border-right-color:#e60000;border-radius:50%;animation:portalSpin 1s linear infinite;margin:0 auto 15px}@keyframes portalSpin{to{transform:rotate(360deg)}}
 .success-pop{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(17,17,17,.65);z-index:100000}.success-pop.show{display:flex}.success-box{background:#fff;border-radius:25px;padding:35px;text-align:center;animation:successIn .45s ease;max-width:380px}.success-icon{font-size:60px;animation:successBounce .8s ease}.success-box h3{margin:8px 0}.success-box button{margin-top:15px}@keyframes successIn{from{transform:scale(.75);opacity:0}to{transform:scale(1);opacity:1}}@keyframes successBounce{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
-.bot-fab{position:fixed;right:20px;bottom:20px;width:58px;height:58px;border:0;border-radius:50%;background:linear-gradient(135deg,#e60000,#ff7300);color:#fff;font-size:25px;box-shadow:0 12px 30px rgba(0,0,0,.2);cursor:pointer;z-index:9000}.bot-panel{position:fixed;right:20px;bottom:88px;width:min(360px,calc(100vw - 40px));background:#fff;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,.25);z-index:9000;display:none;overflow:hidden}.bot-panel.show{display:block}.bot-head{background:#111;color:#fff;padding:14px;font-weight:900}.bot-body{height:300px;overflow:auto;padding:12px;background:#f7f7f7}.bot-compose{display:flex;gap:6px;padding:10px}.bot-compose input{flex:1;padding:10px;border:1px solid #ddd;border-radius:10px}
+.bot-fab{position:fixed;right:20px;bottom:145px;width:58px;height:58px;border:0;border-radius:50%;background:linear-gradient(135deg,#e60000,#ff7300);color:#fff;font-size:25px;box-shadow:0 12px 30px rgba(0,0,0,.2);cursor:pointer;z-index:9000}.bot-panel{position:fixed;right:20px;bottom:213px;width:min(360px,calc(100vw - 40px));background:#fff;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,.25);z-index:9000;display:none;overflow:hidden}.bot-panel.show{display:block}.bot-head{background:#111;color:#fff;padding:14px;font-weight:900}.bot-body{height:300px;overflow:auto;padding:12px;background:#f7f7f7}.bot-compose{display:flex;gap:6px;padding:10px}.bot-compose input{flex:1;padding:10px;border:1px solid #ddd;border-radius:10px}
 
 /* ===== PREMIUM BOTTOM NAV ===== */
 .premium-bottom-nav{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:8500;display:flex;align-items:center;gap:8px;padding:8px;background:#fff;border:1px solid #eee;border-radius:22px;box-shadow:0 18px 55px rgba(17,17,17,.18)}
@@ -4991,6 +4991,19 @@ Merci.
   const CONTROLLER_EMAIL = "enlignecours109@gmail.com";
   const BUCKET = "client-files";
   const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+
+  // =============================
+  // AKADE AI — NOUVEAU SUPABASE
+  // Cette connexion est séparée de la connexion principale du site.
+  // Elle ne remplace PAS "sb" et ne touche pas aux données du site.
+  // =============================
+  const AKADE_AI_SUPABASE_URL = "https://yinizvycqigqapgwauin.supabase.co";
+  const AKADE_AI_PUBLISHABLE_KEY = "sb_publishable_kIAGZTfZPHYiyu1T4yeaMQ_nz3s6jBS";
+  const akadeAIClient = window.supabase.createClient(
+    AKADE_AI_SUPABASE_URL,
+    AKADE_AI_PUBLISHABLE_KEY,
+    {auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}}
+  );
   window.babaSupabase = sb;
   // Legacy payment/transcode controls are no longer used by the new Supabase flow.
   document.querySelectorAll('#regPaidYes,#regPaidNo,#transcode,#pubPaidYes,#pubPaidNo,#pubTranscode').forEach(el=>el.required=false);
@@ -5065,10 +5078,53 @@ Merci.
   // Realtime chat/order updates.
   sb.channel('portal-live').on('postgres_changes',{event:'*',schema:'public',table:'messages'},()=>{if($('chatMessages'))refreshChat()}).on('postgres_changes',{event:'*',schema:'public',table:'orders'},()=>{if($('portalMain'))renderView('orders').catch(()=>{})}).subscribe();
 
-  // Simple local Akade assistant. Real LLM can be attached later through a protected Edge Function.
-  const akadeReply=t=>{const x=t.toLowerCase();if(x.includes('bonjour')||x.includes('salut'))return 'Bonjour 👋 Je suis Akade. Comment puis-je t’aider ?';if(x.includes('prix')||x.includes('tarif'))return 'Tu peux choisir un service dans la section Services. Le prix affiché sera enregistré avec ta commande.';if(x.includes('paiement'))return 'Après ton paiement, téléverse la capture comme preuve. Le contrôleur la vérifiera.';if(x.includes('commande')||x.includes('service'))return 'Connecte-toi à Mon espace pour suivre tes services et leur progression.';if(x.includes('contrôleur')||x.includes('admin'))return 'Je peux t’aider à préparer ta demande. Pour une action privée, je te dirige vers le contrôleur.';return 'Je comprends ta demande 👌 Pour une question spécifique, explique-moi ce dont tu as besoin et je vais t’orienter.';};
-  function botSend(){const inp=$('akadeInput'),t=inp.value.trim();if(!t)return;$('akadeBody').insertAdjacentHTML('beforeend',`<div class="order-item"><strong>Toi :</strong> ${esc(t)}</div><div class="order-item"><strong>Akade :</strong> ${esc(akadeReply(t))}</div>`);inp.value='';$('akadeBody').scrollTop=$('akadeBody').scrollHeight;}
-  $('akadeFab').onclick=()=> $('akadePanel').classList.toggle('show');$('akadeSend').onclick=botSend;$('akadeInput').addEventListener('keydown',e=>{if(e.key==='Enter')botSend()});document.querySelectorAll('[data-bot-emoji]').forEach(b=>b.onclick=()=>{$('akadeInput').value+=b.dataset.botEmoji;$('akadeInput').focus()});
+  // Akade AI — uses the existing Supabase connection through a protected Edge Function.
+  // IMPORTANT: no AI secret key is stored in this HTML.
+  const akadeHistory=[];
+  let akadeBusy=false;
+  function akadeAdd(role,text){
+    akadeHistory.push({role,text});
+    if(akadeHistory.length>12) akadeHistory.splice(0,akadeHistory.length-12);
+  }
+  function akadeBubble(who,text,extra=''){
+    const body=$('akadeBody');
+    body.insertAdjacentHTML('beforeend',`<div class="order-item ${extra}"><strong>${who} :</strong> ${esc(text)}</div>`);
+    body.scrollTop=body.scrollHeight;
+  }
+  async function akadeReply(t){
+    akadeAdd('user',t);
+    try{
+      const {data,error}=await akadeAIClient.functions.invoke('akade-ai',{body:{message:t,history:akadeHistory.slice(-10)}});
+      if(error) throw error;
+      const reply=(data?.reply||data?.output_text||'').trim();
+      if(!reply) throw new Error('Réponse vide.');
+      akadeAdd('assistant',reply);
+      return reply;
+    }catch(err){
+      console.error('Akade AI:',err);
+      return 'Désolé, je rencontre un petit problème de connexion pour le moment. Réessaie dans quelques secondes. 🙏';
+    }
+  }
+  async function botSend(){
+    const inp=$('akadeInput'),send=$('akadeSend'),t=inp.value.trim();
+    if(!t||akadeBusy)return;
+    akadeBusy=true; inp.value=''; send.disabled=true;
+    akadeBubble('Toi',t);
+    const typingId='akadeTyping_'+Date.now();
+    $('akadeBody').insertAdjacentHTML('beforeend',`<div class="order-item" id="${typingId}"><strong>Akade :</strong> <span>écrit…</span></div>`);
+    $('akadeBody').scrollTop=$('akadeBody').scrollHeight;
+    try{
+      const reply=await akadeReply(t);
+      document.getElementById(typingId)?.remove();
+      akadeBubble('Akade',reply);
+    }finally{
+      akadeBusy=false; send.disabled=false; inp.focus();
+    }
+  }
+  $('akadeFab').onclick=()=> $('akadePanel').classList.toggle('show');
+  $('akadeSend').onclick=botSend;
+  $('akadeInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();botSend()}});
+  document.querySelectorAll('[data-bot-emoji]').forEach(b=>b.onclick=()=>{$('akadeInput').value+=b.dataset.botEmoji;$('akadeInput').focus()});
 
   async function openControllerChat(conversationId, m){
     const {data:conv}=await sb.from('conversations').select('*').eq('id',conversationId).single();
