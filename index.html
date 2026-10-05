@@ -1347,6 +1347,8 @@ footer strong{
 
 .portal-upload-field{margin-top:18px}.portal-upload-field input{padding:10px}
 #regPaidYes,#regPaidNo,#transcodeBox,#regTranscodeBox,#pubPaidYes,#pubPaidNo,#pubTranscodeBox{display:none!important}
+/* Standalone Mon espace: the legacy embedded portal remains in source for compatibility but is never displayed. */
+.portal-section#mon-espace{display:none !important;}
 </style>
 
 <style>
@@ -1710,7 +1712,7 @@ body{
 
             <li>
                 <a href="#contact">Contact</a>
-                <a href="#mon espace.html" class="nav-account-link">Mon espace</a>
+                <a href="mon-espace.html" class="nav-account-link">Mon espace</a>
             </li>
 
         </ul>
@@ -3375,7 +3377,7 @@ body{
 <!-- ===== NAVIGATION RAPIDE ===== -->
 <nav class="premium-bottom-nav" aria-label="Navigation rapide">
   <a href="#accueil" class="bottom-home"><svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-5h5v5"/></svg><span>Accueil</span></a>
-  <a href="#mon-espace" class="bottom-account"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 21a7 7 0 0 1 14 0"/></svg><span>Mon espace</span></a>
+  <a href="mon-espace.html" class="bottom-account"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 21a7 7 0 0 1 14 0"/></svg><span>Mon espace</span></a>
 </nav>
 
 <!-- =========================
@@ -5018,7 +5020,7 @@ Merci.
   const toast = (title,msg) => { $('successTitle').textContent=title; $('successMessage').textContent=msg; $('successPop').classList.add('show'); };
   $('successClose').onclick=()=> $('successPop').classList.remove('show');
   const portal = $('mon-espace');
-  document.querySelectorAll('a[href="#mon-espace"]').forEach(a=>a.addEventListener('click',()=>{portal.classList.add('active');setTimeout(()=>portal.scrollIntoView({behavior:'smooth'}),30)}));
+  document.querySelectorAll('a[href="mon-espace.html"]').forEach(a=>a.addEventListener('click',()=>{portal.classList.add('active');setTimeout(()=>portal.scrollIntoView({behavior:'smooth'}),30)}));
 
   function switchAuth(which){
     $('portalLoginForm').style.display=which==='login'?'block':'none'; $('portalSignupForm').style.display=which==='signup'?'block':'none';
@@ -5162,4 +5164,108 @@ Merci.
 </script>
 
 </body>
+</html>
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#09090b">
+<title>Baba Design — Mon espace</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--red:#e60000;--orange:#ff7300;--yellow:#ffd000;--dark:#09090b;--muted:#707070;--bg:#f5f6f8;--white:#fff;--line:#e9e9ed}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:#111;min-height:100vh}
+body:before{content:"";position:fixed;width:420px;height:420px;right:-180px;top:-160px;background:#ffd000;filter:blur(110px);opacity:.12;pointer-events:none}
+body:after{content:"";position:fixed;width:360px;height:360px;left:-180px;bottom:-150px;background:#e60000;filter:blur(110px);opacity:.09;pointer-events:none}
+button,input,textarea{font:inherit}.hidden{display:none!important}
+.top{position:sticky;top:0;z-index:20;background:rgba(9,9,11,.9);backdrop-filter:blur(22px);color:#fff;border-bottom:1px solid rgba(255,255,255,.08)}
+.topin{max-width:1250px;margin:auto;padding:15px 22px;display:flex;align-items:center;justify-content:space-between;gap:15px}.brand{font-size:20px;font-weight:950}.brand i{font-style:normal;color:var(--orange)}
+.identity{display:flex;align-items:center;gap:10px}.avatar{width:39px;height:39px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,var(--red),var(--orange),var(--yellow));font-weight:900}
+.logout{border:1px solid #333;background:#17171a;color:#fff;padding:10px 14px;border-radius:12px;cursor:pointer}
+.page{max-width:1250px;margin:auto;padding:35px 22px 90px}.hero{background:linear-gradient(135deg,#0b0b0d,#171719 55%,#351000);color:#fff;border-radius:30px;padding:38px;position:relative;overflow:hidden;box-shadow:0 25px 70px #1112}
+.hero:after{content:"";position:absolute;width:240px;height:240px;border-radius:50%;right:-80px;top:-100px;background:linear-gradient(135deg,var(--red),var(--yellow));filter:blur(2px);opacity:.35;animation:orb 5s ease-in-out infinite alternate}
+.kicker{color:#ffd000;font-size:11px;letter-spacing:2px;font-weight:900}.hero h1{font-size:clamp(32px,5vw,58px);line-height:1;margin:10px 0}.hero p{max-width:650px;color:#c9c9c9;line-height:1.7}.hero strong{color:#fff}
+.layout{display:grid;grid-template-columns:255px 1fr;gap:22px;margin-top:22px}.side,.main{background:#fff;border:1px solid var(--line);border-radius:25px;box-shadow:0 18px 55px #11110a}.side{padding:13px;height:max-content;position:sticky;top:90px}.navbtn{width:100%;display:flex;align-items:center;gap:10px;border:0;background:#f7f7f8;padding:14px;border-radius:14px;margin:4px 0;font-weight:850;cursor:pointer;text-align:left;transition:.25s}.navbtn:hover,.navbtn.active{color:#fff;background:linear-gradient(135deg,#111,#292929 55%,var(--red));transform:translateX(3px);box-shadow:0 10px 25px #1112}.main{padding:25px;min-height:520px}
+.sectionhead{display:flex;justify-content:space-between;align-items:end;gap:15px;margin-bottom:20px}.sectionhead h2{margin:0;font-size:25px}.sectionhead p{margin:5px 0 0;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.stat{border:1px solid var(--line);border-radius:19px;padding:20px;background:linear-gradient(145deg,#fff,#f7f7f8);position:relative;overflow:hidden}.stat:after{content:"";position:absolute;width:70px;height:70px;border-radius:50%;right:-25px;bottom:-30px;background:#ffd00033}.stat small{color:#777}.stat b{display:block;font-size:30px;margin-top:8px}.card{border:1px solid var(--line);border-radius:18px;padding:18px;margin:12px 0;background:#fff;transition:.25s}.card:hover{transform:translateY(-2px);box-shadow:0 12px 35px #11110c}.row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.pill{font-size:11px;font-weight:900;padding:6px 10px;border-radius:999px;background:#111;color:#fff}.approved{background:#16833b}.rejected{background:#c40000}.pending{background:var(--orange)}.bar{height:10px;background:#ececf0;border-radius:99px;overflow:hidden;margin:10px 0}.fill{height:100%;background:linear-gradient(90deg,var(--red),var(--orange),var(--yellow));border-radius:99px;transition:1s}.btn{border:0;border-radius:12px;padding:11px 15px;background:linear-gradient(135deg,var(--red),var(--orange));color:#fff;font-weight:900;cursor:pointer}.btn.dark{background:#111}.btn.sm{padding:8px 11px;font-size:12px}
+.file{display:flex;justify-content:space-between;align-items:center;gap:12px}.file strong{display:block}.file small{color:#777}.chat{height:390px;overflow:auto;background:#f7f7f8;border-radius:18px;padding:15px}.bubble{max-width:78%;padding:11px 13px;border-radius:17px;margin:7px 0;line-height:1.5}.me{margin-left:auto;background:linear-gradient(135deg,var(--red),var(--orange));color:#fff;border-bottom-right-radius:5px}.other{background:#fff;border:1px solid var(--line);border-bottom-left-radius:5px}.meta{font-size:9px;opacity:.65;margin-top:5px}.compose{display:flex;gap:8px;margin-top:10px}.compose textarea{flex:1;border:1px solid var(--line);border-radius:13px;padding:12px;resize:none}
+.field{margin:14px 0}.field label{display:block;font-weight:850;font-size:13px;margin-bottom:7px}.field input{width:100%;border:1px solid #ddd;border-radius:12px;padding:13px;outline:none}.field input:focus{border-color:var(--orange);box-shadow:0 0 0 4px #ff730014}
+.authscreen{min-height:100vh;display:grid;place-items:center;padding:25px}.authbox{width:min(470px,100%);background:#fff;border:1px solid var(--line);border-radius:30px;padding:30px;box-shadow:0 30px 90px #1112}.authlogo{text-align:center;font-size:28px;font-weight:950;margin-bottom:5px}.authlogo span{color:var(--orange)}.authsub{text-align:center;color:#777;margin-bottom:25px}.tabs{display:flex;gap:7px;background:#f4f4f6;padding:5px;border-radius:14px;margin-bottom:18px}.tabs button{flex:1;border:0;padding:11px;border-radius:10px;background:transparent;font-weight:900;cursor:pointer}.tabs .active{background:#111;color:#fff}.notice{margin-top:12px;padding:11px;border-radius:12px;background:#fff7df;color:#6b5200;font-size:13px}.loader{position:fixed;inset:0;background:#09090bdd;z-index:99;display:none;place-items:center}.loader.show{display:grid}.loaderbox{background:#fff;border-radius:22px;padding:30px;text-align:center}.spin{width:50px;height:50px;border:5px solid #eee;border-top-color:var(--orange);border-right-color:var(--red);border-radius:50%;animation:spin 1s linear infinite;margin:auto auto 12px}
+@keyframes spin{to{transform:rotate(360deg)}}@keyframes orb{to{transform:translate(-25px,30px) scale(1.12)}}@media(max-width:850px){.layout{grid-template-columns:1fr}.side{position:static}.grid{grid-template-columns:1fr 1fr}}@media(max-width:560px){.page{padding:18px 12px 90px}.hero{padding:25px;border-radius:23px}.main{padding:16px;border-radius:20px}.grid{grid-template-columns:1fr}.topin{padding:12px}.identity .email{display:none}}
+</style>
+</head>
+<body>
+<div id="loading" class="loader"><div class="loaderbox"><div class="spin"></div><b id="loadingText">Connexion sécurisée…</b><p>Patientez quelques secondes.</p></div></div>
+
+<section id="auth" class="authscreen">
+  <div class="authbox">
+    <div class="authlogo">Baba<span>Design</span></div><div class="authsub">Votre espace privé, moderne et sécurisé.</div>
+    <div class="tabs"><button id="loginTab" class="active">Connexion</button><button id="signupTab">Créer un compte</button></div>
+    <form id="loginForm">
+      <div class="field"><label>Email</label><input id="loginEmail" type="email" required autocomplete="email"></div>
+      <div class="field"><label>Mot de passe</label><input id="loginPassword" type="password" required autocomplete="current-password"></div>
+      <button class="btn" style="width:100%">Se connecter</button>
+    </form>
+    <form id="signupForm" class="hidden">
+      <div class="field"><label>Nom complet</label><input id="signupName" required></div>
+      <div class="field"><label>Email</label><input id="signupEmail" type="email" required></div>
+      <div class="field"><label>Téléphone</label><input id="signupPhone" type="tel"></div>
+      <div class="field"><label>Mot de passe</label><input id="signupPassword" type="password" minlength="6" required></div>
+      <button class="btn" style="width:100%">Créer mon compte</button>
+    </form>
+    <div id="notice" class="notice hidden"></div>
+  </div>
+</section>
+
+<section id="app" class="hidden">
+<header class="top"><div class="topin"><div class="brand">Baba<i>Design</i> / Mon espace</div><div class="identity"><div class="avatar" id="avatar">B</div><div class="email" id="identity"></div><button class="logout" id="logout">Déconnexion</button></div></div></header>
+<main class="page">
+  <div class="hero"><div class="kicker">ESPACE PRIVÉ • BABA DESIGN</div><h1>Bienvenue <span id="welcomeName"></span> ✦</h1><p>Retrouvez vos services, vos fichiers et votre conversation avec le contrôleur dans une interface pensée pour être simple, rapide et premium.</p></div>
+  <div class="layout">
+    <aside class="side">
+      <button class="navbtn active" data-view="dashboard">⌂ <span>Tableau de bord</span></button>
+      <button class="navbtn" data-view="orders">▣ <span>Mes services</span></button>
+      <button class="navbtn" data-view="files">▤ <span>Mes fichiers</span></button>
+      <button class="navbtn" data-view="chat">◌ <span>Conversation privée</span></button>
+      <button class="navbtn" data-view="profile">◎ <span>Mon profil</span></button>
+      <button id="controllerAccessBtn" class="secure-access-btn" type="button"><span>🔐 Accès sécurisé</span><b>›</b></button></aside>
+    <section class="main" id="main"></section>
+  </div>
+</main>
+</section>
+
+<script>
+const SUPABASE_URL="https://drvcneeaothydjmqpdzg.supabase.co";
+const SUPABASE_KEY="sb_publishable_k8DUVt12k1GN4n7yiYBnYw_gXltrpmp";
+const CONTROLLER_EMAIL="enlignecours109@gmail.com", BUCKET="client-files";
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+const $=id=>document.getElementById(id), esc=v=>String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])), fmt=d=>d?new Date(d).toLocaleString('fr-FR'):'—';
+function wait(on,t='Traitement…'){$('loadingText').textContent=t;$('loading').classList.toggle('show',on)}
+function notice(t){$('notice').textContent=t;$('notice').classList.remove('hidden')}
+async function profile(){const {data:{user}}=await sb.auth.getUser();if(!user)return null;const {data,error}=await sb.from('profiles').select('*').eq('id',user.id).maybeSingle();if(error)throw error;return data||{id:user.id,email:user.email,full_name:user.user_metadata?.full_name||'',role:user.email?.toLowerCase()===CONTROLLER_EMAIL?'controller':'client'}}
+async function orders(){const p=await profile();if(!p)return [];const {data,error}=await sb.from('orders').select('*').eq('user_id',p.id).order('created_at',{ascending:false});if(error)throw error;return data||[]}
+async function downloadFile(path){const {data,error}=await sb.storage.from(BUCKET).createSignedUrl(path,120);if(error)return alert(error.message);window.open(data.signedUrl,'_blank')}
+function showAuth(){ $('auth').classList.remove('hidden');$('app').classList.add('hidden') }
+async function showApp(){const p=await profile();if(!p)return showAuth();$('auth').classList.add('hidden');$('app').classList.remove('hidden');$('welcomeName').textContent=esc((p.full_name||'').split(' ')[0]||'');$('identity').textContent=p.email||'';$('avatar').textContent=(p.full_name||p.email||'B').charAt(0).toUpperCase();render('dashboard')}
+$('loginTab').onclick=()=>{loginTab.classList.add('active');signupTab.classList.remove('active');loginForm.classList.remove('hidden');signupForm.classList.add('hidden');noticeElClear()};
+$('signupTab').onclick=()=>{signupTab.classList.add('active');loginTab.classList.remove('active');signupForm.classList.remove('hidden');loginForm.classList.add('hidden');noticeElClear()};
+function noticeElClear(){$('notice').classList.add('hidden')}
+$('loginForm').onsubmit=async e=>{e.preventDefault();wait(true,'Connexion sécurisée…');try{const {error}=await sb.auth.signInWithPassword({email:$('loginEmail').value.trim().toLowerCase(),password:$('loginPassword').value});if(error)throw error;await showApp()}catch(e){notice(e.message||'Connexion impossible.')}finally{wait(false)}};
+$('signupForm').onsubmit=async e=>{e.preventDefault();wait(true,'Création de votre compte…');try{const email=$('signupEmail').value.trim().toLowerCase(),name=$('signupName').value.trim(),phone=$('signupPhone').value.trim(),password=$('signupPassword').value;const {data,error}=await sb.auth.signUp({email,password,options:{data:{full_name:name,phone}}});if(error)throw error;if(data.user){const {error:pe}=await sb.from('profiles').upsert({id:data.user.id,email,full_name:name,phone,role:email===CONTROLLER_EMAIL?'controller':'client'},{onConflict:'id'});if(pe)throw pe}if(data.session)await showApp();else notice('Compte créé. Vérifie ton email si la confirmation Supabase est activée.')}catch(e){notice(e.message||'Impossible de créer le compte.')}finally{wait(false)}};
+$('logout').onclick=async()=>{await sb.auth.signOut();showAuth()};
+document.querySelectorAll('.navbtn[data-view]').forEach(b=>b.onclick=()=>{document.querySelectorAll('.navbtn').forEach(x=>x.classList.remove('active'));b.classList.add('active');render(b.dataset.view)});
+async function render(view){const m=$('main');m.innerHTML='<div class="card">Chargement de votre espace…</div>';try{const p=await profile();if(!p)return showAuth();
+if(view==='dashboard'){const os=await orders(),avg=os.length?Math.round(os.reduce((a,o)=>a+(o.progress||0),0)/os.length):0;m.innerHTML=`<div class="sectionhead"><div><h2>Vue d'ensemble</h2><p>Tout ce qui concerne votre activité.</p></div></div><div class="grid"><div class="stat"><small>Services</small><b>${os.length}</b></div><div class="stat"><small>Progression moyenne</small><b>${avg}%</b></div><div class="stat"><small>Compte</small><b>Actif</b></div></div><div class="card"><div class="row"><div><b>Progression de vos services</b><div style="color:#777;margin-top:5px">Votre avancement moyen actuel.</div></div><strong>${avg}%</strong></div><div class="bar"><div class="fill" style="width:${avg}%"></div></div></div>`;return}
+if(view==='orders'){const os=await orders();m.innerHTML=`<div class="sectionhead"><div><h2>Mes services</h2><p>Suivez chaque commande en temps réel.</p></div></div>${os.length?os.map(o=>`<div class="card"><div class="row"><b>${esc(o.service_name)}</b><span class="pill ${esc(o.payment_status)}">${esc(o.payment_status||'pending')}</span></div><div style="margin-top:15px;font-size:28px;font-weight:950">${o.progress||0}%</div><div class="bar"><div class="fill" style="width:${o.progress||0}%"></div></div><small style="color:#777">${esc(o.status||'En attente')} · ${fmt(o.created_at)}</small></div>`).join(''):'<div class="card">Aucun service enregistré pour le moment.</div>'}`;return}
+if(view==='files'){const {data,error}=await sb.from('files').select('*').eq('user_id',p.id).order('created_at',{ascending:false});if(error)throw error;m.innerHTML=`<div class="sectionhead"><div><h2>Mes fichiers</h2><p>Documents et créations disponibles.</p></div></div>${(data||[]).map(f=>`<div class="card file"><div><strong>${esc(f.file_name)}</strong><small>${esc(f.kind||'Fichier')} · ${fmt(f.created_at)}</small></div><button class="btn sm" data-download="${esc(f.storage_path)}">Télécharger</button></div>`).join('')||'<div class="card">Aucun fichier disponible.</div>'}`;m.querySelectorAll('[data-download]').forEach(b=>b.onclick=()=>downloadFile(b.dataset.download));return}
+if(view==='chat'){m.innerHTML=`<div class="sectionhead"><div><h2>Conversation privée</h2><p>Échangez directement avec le contrôleur.</p></div></div><div class="chat" id="chat"></div><div class="compose"><textarea id="msg" rows="2" placeholder="Écrire un message…"></textarea><button class="btn" id="send">Envoyer</button></div>`;await refreshChat();$('send').onclick=sendChat;return}
+if(view==='profile'){m.innerHTML=`<div class="sectionhead"><div><h2>Mon profil</h2><p>Informations de votre compte.</p></div></div><div class="card"><div class="row"><b>Nom complet</b><span>${esc(p.full_name||'—')}</span></div></div><div class="card"><div class="row"><b>Email</b><span>${esc(p.email||'—')}</span></div></div><div class="card"><div class="row"><b>Téléphone</b><span>${esc(p.phone||'—')}</span></div></div><div class="card"><div class="row"><b>Rôle</b><span class="pill">${esc(p.role||'client')}</span></div></div>`;return}
+}catch(e){m.innerHTML=`<div class="card"><b>Impossible de charger cet espace.</b><p style="color:#777">${esc(e.message)}</p></div>`}}
+async function refreshChat(){const p=await profile(),box=$('chat');if(!box)return;const {data:conv}=await sb.from('conversations').select('id').eq('user_id',p.id).maybeSingle();if(!conv){box.innerHTML='<p>Aucun message. Écris au contrôleur 👋</p>';return}const {data,error}=await sb.from('messages').select('*').eq('conversation_id',conv.id).order('created_at');if(error){box.innerHTML='<p>Impossible de charger les messages.</p>';return}box.innerHTML=(data||[]).map(x=>`<div class="bubble ${x.sender_id===p.id?'me':'other'}">${esc(x.body)}<div class="meta">${fmt(x.created_at)} ${x.sender_id===p.id?`<button style="border:0;background:none;cursor:pointer" data-del="${x.id}">🗑</button>`:''}</div></div>`).join('')||'<p>Aucun message.</p>';box.querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{if(confirm('Supprimer ce message ?')){await sb.from('messages').delete().eq('id',b.dataset.del);refreshChat()}});box.scrollTop=box.scrollHeight}
+async function sendChat(){const body=$('msg')?.value.trim();if(!body)return;const p=await profile();const {data:conv,error}=await sb.from('conversations').upsert({user_id:p.id},{onConflict:'user_id'}).select().single();if(error)return alert(error.message);const {error:e}=await sb.from('messages').insert({conversation_id:conv.id,sender_id:p.id,body});if(e)alert(e.message);else{$('msg').value='';refreshChat()}}
+sb.auth.onAuthStateChange((_,session)=>{if(session)showApp();else showAuth()});sb.auth.getSession().then(({data})=>data.session?showApp():showAuth());
+</script>
+<div class="controller-code-modal" id="controllerCodeModal" aria-hidden="true"><div class="controller-code-backdrop" data-close-controller-code></div><div class="controller-code-box"><button type="button" class="controller-code-close" data-close-controller-code>×</button><div class="controller-code-orb">⌘</div><span class="controller-code-kicker">SECURE ACCESS</span><h3>Accès privé</h3><p>Entre le code contrôleur pour ouvrir l'espace de contrôle.</p><form id="controllerCodeForm"><div class="portal-field"><label>Code d'accès</label><input id="controllerCodeInput" type="password" autocomplete="off" placeholder="••••••••" required></div><p class="controller-code-error" id="controllerCodeError"></p><button class="portal-btn" type="submit">Déverrouiller l'espace</button></form></div></div><style>.secure-access-btn{width:100%;display:flex;align-items:center;gap:10px;text-align:left;border:1px solid #242424;background:linear-gradient(135deg,#111,#1b1b1b);color:#fff;border-radius:16px;padding:13px 14px;cursor:pointer;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}.secure-access-btn:hover{transform:translateY(-2px);border-color:#e60000;box-shadow:0 12px 30px rgba(0,0,0,.16)}.secure-access-btn span{flex:1}.secure-access-btn b{font-size:22px;color:#ff7300}.controller-code-modal{position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;padding:22px}.controller-code-modal.show{display:flex;animation:gateIn .28s ease both}.controller-code-backdrop{position:absolute;inset:0;background:rgba(17,17,17,.72)}.controller-code-box{position:relative;width:min(430px,100%);padding:34px;border-radius:28px;background:#fff;border:1px solid #e7e7e7;box-shadow:0 30px 100px rgba(0,0,0,.28);animation:gateBox .35s cubic-bezier(.2,.8,.2,1) both}.controller-code-close{position:absolute;right:15px;top:12px;width:38px;height:38px;border:0;border-radius:50%;background:#f2f2f2;font-size:25px;cursor:pointer}.controller-code-orb{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;background:linear-gradient(135deg,#111,#e60000 62%,#ff7300);color:#fff;font-size:25px}.controller-code-kicker{display:block;margin-top:18px;font-size:10px;font-weight:900;letter-spacing:2px;color:#e60000}.controller-code-box h3{font-size:29px;margin:6px 0}.controller-code-box>p{color:#666;margin:0 0 20px;line-height:1.6}.controller-code-box .portal-field input{letter-spacing:4px;font-weight:800}.controller-code-error{min-height:20px;color:#e60000;font-size:12px;font-weight:700;margin:8px 0}@keyframes gateIn{from{opacity:0}to{opacity:1}}@keyframes gateBox{from{opacity:0;transform:translateY(20px) scale(.96)}to{opacity:1;transform:none}}</style><script>(function(){const $=id=>document.getElementById(id);function openGate(){$('controllerCodeError').textContent='';$('controllerCodeInput').value='';$('controllerCodeModal').classList.add('show');setTimeout(()=>$('controllerCodeInput').focus(),80)}function closeGate(){$('controllerCodeModal').classList.remove('show')}$('controllerAccessBtn')?.addEventListener('click',openGate);document.querySelectorAll('[data-close-controller-code]').forEach(x=>x.addEventListener('click',closeGate));$('controllerCodeForm')?.addEventListener('submit',async e=>{e.preventDefault();const code=$('controllerCodeInput').value.trim();const {data:{user}}=await sb.auth.getUser();if(!user){$('controllerCodeError').textContent='Connecte-toi d’abord.';return}const {data:p}=await sb.from('profiles').select('role,email').eq('id',user.id).maybeSingle();const allowed=p&&(p.role==='controller'||p.email?.toLowerCase()===CONTROLLER_EMAIL);if(!allowed){$('controllerCodeError').textContent='Accès refusé pour ce compte.';return}if(code!==CONTROLLER_ACCESS_CODE){$('controllerCodeError').textContent='Code incorrect.';$('controllerCodeInput').select();return}sessionStorage.setItem('controllerAccessGranted','1');window.location.href='controleur.html'})})();</script></body>
 </html>
