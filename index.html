@@ -5101,116 +5101,19 @@ Merci.
     body.insertAdjacentHTML('beforeend',`<div class="order-item ${extra}"><strong>${who} :</strong> ${esc(text)}</div>`);
     body.scrollTop=body.scrollHeight;
   }
-  // =============================
-  // AKADE — RÉPONSE ROBUSTE
-  // 1) Essaie l'Edge Function existante.
-  // 2) Si elle échoue, essaie directement les tables FAQ/knowledge
-  //    si elles existent dans le projet Akade AI.
-  // 3) Ne touche PAS à la connexion principale du site.
-  // =============================
-  function akadeNormalize(v){
-    return String(v ?? '')
-      .toLowerCase()
-      .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-      .replace(/[^a-z0-9\s]/g,' ')
-      .replace(/\s+/g,' ')
-      .trim();
-  }
-
-  function akadeTokens(v){
-    const stop = new Set(['le','la','les','un','une','des','du','de','et','ou','a','à','au','aux','pour','dans','sur','avec','est','ce','cette','ces','qui','que','quoi','comment','quel','quelle','je','tu','il','elle','nous','vous','ils','elles','mon','ma','mes','ton','ta','tes','son','sa','ses','the','a','an','is','are','what','how','do','does','can','i','you','your','my','for','in','on','of','and','or']);
-    return [...new Set(akadeNormalize(v).split(' ').filter(x=>x.length>=2 && !stop.has(x)))];
-  }
-
-  function akadeScore(question, row){
-    const q = akadeTokens(question);
-    const fields = [
-      row.question,row.questions,row.q,row.prompt,row.title,row.nom,row.name,
-      row.answer,row.answers,row.reponse,row.response,row.reponse_text,row.contenu,row.content
-    ].filter(Boolean).join(' ');
-    const text = akadeNormalize(fields);
-    if(!text || !q.length) return 0;
-    let score = 0;
-    for(const token of q){
-      if(text.includes(token)) score += token.length >= 5 ? 3 : 1;
-    }
-    const nq = akadeNormalize(question);
-    if(nq && text.includes(nq)) score += 20;
-    return score;
-  }
-
-  function akadeExtractAnswer(row){
-    return String(
-      row?.answer ?? row?.answers ?? row?.reponse ?? row?.response ??
-      row?.reponse_text ?? row?.contenu ?? row?.content ?? row?.texte ??
-      row?.text ?? ''
-    ).trim();
-  }
-
-  async function akadeDirectKnowledge(question){
-    // Noms de tables possibles. Une table inexistante est simplement ignorée.
-    const tables = ['akade_knowledge','akade_qa','akade_questions','faq','faqs','knowledge_base','knowledge'];
-    let best = null;
-    let bestScore = 0;
-
-    for(const table of tables){
-      try{
-        const {data,error}=await akadeAIClient.from(table).select('*').limit(100);
-        if(error || !Array.isArray(data)) continue;
-
-        for(const row of data){
-          const answer=akadeExtractAnswer(row);
-          if(!answer) continue;
-          const score=akadeScore(question,row);
-          if(score>bestScore){
-            bestScore=score;
-            best=answer;
-          }
-        }
-      }catch(e){
-        // Table absente/non accessible: on passe à la suivante.
-      }
-    }
-
-    // Évite de donner une réponse fausse quand la correspondance est trop faible.
-    return bestScore >= 3 ? best : '';
-  }
-
   async function akadeReply(t){
     akadeAdd('user',t);
-
-    // Priorité 1 : la fonction AI existante.
     try{
-      const {data,error}=await akadeAIClient.functions.invoke('akade-ai',{
-        body:{message:t,history:akadeHistory.slice(-10)}
-      });
-
-      if(!error){
-        const reply=(data?.reply||data?.output_text||data?.answer||'').trim();
-        if(reply){
-          akadeAdd('assistant',reply);
-          return reply;
-        }
-      }
+      const {data,error}=await akadeAIClient.functions.invoke('akade-ai',{body:{message:t,history:akadeHistory.slice(-10)}});
+      if(error) throw error;
+      const reply=(data?.reply||data?.output_text||'').trim();
+      if(!reply) throw new Error('Réponse vide.');
+      akadeAdd('assistant',reply);
+      return reply;
     }catch(err){
-      console.warn('Akade Edge Function indisponible:',err);
+      console.error('Akade AI:',err);
+      return 'Désolé, je rencontre un petit problème de connexion pour le moment. Réessaie dans quelques secondes. 🙏';
     }
-
-    // Priorité 2 : réponse directement depuis les données Supabase.
-    try{
-      const direct=await akadeDirectKnowledge(t);
-      if(direct){
-        akadeAdd('assistant',direct);
-        return direct;
-      }
-    }catch(err){
-      console.warn('Akade knowledge:',err);
-    }
-
-    // Dernier secours : message clair au lieu d'une réponse vide.
-    const fallback='Je n’ai pas encore trouvé cette information dans ma base de connaissances. Essaie de reformuler ta question ou ajoute cette question/réponse dans la base Akade. 🙏';
-    akadeAdd('assistant',fallback);
-    return fallback;
   }
   async function botSend(){
     const inp=$('akadeInput'),send=$('akadeSend'),t=inp.value.trim();
