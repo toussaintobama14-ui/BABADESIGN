@@ -1,249 +1,318 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#09090b">
-<title>Baba Design — Contrôleur</title>
+<meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="#09090b" name="theme-color"/><title>Baba Design — Contrôleur</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
-:root{
---r:#e60000;--o:#ff7300;--y:#ffd000;--d:#09090b;
---bg:#f4f5f7;--line:#e7e7eb
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);font-family:Inter,Arial,sans-serif;color:#111}
-button,input,textarea{font:inherit}
-
-.top{
-position:sticky;top:0;z-index:20;background:#09090beF;color:#fff;
-backdrop-filter:blur(22px);border-bottom:1px solid #ffffff14
-}
-.topin{
-max-width:1350px;margin:auto;padding:15px 22px;display:flex;
-justify-content:space-between;align-items:center
-}
-.brand{font-size:21px;font-weight:950}
-.brand span{color:var(--o)}
-.logout{
-border:1px solid #333;background:#17171a;color:#fff;
-padding:10px 14px;border-radius:12px;cursor:pointer
-}
-.wrap{max-width:1350px;margin:auto;padding:28px 20px 70px}
-
-.hero{
-border-radius:30px;
-background:radial-gradient(circle at 85% 20%,#e6000044,transparent 25%),
-linear-gradient(135deg,#08080a,#171719 60%,#2d0d00);
-color:#fff;padding:34px;box-shadow:0 25px 70px #1112;
-position:relative;overflow:hidden
-}
-.hero:after{
-content:"";position:absolute;width:250px;height:250px;border-radius:50%;
-right:-100px;bottom:-130px;background:#ffd000;filter:blur(65px);opacity:.3
-}
-.k{color:#ffd000;font-size:11px;letter-spacing:2px;font-weight:900}
-.hero h1{font-size:clamp(32px,5vw,58px);margin:10px 0}
-.hero p{color:#c8c8c8;line-height:1.6;max-width:700px}
-
-.stats{
-display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:20px 0
-}
-.stat,.panel{
-background:#fff;border:1px solid var(--line);border-radius:22px;
-box-shadow:0 16px 50px #11110a
-}
-.stat{padding:20px}
-.stat small{color:#777}
-.stat b{display:block;font-size:30px;margin-top:8px}
-
-.tabs{display:flex;gap:8px;overflow:auto;margin:20px 0}
-.tab{
-border:1px solid var(--line);background:#fff;padding:12px 16px;
-border-radius:13px;font-weight:900;cursor:pointer;white-space:nowrap
-}
-.tab.active{
-background:linear-gradient(135deg,#111,#2b2b2b 55%,var(--r));color:#fff
-}
-.panel{padding:22px}
-
-.item{
-border:1px solid var(--line);border-radius:17px;padding:16px;
-margin:11px 0;background:#fff
-}
-.row{
-display:flex;align-items:center;justify-content:space-between;
-gap:12px;flex-wrap:wrap
-}
-.pill{
-padding:6px 10px;border-radius:999px;font-size:10px;
-font-weight:950;background:#111;color:#fff
-}
-.approved{background:#16833b}
-.rejected{background:#c40000}
-.pending{background:var(--o)}
-
-.btn{
-border:0;border-radius:11px;padding:10px 13px;
-background:linear-gradient(135deg,var(--r),var(--o));
-color:#fff;font-weight:900;cursor:pointer
-}
-.dark{background:#111}
-.sm{padding:7px 10px;font-size:11px}
-
-.range{width:100%;accent-color:var(--o)}
-.bar{height:9px;background:#ececf0;border-radius:99px;overflow:hidden}
-.fill{
-height:100%;
-background:linear-gradient(90deg,var(--r),var(--o),var(--y));
-border-radius:99px
-}
-
-.file{
-display:flex;justify-content:space-between;gap:10px;align-items:center
-}
-.file small{display:block;color:#777;margin-top:4px}
-
-.chat{
-height:360px;overflow:auto;background:#f7f7f8;
-border-radius:17px;padding:14px
-}
-.bubble{
-max-width:78%;padding:10px 13px;border-radius:16px;
-margin:7px 0;line-height:1.45
-}
-.me{
-margin-left:auto;
-background:linear-gradient(135deg,var(--r),var(--o));color:#fff
-}
-.other{background:#fff;border:1px solid var(--line)}
-
-.compose{display:flex;gap:8px;margin-top:10px}
-.compose textarea{
-flex:1;border:1px solid #ddd;border-radius:12px;padding:11px
-}
-
-.loader{
-position:fixed;inset:0;background:#09090bdd;z-index:99;
-display:none;place-items:center
-}
-.loader.show{display:grid}
-.loaderbox{
-background:#fff;padding:28px;border-radius:22px;text-align:center
-}
-.spin{
-width:50px;height:50px;border:5px solid #eee;
-border-top-color:var(--o);border-right-color:var(--r);
-border-radius:50%;animation:s 1s linear infinite;
-margin:auto auto 12px
-}
-@keyframes s{to{transform:rotate(360deg)}}
-
-@media(max-width:850px){
-.stats{grid-template-columns:1fr 1fr}
-}
-@media(max-width:520px){
-.wrap{padding:15px 11px}
-.hero{padding:25px;border-radius:22px}
-.stats{grid-template-columns:1fr}
-.panel{padding:15px}
-}
+:root{--r:#e60000;--o:#ff7300;--y:#ffd000;--d:#09090b;--bg:#f4f5f7;--line:#e7e7eb}*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Inter,Arial,sans-serif;color:#111}button,input,textarea{font:inherit}
+.top{position:sticky;top:0;z-index:20;background:#09090beF;color:#fff;backdrop-filter:blur(22px);border-bottom:1px solid #ffffff14}.topin{max-width:1350px;margin:auto;padding:15px 22px;display:flex;justify-content:space-between;align-items:center}.brand{font-size:21px;font-weight:950}.brand span{color:var(--o)}.logout{border:1px solid #333;background:#17171a;color:#fff;padding:10px 14px;border-radius:12px;cursor:pointer}.wrap{max-width:1350px;margin:auto;padding:28px 20px 70px}.hero{border-radius:30px;background:radial-gradient(circle at 85% 20%,#e6000044,transparent 25%),linear-gradient(135deg,#08080a,#171719 60%,#2d0d00);color:#fff;padding:34px;box-shadow:0 25px 70px #1112;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:250px;height:250px;border-radius:50%;right:-100px;bottom:-130px;background:#ffd000;filter:blur(65px);opacity:.3}.k{color:#ffd000;font-size:11px;letter-spacing:2px;font-weight:900}.hero h1{font-size:clamp(32px,5vw,58px);margin:10px 0}.hero p{color:#c8c8c8;line-height:1.6;max-width:700px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:20px 0}.stat,.panel{background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 16px 50px #11110a}.stat{padding:20px}.stat small{color:#777}.stat b{display:block;font-size:30px;margin-top:8px}.tabs{display:flex;gap:8px;overflow:auto;margin:20px 0}.tab{border:1px solid var(--line);background:#fff;padding:12px 16px;border-radius:13px;font-weight:900;cursor:pointer;white-space:nowrap}.tab.active{background:linear-gradient(135deg,#111,#2b2b2b 55%,var(--r));color:#fff}.panel{padding:22px}.item{border:1px solid var(--line);border-radius:17px;padding:16px;margin:11px 0;background:#fff}.row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.pill{padding:6px 10px;border-radius:999px;font-size:10px;font-weight:950;background:#111;color:#fff}.approved{background:#16833b}.rejected{background:#c40000}.pending{background:var(--o)}.btn{border:0;border-radius:11px;padding:10px 13px;background:linear-gradient(135deg,var(--r),var(--o));color:#fff;font-weight:900;cursor:pointer}.dark{background:#111}.sm{padding:7px 10px;font-size:11px}.range{width:100%;accent-color:var(--o)}.bar{height:9px;background:#ececf0;border-radius:99px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,var(--r),var(--o),var(--y));border-radius:99px}.file{display:flex;justify-content:space-between;gap:10px;align-items:center}.file small{display:block;color:#777;margin-top:4px}.chat{height:360px;overflow:auto;background:#f7f7f8;border-radius:17px;padding:14px}.bubble{max-width:78%;padding:10px 13px;border-radius:16px;margin:7px 0;line-height:1.45}.me{margin-left:auto;background:linear-gradient(135deg,var(--r),var(--o));color:#fff}.other{background:#fff;border:1px solid var(--line)}.compose{display:flex;gap:8px;margin-top:10px}.compose textarea{flex:1;border:1px solid #ddd;border-radius:12px;padding:11px}.loader{position:fixed;inset:0;background:#09090bdd;z-index:99;display:none;place-items:center}.loader.show{display:grid}.loaderbox{background:#fff;padding:28px;border-radius:22px;text-align:center}.spin{width:50px;height:50px;border:5px solid #eee;border-top-color:var(--o);border-right-color:var(--r);border-radius:50%;animation:s 1s linear infinite;margin:auto auto 12px}@keyframes s{to{transform:rotate(360deg)}}@media(max-width:850px){.stats{grid-template-columns:1fr 1fr}}@media(max-width:520px){.wrap{padding:15px 11px}.hero{padding:25px;border-radius:22px}.stats{grid-template-columns:1fr}.panel{padding:15px}}
 </style>
 </head>
-
 <body>
-
-<script>
-if(sessionStorage.getItem("controllerAccessGranted")!=="1"){
-window.location.replace("mon-espace.html");
-}
-</script>
-
-<div id="loading" class="loader">
-<div class="loaderbox">
-<div class="spin"></div>
-<b id="loadingText">Sécurisation…</b>
-</div>
-</div>
-
-<header class="top">
-<div class="topin">
-<div class="brand">Baba<span>Design</span> · Contrôleur</div>
-<button class="logout" id="logout">Déconnexion</button>
-</div>
-</header>
-
+<div class="loader" id="loading"><div class="loaderbox"><div class="spin"></div><b id="loadingText">Sécurisation…</b></div></div>
+<header class="top"><div class="topin"><div class="brand">Baba<span>Design</span> · Contrôleur</div><button class="logout" id="logout">Déconnexion</button></div></header>
 <main class="wrap">
-
-<section class="hero">
-<div class="k">CONTROL CENTER • PRIVÉ</div>
-<h1>Contrôle total.<br>Expérience premium.</h1>
-<p>
-Gérez les commandes, paiements, progressions, fichiers et conversations
-depuis un centre de contrôle moderne.
-</p>
-</section>
-
-<section class="stats">
-<div class="stat">
-<small>Commandes</small>
-<b id="statOrders">—</b>
-</div>
-
-<div class="stat">
-<small>Paiements validés</small>
-<b id="statPaid">—</b>
-</div>
-
-<div class="stat">
-<small>Fichiers</small>
-<b id="statFiles">—</b>
-</div>
-
-<div class="stat">
-<small>Conversations</small>
-<b id="statChats">—</b>
-</div>
-</section>
-
-<div class="tabs">
-<button class="tab active" data-view="orders">▣ Commandes</button>
-<button class="tab" data-view="files">▤ Fichiers</button>
-<button class="tab" data-view="chats">◌ Conversations</button>
-</div>
-
+<section class="hero"><div class="k">CONTROL CENTER • PRIVÉ</div><h1>Contrôle total.<br/>Expérience premium.</h1><p>Gérez les commandes, paiements, progressions, fichiers et conversations depuis un centre de contrôle moderne.</p></section>
+<section class="stats"><div class="stat"><small>Commandes</small><b id="statOrders">—</b></div><div class="stat"><small>Paiements validés</small><b id="statPaid">—</b></div><div class="stat"><small>Fichiers</small><b id="statFiles">—</b></div><div class="stat"><small>Conversations</small><b id="statChats">—</b></div></section>
+<div class="tabs"><button class="tab active" data-view="orders">▣ Commandes</button><button class="tab" data-view="files">▤ Fichiers</button><button class="tab" data-view="chats">◌ Conversations</button></div>
 <section class="panel" id="content"></section>
-
 </main>
+<script>const SUPABASE_URL="https://drvcneeaothydjmqpdzg.supabase.co";
+const SUPABASE_KEY="sb_publishable_k8DUVt12k1GN4n7yiYBnYw_gXltrpmp";
+const BUCKET="client-files";
 
-<script>
-
-const URL="https://drvcneeaothydjmqpdzg.supabase.co",
-KEY="sb_publishable_k8DUVt12k1GN4n7yiYBnYw_gXltrpmp",
-EMAIL="enlignecours109@gmail.com",
-BUCKET="client-files";
-
-const sb=window.supabase.createClient(URL,KEY,{
-auth:{
-persistSession:true,
-autoRefreshToken:true,
-detectSessionInUrl:true
-}
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{
+  auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
 });
 
 const $=id=>document.getElementById(id);
-
-const esc=v=>String(v??'').replace(/[&<>'"]/g,c=>({
-'&':'&amp;',
-'<':'&lt;',
-'>':'&gt;',
-"'":'&#39;',
-'"':'&quot;'
-}[c]));
-
+const esc=v=>String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
 const fmt=d=>d?new Date(d).toLocaleString('fr-FR'):'—';
 
 function wait(on,t='Traitement…'){
-$('loadingText').textContent=t;
-$('loading
+  $('loadingText').textContent=t;
+  $('loading').classList.toggle('show',on);
+}
+
+async function guard(){
+  const {data:{user},error:authError}=await sb.auth.getUser();
+  if(authError||!user)return false;
+  const {data:p,error}=await sb.from('profiles').select('id,role,full_name,email').eq('id',user.id).maybeSingle();
+  return !error && p?.role==='controller';
+}
+
+async function controllerCodeStillValid(){
+  // Le code réel reste en SQL. Ici on ne conserve aucun code secret.
+  const {data,error}=await sb.rpc('is_controller');
+  return !error && data===true;
+}
+
+async function data(){
+  const [o,f,c,n]=await Promise.all([
+    sb.from('orders').select('*').order('created_at',{ascending:false}),
+    sb.from('files').select('*').order('created_at',{ascending:false}),
+    sb.from('conversations').select('*').order('last_message_at',{ascending:false}),
+    sb.from('notifications').select('*').order('created_at',{ascending:false}).limit(30)
+  ]);
+  for(const r of [o,f,c,n]) if(r.error) throw r.error;
+  return {orders:o.data||[],files:f.data||[],chats:c.data||[],notifications:n.data||[]};
+}
+
+async function refreshStats(){
+  const d=await data();
+  $('statOrders').textContent=d.orders.length;
+  $('statPaid').textContent=d.orders.filter(x=>x.payment_status==='approved').length;
+  $('statFiles').textContent=d.files.length;
+  $('statChats').textContent=d.chats.length;
+}
+
+async function signedUrl(path){
+  const {data,error}=await sb.storage.from(BUCKET).createSignedUrl(path,300);
+  if(error)throw error;
+  return data.signedUrl;
+}
+
+async function download(path){
+  try{
+    const url=await signedUrl(path);
+    window.open(url,'_blank','noopener');
+  }catch(e){alert(e.message||'Téléchargement impossible.');}
+}
+
+function fileMarkup(files){
+  if(!files.length)return '<small style="color:#777">Aucun fichier lié.</small>';
+  return `<div class="file-list" style="margin-top:10px">${files.map(f=>`
+    <div class="item file" style="padding:10px">
+      <div><b>${esc(f.file_name)}</b><small>${esc(f.kind||'Fichier')} · ${fmt(f.created_at)}</small></div>
+      <button class="btn sm" data-dl="${esc(f.storage_path)}">⬇ Télécharger</button>
+    </div>`).join('')}</div>`;
+}
+
+async function render(view='orders'){
+  const m=$('content');
+  m.innerHTML='<div class="item">Chargement…</div>';
+  try{
+    const d=await data();
+
+    if(view==='orders'){
+      const cards=d.orders.map(o=>{
+        const linked=d.files.filter(f=>f.order_id===o.id);
+        return `<div class="item">
+          <div class="row"><b>${esc(o.service_name)}</b><span class="pill ${esc(o.payment_status)}">${esc(o.payment_status||'pending')}</span></div>
+          <p style="color:#777;font-size:12px">Client : ${esc(o.user_id)} · ${fmt(o.created_at)}</p>
+          <p style="margin:8px 0">${esc(o.description||'')}</p>
+          <div class="row"><strong>Progression <span id="v${o.id}">${o.progress||0}%</span></strong><span>${esc(o.status||'En attente')}</span></div>
+          <div class="bar"><div class="fill" style="width:${o.progress||0}%"></div></div>
+          <input class="range" type="range" min="0" max="100" value="${o.progress||0}" data-progress="${o.id}">
+          <div style="margin-top:10px">
+            <button class="btn sm" data-approve="${o.id}">✓ Valider paiement</button>
+            <button class="btn dark sm" data-reject="${o.id}">✕ Refuser</button>
+            <button class="btn dark sm" data-delete-order="${o.id}">🗑 Supprimer</button>
+          </div>
+          ${fileMarkup(linked)}
+        </div>`;
+      }).join('');
+
+      m.innerHTML=`<h2>Commandes & paiements</h2>
+      <p style="color:#777">Validez, refusez, supprimez et pilotez les commandes depuis Supabase.</p>
+      ${cards || '<div class="item">Aucune commande.</div>'}`;
+
+      m.querySelectorAll('[data-dl]').forEach(b=>b.onclick=()=>download(b.dataset.dl));
+
+      m.querySelectorAll('[data-progress]').forEach(x=>x.onchange=async()=>{
+        try{
+          const {error}=await sb.rpc('controller_set_order_progress',{p_order_id:x.dataset.progress,p_progress:Number(x.value)});
+          if(error)throw error;
+          $('v'+x.dataset.progress).textContent=x.value+'%';
+        }catch(e){alert(e.message);render('orders');}
+      });
+
+      m.querySelectorAll('[data-approve]').forEach(b=>b.onclick=async()=>{
+        if(!confirm('Valider ce paiement ?'))return;
+        const {error}=await sb.rpc('controller_approve_order',{p_order_id:b.dataset.approve});
+        if(error)alert(error.message); else {await refreshStats();render('orders');}
+      });
+
+      m.querySelectorAll('[data-reject]').forEach(b=>b.onclick=async()=>{
+        if(!confirm('Refuser ce paiement ?'))return;
+        const {error}=await sb.rpc('controller_reject_order',{p_order_id:b.dataset.reject});
+        if(error)alert(error.message); else {await refreshStats();render('orders');}
+      });
+
+      m.querySelectorAll('[data-delete-order]').forEach(b=>b.onclick=async()=>{
+        if(!confirm('Supprimer cette commande et ses fichiers liés définitivement ?'))return;
+        wait(true,'Suppression définitive…');
+        try{
+          const linked=d.files.filter(f=>f.order_id===b.dataset.deleteOrder);
+          const paths=linked.map(f=>f.storage_path);
+          if(paths.length){
+            const {error:se}=await sb.storage.from(BUCKET).remove(paths);
+            if(se)throw se;
+          }
+          const {error}=await sb.rpc('controller_delete_order',{p_order_id:b.dataset.deleteOrder});
+          if(error)throw error;
+          await refreshStats();await render('orders');
+        }catch(e){alert(e.message||'Suppression impossible.');}
+        finally{wait(false);}
+      });
+      return;
+    }
+
+    if(view==='files'){
+      m.innerHTML=`<h2>Fichiers</h2>
+      <p style="color:#777">Photos, preuves, documents clients et fichiers envoyés par le contrôleur.</p>
+      ${d.files.map(f=>`<div class="item file">
+        <div><b>${esc(f.file_name)}</b><small>${esc(f.kind||'Fichier')} · Client ${esc(f.user_id)} · ${fmt(f.created_at)}</small></div>
+        <span>
+          <button class="btn sm" data-dl="${esc(f.storage_path)}">⬇</button>
+          <button class="btn dark sm" data-del="${f.id}" data-path="${esc(f.storage_path)}">🗑</button>
+        </span>
+      </div>`).join('')||'<div class="item">Aucun fichier.</div>'}`;
+
+      m.querySelectorAll('[data-dl]').forEach(b=>b.onclick=()=>download(b.dataset.dl));
+      m.querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{
+        if(!confirm('Supprimer définitivement ce fichier de Storage et de la base ?'))return;
+        wait(true,'Suppression…');
+        try{
+          const {error:se}=await sb.storage.from(BUCKET).remove([b.dataset.path]);
+          if(se)throw se;
+          const {error:e}=await sb.rpc('controller_delete_file_metadata',{p_file_id:b.dataset.del});
+          if(e)throw e;
+          await refreshStats();await render('files');
+        }catch(e){alert(e.message||'Suppression impossible.');}
+        finally{wait(false);}
+      });
+      return;
+    }
+
+    if(view==='chats'){
+      m.innerHTML=`<h2>Conversations</h2>
+      <p style="color:#777">Les nouveaux messages arrivent en temps réel.</p>
+      ${d.chats.map(c=>`<div class="item row">
+        <div><b>Client</b><small style="display:block;color:#777">${esc(c.user_id)} · ${fmt(c.last_message_at)}</small></div>
+        <button class="btn sm" data-chat="${c.id}">Ouvrir</button>
+      </div>`).join('')||'<div class="item">Aucune conversation.</div>'}`;
+      m.querySelectorAll('[data-chat]').forEach(b=>b.onclick=()=>openChat(b.dataset.chat));
+      return;
+    }
+
+    if(view==='notifications'){
+      m.innerHTML=`<h2>Notifications</h2>
+      ${d.notifications.map(n=>`<div class="item"><b>${esc(n.title)}</b><small>${esc(n.body)} · ${fmt(n.created_at)}</small></div>`).join('')||'<div class="item">Aucune notification.</div>'}`;
+      return;
+    }
+  }catch(e){
+    m.innerHTML=`<div class="item"><b>Impossible de charger.</b><p style="color:#777">${esc(e.message)}</p></div>`;
+  }
+}
+
+async function openChat(id){
+  activeConversationId=id;
+  const {data:c,error}=await sb.from('conversations').select('*').eq('id',id).single();
+  if(error||!c){alert(error?.message||'Conversation introuvable.');return;}
+
+  const m=$('content');
+  m.innerHTML=`<div class="row"><div><h2>Conversation privée</h2><p style="color:#777">Client : ${esc(c.user_id)}</p></div><button class="btn dark sm" id="back">← Retour</button></div>
+  <div class="chat" id="chat"></div>
+  <div class="compose"><textarea id="msg" rows="2" placeholder="Répondre au client…"></textarea><button class="btn" id="send">Envoyer</button></div>
+  <div class="item"><b>📎 Envoyer une photo ou un document</b>
+    <input id="file" type="file" accept="image/*,.pdf,.doc,.docx,.txt,.zip" style="display:block;margin-top:10px">
+    <button class="btn sm" id="sendFile" style="margin-top:8px">Envoyer au client</button>
+  </div>`;
+
+  async function refresh(){
+    const {data,error}=await sb.from('messages').select('id,conversation_id,sender_id,body,file_id,created_at,file:file_id(id,file_name,storage_path,kind)').eq('conversation_id',id).order('created_at');
+    if(error)return;
+    const me=(await sb.auth.getUser()).data.user;
+    const box=$('chat');
+    box.innerHTML=(data||[]).map(x=>`
+      <div class="bubble ${x.sender_id===me.id?'me':'other'}">
+        ${esc(x.body)}
+        ${x.file?`<div style="margin-top:6px"><button class="btn sm" data-chat-file="${esc(x.file.storage_path)}">📎 ${esc(x.file.file_name)}</button></div>`:''}
+        <div style="font-size:9px;opacity:.65">${fmt(x.created_at)} <button style="border:0;background:none" data-del="${x.id}">🗑</button></div>
+      </div>`).join('')||'<p>Aucun message.</p>';
+    box.querySelectorAll('[data-chat-file]').forEach(b=>b.onclick=()=>download(b.dataset.chatFile));
+    box.querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{
+      if(!confirm('Supprimer ce message ?'))return;
+      const {error}=await sb.rpc('controller_delete_message',{p_message_id:b.dataset.del});
+      if(error)alert(error.message);else refresh();
+    });
+    box.scrollTop=box.scrollHeight;
+  }
+
+  $('send').onclick=async()=>{
+    const body=$('msg').value.trim();
+    if(!body)return;
+    const {error}=await sb.rpc('controller_send_message',{p_conversation_id:id,p_body:body,p_file_id:null});
+    if(error)alert(error.message);else{$('msg').value='';refresh();}
+  };
+
+  $('sendFile').onclick=async()=>{
+    const f=$('file').files[0];
+    if(!f)return alert('Choisissez un fichier.');
+    wait(true,'Envoi du fichier…');
+    try{
+      const safe=f.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+      const path=`${c.user_id}/${crypto.randomUUID()}_${safe}`;
+      const {error:up}=await sb.storage.from(BUCKET).upload(path,f,{upsert:false});
+      if(up)throw up;
+      const {data:meta,error:fe}=await sb.from('files').insert({
+        user_id:c.user_id,
+        file_name:f.name,
+        storage_path:path,
+        kind:'controller_file',
+        expires_at:null
+      }).select('id').single();
+      if(fe)throw fe;
+      const {error:me}=await sb.rpc('controller_send_message',{
+        p_conversation_id:id,
+        p_body:`📎 ${f.name}`,
+        p_file_id:meta.id
+      });
+      if(me)throw me;
+      $('file').value='';
+      refresh();
+      refreshStats();
+    }catch(e){alert(e.message||'Envoi impossible.');}
+    finally{wait(false);}
+  };
+
+  $('back').onclick=()=>render('chats');
+  refresh();
+}
+
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  render(b.dataset.view);
+});
+
+$('logout').onclick=async()=>{
+  await sb.auth.signOut();
+  sessionStorage.removeItem('controllerAccessGranted');
+  location.href='mon-espace.html';
+};
+
+let activeConversationId=null;
+sb.channel('controller-live')
+  .on('postgres_changes',{event:'*',schema:'public',table:'orders'},()=>{refreshStats();if($('content'))render('orders');})
+  .on('postgres_changes',{event:'*',schema:'public',table:'files'},()=>{refreshStats();})
+  .on('postgres_changes',{event:'*',schema:'public',table:'messages'},()=>{if($('chat') && activeConversationId)openChat(activeConversationId);})
+  .on('postgres_changes',{event:'*',schema:'public',table:'notifications'},()=>{})
+  .subscribe();
+
+(async()=>{
+  wait(true,'Vérification des droits…');
+  try{
+    if(!(await guard())){
+      alert('Accès réservé au contrôleur.');
+      location.href='mon-espace.html';
+      return;
+    }
+    await refreshStats();
+    await render('orders');
+  }finally{wait(false);}
+})();</script>
+</body></html>
