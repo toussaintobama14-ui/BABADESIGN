@@ -4993,7 +4993,6 @@ Merci.
 (() => {
   const SUPABASE_URL = "https://drvcneeaothydjmqpdzg.supabase.co";
   const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_k8DUVt12k1GN4n7yiYBnYw_gXltrpmp";
-  const CONTROLLER_EMAIL = "enlignecours109@gmail.com";
   const BUCKET = "client-files";
   const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 
@@ -5031,7 +5030,7 @@ Merci.
     const {data:{user}}=await sb.auth.getUser(); if(!user) return null;
     const {data,error}=await sb.from('profiles').select('*').eq('id',user.id).maybeSingle();
     if(error) throw error;
-    return data || {id:user.id,email:user.email,full_name:user.user_metadata?.full_name||'',role:user.email?.toLowerCase()===CONTROLLER_EMAIL?'controller':'client'};
+    return data || {id:user.id,email:user.email,full_name:user.user_metadata?.full_name||'',role:'client'};
   }
   function showPortal(){portal.classList.add('active'); $('portalAuth').style.display='none'; $('portalApp').style.display='block'; loadPortal();}
   function showAuth(){portal.classList.add('active'); $('portalAuth').style.display='block'; $('portalApp').style.display='none';}
@@ -5039,7 +5038,7 @@ Merci.
   $('portalSignupForm').addEventListener('submit',async e=>{e.preventDefault(); wait(true,'Création de votre compte…'); try{
     const email=$('signupEmail').value.trim().toLowerCase(), password=$('signupPassword').value, name=$('signupName').value.trim(), phone=$('signupPhone').value.trim();
     const {data,error}=await sb.auth.signUp({email,password,options:{data:{full_name:name,phone}}}); if(error) throw error;
-    if(data.user){ await sb.from('profiles').upsert({id:data.user.id,email,full_name:name,phone,role:email===CONTROLLER_EMAIL?'controller':'client'},{onConflict:'id'}); }
+    if(data.user){ /* Le trigger SQL handle_new_user crée le profil de façon sécurisée. */ }
     $('authNotice').textContent=data.session?'Compte créé.':'Compte créé. Vérifie ton email si la confirmation est activée dans Supabase.'; if(data.session) showPortal();
   }catch(err){$('authNotice').textContent=err.message||'Impossible de créer le compte.';}finally{wait(false);}});
 
@@ -5075,11 +5074,51 @@ Merci.
 
   async function uploadOne(file,userId,kind,orderId=null,expiresHours=null){const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');const path=`${userId}/${crypto.randomUUID()}_${safe}`;const {error}=await sb.storage.from(BUCKET).upload(path,file,{upsert:false});if(error)throw error;const {error:e2}=await sb.from('files').insert({user_id:userId,order_id:orderId,file_name:file.name,storage_path:path,kind,expires_at:expiresHours?new Date(Date.now()+expiresHours*3600000).toISOString():null});if(e2){await sb.storage.from(BUCKET).remove([path]);throw e2;}return path;}
 
-  async function submitOrder(form){const p=await getProfile();if(!p){$('portalAuth').style.display='block';showAuth();toast('Compte requis','Connecte-toi ou crée ton compte avant d’envoyer une commande.');return;}const proof=$('paymentProof')?.files?.[0];if(!proof){alert('La preuve de paiement est obligatoire.');return;}wait(true,'Enregistrement de votre commande…');try{const service=document.querySelector('input[name="service"]:checked')?.value||document.getElementById('service')?.value||'Service design';const desc=[document.getElementById('customService')?.value,document.getElementById('designInfo')?.value].filter(Boolean).join('\n');const priceText=document.getElementById('totalPrice')?.textContent||'0';const price=parseFloat(priceText.replace(/[^0-9,.-]/g,'').replace(/\./g,'').replace(',','.'))||0;const {data:o,error}=await sb.from('orders').insert({user_id:p.id,service_name:service,description:desc,price_htg:price}).select().single();if(error)throw error;await uploadOne(proof,p.id,'payment_proof',o.id,null);for(const f of Array.from($('orderFiles')?.files||[]))await uploadOne(f,p.id,'client_project',o.id,null);toast('Commande envoyée 🎉','Ta commande et ta preuve de paiement sont maintenant chez le contrôleur.');form.reset();}catch(err){alert(err.message||'Erreur lors de l’envoi.');}finally{wait(false);}}
+  async function submitOrder(form){const p=await getProfile();if(!p){$('portalAuth').style.display='block';showAuth();toast('Compte requis','Connecte-toi ou crée ton compte avant d’envoyer une commande.');return;}const proof=$('paymentProof')?.files?.[0];if(!proof){alert('La preuve de paiement est obligatoire.');return;}wait(true,'Enregistrement de votre commande…');try{const service=document.querySelector('input[name="service"]:checked')?.value||document.getElementById('service')?.value||'Service design';const desc=[document.getElementById('customService')?.value,document.getElementById('designInfo')?.value].filter(Boolean).join('\n');const priceText=document.getElementById('totalPrice')?.textContent||'0';const price=parseFloat(priceText.replace(/[^0-9,.-]/g,'').replace(/\./g,'').replace(',','.'))||0;const {data:o,error}=await sb.from('orders').insert({user_id:p.id,service_name:service,description:desc,price_htg:price,status:'En attente de validation',payment_status:'pending'}).select().single();if(error)throw error;await uploadOne(proof,p.id,'payment_proof',o.id,null);for(const f of Array.from($('orderFiles')?.files||[]))await uploadOne(f,p.id,'client_project',o.id,null);toast('Commande envoyée 🎉','Ta commande et ta preuve de paiement sont maintenant chez le contrôleur.');form.reset();}catch(err){alert(err.message||'Erreur lors de l’envoi.');}finally{wait(false);}}
 
-  async function submitRegistration(form){const p=await getProfile();if(!p){showAuth();toast('Compte requis','Crée ton compte une seule fois, puis utilise-le pour tous tes services.');return;}const badge=$('agentBadgePhoto')?.files?.[0];const type=document.querySelector('input[name="memberType"]:checked')?.value||'Étudiant';wait(true,'Enregistrement de l’inscription…');try{await sb.from('profiles').update({role:type==='Agent'?'agent':'student'}).eq('id',p.id);if(badge&&type==='Agent')await uploadOne(badge,p.id,'agent_badge',null,null);toast('Inscription envoyée 🎉','Le contrôleur a reçu tes informations.');form.reset();}catch(err){alert(err.message||'Erreur.');}finally{wait(false);}}
+  async function submitRegistration(form){
+  const p=await getProfile();
+  if(!p){showAuth();toast('Compte requis','Crée ton compte une seule fois, puis utilise-le pour tous tes services.');return;}
+  const badge=$('agentBadgePhoto')?.files?.[0];
+  const type=document.querySelector('input[name="memberType"]:checked')?.value||'Étudiant';
+  const requestedRole=type==='Agent'?'agent':'student';
+  const fee=type==='Agent'?150:250;
+  const formation=$('regFormation')?.value||'Aucune formation sélectionnée';
+  const paid=document.querySelector('input[name="regPaid"]:checked')?.value||'Non';
+  const transcode=$('regTranscode')?.value?.trim()||'Non fourni';
+  const name=$('regName')?.value?.trim()||p.full_name||'';
+  const phone=$('regPhone')?.value?.trim()||p.phone||'';
+  const email=$('regEmail')?.value?.trim()||p.email||'';
+  wait(true,'Envoi de l’inscription au contrôleur…');
+  try{
+    const description=[
+      `Type: ${type}`,
+      `Nom: ${name}`,
+      `Téléphone: ${phone}`,
+      `Email: ${email}`,
+      `Formation: ${formation}`,
+      `Paiement effectué: ${paid}`,
+      `Transcode: ${transcode}`,
+      type==='Agent' ? `ID Agent: ${$('regAgentId')?.value?.trim()||'Non fourni'}` : ''
+    ].filter(Boolean).join('\n');
+    const {data:o,error}=await sb.from('orders').insert({
+      user_id:p.id,
+      service_name:`Inscription — ${type}`,
+      description,
+      price_htg:fee,
+      requested_role:requestedRole,
+      status:'En attente de validation',
+      payment_status:'pending'
+    }).select().single();
+    if(error)throw error;
+    if(badge&&type==='Agent')await uploadOne(badge,p.id,'agent_badge',o.id,null);
+    toast('Inscription envoyée 🎉','Votre demande est maintenant en attente de vérification par le contrôleur.');
+    form.reset();
+  }catch(err){alert(err.message||'Erreur.');}
+  finally{wait(false);}
+}
 
-  async function submitPublicite(form){const p=await getProfile();if(!p){showAuth();toast('Compte requis','Connecte-toi avant de commander une publicité.');return;}const proof=$('pubPaymentProof')?.files?.[0];if(!proof){alert('La preuve de paiement est obligatoire.');return;}wait(true,'Envoi de la demande…');try{const type=$('pubType')?.value||'Publicité',duration=$('pubDuration')?.value||'';const price=parseFloat(($('pubHtg')?.textContent||'0').replace(/[^0-9]/g,''))||0;const {data:o,error}=await sb.from('orders').insert({user_id:p.id,service_name:`Publicité ${type} ${duration}`,price_htg:price,description:'Demande de publicité'}).select().single();if(error)throw error;await uploadOne(proof,p.id,'payment_proof',o.id,null);toast('Demande envoyée 🎉','La preuve de paiement et la demande sont chez le contrôleur.');form.reset();}catch(err){alert(err.message||'Erreur.');}finally{wait(false);}}
+  async function submitPublicite(form){const p=await getProfile();if(!p){showAuth();toast('Compte requis','Connecte-toi avant de commander une publicité.');return;}const proof=$('pubPaymentProof')?.files?.[0];if(!proof){alert('La preuve de paiement est obligatoire.');return;}wait(true,'Envoi de la demande…');try{const type=$('pubType')?.value||'Publicité',duration=$('pubDuration')?.value||'';const price=parseFloat(($('pubHtg')?.textContent||'0').replace(/[^0-9]/g,''))||0;const {data:o,error}=await sb.from('orders').insert({user_id:p.id,service_name:`Publicité ${type} ${duration}`,price_htg:price,description:'Demande de publicité',status:'En attente de validation',payment_status:'pending'}).select().single();if(error)throw error;await uploadOne(proof,p.id,'payment_proof',o.id,null);toast('Demande envoyée 🎉','La preuve de paiement et la demande sont chez le contrôleur.');form.reset();}catch(err){alert(err.message||'Erreur.');}finally{wait(false);}}
 
   // Capture phase: blocks the old WhatsApp-only submit handlers and routes everything to Supabase.
   document.addEventListener('submit',e=>{if(e.target.id==='orderForm'){e.preventDefault();e.stopImmediatePropagation();submitOrder(e.target)}else if(e.target.id==='registrationForm'){e.preventDefault();e.stopImmediatePropagation();submitRegistration(e.target)}else if(e.target.id==='publiciteForm'){e.preventDefault();e.stopImmediatePropagation();submitPublicite(e.target)}},true);
