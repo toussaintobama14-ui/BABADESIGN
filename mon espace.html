@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#09090b">
-<title>Baba Design — Mon espace</title>
+<title>Mon espace — Mon espace</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{--red:#e60000;--orange:#ff7300;--yellow:#ffd000;--dark:#09090b;--muted:#707070;--bg:#f5f6f8;--white:#fff;--line:#e9e9ed}
@@ -33,7 +33,7 @@ button,input,textarea{font:inherit}.hidden{display:none!important}
 
 <section id="auth" class="authscreen">
   <div class="authbox">
-    <div class="authlogo">Baba<span>Design</span></div><div class="authsub">Votre espace privé, moderne et sécurisé.</div>
+    <div class="authlogo">Mon<span>espace</span></div><div class="authsub">Votre espace privé, moderne et sécurisé.</div>
     <div class="tabs"><button id="loginTab" class="active">Connexion</button><button id="signupTab">Créer un compte</button></div>
     <form id="loginForm">
       <div class="field"><label>Email</label><input id="loginEmail" type="email" required autocomplete="email"></div>
@@ -62,8 +62,7 @@ button,input,textarea{font:inherit}.hidden{display:none!important}
       <button class="navbtn" data-view="files">▤ <span>Mes fichiers</span></button>
       <button class="navbtn" data-view="chat">◌ <span>Conversation privée</span></button>
       <button class="navbtn" data-view="profile">◎ <span>Mon profil</span></button>
-      <button class="navbtn hidden" id="controllerLink">⚙ <span>Contrôleur</span></button>
-    <button id="controllerAccessBtn" class="secure-access-btn" type="button"><span>🔐 Accès sécurisé</span><b>›</b></button></aside>
+      <button id="controllerAccessBtn" class="secure-access-btn" type="button"><span>🔐 Accès sécurisé</span><b>›</b></button></aside>
     <section class="main" id="main"></section>
   </div>
 </main>
@@ -78,10 +77,10 @@ const $=id=>document.getElementById(id), esc=v=>String(v??'').replace(/[&<>'"]/g
 function wait(on,t='Traitement…'){$('loadingText').textContent=t;$('loading').classList.toggle('show',on)}
 function notice(t){$('notice').textContent=t;$('notice').classList.remove('hidden')}
 async function profile(){const {data:{user}}=await sb.auth.getUser();if(!user)return null;const {data,error}=await sb.from('profiles').select('*').eq('id',user.id).maybeSingle();if(error)throw error;return data||{id:user.id,email:user.email,full_name:user.user_metadata?.full_name||'',role:user.email?.toLowerCase()===CONTROLLER_EMAIL?'controller':'client'}}
-async function orders(){const {data,error}=await sb.from('orders').select('*').order('created_at',{ascending:false});if(error)throw error;return data||[]}
+async function orders(){const p=await profile();if(!p)return [];const {data,error}=await sb.from('orders').select('*').eq('user_id',p.id).order('created_at',{ascending:false});if(error)throw error;return data||[]}
 async function downloadFile(path){const {data,error}=await sb.storage.from(BUCKET).createSignedUrl(path,120);if(error)return alert(error.message);window.open(data.signedUrl,'_blank')}
 function showAuth(){ $('auth').classList.remove('hidden');$('app').classList.add('hidden') }
-async function showApp(){const p=await profile();if(!p)return showAuth();$('auth').classList.add('hidden');$('app').classList.remove('hidden');$('welcomeName').textContent=esc((p.full_name||'').split(' ')[0]||'');$('identity').textContent=p.email||'';$('avatar').textContent=(p.full_name||p.email||'B').charAt(0).toUpperCase();if(p.role==='controller'||p.email?.toLowerCase()===CONTROLLER_EMAIL){$('controllerLink').classList.remove('hidden');$('controllerLink').onclick=()=>location.href='controleur.html'}render('dashboard')}
+async function showApp(){const p=await profile();if(!p)return showAuth();$('auth').classList.add('hidden');$('app').classList.remove('hidden');$('welcomeName').textContent=esc((p.full_name||'').split(' ')[0]||'');$('identity').textContent=p.email||'';$('avatar').textContent=(p.full_name||p.email||'B').charAt(0).toUpperCase();render('dashboard')}
 $('loginTab').onclick=()=>{loginTab.classList.add('active');signupTab.classList.remove('active');loginForm.classList.remove('hidden');signupForm.classList.add('hidden');noticeElClear()};
 $('signupTab').onclick=()=>{signupTab.classList.add('active');loginTab.classList.remove('active');signupForm.classList.remove('hidden');loginForm.classList.add('hidden');noticeElClear()};
 function noticeElClear(){$('notice').classList.add('hidden')}
@@ -92,7 +91,7 @@ document.querySelectorAll('.navbtn[data-view]').forEach(b=>b.onclick=()=>{docume
 async function render(view){const m=$('main');m.innerHTML='<div class="card">Chargement de votre espace…</div>';try{const p=await profile();if(!p)return showAuth();
 if(view==='dashboard'){const os=await orders(),avg=os.length?Math.round(os.reduce((a,o)=>a+(o.progress||0),0)/os.length):0;m.innerHTML=`<div class="sectionhead"><div><h2>Vue d'ensemble</h2><p>Tout ce qui concerne votre activité.</p></div></div><div class="grid"><div class="stat"><small>Services</small><b>${os.length}</b></div><div class="stat"><small>Progression moyenne</small><b>${avg}%</b></div><div class="stat"><small>Compte</small><b>Actif</b></div></div><div class="card"><div class="row"><div><b>Progression de vos services</b><div style="color:#777;margin-top:5px">Votre avancement moyen actuel.</div></div><strong>${avg}%</strong></div><div class="bar"><div class="fill" style="width:${avg}%"></div></div></div>`;return}
 if(view==='orders'){const os=await orders();m.innerHTML=`<div class="sectionhead"><div><h2>Mes services</h2><p>Suivez chaque commande en temps réel.</p></div></div>${os.length?os.map(o=>`<div class="card"><div class="row"><b>${esc(o.service_name)}</b><span class="pill ${esc(o.payment_status)}">${esc(o.payment_status||'pending')}</span></div><div style="margin-top:15px;font-size:28px;font-weight:950">${o.progress||0}%</div><div class="bar"><div class="fill" style="width:${o.progress||0}%"></div></div><small style="color:#777">${esc(o.status||'En attente')} · ${fmt(o.created_at)}</small></div>`).join(''):'<div class="card">Aucun service enregistré pour le moment.</div>'}`;return}
-if(view==='files'){const {data,error}=await sb.from('files').select('*').order('created_at',{ascending:false});if(error)throw error;m.innerHTML=`<div class="sectionhead"><div><h2>Mes fichiers</h2><p>Documents et créations disponibles.</p></div></div>${(data||[]).map(f=>`<div class="card file"><div><strong>${esc(f.file_name)}</strong><small>${esc(f.kind||'Fichier')} · ${fmt(f.created_at)}</small></div><button class="btn sm" data-download="${esc(f.storage_path)}">Télécharger</button></div>`).join('')||'<div class="card">Aucun fichier disponible.</div>'}`;m.querySelectorAll('[data-download]').forEach(b=>b.onclick=()=>downloadFile(b.dataset.download));return}
+if(view==='files'){const {data,error}=await sb.from('files').select('*').eq('user_id',p.id).order('created_at',{ascending:false});if(error)throw error;m.innerHTML=`<div class="sectionhead"><div><h2>Mes fichiers</h2><p>Documents et créations disponibles.</p></div></div>${(data||[]).map(f=>`<div class="card file"><div><strong>${esc(f.file_name)}</strong><small>${esc(f.kind||'Fichier')} · ${fmt(f.created_at)}</small></div><button class="btn sm" data-download="${esc(f.storage_path)}">Télécharger</button></div>`).join('')||'<div class="card">Aucun fichier disponible.</div>'}`;m.querySelectorAll('[data-download]').forEach(b=>b.onclick=()=>downloadFile(b.dataset.download));return}
 if(view==='chat'){m.innerHTML=`<div class="sectionhead"><div><h2>Conversation privée</h2><p>Échangez directement avec le contrôleur.</p></div></div><div class="chat" id="chat"></div><div class="compose"><textarea id="msg" rows="2" placeholder="Écrire un message…"></textarea><button class="btn" id="send">Envoyer</button></div>`;await refreshChat();$('send').onclick=sendChat;return}
 if(view==='profile'){m.innerHTML=`<div class="sectionhead"><div><h2>Mon profil</h2><p>Informations de votre compte.</p></div></div><div class="card"><div class="row"><b>Nom complet</b><span>${esc(p.full_name||'—')}</span></div></div><div class="card"><div class="row"><b>Email</b><span>${esc(p.email||'—')}</span></div></div><div class="card"><div class="row"><b>Téléphone</b><span>${esc(p.phone||'—')}</span></div></div><div class="card"><div class="row"><b>Rôle</b><span class="pill">${esc(p.role||'client')}</span></div></div>`;return}
 }catch(e){m.innerHTML=`<div class="card"><b>Impossible de charger cet espace.</b><p style="color:#777">${esc(e.message)}</p></div>`}}
