@@ -1642,6 +1642,7 @@ body{
 }
 </style>
 
+<style>.secure-access-btn{width:100%;display:flex;align-items:center;gap:10px;text-align:left;border:1px solid #242424;background:linear-gradient(135deg,#111,#1b1b1b);color:#fff;border-radius:16px;padding:13px 14px;cursor:pointer;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}.secure-access-btn:hover{transform:translateY(-2px);border-color:#e60000;box-shadow:0 12px 30px rgba(0,0,0,.16)}.secure-access-btn span{flex:1}.secure-access-btn b{font-size:22px;color:#ff7300}.controller-code-modal{position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;padding:22px}.controller-code-modal.show{display:flex;animation:gateIn .28s ease both}.controller-code-backdrop{position:absolute;inset:0;background:rgba(17,17,17,.72)}.controller-code-box{position:relative;width:min(430px,100%);padding:34px;border-radius:28px;background:#fff;border:1px solid #e7e7e7;box-shadow:0 30px 100px rgba(0,0,0,.28);animation:gateBox .35s cubic-bezier(.2,.8,.2,1) both}.controller-code-close{position:absolute;right:15px;top:12px;width:38px;height:38px;border:0;border-radius:50%;background:#f2f2f2;font-size:25px;cursor:pointer}.controller-code-orb{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;background:linear-gradient(135deg,#111,#e60000 62%,#ff7300);color:#fff;font-size:25px}.controller-code-kicker{display:block;margin-top:18px;font-size:10px;font-weight:900;letter-spacing:2px;color:#e60000}.controller-code-box h3{font-size:29px;margin:6px 0}.controller-code-box>p{color:#666;margin:0 0 20px;line-height:1.6}.controller-code-box .portal-field input{letter-spacing:4px;font-weight:800}.controller-code-error{min-height:20px;color:#e60000;font-size:12px;font-weight:700;margin:8px 0}@keyframes gateIn{from{opacity:0}to{opacity:1}}@keyframes gateBox{from{opacity:0;transform:translateY(20px) scale(.96)}to{opacity:1;transform:none}}</style>
 </head>
 
 <body>
@@ -3029,10 +3030,16 @@ body{
 
                     <br><br>
 
+                    Après votre inscription,
+                    envoyez votre photo directement
+                    sur notre WhatsApp pour la création
+                    de votre badge.
+
                     <br><br>
 
                     <strong>
-                       
+                        WhatsApp :
+                        +509 4005-2773
                     </strong>
 </div>
 
@@ -3344,6 +3351,7 @@ body{
   </div>
   <div id="portalApp" style="display:none">
     <div class="portal-top"><div class="portal-user" id="portalUser"></div><button class="portal-btn dark" id="logoutBtn" type="button">Déconnexion</button></div>
+    <div class="controller-gate" id="controllerGate" style="display:none"><div class="controller-gate-glow"></div><div class="controller-gate-icon">⌁</div><div><strong>Accès sécurisé</strong><span>Zone réservée — entrez votre code d’accès pour continuer.</span></div><button type="button" id="openControllerGate" class="portal-btn small">Entrer le code</button></div>
     <div class="portal-grid">
       <aside class="portal-side">
         <button class="active" data-portal-view="dashboard" type="button"><svg class="side-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Tableau de bord</button>
@@ -3351,13 +3359,14 @@ body{
         <button data-portal-view="files" type="button"><svg class="side-icon" viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h5"/></svg>Mes fichiers</button>
         <button data-portal-view="chat" type="button"><svg class="side-icon" viewBox="0 0 24 24"><path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 8.8 8.8 0 0 1-3-.5L4 20l1.5-3A7.5 7.5 0 1 1 20 11.5z"/></svg>Conversation privée</button>
         <button data-portal-view="profile" type="button"><svg class="side-icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 21a7 7 0 0 1 14 0"/></svg>Mon profil</button>
-        <button id="controllerNav" data-portal-view="controller" type="button" style="display:none"><svg class="side-icon" viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="4"/></svg>Contrôle</button>
+        <button id="controllerAccessBtn" type="button" class="secure-access-btn"><svg class="side-icon" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15" r="1"/></svg><span>Accès sécurisé</span><b>›</b></button>
       </aside>
       <main class="portal-main" id="portalMain"></main>
     </div>
   </div>
 </section>
 
+<div class="controller-code-modal" id="controllerCodeModal" aria-hidden="true"><div class="controller-code-backdrop" data-close-controller-code></div><div class="controller-code-box"><button type="button" class="controller-code-close" data-close-controller-code aria-label="Fermer">×</button><div class="controller-code-orb">⌘</div><span class="controller-code-kicker">SECURE ACCESS</span><h3>Accès privé</h3><p>Entre le code contrôleur pour ouvrir l'espace de contrôle.</p><form id="controllerCodeForm"><div class="portal-field"><label>Code d'accès</label><input id="controllerCodeInput" type="password" inputmode="text" autocomplete="off" placeholder="••••••••" required></div><p class="controller-code-error" id="controllerCodeError"></p><button class="portal-btn" type="submit">Déverrouiller l'espace</button></form></div></div>
 <div class="waiting-overlay" id="waitingOverlay"><div class="waiting-box"><div class="loader-ring"></div><strong id="waitingText">Traitement en cours…</strong><p>Patientez quelques secondes.</p></div></div>
 <div class="success-pop" id="successPop"><div class="success-box"><div class="success-icon">🎉</div><h3 id="successTitle">Paiement réussi</h3><p id="successMessage">Votre opération a été enregistrée avec succès.</p><button class="portal-btn" id="successClose" type="button">Continuer</button></div></div>
 <button class="bot-fab" id="akadeFab" title="Akade">🤖</button>
@@ -4984,6 +4993,7 @@ Merci.
   const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_k8DUVt12k1GN4n7yiYBnYw_gXltrpmp";
   const CONTROLLER_EMAIL = "enlignecours109@gmail.com";
   const BUCKET = "client-files";
+  const CONTROLLER_ACCESS_CODE = "BABA-CTRL-2026";
   const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 
   // =============================
@@ -5037,8 +5047,12 @@ Merci.
 
   function setView(name){document.querySelectorAll('[data-portal-view]').forEach(b=>b.classList.toggle('active',b.dataset.portalView===name)); renderView(name);}
   document.querySelectorAll('[data-portal-view]').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.portalView)));
+  function openControllerGate(){$('controllerCodeError').textContent='';$('controllerCodeInput').value='';$('controllerCodeModal').classList.add('show');$('controllerCodeModal').setAttribute('aria-hidden','false');setTimeout(()=>$('controllerCodeInput').focus(),80);}
+  function closeControllerGate(){$('controllerCodeModal').classList.remove('show');$('controllerCodeModal').setAttribute('aria-hidden','true');}
+  $('controllerAccessBtn').onclick=openControllerGate;$('openControllerGate').onclick=openControllerGate;document.querySelectorAll('[data-close-controller-code]').forEach(el=>el.addEventListener('click',closeControllerGate));
+  $('controllerCodeForm').addEventListener('submit',async e=>{e.preventDefault();const code=$('controllerCodeInput').value.trim();const p=await getProfile();const allowed=p&&(p.role==='controller'||p.email?.toLowerCase()===CONTROLLER_EMAIL);if(!allowed){$('controllerCodeError').textContent='Accès refusé : ce compte n’a pas les droits contrôleur.';return;}if(code!==CONTROLLER_ACCESS_CODE){$('controllerCodeError').textContent='Code incorrect. Vérifie le code puis réessaie.';$('controllerCodeInput').select();return;}sessionStorage.setItem('controllerAccessGranted','1');closeControllerGate();window.location.href='controleur.html';});
 
-  async function loadPortal(){const p=await getProfile();if(!p)return showAuth();$('portalUser').innerHTML=`${esc(p.full_name||p.email)}<small>${esc(p.email)} · ${esc(p.role||'client')}</small>`; $('controllerNav').style.display=p.role==='controller'?'block':'none'; setView(p.role==='controller'?'controller':'dashboard');}
+  async function loadPortal(){const p=await getProfile();if(!p)return showAuth();$('portalUser').innerHTML=`${esc(p.full_name||p.email)}<small>${esc(p.email)} · ${esc(p.role||'client')}</small>`; setView('dashboard');}
   const esc=v=>String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
   const fmt=d=>d?new Date(d).toLocaleString('fr-FR'):'—';
 
@@ -5049,7 +5063,7 @@ Merci.
     if(view==='files'){const {data,error}=await sb.from('files').select('*').order('created_at',{ascending:false});if(error)throw error;m.innerHTML='<h3>📁 Mes fichiers</h3><div class="file-list">'+((data||[]).map(f=>`<div class="file-item"><div><strong>${esc(f.file_name)}</strong><br><small>${esc(f.kind)} · ${fmt(f.created_at)}</small></div><button class="portal-btn small" data-download="${esc(f.storage_path)}">Télécharger</button></div>`).join('')||'<p>Aucun fichier.</p>')+'</div>';m.querySelectorAll('[data-download]').forEach(b=>b.onclick=()=>downloadFile(b.dataset.download));return;}
     if(view==='chat'){m.innerHTML=`<div class="chat-card"><div class="chat-head">💬 Conversation privée avec le contrôleur</div><div class="chat-messages" id="chatMessages"></div><div class="emoji-row">${['😊','👍','🔥','❤️','😂','🙏','🎉','😎'].map(x=>`<button type="button" data-emoji="${x}">${x}</button>`).join('')}</div><div class="chat-compose"><textarea id="chatInput" rows="2" placeholder="Écrire un message…"></textarea><button class="portal-btn" id="chatSend" type="button">Envoyer</button></div></div>`;m.querySelectorAll('[data-emoji]').forEach(b=>b.onclick=()=>{$('chatInput').value+=b.dataset.emoji;$('chatInput').focus()});$('chatSend').onclick=sendChat;$('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat()}});await refreshChat();return;}
     if(view==='profile'){m.innerHTML=`<h3>👤 Mon profil</h3><div class="portal-field"><label>Nom</label><input id="profileName" value="${esc(p.full_name)}"></div><div class="portal-field"><label>Téléphone</label><input id="profilePhone" value="${esc(p.phone||'')}"></div><button class="portal-btn" id="saveProfile">Enregistrer</button>`;$('saveProfile').onclick=async()=>{const {error}=await sb.from('profiles').update({full_name:$('profileName').value.trim(),phone:$('profilePhone').value.trim(),updated_at:new Date().toISOString()}).eq('id',p.id);if(error)alert(error.message);else toast('Profil mis à jour','Tes informations ont été enregistrées.');};return;}
-    if(view==='controller'){if(p.role!=='controller')return;await renderController(m);}
+    if(view==='controller'){setView('dashboard');return;}
   }
 
   async function sendChat(){const body=$('chatInput')?.value.trim();if(!body)return;const p=await getProfile();const {data:conv}=await sb.from('conversations').upsert({user_id:p.id},{onConflict:'user_id'}).select().single();if(!conv)return;const {error}=await sb.from('messages').insert({conversation_id:conv.id,sender_id:p.id,body});if(error)alert(error.message);else{$('chatInput').value='';await refreshChat();}}
