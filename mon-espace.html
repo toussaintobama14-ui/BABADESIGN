@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#09090b">
-<title>Mon espace — Mon espace</title>
+<title> Mon espace — Mon espace</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{--red:#e60000;--orange:#ff7300;--yellow:#ffd000;--dark:#09090b;--muted:#707070;--bg:#f5f6f8;--white:#fff;--line:#e9e9ed}
@@ -71,7 +71,7 @@ button,input,textarea{font:inherit}.hidden{display:none!important}
 <script>
 const SUPABASE_URL="https://drvcneeaothydjmqpdzg.supabase.co";
 const SUPABASE_KEY="sb_publishable_k8DUVt12k1GN4n7yiYBnYw_gXltrpmp";
-const CONTROLLER_EMAIL="enlignecours109@gmail.com", BUCKET="client-files";
+const CONTROLLER_EMAIL="enlignecours109@gmail.com", BUCKET="client-files", CONTROLLER_ACCESS_CODE="BABA-CTRL-2026";
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 const $=id=>document.getElementById(id), esc=v=>String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])), fmt=d=>d?new Date(d).toLocaleString('fr-FR'):'—';
 function wait(on,t='Traitement…'){$('loadingText').textContent=t;$('loading').classList.toggle('show',on)}
