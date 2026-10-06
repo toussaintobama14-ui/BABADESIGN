@@ -1,84 +1,760 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#09090b">
 <title>Baba Design — Contrôleur</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{--black:#0b0d12;--orange:#ff7900;--red:#e51b2e;--bg:#f4f6f9;--card:#fff;--line:#e6e9ef;--muted:#778091;--green:#159447}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#11151d;font-family:Arial,Helvetica,sans-serif}
-.top{height:70px;background:var(--black);color:#fff;position:sticky;top:0;z-index:20}.topin{max-width:1350px;height:100%;margin:auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between}.brand{font-size:20px;font-weight:900}.brand span{color:var(--orange)}
-.logout{background:#171a21;color:#fff;border:1px solid #343944;border-radius:11px;padding:10px 14px;font-weight:700;cursor:pointer}
-.wrap{max-width:1350px;margin:auto;padding:22px 18px 60px}.hero{background:linear-gradient(125deg,#090b10,#1b202b);color:#fff;border-radius:24px;padding:28px;box-shadow:0 14px 40px #10152214}.hero small{color:#ffb15b;font-weight:900;letter-spacing:2px}.hero h1{font-size:clamp(28px,4vw,46px);margin:8px 0}.hero p{color:#bfc5d0;max-width:720px;line-height:1.55}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}.stat,.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 28px #1015220a}.stat{padding:17px}.stat small{color:var(--muted)}.stat b{font-size:27px;display:block;margin-top:6px}
-.tabs{display:flex;gap:8px;overflow:auto;margin:16px 0}.tab{background:#fff;border:1px solid var(--line);padding:11px 16px;border-radius:11px;font-weight:800;cursor:pointer;white-space:nowrap}.tab.active{background:var(--black);color:#fff}
-.panel{padding:20px}.head{display:flex;justify-content:space-between;gap:10px;align-items:center}.head h2{margin:0}.head p{color:var(--muted);font-size:13px}
-.order{border:1px solid var(--line);border-radius:17px;padding:17px;margin:12px 0}.row{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}.service{font-size:17px;font-weight:900}.muted{color:var(--muted);font-size:12px;margin-top:5px}
-.pill{padding:7px 10px;border-radius:99px;font-size:10px;font-weight:900}.pending{background:#fff0d8;color:#a25a00}.approved{background:#e3f7e9;color:#13713a}.rejected{background:#ffe4e7;color:#a91421}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:13px 0}.box{background:#f7f8fa;border-radius:11px;padding:10px}.box small{display:block;color:var(--muted);font-size:10px}.box b{display:block;font-size:13px;margin-top:4px}
-.proof{margin-top:13px;padding:13px;border:1px solid #e1e5eb;border-radius:15px;background:#fafbfc}.proofTitle{font-weight:900}.proofName{color:var(--muted);font-size:12px;margin-top:4px}.preview{margin-top:10px}.preview img{max-width:250px;max-height:280px;border-radius:11px;display:block;border:1px solid #ddd}
-.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}.btn{border:0;border-radius:9px;padding:9px 12px;font-weight:800;cursor:pointer}.primary{background:linear-gradient(135deg,var(--red),var(--orange));color:#fff}.green{background:var(--green);color:#fff}.danger{background:#d7192b;color:#fff}.light{background:#edf0f4;color:#20242b}.dark{background:var(--black);color:#fff}
-.bar{height:8px;background:#eceef2;border-radius:99px;overflow:hidden;margin:7px 0}.fill{height:100%;background:linear-gradient(90deg,var(--red),var(--orange))}.range{width:100%;accent-color:var(--orange)}
-.file{display:flex;justify-content:space-between;gap:10px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:13px;margin:8px 0}.file small{display:block;color:var(--muted);margin-top:4px}.empty{text-align:center;color:var(--muted);padding:45px 10px}.notice{background:#fff6e5;color:#805000;padding:12px;border-radius:11px;font-size:12px}
-.chat{height:390px;overflow:auto;background:#f5f6f8;border-radius:15px;padding:12px}.bubble{max-width:75%;padding:10px 12px;border-radius:14px;margin:7px 0}.mine{margin-left:auto;background:var(--black);color:#fff}.other{background:#fff;border:1px solid var(--line)}.compose{display:flex;gap:8px;margin-top:9px}.compose textarea{flex:1;border:1px solid #dce0e6;border-radius:11px;padding:10px}
-.loader{position:fixed;inset:0;background:#080a0dcc;display:none;place-items:center;z-index:99}.loader.show{display:grid}.loader div{background:#fff;padding:22px;border-radius:16px;font-weight:800}
-@media(max-width:800px){.stats{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr 1fr}}@media(max-width:520px){.wrap{padding:12px 9px}.stats{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr}.panel{padding:14px}.proof .actions .btn{width:100%}}
+:root{--r:#e60000;--o:#ff7300;--y:#ffd000;--bg:#f4f5f7;--line:#e7e7eb}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:Inter,Arial,sans-serif;color:#111}
+button,input,textarea{font:inherit}
+.top{position:sticky;top:0;z-index:20;background:#09090bef;color:#fff;backdrop-filter:blur(22px);border-bottom:1px solid #ffffff14}
+.topin{max-width:1350px;margin:auto;padding:15px 22px;display:flex;justify-content:space-between;align-items:center}
+.brand{font-size:21px;font-weight:950}.brand span{color:var(--o)}
+.logout{border:1px solid #333;background:#17171a;color:#fff;padding:10px 14px;border-radius:12px;cursor:pointer}
+.wrap{max-width:1350px;margin:auto;padding:28px 20px 70px}
+.hero{border-radius:30px;background:radial-gradient(circle at 85% 20%,#e6000044,transparent 25%),linear-gradient(135deg,#08080a,#171719 60%,#2d0d00);color:#fff;padding:34px;box-shadow:0 25px 70px #1112;position:relative;overflow:hidden}
+.hero h1{font-size:clamp(32px,5vw,58px);margin:10px 0}.hero p{color:#c8c8c8;line-height:1.6;max-width:700px}
+.k{color:#ffd000;font-size:11px;letter-spacing:2px;font-weight:900}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:20px 0}
+.stat,.panel{background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 16px 50px #11110a}
+.stat{padding:20px}.stat small{color:#777}.stat b{display:block;font-size:30px;margin-top:8px}
+.tabs{display:flex;gap:8px;overflow:auto;margin:20px 0}
+.tab{border:1px solid var(--line);background:#fff;padding:12px 16px;border-radius:13px;font-weight:900;cursor:pointer;white-space:nowrap}
+.tab.active{background:linear-gradient(135deg,#111,#2b2b2b 55%,var(--r));color:#fff}
+.panel{padding:22px}.item{border:1px solid var(--line);border-radius:17px;padding:16px;margin:11px 0;background:#fff}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.pill{padding:6px 10px;border-radius:999px;font-size:10px;font-weight:950;background:#111;color:#fff}
+.approved{background:#16833b}.rejected{background:#c40000}.pending{background:var(--o)}
+.btn{border:0;border-radius:11px;padding:10px 13px;background:linear-gradient(135deg,var(--r),var(--o));color:#fff;font-weight:900;cursor:pointer}
+.btn.dark{background:#111}.btn.green{background:#16833b}.btn.red{background:#c40000}.sm{padding:7px 10px;font-size:11px}
+.range{width:100%;accent-color:var(--o)}
+.bar{height:9px;background:#ececf0;border-radius:99px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,var(--r),var(--o),var(--y));border-radius:99px}
+.file{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.file small{display:block;color:#777;margin-top:4px}
+.chat{height:360px;overflow:auto;background:#f7f7f8;border-radius:17px;padding:14px}
+.bubble{max-width:78%;padding:10px 13px;border-radius:16px;margin:7px 0;line-height:1.45}
+.me{margin-left:auto;background:linear-gradient(135deg,var(--r),var(--o));color:#fff}
+.other{background:#fff;border:1px solid var(--line)}
+.compose{display:flex;gap:8px;margin-top:10px}.compose textarea{flex:1;border:1px solid #ddd;border-radius:12px;padding:11px}
+.loader{position:fixed;inset:0;background:#09090bdd;z-index:99;display:none;place-items:center}
+.loader.show{display:grid}.loaderbox{background:#fff;padding:28px;border-radius:22px;text-align:center}
+.spin{width:50px;height:50px;border:5px solid #eee;border-top-color:var(--o);border-right-color:var(--r);border-radius:50%;animation:s 1s linear infinite;margin:auto auto 12px}
+.notice{padding:14px;border-radius:14px;background:#fff7e8;border:1px solid #ffd98a;color:#7a4b00;margin:10px 0}
+.empty{text-align:center;padding:35px 15px;color:#777}
+@keyframes s{to{transform:rotate(360deg)}}
+@media(max-width:850px){.stats{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.wrap{padding:15px 11px}.hero{padding:25px;border-radius:22px}.stats{grid-template-columns:1fr}.panel{padding:15px}.topin{padding:13px 14px}.brand{font-size:18px}}
 </style>
 </head>
 <body>
-<script>if(sessionStorage.getItem("controllerAccessGranted")!=="1")location.replace("mon-espace.html");</script>
-<header class="top"><div class="topin"><div class="brand">Baba<span>Design</span> · Contrôleur</div><button class="logout" id="logout">Déconnexion</button></div></header>
-<main class="wrap">
-<section class="hero"><small>ESPACE CONTRÔLEUR</small><h1>Centre de contrôle</h1><p>Vérifiez les paiements, consultez les preuves, téléchargez-les ou supprimez-les, puis gérez les commandes et leur progression.</p></section>
-<section class="stats"><div class="stat"><small>Commandes</small><b id="ordersN">0</b></div><div class="stat"><small>Paiements validés</small><b id="paidN">0</b></div><div class="stat"><small>Fichiers</small><b id="filesN">0</b></div><div class="stat"><small>Conversations</small><b id="chatsN">0</b></div></section>
-<nav class="tabs"><button class="tab active" data-view="orders">📦 Commandes</button><button class="tab" data-view="files">📁 Fichiers</button><button class="tab" data-view="chats">💬 Conversations</button></nav>
-<section class="panel" id="app"><div class="empty">Chargement…</div></section>
-</main>
-<div class="loader" id="loader"><div id="loadText">Traitement…</div></div>
 
 <script>
-const URL="https://drvcneeaothydjmqpdzg.supabase.co",KEY="sb_publishable_k8DUVt12k1GN4n7yiYBnYw_gXltrpmp",BUCKET="client-files";
-const sb=supabase.createClient(URL,KEY),$=id=>document.getElementById(id);
-function esc(v){return String(v??"").replace(/[&<>'"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c]))}
-function fmt(v){return v?new Date(v).toLocaleString("fr-FR"):"—"}
-function busy(x,t="Traitement…"){$("loadText").textContent=t;$("loader").classList.toggle("show",x)}
-async function guard(){const{data:{user}}=await sb.auth.getUser();if(!user)return false;const{data,error}=await sb.rpc("is_controller");return!error&&data===true}
-async function data(){const{data,error}=await sb.rpc("controller_get_dashboard");if(error)throw error;return{orders:Array.isArray(data?.orders)?data.orders:[],files:Array.isArray(data?.files)?data.files:[],chats:Array.isArray(data?.conversations)?data.conversations:[]}}
-async function url(path){const{data,error}=await sb.storage.from(BUCKET).createSignedUrl(path,300);if(error)throw error;return data.signedUrl}
-async function viewFile(path){try{window.open(await url(path),"_blank")}catch(e){alert(e.message)}}
-async function downloadFile(path,name){try{const u=await url(path),a=document.createElement("a");a.href=u;a.download=name||"fichier";a.target="_blank";document.body.appendChild(a);a.click();a.remove()}catch(e){alert(e.message)}}
-async function deleteFile(id,path){if(!confirm("Supprimer définitivement ce fichier / cette preuve ?"))return;try{busy(true,"Suppression…");if(path){const r=await sb.storage.from(BUCKET).remove([path]);if(r.error)throw r.error}const q=await sb.rpc("controller_delete_file_metadata",{p_file_id:id});if(q.error)throw q.error;await render("orders");await stats()}catch(e){alert(e.message)}finally{busy(false)}}
-function proof(o,files){return files.find(f=>String(f.order_id)==String(o.id)&&String(f.kind||"").toLowerCase()=="payment_proof")}
-function pill(s){s=String(s||"pending").toLowerCase();return s=="approved"?'<span class="pill approved">PAIEMENT VALIDÉ</span>':s=="rejected"?'<span class="pill rejected">PAIEMENT REFUSÉ</span>':'<span class="pill pending">EN ATTENTE</span>'}
-function card(o,files){
- const f=proof(o,files),p=Math.max(0,Math.min(100,Number(o.progress||0))),img=f&&/\.(jpg|jpeg|png|gif|webp)$/i.test(f.file_name||"");
- return `<article class="order"><div class="row"><div><div class="service">${esc(o.service_name||"Commande")}</div><div class="muted">Client : ${esc(o.client_name||o.full_name||"Client")} · ${fmt(o.created_at)}</div></div>${pill(o.payment_status)}</div>
- <div class="grid"><div class="box"><small>MONTANT</small><b>${esc(o.price_htg??0)} HTG</b></div><div class="box"><small>STATUT</small><b>${esc(o.status||"En attente")}</b></div><div class="box"><small>ID</small><b>${esc(o.id||"—")}</b></div></div>
- ${o.description?`<div class="box"><small>DESCRIPTION</small><b>${esc(o.description)}</b></div>`:""}
- ${f?`<div class="proof"><div class="row"><div><div class="proofTitle">🧾 Preuve de paiement</div><div class="proofName">${esc(f.file_name||"preuve")}</div></div><div class="actions"><button class="btn light" onclick="viewFile('${esc(f.storage_path||"")}')">👁 Voir</button><button class="btn primary" onclick="downloadFile('${esc(f.storage_path||"")}','${esc(f.file_name||"preuve")}')">⬇ Télécharger</button><button class="btn danger" onclick="deleteFile('${esc(f.id||"")}','${esc(f.storage_path||"")}')">🗑 Supprimer</button></div></div>${img?`<div class="preview"><img src="" data-img="${esc(f.storage_path||"")}"></div>`:""}</div>`:'<div class="notice">⚠️ Aucune preuve de paiement jointe.</div>'}
- <div class="row" style="margin-top:14px"><b>Progression <span id="t${esc(o.id)}">${p}%</span></b><span class="muted">${esc(o.status||"")}</span></div><div class="bar"><div class="fill" id="f${esc(o.id)}" style="width:${p}%"></div></div><input class="range" type="range" min="0" max="100" value="${p}" data-progress="${esc(o.id)}">
- <div class="actions"><button class="btn green" data-ok="${esc(o.id)}">✓ Valider paiement</button><button class="btn danger" data-no="${esc(o.id)}">✕ Refuser</button></div></article>`
+if(sessionStorage.getItem("controllerAccessGranted")!=="1"){
+  window.location.replace("mon-espace.html");
 }
-async function render(view){
- const app=$("app");app.innerHTML='<div class="empty">Chargement…</div>';let d;
- try{d=await data()}catch(e){app.innerHTML=`<div class="empty">Erreur : ${esc(e.message)}</div>`;return}
- if(view=="orders"){
-  app.innerHTML=`<div class="head"><div><h2>Commandes & paiements</h2><p>La preuve de paiement possède maintenant Voir, Télécharger et Supprimer.</p></div></div>`+(d.orders.length?d.orders.map(o=>card(o,d.files)).join(""):'<div class="empty">Aucune commande.</div>');
-  document.querySelectorAll("[data-img]").forEach(async x=>{try{x.src=await url(x.dataset.img)}catch{}});
-  document.querySelectorAll("[data-progress]").forEach(x=>{x.oninput=()=>{$("t"+x.dataset.progress).textContent=x.value+"%";$("f"+x.dataset.progress).style.width=x.value+"%"};x.onchange=async()=>{const q=await sb.rpc("controller_set_order_progress",{p_order_id:x.dataset.progress,p_progress:Number(x.value)});if(q.error)alert(q.error.message)}});
-  document.querySelectorAll("[data-ok]").forEach(b=>b.onclick=async()=>{if(!confirm("Valider ce paiement ?"))return;try{busy(true,"Validation…");const q=await sb.rpc("controller_approve_order",{p_order_id:b.dataset.ok});if(q.error)throw q.error;await render("orders");await stats()}catch(e){alert(e.message)}finally{busy(false)}});
-  document.querySelectorAll("[data-no]").forEach(b=>b.onclick=async()=>{const r=prompt("Motif du refus (facultatif) :");if(r===null)return;const q=await sb.rpc("controller_reject_order",{p_order_id:b.dataset.no,p_reason:r});if(q.error)alert(q.error.message);else{await render("orders");await stats()}});
- }
- if(view=="files")app.innerHTML=`<div class="head"><div><h2>Tous les fichiers</h2><p>Tu peux télécharger ou supprimer chaque fichier.</p></div></div>`+(d.files.length?d.files.map(f=>`<div class="file"><div><b>${esc(f.file_name||"Fichier")}</b><small>${esc(f.kind||"Fichier")} · ${fmt(f.created_at)}</small></div><div class="actions"><button class="btn primary" onclick="downloadFile('${esc(f.storage_path||"")}','${esc(f.file_name||"fichier")}')">⬇ Télécharger</button><button class="btn danger" onclick="deleteFile('${esc(f.id||"")}','${esc(f.storage_path||"")}')">🗑 Supprimer</button></div></div>`).join(""):'<div class="empty">Aucun fichier.</div>');
- if(view=="chats")app.innerHTML=`<div class="head"><div><h2>Conversations</h2><p>Messagerie contrôleur / client.</p></div></div>`+(d.chats.length?d.chats.map(c=>`<div class="file"><div><b>Client</b><small>${esc(c.user_id||"")} · ${fmt(c.last_message_at)}</small></div><button class="btn primary" onclick="openChat('${esc(c.id||"")}')">💬 Ouvrir</button></div>`).join(""):'<div class="empty">Aucune conversation.</div>')
+</script>
+
+<div id="loading" class="loader">
+  <div class="loaderbox">
+    <div class="spin"></div>
+    <b id="loadingText">Chargement…</b>
+  </div>
+</div>
+
+<header class="top">
+  <div class="topin">
+    <div class="brand">Baba<span>Design</span> · Contrôleur</div>
+    <button class="logout" id="logout">Déconnexion</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="k">CONTROL CENTER • PRIVÉ</div>
+    <h1>Contrôle total.<br>Expérience premium.</h1>
+    <p>Gérez les commandes, paiements, fichiers, progressions et conversations depuis votre centre de contrôle.</p>
+  </section>
+
+  <section class="stats">
+    <div class="stat"><small>Commandes</small><b id="statOrders">—</b></div>
+    <div class="stat"><small>Paiements validés</small><b id="statPaid">—</b></div>
+    <div class="stat"><small>Fichiers</small><b id="statFiles">—</b></div>
+    <div class="stat"><small>Conversations</small><b id="statChats">—</b></div>
+  </section>
+
+  <div class="tabs">
+    <button class="tab active" data-view="orders">▣ Commandes</button>
+    <button class="tab" data-view="files">▤ Fichiers</button>
+    <button class="tab" data-view="chats">◌ Conversations</button>
+  </div>
+
+  <section class="panel" id="content">
+    <div class="empty">Chargement des commandes…</div>
+  </section>
+</main>
+
+<script>
+const SUPABASE_URL="https://drvcneeaothydjmqpdzg.supabase.co";
+const SUPABASE_KEY="sb_publishable_k8DUVt12k1GN4n7yiYBnYw_gXltrpmp";
+const BUCKET="client-files";
+
+const sb=window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY,
+  {auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}}
+);
+
+const $=id=>document.getElementById(id);
+
+function esc(v){
+  return String(v??"").replace(/[&<>'"]/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"
+  }[c]));
 }
-async function stats(){try{const d=await data();$("ordersN").textContent=d.orders.length;$("paidN").textContent=d.orders.filter(x=>String(x.payment_status).toLowerCase()=="approved").length;$("filesN").textContent=d.files.length;$("chatsN").textContent=d.chats.length}catch{}}
-async function openChat(id){const q=await sb.rpc("controller_get_conversation",{p_conversation_id:id});if(q.error)return alert(q.error.message);const c=q.data;$("app").innerHTML=`<div class="head"><div><h2>Conversation</h2><p>${esc(c?.user_id||"")}</p></div><button class="btn light" onclick="render('chats')">← Retour</button></div><div class="chat" id="chat"></div><div class="compose"><textarea id="msg" rows="2" placeholder="Message…"></textarea><button class="btn primary" id="send">Envoyer</button></div>`;async function load(){const r=await sb.rpc("controller_get_messages",{p_conversation_id:id});if(r.error)return;const me=(await sb.auth.getUser()).data.user;$("chat").innerHTML=(r.data||[]).map(m=>`<div class="bubble ${m.sender_id==me?.id?"mine":"other"}">${esc(m.body)}<div style="font-size:9px;opacity:.6">${fmt(m.created_at)}</div></div>`).join("")||"Aucun message";$("chat").scrollTop=$("chat").scrollHeight}$("send").onclick=async()=>{const body=$("msg").value.trim();if(!body)return;const r=await sb.rpc("controller_send_message",{p_conversation_id:id,p_body:body});if(r.error)alert(r.error.message);else{$("msg").value="";load()}};load()}
-document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");render(b.dataset.view)});
-$("logout").onclick=async()=>{sessionStorage.removeItem("controllerAccessGranted");await sb.auth.signOut();location.href="mon-espace.html"};
-(async()=>{if(!await guard()){sessionStorage.removeItem("controllerAccessGranted");return location.replace("mon-espace.html")}await stats();await render("orders")})();
-sb.channel("controller-live").on("postgres_changes",{event:"*",schema:"public",table:"orders"},async()=>{await stats();render(document.querySelector(".tab.active")?.dataset.view||"orders")}).on("postgres_changes",{event:"*",schema:"public",table:"files"},async()=>{await stats();render(document.querySelector(".tab.active")?.dataset.view||"orders")}).subscribe();
+
+function fmt(d){
+  if(!d)return "—";
+  try{return new Date(d).toLocaleString("fr-FR")}catch{return "—"}
+}
+
+function wait(on,text="Traitement…"){
+  $("loadingText").textContent=text;
+  $("loading").classList.toggle("show",on);
+}
+
+async function controllerGuard(){
+  const {data:{user},error:userError}=await sb.auth.getUser();
+  if(userError||!user) return false;
+
+  const {data,error}=await sb.rpc("is_controller");
+  if(error||data!==true) return false;
+
+  return true;
+}
+
+/*
+  IMPORTANT:
+  Le RPC retourne déjà:
+  {
+    orders: [...],
+    files: [...],
+    conversations: [...]
+  }
+*/
+async function getDashboard(){
+  const {data,error}=await sb.rpc("controller_get_dashboard");
+
+  if(error) throw error;
+
+  const result=data && typeof data==="object" ? data : {};
+
+  return {
+    orders:Array.isArray(result.orders)?result.orders:[],
+    files:Array.isArray(result.files)?result.files:[],
+    conversations:Array.isArray(result.conversations)?result.conversations:[]
+  };
+}
+
+async function refreshStats(){
+  try{
+    const d=await getDashboard();
+
+    $("statOrders").textContent=d.orders.length;
+    $("statPaid").textContent=d.orders.filter(o=>
+      String(o.payment_status||"").toLowerCase()==="approved"
+    ).length;
+    $("statFiles").textContent=d.files.length;
+    $("statChats").textContent=d.conversations.length;
+
+  }catch(e){
+    console.error("Stats:",e);
+    $("statOrders").textContent="!";
+    $("statPaid").textContent="!";
+    $("statFiles").textContent="!";
+    $("statChats").textContent="!";
+  }
+}
+
+async function downloadFile(path){
+  if(!path)return alert("Fichier introuvable.");
+
+  const {data,error}=await sb.storage
+    .from(BUCKET)
+    .createSignedUrl(path,120);
+
+  if(error)return alert(error.message);
+
+  if(data?.signedUrl) window.open(data.signedUrl,"_blank");
+  else alert("Impossible de créer le lien du fichier.");
+}
+
+function paymentLabel(status){
+  const s=String(status||"pending").toLowerCase();
+
+  if(s==="approved")
+    return '<span class="pill approved">PAIEMENT VALIDÉ</span>';
+
+  if(s==="rejected")
+    return '<span class="pill rejected">PAIEMENT REFUSÉ</span>';
+
+  return '<span class="pill pending">EN ATTENTE</span>';
+}
+
+function orderHtml(o,files){
+  const paymentStatus=String(o.payment_status||"pending").toLowerCase();
+
+  const proof=files.find(f=>
+    String(f.order_id||"")===String(o.id||"") &&
+    String(f.kind||"").toLowerCase()==="payment_proof"
+  );
+
+  const progress=Number(o.progress||0);
+
+  let client=o.client_name||o.full_name||o.name||"Client";
+
+  let html="";
+  html+='<div class="item">';
+
+  html+='<div class="row">';
+  html+='<div><b style="font-size:17px">'+esc(o.service_name||"Commande")+'</b>';
+  html+='<div style="font-size:11px;color:#777;margin-top:4px">ID : '+esc(o.id||"—")+'</div></div>';
+  html+=paymentLabel(paymentStatus);
+  html+='</div>';
+
+  html+='<p style="color:#777;font-size:12px">';
+  html+='Client : <strong>'+esc(client)+'</strong>';
+  if(o.client_email) html+=' · '+esc(o.client_email);
+  html+=' · '+fmt(o.created_at);
+  html+='</p>';
+
+  if(o.description){
+    html+='<div style="margin:10px 0;padding:12px;border-radius:13px;background:#f7f7f8">';
+    html+='<b>Description</b><br>';
+    html+='<span style="font-size:13px">'+esc(o.description)+'</span>';
+    html+='</div>';
+  }
+
+  if(o.price_htg!==undefined && o.price_htg!==null){
+    html+='<p><b>Montant : '+esc(o.price_htg)+' HTG</b></p>';
+  }
+
+  if(proof){
+    html+='<div style="margin:10px 0;padding:12px;border:1px solid #eee;border-radius:13px;background:#fafafa">';
+    html+='<b>📸 Preuve de paiement</b>';
+    html+='<div style="font-size:12px;color:#777;margin:5px 0 9px">'+esc(proof.file_name||"preuve")+'</div>';
+    html+='<button class="btn sm" data-dl="'+esc(proof.storage_path||"")+'">Voir / télécharger</button>';
+    html+='</div>';
+  }else{
+    html+='<div class="notice"><b>⚠️ Aucune preuve de paiement jointe.</b></div>';
+  }
+
+  html+='<div class="row" style="margin-top:14px">';
+  html+='<strong>Progression : <span id="progressText_'+esc(o.id)+'">'+progress+'%</span></strong>';
+  html+='<span style="font-size:12px;color:#777">'+esc(o.status||"En attente de validation")+'</span>';
+  html+='</div>';
+
+  html+='<div class="bar" style="margin-top:8px">';
+  html+='<div class="fill" id="fill_'+esc(o.id)+'" style="width:'+Math.max(0,Math.min(100,progress))+'%"></div>';
+  html+='</div>';
+
+  html+='<input class="range" type="range" min="0" max="100" value="'+progress+'" data-progress="'+esc(o.id)+'">';
+
+  if(o.rejection_reason){
+    html+='<div style="margin-top:10px;padding:10px;border-radius:12px;background:#fff1f1;color:#9d0000;font-size:12px">';
+    html+='<b>Motif actuel :</b> '+esc(o.rejection_reason);
+    html+='</div>';
+  }
+
+  html+='<textarea data-reason="'+esc(o.id)+'" rows="2" placeholder="Motif de refus (facultatif)" style="width:100%;margin-top:10px;border:1px solid #ddd;border-radius:12px;padding:10px;resize:vertical"></textarea>';
+
+  html+='<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">';
+  html+='<button class="btn green sm" data-approve="'+esc(o.id)+'">✓ Valider le paiement</button>';
+  html+='<button class="btn red sm" data-reject="'+esc(o.id)+'">✕ Refuser</button>';
+  html+='</div>';
+
+  html+='</div>';
+
+  return html;
+}
+
+function fileHtml(f){
+  return `
+    <div class="item file">
+      <div>
+        <b>${esc(f.file_name||"Fichier")}</b>
+        <small>${esc(f.kind||"Fichier")} · Client ${esc(f.user_id||"—")} · ${fmt(f.created_at)}</small>
+      </div>
+      <span>
+        <button class="btn sm" data-dl="${esc(f.storage_path||"")}">⬇</button>
+        <button class="btn dark sm" data-del="${esc(f.id||"")}" data-path="${esc(f.storage_path||"")}">🗑</button>
+      </span>
+    </div>
+  `;
+}
+
+function chatHtml(c){
+  return `
+    <div class="item">
+      <div class="row">
+        <b>Client ${esc(c.user_id||"—")}</b>
+        <small>${fmt(c.last_message_at)}</small>
+      </div>
+      <div style="margin-top:9px">
+        <button class="btn sm" data-chat="${esc(c.id||"")}">Ouvrir</button>
+        <button class="btn dark sm" data-clear="${esc(c.id||"")}">Effacer les messages</button>
+      </div>
+    </div>
+  `;
+}
+
+async function render(view="orders"){
+  const m=$("content");
+  m.innerHTML='<div class="empty">Chargement…</div>';
+
+  let d;
+  try{
+    d=await getDashboard();
+  }catch(e){
+    console.error(e);
+    m.innerHTML=`
+      <div class="item">
+        <b>Impossible de charger le dashboard.</b>
+        <p style="color:#c00">${esc(e.message)}</p>
+        <button class="btn sm" onclick="render('${esc(view)}')">Réessayer</button>
+      </div>`;
+    return;
+  }
+
+  if(view==="orders"){
+    let html=`
+      <h2>Commandes & paiements</h2>
+      <p style="color:#777">Voici les commandes reçues. Contrôlez la preuve de paiement puis validez ou refusez.</p>
+    `;
+
+    if(!d.orders.length){
+      html+='<div class="empty">Aucune commande reçue.</div>';
+    }else{
+      html+=d.orders.map(o=>orderHtml(o,d.files)).join("");
+    }
+
+    m.innerHTML=html;
+
+    m.querySelectorAll("[data-dl]").forEach(b=>{
+      b.onclick=()=>downloadFile(b.dataset.dl);
+    });
+
+    m.querySelectorAll("[data-progress]").forEach(input=>{
+      input.oninput=()=>{
+        const id=input.dataset.progress;
+        const p=Math.max(0,Math.min(100,Number(input.value)||0));
+        const text=document.getElementById("progressText_"+id);
+        const fill=document.getElementById("fill_"+id);
+        if(text)text.textContent=p+"%";
+        if(fill)fill.style.width=p+"%";
+      };
+
+      input.onchange=async()=>{
+        try{
+          wait(true,"Enregistrement de la progression…");
+
+          const {error}=await sb.rpc(
+            "controller_set_order_progress",
+            {
+              p_order_id:input.dataset.progress,
+              p_progress:Number(input.value)
+            }
+          );
+
+          if(error)throw error;
+
+          await refreshStats();
+          await render("orders");
+
+        }catch(e){
+          alert(e.message);
+        }finally{
+          wait(false);
+        }
+      };
+    });
+
+    m.querySelectorAll("[data-approve]").forEach(btn=>{
+      btn.onclick=async()=>{
+        if(!confirm("Voulez-vous vraiment valider ce paiement ?"))return;
+
+        try{
+          wait(true,"Validation du paiement…");
+
+          const {error}=await sb.rpc(
+            "controller_approve_order",
+            {p_order_id:btn.dataset.approve}
+          );
+
+          if(error)throw error;
+
+          await refreshStats();
+          await render("orders");
+
+        }catch(e){
+          alert(e.message);
+        }finally{
+          wait(false);
+        }
+      };
+    });
+
+    m.querySelectorAll("[data-reject]").forEach(btn=>{
+      btn.onclick=async()=>{
+        const reason=
+          m.querySelector('[data-reason="'+btn.dataset.reject+'"]')
+          ?.value?.trim()||"";
+
+        if(!confirm(
+          reason
+          ?"Refuser cette demande avec ce motif ?"
+          :"Refuser cette demande sans motif ?"
+        ))return;
+
+        try{
+          wait(true,"Refus de la demande…");
+
+          const {error}=await sb.rpc(
+            "controller_reject_order",
+            {
+              p_order_id:btn.dataset.reject,
+              p_reason:reason
+            }
+          );
+
+          if(error)throw error;
+
+          await refreshStats();
+          await render("orders");
+
+        }catch(e){
+          alert(e.message);
+        }finally{
+          wait(false);
+        }
+      };
+    });
+
+    return;
+  }
+
+  if(view==="files"){
+    let html=`
+      <h2>Fichiers</h2>
+      <p style="color:#777">Gérez les fichiers stockés dans l’espace client.</p>
+    `;
+
+    html+=d.files.length
+      ?d.files.map(fileHtml).join("")
+      :'<div class="empty">Aucun fichier.</div>';
+
+    m.innerHTML=html;
+
+    m.querySelectorAll("[data-dl]").forEach(b=>{
+      b.onclick=()=>downloadFile(b.dataset.dl);
+    });
+
+    m.querySelectorAll("[data-del]").forEach(b=>{
+      b.onclick=async()=>{
+        if(!confirm("Supprimer définitivement ce fichier ?"))return;
+
+        try{
+          wait(true,"Suppression…");
+
+          const r=await sb.storage.from(BUCKET).remove([b.dataset.path]);
+          if(r.error)throw r.error;
+
+          const q=await sb.rpc(
+            "controller_delete_file_metadata",
+            {p_file_id:b.dataset.del}
+          );
+
+          if(q.error)throw q.error;
+
+          await refreshStats();
+          await render("files");
+
+        }catch(e){
+          alert(e.message);
+        }finally{
+          wait(false);
+        }
+      };
+    });
+
+    return;
+  }
+
+  if(view==="chats"){
+    let html=`
+      <h2>Conversations</h2>
+      <p style="color:#777">Ouvrez une conversation privée avec un client.</p>
+    `;
+
+    html+=d.conversations.length
+      ?d.conversations.map(chatHtml).join("")
+      :'<div class="empty">Aucune conversation.</div>';
+
+    m.innerHTML=html;
+
+    m.querySelectorAll("[data-chat]").forEach(b=>{
+      b.onclick=()=>openChat(b.dataset.chat);
+    });
+
+    m.querySelectorAll("[data-clear]").forEach(b=>{
+      b.onclick=async()=>{
+        if(!confirm("Effacer tous les messages ?"))return;
+
+        const {error}=await sb.rpc(
+          "controller_clear_conversation",
+          {p_conversation_id:b.dataset.clear}
+        );
+
+        if(error)alert(error.message);
+        else{
+          await refreshStats();
+          await render("chats");
+        }
+      };
+    });
+  }
+}
+
+async function openChat(id){
+  const {data:c,error}=await sb.rpc(
+    "controller_get_conversation",
+    {p_conversation_id:id}
+  );
+
+  if(error||!c){
+    alert(error?.message||"Conversation introuvable");
+    return;
+  }
+
+  const m=$("content");
+
+  m.innerHTML=`
+    <div class="row">
+      <div>
+        <h2>Conversation privée</h2>
+        <p style="color:#777">Client : ${esc(c.user_id||"—")}</p>
+      </div>
+      <button class="btn dark sm" id="back">← Retour</button>
+    </div>
+
+    <div class="chat" id="chat">
+      <p style="color:#777">Chargement…</p>
+    </div>
+
+    <div class="compose">
+      <textarea id="msg" rows="2" placeholder="Répondre au client…"></textarea>
+      <button class="btn" id="send">Envoyer</button>
+    </div>
+
+    <div class="item">
+      <b>📎 Envoyer un fichier au client</b>
+      <input id="file" type="file" accept="image/*,.pdf,.doc,.docx" style="display:block;margin-top:10px">
+      <button class="btn sm" id="sendFile" style="margin-top:8px">Envoyer</button>
+    </div>
+  `;
+
+  async function refreshMessages(){
+    const {data,error}=await sb.rpc(
+      "controller_get_messages",
+      {p_conversation_id:id}
+    );
+
+    if(error){
+      $("chat").innerHTML=
+        '<p style="color:#c00">'+esc(error.message)+'</p>';
+      return;
+    }
+
+    const {data:{user}}=await sb.auth.getUser();
+    const box=$("chat");
+
+    box.innerHTML=(data||[]).map(x=>`
+      <div class="bubble ${x.sender_id===user?.id?"me":"other"}">
+        ${esc(x.body)}
+        <div style="font-size:9px;opacity:.65">
+          ${fmt(x.created_at)}
+          ${x.sender_id===user?.id
+            ?'<button style="border:0;background:none;cursor:pointer" data-del-msg="'+esc(x.id)+'">🗑</button>'
+            :""}
+        </div>
+      </div>
+    `).join("")||"<p>Aucun message.</p>";
+
+    box.querySelectorAll("[data-del-msg]").forEach(b=>{
+      b.onclick=async()=>{
+        if(!confirm("Supprimer ce message ?"))return;
+
+        const {error}=await sb.rpc(
+          "controller_delete_message",
+          {p_message_id:b.dataset.delMsg}
+        );
+
+        if(error)alert(error.message);
+        else refreshMessages();
+      };
+    });
+
+    box.scrollTop=box.scrollHeight;
+  }
+
+  $("send").onclick=async()=>{
+    const body=$("msg").value.trim();
+    if(!body)return;
+
+    try{
+      wait(true,"Envoi du message…");
+
+      const {error}=await sb.rpc(
+        "controller_send_message",
+        {
+          p_conversation_id:id,
+          p_body:body
+        }
+      );
+
+      if(error)throw error;
+
+      $("msg").value="";
+      await refreshMessages();
+
+    }catch(e){
+      alert(e.message);
+    }finally{
+      wait(false);
+    }
+  };
+
+  $("back").onclick=()=>render("chats");
+
+  $("sendFile").onclick=async()=>{
+    const f=$("file").files[0];
+
+    if(!f)return alert("Choisissez un fichier.");
+
+    const safe=f.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+    const path=c.user_id+"/"+crypto.randomUUID()+"_"+safe;
+
+    try{
+      wait(true,"Envoi du fichier…");
+
+      const r=await sb.storage.from(BUCKET).upload(
+        path,
+        f,
+        {upsert:false}
+      );
+
+      if(r.error)throw r.error;
+
+      const q=await sb.rpc(
+        "controller_register_file",
+        {
+          p_user_id:c.user_id,
+          p_file_name:f.name,
+          p_storage_path:path,
+          p_kind:"controller_file",
+          p_expires_at:new Date(Date.now()+48*3600000).toISOString()
+        }
+      );
+
+      if(q.error){
+        await sb.storage.from(BUCKET).remove([path]);
+        throw q.error;
+      }
+
+      alert("Fichier envoyé.");
+      $("file").value="";
+      await refreshStats();
+
+    }catch(e){
+      alert(e.message);
+    }finally{
+      wait(false);
+    }
+  };
+
+  await refreshMessages();
+}
+
+$("logout").onclick=async()=>{
+  sessionStorage.removeItem("controllerAccessGranted");
+  await sb.auth.signOut();
+  location.href="mon-espace.html";
+};
+
+document.querySelectorAll(".tab").forEach(btn=>{
+  btn.onclick=async()=>{
+    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+    btn.classList.add("active");
+    await render(btn.dataset.view);
+  };
+});
+
+(async()=>{
+  try{
+    const ok=await controllerGuard();
+
+    if(!ok){
+      sessionStorage.removeItem("controllerAccessGranted");
+      location.replace("mon-espace.html");
+      return;
+    }
+
+    await refreshStats();
+    await render("orders");
+
+  }catch(e){
+    console.error(e);
+    $("content").innerHTML=`
+      <div class="item">
+        <b>Erreur de démarrage.</b>
+        <p>${esc(e.message)}</p>
+      </div>`;
+  }
+})();
+
+/* Mise à jour automatique */
+sb.channel("controller-live")
+.on(
+  "postgres_changes",
+  {event:"*",schema:"public",table:"orders"},
+  async()=>{
+    await refreshStats();
+    const active=document.querySelector(".tab.active")?.dataset.view||"orders";
+    await render(active);
+  }
+)
+.on(
+  "postgres_changes",
+  {event:"*",schema:"public",table:"files"},
+  async()=>{
+    await refreshStats();
+    if(document.querySelector(".tab.active")?.dataset.view==="files")
+      await render("files");
+  }
+)
+.on(
+  "postgres_changes",
+  {event:"*",schema:"public",table:"conversations"},
+  async()=>{
+    await refreshStats();
+    if(document.querySelector(".tab.active")?.dataset.view==="chats")
+      await render("chats");
+  }
+)
+.subscribe();
 </script>
 </body>
 </html>
