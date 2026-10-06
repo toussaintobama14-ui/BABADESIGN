@@ -9,12 +9,12 @@
 
 <style>
 :root{
-  --r:#7c3aed;
-  --o:#f97316;
-  --y:#eab308;
+  --r:#2563eb;
+  --o:#06b6d4;
+  --y:#f59e0b;
   --line:#e7e7eb;
   --bg:#f7f7f8;
-  --dark:#111;
+  --dark:#0f172a;
 }
 
 *{
@@ -30,7 +30,7 @@ body{
 }
 
 .top{
-  background:#111;
+  background:var(--dark);
   color:#fff;
   position:sticky;
   top:0;
@@ -52,14 +52,14 @@ body{
 }
 
 .brand span{
-  color:#f97316;
+  color:var(--o);
 }
 
 .logout{
   border:0;
   border-radius:10px;
   padding:9px 14px;
-  background:#c40000;
+  background:#dc2626;
   color:#fff;
   font-weight:800;
   cursor:pointer;
@@ -72,7 +72,7 @@ body{
 }
 
 .hero{
-  background:#111;
+  background:var(--dark);
   color:#fff;
   border-radius:25px;
   padding:35px;
@@ -80,7 +80,7 @@ body{
 }
 
 .hero .k{
-  color:#f97316;
+  color:var(--o);
   font-size:11px;
   font-weight:900;
   letter-spacing:2px;
@@ -141,7 +141,7 @@ body{
 }
 
 .tab.active{
-  background:#111;
+  background:var(--dark);
   color:#fff;
 }
 
@@ -181,15 +181,15 @@ body{
 }
 
 .approved{
-  background:#16833b;
+  background:#16a34a;
 }
 
 .rejected{
-  background:#c40000;
+  background:#dc2626;
 }
 
 .pending{
-  background:#f97316;
+  background:#f59e0b;
 }
 
 .btn{
@@ -207,15 +207,15 @@ body{
 }
 
 .btn.dark{
-  background:#111;
+  background:var(--dark);
 }
 
 .btn.green{
-  background:#16833b;
+  background:#16a34a;
 }
 
 .btn.red{
-  background:#c40000;
+  background:#dc2626;
 }
 
 .btn.sm{
@@ -758,53 +758,48 @@ async function refreshStats(){
 ========================= */
 
 async function downloadFile(
-  path
+  path,
+  fileName="fichier"
 ){
 
   if(!path){
-
-    alert(
-      "Fichier introuvable."
-    );
-
+    alert("Fichier introuvable.");
     return;
   }
 
-  const {
-    data,
-    error
-  } =
-    await sb.storage
+  try{
+    const {data,error}=await sb.storage
       .from(BUCKET)
-      .createSignedUrl(
-        path,
-        120
-      );
+      .createSignedUrl(path,300);
 
-  if(error){
+    if(error) throw error;
+    if(!data?.signedUrl) throw new Error("Impossible de créer le lien du fichier.");
 
-    alert(
-      error.message
-    );
+    // Téléchargement direct du fichier.
+    const response=await fetch(data.signedUrl);
+    if(!response.ok) throw new Error("Le téléchargement du fichier a échoué.");
 
-    return;
-  }
-
-  if(
-    data &&
-    data.signedUrl
-  ){
-
-    window.open(
-      data.signedUrl,
-      "_blank"
-    );
-
-  }else{
-
-    alert(
-      "Impossible de créer le lien du fichier."
-    );
+    const blob=await response.blob();
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");
+    a.href=url;
+    a.download=fileName || "fichier";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+  }catch(e){
+    // Fallback : ouvrir le fichier si le navigateur bloque le téléchargement direct.
+    try{
+      const {data,error}=await sb.storage
+        .from(BUCKET)
+        .createSignedUrl(path,300);
+      if(error) throw error;
+      if(data?.signedUrl) window.open(data.signedUrl,"_blank");
+      else throw new Error("Lien du fichier indisponible.");
+    }catch(err){
+      alert("❌ "+(err.message || e.message));
+    }
   }
 }
 
@@ -1056,6 +1051,7 @@ function orderHtml(
               ""
             )}
           "
+          data-dl-name="${esc(proof.file_name || "preuve")}
         >
           Voir / télécharger
         </button>
@@ -1267,7 +1263,8 @@ async function renderOrders(){
           btn.onclick =
             () =>
               downloadFile(
-                btn.dataset.dl
+                btn.dataset.dl,
+                btn.dataset.dlName
               );
 
         }
@@ -1614,6 +1611,7 @@ async function renderFiles(){
                     f.storage_path ||
                     ""
                   )}"
+                  data-file-name="${esc(f.file_name || "fichier")}"
                 >
                   👁 Voir
                 </button>
@@ -1649,7 +1647,8 @@ async function renderFiles(){
           btn.onclick =
             () =>
               downloadFile(
-                btn.dataset.filePath
+                btn.dataset.filePath,
+                btn.dataset.fileName
               );
 
         }
