@@ -2,13 +2,21 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Baba Design — Contrôleur</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Baba Design · Contrôleur</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+:root{
+  --r:#7c3aed;
+  --o:#f97316;
+  --y:#eab308;
+  --line:#e7e7eb;
+  --bg:#f7f7f8;
+  --dark:#111;
+}
+
 *{
   box-sizing:border-box;
   margin:0;
@@ -17,269 +25,385 @@
 
 body{
   font-family:Arial,Helvetica,sans-serif;
-  background:#f5f7fb;
-  color:#111827;
+  background:var(--bg);
+  color:#111;
 }
 
-header{
-  background:#111827;
-  color:white;
-  padding:16px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+.top{
+  background:#111;
+  color:#fff;
   position:sticky;
   top:0;
   z-index:20;
 }
 
-header h1{
-  font-size:20px;
+.topin{
+  max-width:1200px;
+  margin:auto;
+  padding:15px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
-.container{
+.brand{
+  font-size:20px;
+  font-weight:900;
+}
+
+.brand span{
+  color:#f97316;
+}
+
+.logout{
+  border:0;
+  border-radius:10px;
+  padding:9px 14px;
+  background:#c40000;
+  color:#fff;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.wrap{
   max-width:1200px;
   margin:auto;
   padding:20px;
 }
 
-.stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:15px;
-  margin-bottom:20px;
+.hero{
+  background:#111;
+  color:#fff;
+  border-radius:25px;
+  padding:35px;
+  margin-bottom:18px;
 }
 
-.stat{
-  background:white;
-  padding:20px;
-  border-radius:14px;
-  box-shadow:0 4px 15px rgba(0,0,0,.06);
-}
-
-.stat h3{
-  color:#6b7280;
-  font-size:14px;
-  margin-bottom:8px;
-}
-
-.stat strong{
-  font-size:28px;
-}
-
-.nav{
-  display:flex;
-  gap:10px;
-  overflow-x:auto;
-  margin-bottom:20px;
-}
-
-.nav button{
-  border:0;
-  padding:12px 18px;
-  border-radius:10px;
-  background:white;
-  cursor:pointer;
-  font-weight:bold;
-}
-
-.nav button.active{
-  background:#2563eb;
-  color:white;
-}
-
-.card{
-  background:white;
-  border-radius:15px;
-  padding:18px;
-  margin-bottom:15px;
-  box-shadow:0 4px 15px rgba(0,0,0,.06);
-}
-
-.card h3{
+.hero .k{
+  color:#f97316;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:2px;
   margin-bottom:10px;
 }
 
-.info{
-  display:grid;
-  gap:6px;
-  margin:10px 0;
-  color:#374151;
+.hero h1{
+  font-size:32px;
+  line-height:1.1;
+  margin-bottom:12px;
 }
 
-.badge{
-  display:inline-block;
-  padding:6px 10px;
+.hero p{
+  color:#ccc;
+  max-width:650px;
+  line-height:1.5;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-bottom:18px;
+}
+
+.stat{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px;
+}
+
+.stat small{
+  display:block;
+  color:#777;
+  margin-bottom:8px;
+}
+
+.stat b{
+  font-size:28px;
+}
+
+.tabs{
+  display:flex;
+  gap:8px;
+  margin-bottom:15px;
+  overflow:auto;
+}
+
+.tab{
+  border:1px solid var(--line);
+  background:#fff;
+  padding:11px 15px;
+  border-radius:11px;
+  cursor:pointer;
+  font-weight:800;
+  white-space:nowrap;
+}
+
+.tab.active{
+  background:#111;
+  color:#fff;
+}
+
+.panel{
+  background:#fff;
+  border:1px solid var(--line);
   border-radius:20px;
+  padding:18px;
+}
+
+.item{
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:12px;
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.muted{
+  color:#777;
   font-size:12px;
-  font-weight:bold;
-  background:#e5e7eb;
+}
+
+.pill{
+  display:inline-block;
+  padding:6px 9px;
+  border-radius:20px;
+  color:#fff;
+  font-size:10px;
+  font-weight:900;
+}
+
+.approved{
+  background:#16833b;
+}
+
+.rejected{
+  background:#c40000;
 }
 
 .pending{
-  background:#fef3c7;
-  color:#92400e;
+  background:#f97316;
 }
 
-.success{
-  background:#dcfce7;
-  color:#166534;
+.btn{
+  border:0;
+  border-radius:11px;
+  padding:10px 13px;
+  background:linear-gradient(
+    135deg,
+    var(--r),
+    var(--o)
+  );
+  color:#fff;
+  font-weight:900;
+  cursor:pointer;
 }
 
-.danger{
-  background:#fee2e2;
-  color:#991b1b;
+.btn.dark{
+  background:#111;
 }
 
-.blue{
-  background:#dbeafe;
-  color:#1e40af;
+.btn.green{
+  background:#16833b;
+}
+
+.btn.red{
+  background:#c40000;
+}
+
+.btn.sm{
+  padding:7px 10px;
+  font-size:11px;
 }
 
 .actions{
   display:flex;
   flex-wrap:wrap;
-  gap:8px;
-  margin-top:15px;
+  gap:7px;
+  margin-top:12px;
 }
 
-button,
-input,
-textarea,
-select{
-  font-family:inherit;
+.range{
+  width:100%;
+  accent-color:var(--o);
+  margin-top:8px;
 }
 
-.btn{
-  border:0;
-  border-radius:9px;
-  padding:10px 14px;
-  cursor:pointer;
-  font-weight:bold;
+.bar{
+  height:9px;
+  background:#ececf0;
+  border-radius:99px;
+  overflow:hidden;
+  margin-top:8px;
 }
 
-.btn-primary{
-  background:#2563eb;
-  color:white;
+.fill{
+  height:100%;
+  background:linear-gradient(
+    90deg,
+    var(--r),
+    var(--o),
+    var(--y)
+  );
+  border-radius:99px;
 }
 
-.btn-success{
-  background:#16a34a;
-  color:white;
+.notice{
+  padding:14px;
+  border-radius:14px;
+  background:#fff7e8;
+  border:1px solid #ffd98a;
+  color:#7a4b00;
+  margin:10px 0;
 }
 
-.btn-danger{
-  background:#dc2626;
-  color:white;
+.file{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
 }
 
-.btn-gray{
-  background:#e5e7eb;
-  color:#111827;
-}
-
-.btn-dark{
-  background:#111827;
-  color:white;
-}
-
-img.proof{
-  max-width:260px;
-  max-height:300px;
-  border-radius:10px;
-  margin-top:10px;
+.file small{
   display:block;
+  color:#777;
+  margin-top:4px;
+}
+
+.chat{
+  height:360px;
+  overflow:auto;
+  background:#f7f7f8;
+  border-radius:17px;
+  padding:14px;
+}
+
+.bubble{
+  max-width:78%;
+  padding:10px 13px;
+  border-radius:16px;
+  margin:7px 0;
+  line-height:1.45;
+  word-break:break-word;
+}
+
+.me{
+  margin-left:auto;
+  background:linear-gradient(
+    135deg,
+    var(--r),
+    var(--o)
+  );
+  color:#fff;
+}
+
+.other{
+  background:#fff;
+  border:1px solid var(--line);
+}
+
+.compose{
+  display:flex;
+  gap:8px;
+  margin-top:10px;
+}
+
+.compose textarea{
+  flex:1;
+  border:1px solid #ddd;
+  border-radius:12px;
+  padding:11px;
+  resize:vertical;
+}
+
+.loader{
+  position:fixed;
+  inset:0;
+  background:#09090bdd;
+  z-index:99;
+  display:none;
+  place-items:center;
+}
+
+.loader.show{
+  display:grid;
+}
+
+.loaderbox{
+  background:#fff;
+  padding:28px;
+  border-radius:22px;
+  text-align:center;
+}
+
+.spin{
+  width:50px;
+  height:50px;
+  border:5px solid #eee;
+  border-top-color:var(--o);
+  border-right-color:var(--r);
+  border-radius:50%;
+  animation:s 1s linear infinite;
+  margin:auto auto 12px;
 }
 
 .empty{
   text-align:center;
-  padding:40px 15px;
-  color:#6b7280;
-  background:white;
-  border-radius:15px;
+  padding:35px 15px;
+  color:#777;
 }
 
-.loading{
-  text-align:center;
-  padding:40px;
-}
-
-textarea{
-  width:100%;
-  min-height:100px;
-  padding:12px;
-  border:1px solid #d1d5db;
-  border-radius:10px;
-  resize:vertical;
-}
-
-input,select{
-  width:100%;
-  padding:11px;
-  border:1px solid #d1d5db;
-  border-radius:9px;
-}
-
-.form-group{
-  margin-bottom:12px;
-}
-
-.chat-box{
-  max-height:450px;
-  overflow-y:auto;
-  padding:10px;
-  background:#f9fafb;
-  border-radius:10px;
-  margin-bottom:10px;
-}
-
-.message{
-  padding:10px;
-  margin-bottom:8px;
-  border-radius:10px;
-  background:white;
-  border:1px solid #e5e7eb;
-}
-
-.message.admin{
-  background:#dbeafe;
-}
-
-.message small{
-  display:block;
-  color:#6b7280;
-  margin-bottom:4px;
-}
-
-@media(max-width:800px){
-  .stats{
-    grid-template-columns:repeat(2,1fr);
+@keyframes s{
+  to{
+    transform:rotate(360deg);
   }
 }
 
-@media(max-width:500px){
-  .container{
-    padding:12px;
-  }
-
+@media(max-width:850px){
   .stats{
     grid-template-columns:1fr 1fr;
-    gap:10px;
+  }
+}
+
+@media(max-width:520px){
+
+  .wrap{
+    padding:15px 11px;
   }
 
-  .stat{
-    padding:14px;
+  .hero{
+    padding:25px;
+    border-radius:22px;
   }
 
-  .stat strong{
-    font-size:22px;
+  .stats{
+    grid-template-columns:1fr;
   }
 
-  header h1{
-    font-size:17px;
+  .panel{
+    padding:15px;
   }
 
-  .btn{
+  .topin{
+    padding:13px 14px;
+  }
+
+  .brand{
+    font-size:18px;
+  }
+
+  .compose{
+    flex-direction:column;
+  }
+
+  .compose .btn{
     width:100%;
   }
 }
@@ -288,108 +412,235 @@ input,select{
 
 <body>
 
-<header>
-  <h1>🎛️ Baba Design — Contrôleur</h1>
-  <button class="btn btn-danger" onclick="logout()">Déconnexion</button>
+<script>
+if(
+  sessionStorage.getItem(
+    "controllerAccessGranted"
+  ) !== "1"
+){
+  window.location.replace(
+    "mon-espace.html"
+  );
+}
+</script>
+
+<div id="loading" class="loader">
+  <div class="loaderbox">
+    <div class="spin"></div>
+    <b id="loadingText">
+      Chargement…
+    </b>
+  </div>
+</div>
+
+<header class="top">
+  <div class="topin">
+
+    <div class="brand">
+      Baba<span>Design</span> · Contrôleur
+    </div>
+
+    <button
+      class="logout"
+      id="logout">
+      Déconnexion
+    </button>
+
+  </div>
 </header>
 
-<div class="container">
+<main class="wrap">
 
-  <div class="stats">
-    <div class="stat">
-      <h3>Commandes reçues</h3>
-      <strong id="ordersCount">0</strong>
-    </div>
+<section class="hero">
 
-    <div class="stat">
-      <h3>Fichiers</h3>
-      <strong id="filesCount">0</strong>
-    </div>
-
-    <div class="stat">
-      <h3>Conversations</h3>
-      <strong id="chatsCount">0</strong>
-    </div>
-
-    <div class="stat">
-      <h3>En attente</h3>
-      <strong id="pendingCount">0</strong>
-    </div>
+  <div class="k">
+    CONTROL CENTER • PRIVÉ
   </div>
 
-  <div class="nav">
-    <button id="navOrders" class="active" onclick="render('orders')">
-      📦 Commandes
-    </button>
+  <h1>
+    Contrôle total.<br>
+    Expérience premium.
+  </h1>
 
-    <button id="navFiles" onclick="render('files')">
-      📁 Fichiers
-    </button>
+  <p>
+    Gérez les commandes, paiements,
+    fichiers, progressions et
+    conversations depuis votre
+    centre de contrôle.
+  </p>
 
-    <button id="navChats" onclick="render('chats')">
-      💬 Conversations
-    </button>
+</section>
+
+
+<section class="stats">
+
+  <div class="stat">
+    <small>Commandes</small>
+    <b id="statOrders">—</b>
   </div>
 
-  <div id="app">
-    <div class="loading">Chargement...</div>
+  <div class="stat">
+    <small>Paiements validés</small>
+    <b id="statPaid">—</b>
   </div>
+
+  <div class="stat">
+    <small>Fichiers</small>
+    <b id="statFiles">—</b>
+  </div>
+
+  <div class="stat">
+    <small>Conversations</small>
+    <b id="statChats">—</b>
+  </div>
+
+</section>
+
+
+<div class="tabs">
+
+  <button
+    class="tab active"
+    data-view="orders">
+    ▣ Commandes
+  </button>
+
+  <button
+    class="tab"
+    data-view="files">
+    ▤ Fichiers
+  </button>
+
+  <button
+    class="tab"
+    data-view="chats">
+    ◌ Conversations
+  </button>
 
 </div>
 
+
+<section
+  class="panel"
+  id="content">
+
+  <div class="empty">
+    Chargement des commandes…
+  </div>
+
+</section>
+
+</main>
+
+
 <script>
+
 const SUPABASE_URL =
   "https://drvcneeaothydjmqpdzg.supabase.co";
 
 const SUPABASE_KEY =
   "sb_publishable_k8DUVt12k1GN4n7yiYBnYw_gXltrpmp";
 
-const BUCKET = "client-files";
+const BUCKET =
+  "client-files";
 
-const sb = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
 
-let dashboard = {
-  orders: [],
-  files: [],
-  conversations: []
-};
+const sb =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY,
+    {
+      auth:{
+        persistSession:true,
+        autoRefreshToken:true,
+        detectSessionInUrl:true
+      }
+    }
+  );
 
-let currentView = "orders";
-let currentConversation = null;
+
+const $ =
+  id =>
+    document.getElementById(id);
+
+
+function esc(v){
+
+  return String(v ?? "")
+    .replace(
+      /[&<>'"]/g,
+      c => ({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        "'":"&#39;",
+        '"':"&quot;"
+      }[c])
+    );
+}
+
+
+function fmt(d){
+
+  if(!d)
+    return "—";
+
+  try{
+    return new Date(d)
+      .toLocaleString("fr-FR");
+  }catch{
+    return "—";
+  }
+}
+
+
+function wait(
+  on,
+  text="Traitement…"
+){
+
+  $("loadingText")
+    .textContent = text;
+
+  $("loading")
+    .classList.toggle(
+      "show",
+      on
+    );
+}
 
 
 /* =========================
-   GUARD
+   CONTROLLER
 ========================= */
 
-async function guard(){
+async function controllerGuard(){
 
-  const granted =
-    sessionStorage.getItem("controllerAccessGranted");
+  const {
+    data:{user},
+    error:userError
+  } =
+    await sb.auth.getUser();
 
-  if(granted !== "1"){
-    window.location.href = "mon-espace.html";
+  if(
+    userError ||
+    !user
+  ){
     return false;
   }
 
-  const {data,error} =
-    await sb.rpc("is_controller");
-
-  if(error){
-    console.error(error);
-    alert("Erreur de vérification du contrôleur.");
-    return false;
-  }
-
-  if(!data){
-    alert("Accès contrôleur refusé.");
-    sessionStorage.removeItem(
-      "controllerAccessGranted"
+  const {
+    data,
+    error
+  } =
+    await sb.rpc(
+      "is_controller"
     );
-    window.location.href = "mon-espace.html";
+
+  if(
+    error ||
+    data !== true
+  ){
     return false;
   }
 
@@ -403,68 +654,47 @@ async function guard(){
 
 async function getDashboard(){
 
-  const {data,error} =
-    await sb.rpc("controller_get_dashboard");
+  const {
+    data,
+    error
+  } =
+    await sb.rpc(
+      "controller_get_dashboard"
+    );
 
-  if(error){
-    console.error(error);
+  if(error)
     throw error;
-  }
 
   const result =
-    data && typeof data === "object"
+    data &&
+    typeof data === "object"
       ? data
       : {};
 
   return {
+
     orders:
-      Array.isArray(result.orders)
+      Array.isArray(
+        result.orders
+      )
         ? result.orders
         : [],
 
     files:
-      Array.isArray(result.files)
+      Array.isArray(
+        result.files
+      )
         ? result.files
         : [],
 
     conversations:
-      Array.isArray(result.conversations)
+      Array.isArray(
+        result.conversations
+      )
         ? result.conversations
         : []
+
   };
-}
-
-
-/* =========================
-   REFRESH
-========================= */
-
-async function refresh(){
-
-  try{
-
-    dashboard = await getDashboard();
-
-    refreshStats();
-
-    render(currentView);
-
-  }catch(error){
-
-    console.error(error);
-
-    document.getElementById("app").innerHTML = `
-      <div class="empty">
-        <h3>❌ Erreur</h3>
-        <p>${escapeHtml(error.message || "Erreur inconnue")}</p>
-        <br>
-        <button class="btn btn-primary"
-          onclick="refresh()">
-          Réessayer
-        </button>
-      </div>
-    `;
-  }
 }
 
 
@@ -472,1172 +702,1861 @@ async function refresh(){
    STATS
 ========================= */
 
-function refreshStats(){
+async function refreshStats(){
 
-  const orders =
-    Array.isArray(dashboard.orders)
-      ? dashboard.orders
-      : [];
+  try{
 
-  const files =
-    Array.isArray(dashboard.files)
-      ? dashboard.files
-      : [];
+    const d =
+      await getDashboard();
 
-  const chats =
-    Array.isArray(dashboard.conversations)
-      ? dashboard.conversations
-      : [];
+    $("statOrders")
+      .textContent =
+      d.orders.length;
 
-  document.getElementById("ordersCount").textContent =
-    orders.length;
+    $("statPaid")
+      .textContent =
+      d.orders.filter(
+        o =>
+          String(
+            o.payment_status || ""
+          ).toLowerCase()
+          === "approved"
+      ).length;
 
-  document.getElementById("filesCount").textContent =
-    files.length;
+    $("statFiles")
+      .textContent =
+      d.files.length;
 
-  document.getElementById("chatsCount").textContent =
-    chats.length;
+    $("statChats")
+      .textContent =
+      d.conversations.length;
 
-  const pending =
-    orders.filter(o =>
-      String(
-        o.status || ""
-      ).toLowerCase()
-      .includes("attente")
-    ).length;
+  }catch(e){
 
-  document.getElementById("pendingCount").textContent =
-    pending;
+    console.error(
+      "Stats:",
+      e
+    );
+
+    $("statOrders")
+      .textContent="!";
+
+    $("statPaid")
+      .textContent="!";
+
+    $("statFiles")
+      .textContent="!";
+
+    $("statChats")
+      .textContent="!";
+  }
 }
+
+
+/* =========================
+   FICHIER PRIVÉ
+========================= */
+
+async function downloadFile(
+  path
+){
+
+  if(!path){
+
+    alert(
+      "Fichier introuvable."
+    );
+
+    return;
+  }
+
+  const {
+    data,
+    error
+  } =
+    await sb.storage
+      .from(BUCKET)
+      .createSignedUrl(
+        path,
+        120
+      );
+
+  if(error){
+
+    alert(
+      error.message
+    );
+
+    return;
+  }
+
+  if(
+    data &&
+    data.signedUrl
+  ){
+
+    window.open(
+      data.signedUrl,
+      "_blank"
+    );
+
+  }else{
+
+    alert(
+      "Impossible de créer le lien du fichier."
+    );
+  }
+}
+
+
+/* =========================
+   PAYMENT LABEL
+========================= */
+
+function paymentLabel(
+  status
+){
+
+  const s =
+    String(
+      status || "pending"
+    ).toLowerCase();
+
+  if(
+    s === "approved"
+  ){
+
+    return `
+      <span class="pill approved">
+        PAIEMENT VALIDÉ
+      </span>
+    `;
+  }
+
+  if(
+    s === "rejected"
+  ){
+
+    return `
+      <span class="pill rejected">
+        PAIEMENT REFUSÉ
+      </span>
+    `;
+  }
+
+  return `
+    <span class="pill pending">
+      EN ATTENTE
+    </span>
+  `;
+}
+
+
+/* =========================
+   COMMANDES
+========================= */
+
+function orderHtml(
+  o,
+  files
+){
+
+  const paymentStatus =
+    String(
+      o.payment_status ||
+      "pending"
+    ).toLowerCase();
+
+
+  const proof =
+    files.find(
+      f =>
+        String(
+          f.order_id || ""
+        ) ===
+        String(
+          o.id || ""
+        )
+        &&
+        String(
+          f.kind || ""
+        ).toLowerCase()
+        === "payment_proof"
+    );
+
+
+  const progress =
+    Math.max(
+      0,
+      Math.min(
+        100,
+        Number(
+          o.progress || 0
+        )
+      )
+    );
+
+
+  const client =
+    o.client_name ||
+    o.full_name ||
+    o.name ||
+    "Client";
+
+
+  let html = "";
+
+
+  html += `
+    <div class="item">
+
+      <div class="row">
+
+        <div>
+
+          <b style="font-size:17px">
+            ${esc(
+              o.service_name ||
+              "Commande"
+            )}
+          </b>
+
+          <div
+            style="
+              font-size:11px;
+              color:#777;
+              margin-top:4px
+            "
+          >
+            ID :
+            ${esc(
+              o.id || "—"
+            )}
+          </div>
+
+        </div>
+
+        ${paymentLabel(
+          paymentStatus
+        )}
+
+      </div>
+  `;
+
+
+  html += `
+    <p
+      style="
+        color:#777;
+        font-size:12px;
+        margin-top:8px
+      "
+    >
+      Client :
+      <strong>
+        ${esc(client)}
+      </strong>
+
+      ·
+
+      ${fmt(
+        o.created_at
+      )}
+    </p>
+  `;
+
+
+  if(
+    o.description
+  ){
+
+    html += `
+      <div
+        style="
+          margin:10px 0;
+          padding:12px;
+          border-radius:13px;
+          background:#f7f7f8
+        "
+      >
+
+        <b>Description</b>
+        <br>
+
+        <span
+          style="font-size:13px"
+        >
+          ${esc(
+            o.description
+          )}
+        </span>
+
+      </div>
+    `;
+  }
+
+
+  if(
+    o.price_htg !==
+      undefined &&
+    o.price_htg !== null
+  ){
+
+    html += `
+      <p>
+        <b>
+          Montant :
+          ${esc(
+            o.price_htg
+          )}
+          HTG
+        </b>
+      </p>
+    `;
+  }
+
+
+  /* PREUVE */
+
+  if(proof){
+
+    html += `
+      <div
+        style="
+          margin:10px 0;
+          padding:12px;
+          border:1px solid #eee;
+          border-radius:13px;
+          background:#fafafa
+        "
+      >
+
+        <b>
+          📸 Preuve de paiement
+        </b>
+
+        <div
+          style="
+            font-size:12px;
+            color:#777;
+            margin:5px 0 9px
+          "
+        >
+          ${esc(
+            proof.file_name ||
+            "preuve"
+          )}
+        </div>
+
+        <button
+          class="btn sm"
+          data-dl="
+            ${esc(
+              proof.storage_path ||
+              ""
+            )}
+          "
+        >
+          Voir / télécharger
+        </button>
+
+      </div>
+    `;
+
+  }else{
+
+    html += `
+      <div class="notice">
+        <b>
+          ⚠️ Aucune preuve
+          de paiement jointe.
+        </b>
+      </div>
+    `;
+  }
+
+
+  /* PROGRESSION */
+
+  html += `
+
+    <div
+      class="row"
+      style="margin-top:14px"
+    >
+
+      <strong>
+        Progression :
+
+        <span
+          id="progressText_${esc(
+            o.id
+          )}"
+        >
+          ${progress}%
+        </span>
+
+      </strong>
+
+      <span
+        style="
+          font-size:12px;
+          color:#777
+        "
+      >
+        ${esc(
+          o.status ||
+          "En attente de validation"
+        )}
+      </span>
+
+    </div>
+
+    <div class="bar">
+
+      <div
+        class="fill"
+        id="fill_${esc(
+          o.id
+        )}"
+        style="
+          width:${progress}%
+        "
+      ></div>
+
+    </div>
+
+    <input
+      class="range"
+      type="range"
+      min="0"
+      max="100"
+      value="${progress}"
+      data-progress="${esc(
+        o.id
+      )}"
+    >
+
+  `;
+
+
+  /* ACTIONS */
+
+  html += `
+
+    <div class="actions">
+
+      <button
+        class="btn green"
+        data-ok="${esc(
+          o.id
+        )}"
+      >
+        ✓ Valider paiement
+      </button>
+
+      <button
+        class="btn red"
+        data-no="${esc(
+          o.id
+        )}"
+      >
+        ✕ Refuser
+      </button>
+
+    </div>
+
+  `;
+
+
+  if(
+    o.rejection_reason
+  ){
+
+    html += `
+      <div
+        style="
+          margin-top:10px;
+          padding:10px;
+          border-radius:12px;
+          background:#fff1f1;
+          color:#9d0000;
+          font-size:12px
+        "
+      >
+
+        <b>
+          Motif actuel :
+        </b>
+
+        ${esc(
+          o.rejection_reason
+        )}
+
+      </div>
+    `;
+  }
+
+
+  html += `
+    </div>
+  `;
+
+
+  return html;
+}
+
+
+/* =========================
+   RENDER COMMANDES
+========================= */
+
+async function renderOrders(){
+
+  const app =
+    $("content");
+
+  app.innerHTML = `
+    <div class="empty">
+      Chargement…
+    </div>
+  `;
+
+
+  try{
+
+    const d =
+      await getDashboard();
+
+
+    if(
+      !d.orders.length
+    ){
+
+      app.innerHTML = `
+        <div class="empty">
+          Aucune commande.
+        </div>
+      `;
+
+      return;
+    }
+
+
+    app.innerHTML =
+      d.orders
+        .map(
+          o =>
+            orderHtml(
+              o,
+              d.files
+            )
+        )
+        .join("");
+
+
+    /* PREUVES */
+
+    app
+      .querySelectorAll(
+        "[data-dl]"
+      )
+      .forEach(
+        btn => {
+
+          btn.onclick =
+            () =>
+              downloadFile(
+                btn.dataset.dl
+              );
+
+        }
+      );
+
+
+    /* VALIDATION */
+
+    app
+      .querySelectorAll(
+        "[data-ok]"
+      )
+      .forEach(
+        btn => {
+
+          btn.onclick =
+            async () => {
+
+              if(
+                !confirm(
+                  "Confirmer la validation du paiement ?"
+                )
+              )
+                return;
+
+
+              try{
+
+                wait(
+                  true,
+                  "Validation du paiement…"
+                );
+
+
+                const {
+                  error
+                } =
+                  await sb.rpc(
+                    "controller_approve_order",
+                    {
+                      p_order_id:
+                        btn.dataset.ok
+                    }
+                  );
+
+
+                if(error)
+                  throw error;
+
+
+                alert(
+                  "✅ Paiement validé avec succès."
+                );
+
+
+                await refreshStats();
+                await renderOrders();
+
+
+              }catch(e){
+
+                alert(
+                  "❌ " +
+                  e.message
+                );
+
+              }finally{
+
+                wait(false);
+
+              }
+
+            };
+
+        }
+      );
+
+
+    /* REFUS */
+
+    app
+      .querySelectorAll(
+        "[data-no]"
+      )
+      .forEach(
+        btn => {
+
+          btn.onclick =
+            async () => {
+
+              const reason =
+                prompt(
+                  "Pourquoi voulez-vous refuser cette commande ?"
+                );
+
+
+              if(
+                reason === null
+              )
+                return;
+
+
+              try{
+
+                wait(
+                  true,
+                  "Refus de la commande…"
+                );
+
+
+                const {
+                  error
+                } =
+                  await sb.rpc(
+                    "controller_reject_order",
+                    {
+                      p_order_id:
+                        btn.dataset.no,
+
+                      p_reason:
+                        reason
+                    }
+                  );
+
+
+                if(error)
+                  throw error;
+
+
+                alert(
+                  "Commande refusée."
+                );
+
+
+                await refreshStats();
+                await renderOrders();
+
+
+              }catch(e){
+
+                alert(
+                  "❌ " +
+                  e.message
+                );
+
+              }finally{
+
+                wait(false);
+
+              }
+
+            };
+
+        }
+      );
+
+
+    /* PROGRESSION */
+
+    app
+      .querySelectorAll(
+        "[data-progress]"
+      )
+      .forEach(
+        range => {
+
+          range.oninput =
+            () => {
+
+              const id =
+                range.dataset.progress;
+
+              const value =
+                Number(
+                  range.value
+                );
+
+
+              const text =
+                document.getElementById(
+                  "progressText_" +
+                  id
+                );
+
+              const fill =
+                document.getElementById(
+                  "fill_" +
+                  id
+                );
+
+
+              if(text)
+                text.textContent =
+                  value + "%";
+
+              if(fill)
+                fill.style.width =
+                  value + "%";
+            };
+
+
+          range.onchange =
+            async () => {
+
+              try{
+
+                const {
+                  error
+                } =
+                  await sb.rpc(
+                    "controller_set_order_progress",
+                    {
+                      p_order_id:
+                        range.dataset.progress,
+
+                      p_progress:
+                        Number(
+                          range.value
+                        )
+                    }
+                  );
+
+
+                if(error)
+                  throw error;
+
+
+              }catch(e){
+
+                alert(
+                  "❌ " +
+                  e.message
+                );
+
+                await renderOrders();
+              }
+
+            };
+
+        }
+      );
+
+
+  }catch(e){
+
+    console.error(e);
+
+    app.innerHTML = `
+      <div class="empty">
+        <b>Erreur</b>
+        <br><br>
+        ${esc(
+          e.message
+        )}
+      </div>
+    `;
+  }
+}
+
+
+/* =========================
+   FICHIERS
+========================= */
+
+async function renderFiles(){
+
+  const app =
+    $("content");
+
+  app.innerHTML = `
+    <div class="empty">
+      Chargement des fichiers…
+    </div>
+  `;
+
+
+  try{
+
+    const d =
+      await getDashboard();
+
+
+    if(
+      !d.files.length
+    ){
+
+      app.innerHTML = `
+        <div class="empty">
+          <h3>
+            Aucun fichier
+          </h3>
+
+          <p>
+            Aucun fichier envoyé
+            pour le moment.
+          </p>
+        </div>
+      `;
+
+      return;
+    }
+
+
+    app.innerHTML =
+      d.files
+        .map(
+          f => `
+
+          <div class="item">
+
+            <div class="file">
+
+              <div>
+
+                <b>
+                  📁
+                  ${esc(
+                    f.file_name ||
+                    "Fichier"
+                  )}
+                </b>
+
+                <small>
+                  Type :
+                  ${esc(
+                    f.kind ||
+                    "—"
+                  )}
+                </small>
+
+                <small>
+                  ${fmt(
+                    f.created_at
+                  )}
+                </small>
+
+              </div>
+
+              <div class="actions">
+
+                <button
+                  class="btn sm"
+                  data-file-path="${esc(
+                    f.storage_path ||
+                    ""
+                  )}"
+                >
+                  👁 Voir
+                </button>
+
+                <button
+                  class="btn red sm"
+                  data-delete-file="${esc(
+                    f.id ||
+                    ""
+                  )}"
+                >
+                  🗑 Supprimer
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        `
+        )
+        .join("");
+
+
+    app
+      .querySelectorAll(
+        "[data-file-path]"
+      )
+      .forEach(
+        btn => {
+
+          btn.onclick =
+            () =>
+              downloadFile(
+                btn.dataset.filePath
+              );
+
+        }
+      );
+
+
+    app
+      .querySelectorAll(
+        "[data-delete-file]"
+      )
+      .forEach(
+        btn => {
+
+          btn.onclick =
+            async () => {
+
+              if(
+                !confirm(
+                  "Supprimer ce fichier ?"
+                )
+              )
+                return;
+
+
+              try{
+
+                wait(
+                  true,
+                  "Suppression…"
+                );
+
+
+                const {
+                  error
+                } =
+                  await sb.rpc(
+                    "controller_delete_file_metadata",
+                    {
+                      p_file_id:
+                        btn.dataset.deleteFile
+                    }
+                  );
+
+
+                if(error)
+                  throw error;
+
+
+                await refreshStats();
+                await renderFiles();
+
+
+              }catch(e){
+
+                alert(
+                  "❌ " +
+                  e.message
+                );
+
+              }finally{
+
+                wait(false);
+
+              }
+
+            };
+
+        }
+      );
+
+
+  }catch(e){
+
+    console.error(e);
+
+    app.innerHTML = `
+      <div class="empty">
+        <b>Erreur</b>
+        <br><br>
+        ${esc(
+          e.message
+        )}
+      </div>
+    `;
+  }
+}
+
+
+/* =========================
+   CONVERSATIONS
+========================= */
+
+async function renderChats(){
+
+  const app =
+    $("content");
+
+  app.innerHTML = `
+    <div class="empty">
+      Chargement des conversations…
+    </div>
+  `;
+
+
+  try{
+
+    const d =
+      await getDashboard();
+
+
+    if(
+      !d.conversations.length
+    ){
+
+      app.innerHTML = `
+        <div class="empty">
+          <h3>
+            Aucune conversation
+          </h3>
+
+          <p>
+            Aucune conversation disponible.
+          </p>
+        </div>
+      `;
+
+      return;
+    }
+
+
+    app.innerHTML =
+      d.conversations
+        .map(
+          c => `
+
+          <div class="item">
+
+            <div class="row">
+
+              <div>
+
+                <b>
+                  💬 Conversation
+                </b>
+
+                <div class="muted">
+                  Client :
+                  ${esc(
+                    c.user_id ||
+                    "—"
+                  )}
+                </div>
+
+                <div
+                  class="muted"
+                  style="margin-top:5px"
+                >
+                  ${fmt(
+                    c.last_message_at ||
+                    c.created_at
+                  )}
+                </div>
+
+              </div>
+
+              <div
+                class="actions"
+              >
+
+                <button
+                  class="btn sm"
+                  data-chat="${esc(
+                    c.id ||
+                    ""
+                  )}"
+                >
+                  💬 Ouvrir
+                </button>
+
+                <button
+                  class="btn red sm"
+                  data-clear-chat="${esc(
+                    c.id ||
+                    ""
+                  )}"
+                >
+                  🗑 Effacer
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        `
+        )
+        .join("");
+
+
+    app
+      .querySelectorAll(
+        "[data-chat]"
+      )
+      .forEach(
+        btn => {
+
+          btn.onclick =
+            () =>
+              openChat(
+                btn.dataset.chat
+              );
+
+        }
+      );
+
+
+    app
+      .querySelectorAll(
+        "[data-clear-chat]"
+      )
+      .forEach(
+        btn => {
+
+          btn.onclick =
+            async () => {
+
+              if(
+                !confirm(
+                  "Effacer cette conversation ?"
+                )
+              )
+                return;
+
+
+              try{
+
+                wait(
+                  true,
+                  "Suppression de la conversation…"
+                );
+
+
+                const {
+                  error
+                } =
+                  await sb.rpc(
+                    "controller_clear_conversation",
+                    {
+                      p_conversation_id:
+                        btn.dataset.clearChat
+                    }
+                  );
+
+
+                if(error)
+                  throw error;
+
+
+                await refreshStats();
+                await renderChats();
+
+
+              }catch(e){
+
+                alert(
+                  "❌ " +
+                  e.message
+                );
+
+              }finally{
+
+                wait(false);
+
+              }
+
+            };
+
+        }
+      );
+
+
+  }catch(e){
+
+    console.error(e);
+
+    app.innerHTML = `
+      <div class="empty">
+        <b>Erreur</b>
+        <br><br>
+        ${esc(
+          e.message
+        )}
+      </div>
+    `;
+  }
+}
+
+
+/* =========================
+   OUVRIR CHAT
+========================= */
+
+async function openChat(
+  conversationId
+){
+
+  try{
+
+    wait(
+      true,
+      "Ouverture de la conversation…"
+    );
+
+
+    const {
+      data:c,
+      error
+    } =
+      await sb.rpc(
+        "controller_get_conversation",
+        {
+          p_conversation_id:
+            conversationId
+        }
+      );
+
+
+    if(error)
+      throw error;
+
+
+    if(!c){
+
+      alert(
+        "Conversation introuvable."
+      );
+
+      return;
+    }
+
+
+    const app =
+      $("content");
+
+
+    app.innerHTML = `
+
+      <div class="row">
+
+        <div>
+
+          <h2>
+            Conversation privée
+          </h2>
+
+          <p
+            class="muted"
+            style="margin-top:5px"
+          >
+            Client :
+            ${esc(
+              c.user_id ||
+              "—"
+            )}
+          </p>
+
+        </div>
+
+
+        <button
+          class="btn dark sm"
+          id="back"
+        >
+          ← Retour
+        </button>
+
+      </div>
+
+
+      <div
+        class="chat"
+        id="chat"
+        style="margin-top:15px"
+      >
+        <p
+          class="muted"
+        >
+          Chargement…
+        </p>
+      </div>
+
+
+      <div class="compose">
+
+        <textarea
+          id="msg"
+          rows="2"
+          placeholder="Répondre au client…"
+        ></textarea>
+
+        <button
+          class="btn"
+          id="send"
+        >
+          Envoyer
+        </button>
+
+      </div>
+
+
+      <div
+        class="item"
+        style="margin-top:12px"
+      >
+
+        <b>
+          📎 Envoyer un fichier au client
+        </b>
+
+        <input
+          id="file"
+          type="file"
+          accept="image/*,.pdf,.doc,.docx"
+          style="
+            display:block;
+            margin-top:10px
+          "
+        >
+
+        <button
+          class="btn sm"
+          id="sendFile"
+          style="margin-top:8px"
+        >
+          Envoyer
+        </button>
+
+      </div>
+
+    `;
+
+
+    /* =========================
+       MESSAGES
+    ========================= */
+
+    async function refreshMessages(){
+
+      const {
+        data,
+        error
+      } =
+        await sb.rpc(
+          "controller_get_messages",
+          {
+            p_conversation_id:
+              conversationId
+          }
+        );
+
+
+      if(error){
+
+        $("chat").innerHTML = `
+          <p
+            style="color:#c00"
+          >
+            ${esc(
+              error.message
+            )}
+          </p>
+        `;
+
+        return;
+      }
+
+
+      const {
+        data:{
+          user
+        }
+      } =
+        await sb.auth.getUser();
+
+
+      const box =
+        $("chat");
+
+
+      box.innerHTML =
+        (
+          data || []
+        )
+        .map(
+          x => `
+
+            <div
+              class="
+                bubble
+                ${
+                  x.sender_id ===
+                  user?.id
+                    ? "me"
+                    : "other"
+                }
+              "
+            >
+
+              ${esc(
+                x.body
+              )}
+
+              <div
+                style="
+                  font-size:9px;
+                  opacity:.65;
+                  margin-top:5px
+                "
+              >
+
+                ${fmt(
+                  x.created_at
+                )}
+
+                ${
+                  x.sender_id ===
+                  user?.id
+                    ? `
+                      <button
+                        style="
+                          border:0;
+                          background:none;
+                          cursor:pointer
+                        "
+                        data-del-msg="${esc(
+                          x.id
+                        )}"
+                      >
+                        🗑
+                      </button>
+                    `
+                    : ""
+                }
+
+              </div>
+
+            </div>
+
+          `
+        )
+        .join("")
+        ||
+        "<p>Aucun message.</p>";
+
+
+      box
+        .querySelectorAll(
+          "[data-del-msg]"
+        )
+        .forEach(
+          btn => {
+
+            btn.onclick =
+              async () => {
+
+                if(
+                  !confirm(
+                    "Supprimer ce message ?"
+                  )
+                )
+                  return;
+
+
+                const {
+                  error
+                } =
+                  await sb.rpc(
+                    "controller_delete_message",
+                    {
+                      p_message_id:
+                        btn.dataset.delMsg
+                    }
+                  );
+
+
+                if(error){
+
+                  alert(
+                    error.message
+                  );
+
+                }else{
+
+                  await refreshMessages();
+
+                }
+
+              };
+
+          }
+        );
+
+
+      box.scrollTop =
+        box.scrollHeight;
+    }
+
+
+    /* =========================
+       SEND MESSAGE
+    ========================= */
+
+    $("send").onclick =
+      async () => {
+
+        const body =
+          $("msg")
+            .value
+            .trim();
+
+
+        if(!body)
+          return;
+
+
+        try{
+
+          wait(
+            true,
+            "Envoi du message…"
+          );
+
+
+          const {
+            error
+          } =
+            await sb.rpc(
+              "controller_send_message",
+              {
+                p_conversation_id:
+                  conversationId,
+
+                p_body:
+                  body
+              }
+            );
+
+
+          if(error)
+            throw error;
+
+
+          $("msg").value =
+            "";
+
+
+          await refreshMessages();
+
+
+        }catch(e){
+
+          alert(
+            e.message
+          );
+
+        }finally{
+
+          wait(false);
+
+        }
+
+      };
+
+
+    /* =========================
+       BACK
+    ========================= */
+
+    $("back").onclick =
+      () =>
+        render(
+          "chats"
+        );
+
+
+    /* =========================
+       SEND FILE
+    ========================= */
+
+    $("sendFile").onclick =
+      async () => {
+
+        const f =
+          $("file")
+            .files[0];
+
+
+        if(!f){
+
+          alert(
+            "Choisissez un fichier."
+          );
+
+          return;
+        }
+
+
+        const safe =
+          f.name.replace(
+            /[^a-zA-Z0-9._-]/g,
+            "_"
+          );
+
+
+        const path =
+          c.user_id +
+          "/" +
+          crypto.randomUUID() +
+          "_" +
+          safe;
+
+
+        try{
+
+          wait(
+            true,
+            "Envoi du fichier…"
+          );
+
+
+          const r =
+            await sb.storage
+              .from(BUCKET)
+              .upload(
+                path,
+                f,
+                {
+                  upsert:false
+                }
+              );
+
+
+          if(r.error)
+            throw r.error;
+
+
+          const q =
+            await sb.rpc(
+              "controller_register_file",
+              {
+                p_user_id:
+                  c.user_id,
+
+                p_file_name:
+                  f.name,
+
+                p_storage_path:
+                  path,
+
+                p_kind:
+                  "controller_file",
+
+                p_expires_at:
+                  new Date(
+                    Date.now()
+                    +
+                    48 *
+                    3600000
+                  ).toISOString()
+              }
+            );
+
+
+          if(q.error){
+
+            await sb.storage
+              .from(BUCKET)
+              .remove([
+                path
+              ]);
+
+            throw q.error;
+          }
+
+
+          alert(
+            "✅ Fichier envoyé."
+          );
+
+
+          $("file")
+            .value = "";
+
+
+          await refreshStats();
+          await refreshMessages();
+
+
+        }catch(e){
+
+          alert(
+            "❌ " +
+            e.message
+          );
+
+        }finally{
+
+          wait(false);
+
+        }
+
+      };
+
+
+    await refreshMessages();
+
+
+  }catch(e){
+
+    console.error(e);
+
+    alert(
+      "❌ " +
+      e.message
+    );
+
+  }finally{
+
+    wait(false);
+
+  }
+}
+
+
+/* =========================
+   TABS
+========================= */
+
+document
+  .querySelectorAll(".tab")
+  .forEach(
+    btn => {
+
+      btn.onclick =
+        async () => {
+
+          document
+            .querySelectorAll(
+              ".tab"
+            )
+            .forEach(
+              x =>
+                x.classList
+                  .remove(
+                    "active"
+                  )
+            );
+
+
+          btn.classList
+            .add(
+              "active"
+            );
+
+
+          await render(
+            btn.dataset.view
+          );
+
+        };
+
+    }
+);
 
 
 /* =========================
    RENDER
 ========================= */
 
-function render(view){
-
-  currentView = view;
-
-  document
-    .querySelectorAll(".nav button")
-    .forEach(btn =>
-      btn.classList.remove("active")
-    );
-
-  if(view === "orders"){
-    document
-      .getElementById("navOrders")
-      .classList.add("active");
-
-    renderOrders();
-  }
-
-  if(view === "files"){
-    document
-      .getElementById("navFiles")
-      .classList.add("active");
-
-    renderFiles();
-  }
-
-  if(view === "chats"){
-    document
-      .getElementById("navChats")
-      .classList.add("active");
-
-    renderChats();
-  }
-}
-
-
-/* =========================
-   ORDERS
-========================= */
-
-function renderOrders(){
-
-  const orders =
-    Array.isArray(dashboard.orders)
-      ? dashboard.orders
-      : [];
-
-  if(!orders.length){
-
-    document.getElementById("app").innerHTML = `
-      <div class="empty">
-        <h3>Aucune commande</h3>
-        <p>Les nouvelles commandes apparaîtront ici.</p>
-      </div>
-    `;
-
-    return;
-  }
-
-  document.getElementById("app").innerHTML =
-    orders.map(orderHtml).join("");
-}
-
-
-function orderHtml(o){
-
-  const status =
-    o.status || "En attente de validation";
-
-  const payment =
-    o.payment_status || "pending";
-
-  const proof =
-    findPaymentProof(o);
-
-  const progress =
-    o.progress ?? 0;
-
-  return `
-    <div class="card">
-
-      <h3>
-        📦 ${escapeHtml(
-          o.service_name ||
-          o.service ||
-          "Service"
-        )}
-      </h3>
-
-      <div class="info">
-
-        <div>
-          <b>Client :</b>
-          ${escapeHtml(
-            o.full_name ||
-            o.name ||
-            o.client_name ||
-            "—"
-          )}
-        </div>
-
-        <div>
-          <b>Téléphone :</b>
-          ${escapeHtml(
-            o.phone ||
-            o.phone_number ||
-            "—"
-          )}
-        </div>
-
-        <div>
-          <b>Description :</b>
-          ${escapeHtml(
-            o.description || "—"
-          )}
-        </div>
-
-        <div>
-          <b>Prix :</b>
-          ${escapeHtml(
-            String(
-              o.price_htg ??
-              o.price ??
-              "0"
-            )
-          )} HTG
-        </div>
-
-        <div>
-          <b>Statut :</b>
-          <span class="badge ${statusClass(status)}">
-            ${escapeHtml(status)}
-          </span>
-        </div>
-
-        <div>
-          <b>Paiement :</b>
-          <span class="badge ${paymentClass(payment)}">
-            ${escapeHtml(payment)}
-          </span>
-        </div>
-
-        <div>
-          <b>Progression :</b>
-          ${escapeHtml(String(progress))}%
-        </div>
-
-        <div>
-          <b>Date :</b>
-          ${formatDate(
-            o.created_at
-          )}
-        </div>
-
-      </div>
-
-      ${
-        proof
-          ? `
-            <div>
-              <b>Preuve de paiement :</b>
-              <br>
-
-              ${
-                isImage(proof.file_name)
-                  ? `
-                    <img
-                      class="proof"
-                      src="${escapeAttr(proof.url)}"
-                      alt="Preuve de paiement"
-                    >
-                  `
-                  : ""
-              }
-
-              <br>
-
-              <a
-                class="btn btn-gray"
-                href="${escapeAttr(proof.url)}"
-                target="_blank">
-                👁️ Voir la preuve
-              </a>
-            </div>
-          `
-          : `
-            <p style="margin-top:10px;color:#dc2626">
-              ⚠️ Aucune preuve de paiement trouvée.
-            </p>
-          `
-      }
-
-      <div class="actions">
-
-        <button
-          class="btn btn-success"
-          onclick="approveOrder('${escapeAttr(
-            o.id
-          )}')">
-          ✅ Valider paiement
-        </button>
-
-        <button
-          class="btn btn-danger"
-          onclick="rejectOrder('${escapeAttr(
-            o.id
-          )}')">
-          ❌ Refuser
-        </button>
-
-        <button
-          class="btn btn-primary"
-          onclick="changeProgress('${escapeAttr(
-            o.id
-          )}', ${Number(progress) || 0})">
-          📊 Modifier progression
-        </button>
-
-        ${
-          o.user_id
-            ? `
-              <button
-                class="btn btn-dark"
-                onclick="openChat('${escapeAttr(
-                  o.user_id
-                )}')">
-                💬 Contacter client
-              </button>
-            `
-            : ""
-        }
-
-      </div>
-
-    </div>
-  `;
-}
-
-
-/* =========================
-   FILES
-========================= */
-
-function renderFiles(){
-
-  const files =
-    Array.isArray(dashboard.files)
-      ? dashboard.files
-      : [];
-
-  if(!files.length){
-
-    document.getElementById("app").innerHTML = `
-      <div class="empty">
-        <h3>Aucun fichier</h3>
-        <p>Aucun fichier envoyé pour le moment.</p>
-      </div>
-    `;
-
-    return;
-  }
-
-  document.getElementById("app").innerHTML =
-    files.map(fileHtml).join("");
-}
-
-
-function fileHtml(f){
-
-  const url =
-    getFileUrl(f);
-
-  return `
-    <div class="card">
-
-      <h3>
-        📁 ${escapeHtml(
-          f.file_name ||
-          f.name ||
-          "Fichier"
-        )}
-      </h3>
-
-      <div class="info">
-
-        <div>
-          <b>Type :</b>
-          ${escapeHtml(
-            f.file_type ||
-            f.type ||
-            "—"
-          )}
-        </div>
-
-        <div>
-          <b>Catégorie :</b>
-          ${escapeHtml(
-            f.category ||
-            "—"
-          )}
-        </div>
-
-        <div>
-          <b>Date :</b>
-          ${formatDate(
-            f.created_at
-          )}
-        </div>
-
-      </div>
-
-      ${
-        url
-          ? `
-            <div class="actions">
-
-              <a
-                class="btn btn-primary"
-                href="${escapeAttr(url)}"
-                target="_blank">
-                👁️ Ouvrir
-              </a>
-
-              <a
-                class="btn btn-gray"
-                href="${escapeAttr(url)}"
-                download>
-                ⬇️ Télécharger
-              </a>
-
-              <button
-                class="btn btn-danger"
-                onclick="deleteFile('${escapeAttr(
-                  f.id
-                )}')">
-                🗑️ Supprimer
-              </button>
-
-            </div>
-          `
-          : `
-            <p style="color:#dc2626">
-              URL du fichier introuvable.
-            </p>
-          `
-      }
-
-    </div>
-  `;
-}
-
-
-/* =========================
-   CHATS
-========================= */
-
-function renderChats(){
-
-  const chats =
-    Array.isArray(dashboard.conversations)
-      ? dashboard.conversations
-      : [];
-
-  if(!chats.length){
-
-    document.getElementById("app").innerHTML = `
-      <div class="empty">
-        <h3>Aucune conversation</h3>
-        <p>Aucune conversation disponible.</p>
-      </div>
-    `;
-
-    return;
-  }
-
-  document.getElementById("app").innerHTML =
-    chats.map(chatHtml).join("");
-}
-
-
-function chatHtml(c){
-
-  const userId =
-    c.user_id ||
-    c.client_id ||
-    c.id;
-
-  return `
-    <div class="card">
-
-      <h3>
-        💬 ${
-          escapeHtml(
-            c.full_name ||
-            c.name ||
-            c.phone ||
-            "Client"
-          )
-        }
-      </h3>
-
-      <div class="info">
-
-        <div>
-          <b>Téléphone :</b>
-          ${escapeHtml(
-            c.phone ||
-            c.phone_number ||
-            "—"
-          )}
-        </div>
-
-        <div>
-          <b>Dernier message :</b>
-          ${escapeHtml(
-            c.last_message ||
-            c.message ||
-            "Aucun message"
-          )}
-        </div>
-
-        <div>
-          <b>Date :</b>
-          ${formatDate(
-            c.updated_at ||
-            c.created_at
-          )}
-        </div>
-
-      </div>
-
-      <div class="actions">
-
-        <button
-          class="btn btn-primary"
-          onclick="openChat('${escapeAttr(
-            userId
-          )}')">
-          💬 Ouvrir conversation
-        </button>
-
-        <button
-          class="btn btn-danger"
-          onclick="clearConversation('${escapeAttr(
-            userId
-          )}')">
-          🗑️ Effacer
-        </button>
-
-      </div>
-
-    </div>
-  `;
-}
-
-
-/* =========================
-   APPROVE
-========================= */
-
-async function approveOrder(orderId){
-
-  if(!confirm(
-    "Confirmer la validation du paiement ?"
-  )){
-    return;
-  }
-
-  try{
-
-    const {data,error} =
-      await sb.rpc(
-        "controller_approve_order",
-        {
-          p_order_id: orderId
-        }
-      );
-
-    if(error) throw error;
-
-    alert(
-      "✅ Paiement validé avec succès."
-    );
-
-    await refresh();
-
-  }catch(error){
-
-    console.error(error);
-
-    alert(
-      "❌ Impossible de valider :\n" +
-      error.message
-    );
-  }
-}
-
-
-/* =========================
-   REJECT
-========================= */
-
-async function rejectOrder(orderId){
-
-  const reason =
-    prompt(
-      "Pourquoi voulez-vous refuser cette commande ?"
-    );
-
-  if(reason === null){
-    return;
-  }
-
-  try{
-
-    const {error} =
-      await sb.rpc(
-        "controller_reject_order",
-        {
-          p_order_id: orderId,
-          p_reason: reason
-        }
-      );
-
-    if(error) throw error;
-
-    alert(
-      "Commande refusée."
-    );
-
-    await refresh();
-
-  }catch(error){
-
-    console.error(error);
-
-    alert(
-      "❌ Erreur :\n" +
-      error.message
-    );
-  }
-}
-
-
-/* =========================
-   PROGRESS
-========================= */
-
-async function changeProgress(
-  orderId,
-  current
+async function render(
+  view
 ){
 
-  const value =
-    prompt(
-      "Nouvelle progression (0 à 100) :",
-      current
-    );
-
-  if(value === null){
-    return;
-  }
-
-  const progress =
-    Number(value);
-
   if(
-    !Number.isFinite(progress) ||
-    progress < 0 ||
-    progress > 100
+    view === "orders"
   ){
 
-    alert(
-      "Entrez un nombre entre 0 et 100."
-    );
+    await renderOrders();
 
-    return;
   }
 
-  try{
-
-    const {error} =
-      await sb.rpc(
-        "controller_set_order_progress",
-        {
-          p_order_id: orderId,
-          p_progress: progress
-        }
-      );
-
-    if(error) throw error;
-
-    alert(
-      "✅ Progression mise à jour."
-    );
-
-    await refresh();
-
-  }catch(error){
-
-    console.error(error);
-
-    alert(
-      "❌ Erreur :\n" +
-      error.message
-    );
-  }
-}
-
-
-/* =========================
-   CHAT
-========================= */
-
-async function openChat(userId){
-
-  currentConversation = userId;
-
-  try{
-
-    const {data,error} =
-      await sb.rpc(
-        "controller_get_conversation",
-        {
-          p_user_id: userId
-        }
-      );
-
-    if(error) throw error;
-
-    const messages =
-      Array.isArray(data)
-        ? data
-        : [];
-
-    document.getElementById("app").innerHTML = `
-      <div class="card">
-
-        <div class="actions">
-          <button
-            class="btn btn-gray"
-            onclick="render('chats')">
-            ← Retour
-          </button>
-        </div>
-
-        <h3 style="margin-top:15px">
-          💬 Conversation
-        </h3>
-
-        <div class="chat-box">
-
-          ${
-            messages.length
-              ? messages.map(messageHtml).join("")
-              : `
-                <div class="empty">
-                  Aucun message.
-                </div>
-              `
-          }
-
-        </div>
-
-        <div class="form-group">
-          <textarea
-            id="messageInput"
-            placeholder="Écrire un message..."
-          ></textarea>
-        </div>
-
-        <button
-          class="btn btn-primary"
-          onclick="sendMessage()">
-          📤 Envoyer
-        </button>
-
-      </div>
-    `;
-
-  }catch(error){
-
-    console.error(error);
-
-    alert(
-      "❌ Impossible d'ouvrir la conversation :\n" +
-      error.message
-    );
-  }
-}
-
-
-function messageHtml(m){
-
-  const isAdmin =
-    m.sender_role === "controller" ||
-    m.sender_role === "admin" ||
-    m.is_admin === true;
-
-  return `
-    <div class="message ${
-      isAdmin ? "admin" : ""
-    }">
-
-      <small>
-        ${
-          isAdmin
-            ? "Contrôleur"
-            : "Client"
-        }
-        •
-        ${formatDate(
-          m.created_at
-        )}
-      </small>
-
-      <div>
-        ${escapeHtml(
-          m.message ||
-          m.content ||
-          ""
-        )}
-      </div>
-
-      ${
-        m.id
-          ? `
-            <button
-              class="btn btn-danger"
-              style="margin-top:7px"
-              onclick="deleteMessage('${escapeAttr(
-                m.id
-              )}')">
-              Supprimer
-            </button>
-          `
-          : ""
-      }
-
-    </div>
-  `;
-}
-
-
-/* =========================
-   SEND MESSAGE
-========================= */
-
-async function sendMessage(){
-
-  if(!currentConversation){
-    return;
-  }
-
-  const input =
-    document.getElementById(
-      "messageInput"
-    );
-
-  const message =
-    input.value.trim();
-
-  if(!message){
-    alert("Écrivez un message.");
-    return;
-  }
-
-  try{
-
-    const {error} =
-      await sb.rpc(
-        "controller_send_message",
-        {
-          p_user_id:
-            currentConversation,
-
-          p_message:
-            message
-        }
-      );
-
-    if(error) throw error;
-
-    input.value = "";
-
-    await openChat(
-      currentConversation
-    );
-
-  }catch(error){
-
-    console.error(error);
-
-    alert(
-      "❌ Erreur d'envoi :\n" +
-      error.message
-    );
-  }
-}
-
-
-/* =========================
-   DELETE MESSAGE
-========================= */
-
-async function deleteMessage(
-  messageId
-){
-
-  if(!confirm(
-    "Supprimer ce message ?"
-  )){
-    return;
-  }
-
-  try{
-
-    const {error} =
-      await sb.rpc(
-        "controller_delete_message",
-        {
-          p_message_id:
-            messageId
-        }
-      );
-
-    if(error) throw error;
-
-    await openChat(
-      currentConversation
-    );
-
-  }catch(error){
-
-    console.error(error);
-
-    alert(
-      "❌ Erreur :\n" +
-      error.message
-    );
-  }
-}
-
-
-/* =========================
-   CLEAR CHAT
-========================= */
-
-async function clearConversation(
-  userId
-){
-
-  if(!confirm(
-    "Effacer toute cette conversation ?"
-  )){
-    return;
-  }
-
-  try{
-
-    const {error} =
-      await sb.rpc(
-        "controller_clear_conversation",
-        {
-          p_user_id: userId
-        }
-      );
-
-    if(error) throw error;
-
-    alert(
-      "Conversation effacée."
-    );
-
-    await refresh();
-
-  }catch(error){
-
-    console.error(error);
-
-    alert(
-      "❌ Erreur :\n" +
-      error.message
-    );
-  }
-}
-
-
-/* =========================
-   DELETE FILE
-========================= */
-
-async function deleteFile(
-  fileId
-){
-
-  if(!confirm(
-    "Supprimer ce fichier ?"
-  )){
-    return;
-  }
-
-  try{
-
-    const {error} =
-      await sb.rpc(
-        "controller_delete_file_metadata",
-        {
-          p_file_id: fileId
-        }
-      );
-
-    if(error) throw error;
-
-    alert(
-      "Fichier supprimé."
-    );
-
-    await refresh();
-
-  }catch(error){
-
-    console.error(error);
-
-    alert(
-      "❌ Erreur :\n" +
-      error.message
-    );
-  }
-}
-
-
-/* =========================
-   FILE URL
-========================= */
-
-function getFileUrl(file){
-
-  if(file.url){
-    return file.url;
-  }
-
-  if(file.public_url){
-    return file.public_url;
-  }
-
-  if(file.path){
-
-    const {
-      data
-    } =
-      sb.storage
-        .from(BUCKET)
-        .getPublicUrl(file.path);
-
-    return data?.publicUrl || "";
-  }
-
-  if(file.file_path){
-
-    const {
-      data
-    } =
-      sb.storage
-        .from(BUCKET)
-        .getPublicUrl(
-          file.file_path
-        );
-
-    return data?.publicUrl || "";
-  }
-
-  return "";
-}
-
-
-/* =========================
-   PAYMENT PROOF
-========================= */
-
-function findPaymentProof(order){
-
-  const files =
-    Array.isArray(dashboard.files)
-      ? dashboard.files
-      : [];
-
-  return files.find(f => {
-
-    const category =
-      String(
-        f.category ||
-        f.file_type ||
-        ""
-      ).toLowerCase();
-
-    const orderId =
-      f.order_id ||
-      f.commande_id;
-
-    return (
-      orderId === order.id &&
-      (
-        category.includes(
-          "payment"
-        ) ||
-        category.includes(
-          "paiement"
-        ) ||
-        category.includes(
-          "proof"
-        )
-      )
-    );
-
-  }) || null;
-}
-
-
-/* =========================
-   HELPERS
-========================= */
-
-function statusClass(status){
-
-  const s =
-    String(status)
-      .toLowerCase();
-
-  if(
-    s.includes("valid") ||
-    s.includes("termin")
+  else if(
+    view === "files"
   ){
-    return "success";
+
+    await renderFiles();
+
   }
 
-  if(
-    s.includes("refus") ||
-    s.includes("rejet")
+  else if(
+    view === "chats"
   ){
-    return "danger";
+
+    await renderChats();
+
   }
-
-  if(
-    s.includes("attente")
-  ){
-    return "pending";
-  }
-
-  return "blue";
-}
-
-
-function paymentClass(payment){
-
-  const p =
-    String(payment)
-      .toLowerCase();
-
-  if(
-    p.includes("paid") ||
-    p.includes("success") ||
-    p.includes("valid")
-  ){
-    return "success";
-  }
-
-  if(
-    p.includes("reject") ||
-    p.includes("failed")
-  ){
-    return "danger";
-  }
-
-  return "pending";
-}
-
-
-function isImage(name){
-
-  return /\.(jpg|jpeg|png|gif|webp)$/i
-    .test(
-      String(name || "")
-    );
-}
-
-
-function formatDate(date){
-
-  if(!date){
-    return "—";
-  }
-
-  try{
-
-    return new Date(date)
-      .toLocaleString(
-        "fr-FR"
-      );
-
-  }catch{
-
-    return String(date);
-  }
-}
-
-
-function escapeHtml(value){
-
-  return String(
-    value ?? ""
-  )
-  .replaceAll("&","&amp;")
-  .replaceAll("<","&lt;")
-  .replaceAll(">","&gt;")
-  .replaceAll('"',"&quot;")
-  .replaceAll("'","&#039;");
-}
-
-
-function escapeAttr(value){
-
-  return escapeHtml(value);
 }
 
 
@@ -1645,97 +2564,186 @@ function escapeAttr(value){
    LOGOUT
 ========================= */
 
-function logout(){
+$("logout").onclick =
+  async () => {
 
-  sessionStorage.removeItem(
-    "controllerAccessGranted"
-  );
+    sessionStorage
+      .removeItem(
+        "controllerAccessGranted"
+      );
 
-  window.location.href =
-    "mon-espace.html";
-}
+    await sb.auth
+      .signOut();
 
-
-/* =========================
-   REALTIME
-========================= */
-
-function setupRealtime(){
-
-  sb.channel(
-    "controller-orders-realtime"
-  )
-  .on(
-    "postgres_changes",
-    {
-      event:"*",
-      schema:"public",
-      table:"orders"
-    },
-    () => {
-      refresh();
-    }
-  )
-  .subscribe();
-
-
-  sb.channel(
-    "controller-files-realtime"
-  )
-  .on(
-    "postgres_changes",
-    {
-      event:"*",
-      schema:"public",
-      table:"files"
-    },
-    () => {
-      refresh();
-    }
-  )
-  .subscribe();
-
-
-  sb.channel(
-    "controller-messages-realtime"
-  )
-  .on(
-    "postgres_changes",
-    {
-      event:"*",
-      schema:"public",
-      table:"messages"
-    },
-    () => {
-
-      if(currentView === "chats"){
-        refresh();
-      }
-
-    }
-  )
-  .subscribe();
-}
+    location.href =
+      "mon-espace.html";
+  };
 
 
 /* =========================
    START
 ========================= */
 
-(async function(){
+(async () => {
 
-  const ok =
-    await guard();
+  try{
 
-  if(!ok){
-    return;
+    const ok =
+      await controllerGuard();
+
+
+    if(!ok){
+
+      sessionStorage
+        .removeItem(
+          "controllerAccessGranted"
+        );
+
+      location.replace(
+        "mon-espace.html"
+      );
+
+      return;
+    }
+
+
+    await refreshStats();
+
+    await render(
+      "orders"
+    );
+
+
+  }catch(e){
+
+    console.error(e);
+
+
+    $("content")
+      .innerHTML = `
+
+        <div class="empty">
+
+          <b>
+            Erreur de démarrage.
+          </b>
+
+          <br><br>
+
+          ${esc(
+            e.message
+          )}
+
+        </div>
+
+      `;
+
   }
 
-  await refresh();
-
-  setupRealtime();
-
 })();
+
+
+/* =========================
+   REALTIME
+========================= */
+
+sb.channel(
+  "controller-live"
+)
+
+.on(
+  "postgres_changes",
+  {
+    event:"*",
+    schema:"public",
+    table:"orders"
+  },
+  async () => {
+
+    await refreshStats();
+
+    const active =
+      document.querySelector(
+        ".tab.active"
+      )?.dataset.view ||
+      "orders";
+
+    await render(
+      active
+    );
+
+  }
+)
+
+.on(
+  "postgres_changes",
+  {
+    event:"*",
+    schema:"public",
+    table:"files"
+  },
+  async () => {
+
+    await refreshStats();
+
+    const active =
+      document.querySelector(
+        ".tab.active"
+      )?.dataset.view;
+
+    if(active)
+      await render(
+        active
+      );
+
+  }
+)
+
+.on(
+  "postgres_changes",
+  {
+    event:"*",
+    schema:"public",
+    table:"conversations"
+  },
+  async () => {
+
+    await refreshStats();
+
+  }
+)
+
+.on(
+  "postgres_changes",
+  {
+    event:"*",
+    schema:"public",
+    table:"messages"
+  },
+  async () => {
+
+    const active =
+      document.querySelector(
+        ".tab.active"
+      )?.dataset.view;
+
+    await refreshStats();
+
+    if(
+      active === "chats"
+    ){
+
+      await render(
+        "chats"
+      );
+
+    }
+
+  }
+)
+
+.subscribe();
+
 </script>
 
 </body>
