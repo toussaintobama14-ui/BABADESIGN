@@ -3027,15 +3027,10 @@ body{
                 >
 
                     <strong>
-                        Inscription Agent
+                      
                     </strong>
 
                     <br><br>
-
-                    Après votre inscription,
-                    envoyez votre photo directement
-                    sur notre WhatsApp pour la création
-                    de votre badge.
 
                     <br><br>
 
@@ -3153,7 +3148,13 @@ body{
                 <br>
 
 
-                <div class="field portal-upload-field"><label>Photo pour mon badge (Agent)</label><input id="agentBadgePhoto" type="file" accept="image/*"></div>
+                <div class="field portal-upload-field" style="margin-top:20px;">
+<label>Photo de preuve de paiement <span class="required">*</span></label>
+<input id="regPaymentProof" type="file" accept="image/*" required>
+<small style="display:block;color:#777;margin-top:7px;">Ajoutez une photo claire de votre reçu / transaction NatCash.</small>
+</div>
+
+<div class="field portal-upload-field"><label>Photo pour mon badge (Agent)</label><input id="agentBadgePhoto" type="file" accept="image/*"></div>
 
 <button
                     type="submit"
@@ -5079,7 +5080,9 @@ Merci.
   async function submitRegistration(form){
   const p=await getProfile();
   if(!p){showAuth();toast('Compte requis','Crée ton compte une seule fois, puis utilise-le pour tous tes services.');return;}
+  const proof=$('regPaymentProof')?.files?.[0];
   const badge=$('agentBadgePhoto')?.files?.[0];
+  if(!proof){alert('La photo de preuve de paiement est obligatoire.');return;}
   const type=document.querySelector('input[name="memberType"]:checked')?.value||'Étudiant';
   const requestedRole=type==='Agent'?'agent':'student';
   const fee=type==='Agent'?150:250;
@@ -5111,8 +5114,9 @@ Merci.
       payment_status:'pending'
     }).select().single();
     if(error)throw error;
+    await uploadOne(proof,p.id,'payment_proof',o.id,null);
     if(badge&&type==='Agent')await uploadOne(badge,p.id,'agent_badge',o.id,null);
-    toast('Inscription envoyée 🎉','Votre demande est maintenant en attente de vérification par le contrôleur.');
+    toast('Inscription envoyée 🎉','Votre demande et votre preuve de paiement sont maintenant chez le contrôleur.');
     form.reset();
   }catch(err){alert(err.message||'Erreur.');}
   finally{wait(false);}
@@ -5149,8 +5153,15 @@ Merci.
       akadeAdd('assistant',reply);
       return reply;
     }catch(err){
-      console.error('Akade AI:',err);
-      return 'Désolé, je rencontre un petit problème de connexion pour le moment. Réessaie dans quelques secondes. 🙏';
+      console.warn('Akade AI indisponible, fallback local activé:',err);
+      const q=t.toLowerCase();
+      let fallback='Je suis Akade 🤖. Le service IA est temporairement indisponible, mais je peux quand même t’aider avec les informations principales de Baba Design.';
+      if(/inscri|membre|adh[eé]r|akademi/.test(q)) fallback='Pour l’inscription Akademi Dizay, remplis le formulaire, paie les frais demandés et joins une photo claire de ta preuve de paiement. Ta demande sera vérifiée par le contrôleur.';
+      else if(/paiement|natcash|transcode|preuve/.test(q)) fallback='Pour un paiement, utilise le numéro NatCash indiqué sur le site et joins la photo de ton reçu dans le formulaire. Le contrôleur vérifie ensuite la transaction.';
+      else if(/service|design|graph|logo|montage|publicit[eé]/.test(q)) fallback='Baba Design propose des services de design, création de visuels, montage vidéo et autres solutions digitales. Consulte la section Services pour envoyer une demande.';
+      else if(/contr[oô]leur|validation|valider/.test(q)) fallback='Les demandes et preuves de paiement sont envoyées au contrôleur. Après vérification, le statut de ta demande est mis à jour dans Mon espace.';
+      akadeAdd('assistant',fallback);
+      return fallback;
     }
   }
   async function botSend(){
@@ -5186,12 +5197,12 @@ Merci.
     await refresh();
   }
 
-  async function renderController(m){const {data:orders}=await sb.from('orders').select('*').order('created_at',{ascending:false});const {data:files}=await sb.from('files').select('*').order('created_at',{ascending:false});const {data:convs}=await sb.from('conversations').select('*').order('last_message_at',{ascending:false});m.innerHTML=`<h3>🛠️ Contrôle</h3><p>Gestion des commandes, paiements, progression, fichiers et conversations.</p><div class="order-item"><strong>${(orders||[]).length}</strong> commandes · <strong>${(files||[]).length}</strong> fichiers</div><h4>Commandes</h4>${(orders||[]).map(o=>`<div class="order-item"><div class="portal-top"><strong>${esc(o.service_name)}</strong><span>${esc(o.payment_status)}</span></div><small>Client: ${esc(o.user_id)}</small><div class="portal-field"><label>Progression: <span id="pv-${o.id}">${o.progress||0}%</span></label><input type="range" min="0" max="100" value="${o.progress||0}" data-progress="${o.id}"></div><button class="portal-btn small" data-approve="${o.id}">✅ Valider paiement</button> <button class="portal-btn small dark" data-reject="${o.id}">❌ Refuser</button></div>`).join('')||'<p>Aucune commande.</p>'}<h4>Fichiers</h4><div class="file-list">${(files||[]).map(f=>`<div class="file-item"><div><strong>${esc(f.file_name)}</strong><br><small>${esc(f.kind)} · ${fmt(f.created_at)}</small></div><span><button class="portal-btn small" data-file-download="${esc(f.storage_path)}">⬇️</button> <button class="portal-btn small dark" data-file-delete="${f.id}" data-path="${esc(f.storage_path)}">🗑️</button></span></div>`).join('')||'<p>Aucun fichier.</p>'}</div><h4>Conversations</h4>${(convs||[]).map(c=>`<div class="order-item"><strong>Client ${esc(c.user_id)}</strong><br><button class="portal-btn small" data-open-chat="${c.id}">Ouvrir</button> <button class="portal-btn small dark" data-clear-chat="${c.id}">🗑️ Effacer messages</button></div>`).join('')||'<p>Aucune conversation.</p>'}`;
+  async function renderController(m){const {data:orders}=await sb.from('orders').select('*').order('created_at',{ascending:false});const {data:files}=await sb.from('files').select('*').order('created_at',{ascending:false});const {data:convs}=await sb.from('conversations').select('*').order('last_message_at',{ascending:false});const paymentProof=o=>files.find(f=>f.order_id===o.id&&f.kind==='payment_proof');m.innerHTML=`<h3>🛠️ Contrôle</h3><p>Gestion des commandes, paiements, progression, fichiers et conversations.</p><div class="order-item"><strong>${(orders||[]).length}</strong> commandes · <strong>${(files||[]).length}</strong> fichiers</div><h4>Commandes</h4>${(orders||[]).map(o=>`<div class="order-item"><div class="portal-top"><strong>${esc(o.service_name)}</strong><span>${esc(o.payment_status)}</span></div><small>Client: ${esc(o.user_id)}</small>${paymentProof(o)?`<div style="margin:10px 0;padding:10px;border:1px solid #eee;border-radius:12px;background:#fafafa"><b>📸 Preuve de paiement</b><br><small>${esc(paymentProof(o).file_name)}</small><br><button type="button" class="portal-btn small" data-file-download="${esc(paymentProof(o).storage_path)}">Voir / télécharger</button></div>`:'<div style="margin:10px 0;color:#a00;font-size:12px"><b>⚠️ Aucune preuve de paiement jointe.</b></div>'}<div class="portal-field"><label>Progression: <span id="pv-${o.id}">${o.progress||0}%</span></label><input type="range" min="0" max="100" value="${o.progress||0}" data-progress="${o.id}"></div><button class="portal-btn small" data-approve="${o.id}">✅ Valider paiement</button> <button class="portal-btn small dark" data-reject="${o.id}">❌ Refuser</button></div>`).join('')||'<p>Aucune commande.</p>'}<h4>Fichiers</h4><div class="file-list">${(files||[]).map(f=>`<div class="file-item"><div><strong>${esc(f.file_name)}</strong><br><small>${esc(f.kind)} · ${fmt(f.created_at)}</small></div><span><button class="portal-btn small" data-file-download="${esc(f.storage_path)}">⬇️</button> <button class="portal-btn small dark" data-file-delete="${f.id}" data-path="${esc(f.storage_path)}">🗑️</button></span></div>`).join('')||'<p>Aucun fichier.</p>'}</div><h4>Conversations</h4>${(convs||[]).map(c=>`<div class="order-item"><strong>Client ${esc(c.user_id)}</strong><br><button class="portal-btn small" data-open-chat="${c.id}">Ouvrir</button> <button class="portal-btn small dark" data-clear-chat="${c.id}">🗑️ Effacer messages</button></div>`).join('')||'<p>Aucune conversation.</p>'}`;
     m.querySelectorAll('[data-progress]').forEach(x=>x.oninput=async()=>{$('pv-'+x.dataset.progress).textContent=x.value+'%';await sb.rpc('controller_set_order_progress',{p_order_id:x.dataset.progress,p_progress:+x.value})});
     m.querySelectorAll('[data-approve]').forEach(b=>b.onclick=async()=>{await sb.rpc('controller_approve_order',{p_order_id:b.dataset.approve});toast('Paiement réussi 🎉','Le client recevra la confirmation.');await renderController(m)});
     m.querySelectorAll('[data-reject]').forEach(b=>b.onclick=async()=>{await sb.rpc('controller_reject_order',{p_order_id:b.dataset.reject});await renderController(m)});
     m.querySelectorAll('[data-file-download]').forEach(b=>b.onclick=()=>downloadFile(b.dataset.fileDownload));
-    m.querySelectorAll('[data-file-delete]').forEach(b=>b.onclick=async()=>{if(!confirm('Télécharger le fichier avant suppression si nécessaire. Supprimer définitivement de Storage et de la base ?'))return;wait(true,'Suppression définitive…');try{const {error}=await sb.storage.from(BUCKET).remove([b.dataset.path]);if(error)throw error;const {data:e2,error:e2err}=await sb.rpc('controller_delete_file_metadata',{p_file_id:b.dataset.fileDelete});if(e2err)throw e2err;await renderController(m);}catch(e){alert(e.message)}finally{wait(false)}});
+    m.querySelectorAll('[data-file-download]').forEach(b=>b.onclick=()=>downloadFile(b.dataset.fileDownload));m.querySelectorAll('[data-file-delete]').forEach(b=>b.onclick=async()=>{if(!confirm('Télécharger le fichier avant suppression si nécessaire. Supprimer définitivement de Storage et de la base ?'))return;wait(true,'Suppression définitive…');try{const {error}=await sb.storage.from(BUCKET).remove([b.dataset.path]);if(error)throw error;const {data:e2,error:e2err}=await sb.rpc('controller_delete_file_metadata',{p_file_id:b.dataset.fileDelete});if(e2err)throw e2err;await renderController(m);}catch(e){alert(e.message)}finally{wait(false)}});
     m.querySelectorAll('[data-open-chat]').forEach(b=>b.onclick=()=>openControllerChat(b.dataset.openChat,m));
     m.querySelectorAll('[data-clear-chat]').forEach(b=>b.onclick=async()=>{if(!confirm('Effacer tous les messages de cette conversation ?'))return;const {error}=await sb.rpc('controller_clear_conversation',{p_conversation_id:b.dataset.clearChat});if(error)alert(error.message);else await renderController(m)});
   }
