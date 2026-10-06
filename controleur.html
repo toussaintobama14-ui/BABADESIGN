@@ -1,66 +1,437 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#09090b"><title>Baba Design — Contrôleur</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Baba Design — Test Contrôleur</title>
+
 <style>
-:root{--r:#e60000;--o:#ff7300;--y:#ffd000;--d:#09090b;--bg:#f4f5f7;--line:#e7e7eb}*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Inter,Arial,sans-serif;color:#111}button,input,textarea{font:inherit}
-.top{position:sticky;top:0;z-index:20;background:#09090beF;color:#fff;backdrop-filter:blur(22px);border-bottom:1px solid #ffffff14}.topin{max-width:1350px;margin:auto;padding:15px 22px;display:flex;justify-content:space-between;align-items:center}.brand{font-size:21px;font-weight:950}.brand span{color:var(--o)}.logout{border:1px solid #333;background:#17171a;color:#fff;padding:10px 14px;border-radius:12px;cursor:pointer}.wrap{max-width:1350px;margin:auto;padding:28px 20px 70px}.hero{border-radius:30px;background:radial-gradient(circle at 85% 20%,#e6000044,transparent 25%),linear-gradient(135deg,#08080a,#171719 60%,#2d0d00);color:#fff;padding:34px;box-shadow:0 25px 70px #1112;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:250px;height:250px;border-radius:50%;right:-100px;bottom:-130px;background:#ffd000;filter:blur(65px);opacity:.3}.k{color:#ffd000;font-size:11px;letter-spacing:2px;font-weight:900}.hero h1{font-size:clamp(32px,5vw,58px);margin:10px 0}.hero p{color:#c8c8c8;line-height:1.6;max-width:700px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:20px 0}.stat,.panel{background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 16px 50px #11110a}.stat{padding:20px}.stat small{color:#777}.stat b{display:block;font-size:30px;margin-top:8px}.tabs{display:flex;gap:8px;overflow:auto;margin:20px 0}.tab{border:1px solid var(--line);background:#fff;padding:12px 16px;border-radius:13px;font-weight:900;cursor:pointer;white-space:nowrap}.tab.active{background:linear-gradient(135deg,#111,#2b2b2b 55%,var(--r));color:#fff}.panel{padding:22px}.item{border:1px solid var(--line);border-radius:17px;padding:16px;margin:11px 0;background:#fff}.row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.pill{padding:6px 10px;border-radius:999px;font-size:10px;font-weight:950;background:#111;color:#fff}.approved{background:#16833b}.rejected{background:#c40000}.pending{background:var(--o)}.btn{border:0;border-radius:11px;padding:10px 13px;background:linear-gradient(135deg,var(--r),var(--o));color:#fff;font-weight:900;cursor:pointer}.dark{background:#111}.sm{padding:7px 10px;font-size:11px}.range{width:100%;accent-color:var(--o)}.bar{height:9px;background:#ececf0;border-radius:99px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,var(--r),var(--o),var(--y));border-radius:99px}.file{display:flex;justify-content:space-between;gap:10px;align-items:center}.file small{display:block;color:#777;margin-top:4px}.chat{height:360px;overflow:auto;background:#f7f7f8;border-radius:17px;padding:14px}.bubble{max-width:78%;padding:10px 13px;border-radius:16px;margin:7px 0;line-height:1.45}.me{margin-left:auto;background:linear-gradient(135deg,var(--r),var(--o));color:#fff}.other{background:#fff;border:1px solid var(--line)}.compose{display:flex;gap:8px;margin-top:10px}.compose textarea{flex:1;border:1px solid #ddd;border-radius:12px;padding:11px}.loader{position:fixed;inset:0;background:#09090bdd;z-index:99;display:none;place-items:center}.loader.show{display:grid}.loaderbox{background:#fff;padding:28px;border-radius:22px;text-align:center}.spin{width:50px;height:50px;border:5px solid #eee;border-top-color:var(--o);border-right-color:var(--r);border-radius:50%;animation:s 1s linear infinite;margin:auto auto 12px}@keyframes s{to{transform:rotate(360deg)}}@media(max-width:850px){.stats{grid-template-columns:1fr 1fr}}@media(max-width:520px){.wrap{padding:15px 11px}.hero{padding:25px;border-radius:22px}.stats{grid-template-columns:1fr}.panel{padding:15px}}
-</style>
-</head>
-<body><script>if(sessionStorage.getItem("controllerAccessGranted")!=="1"){window.location.replace("mon-espace.html");}</script>
-<div id="loading" class="loader"><div class="loaderbox"><div class="spin"></div><b id="loadingText">Sécurisation…</b></div></div>
-<header class="top"><div class="topin"><div class="brand">Baba<span>Design</span> · Contrôleur</div><button class="logout" id="logout">Déconnexion</button></div></header>
-<main class="wrap">
-<section class="hero"><div class="k">CONTROL CENTER • PRIVÉ</div><h1>Contrôle total.<br>Expérience premium.</h1><p>Gérez toutes les demandes : commandes, services, inscriptions, paiements, progressions, fichiers et conversations depuis un centre de contrôle moderne.</p></section>
-<section class="stats"><div class="stat"><small>Commandes</small><b id="statOrders">—</b></div><div class="stat"><small>Paiements validés</small><b id="statPaid">—</b></div><div class="stat"><small>Fichiers</small><b id="statFiles">—</b></div><div class="stat"><small>Conversations</small><b id="statChats">—</b></div></section>
-<div class="tabs"><button class="tab active" data-view="orders">▣ Commandes</button><button class="tab" data-view="files">▤ Fichiers</button><button class="tab" data-view="chats">◌ Conversations</button></div>
-<section class="panel" id="content"></section>
-</main>
-<script>
-const URL="https://drvcneeaothydjmqpdzg.supabase.co",KEY="sb_publishable_k8DUVt12k1GN4n7yiYBnYw_gXltrpmp",BUCKET="client-files";
-const sb=window.supabase.createClient(URL,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
-const $=id=>document.getElementById(id),esc=v=>String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])),fmt=d=>d?new Date(d).toLocaleString('fr-FR'):'—';
-function wait(on,t='Traitement…'){$('loadingText').textContent=t;$('loading').classList.toggle('show',on)}
-async function guard(){const {data:{user}}=await sb.auth.getUser();if(!user)return false;const {data:ok,error}=await sb.rpc('is_controller');if(error||!ok)return false;return true}
-async function data(){const {data,error}=await sb.rpc('controller_get_dashboard');if(error)throw error;if(!data||typeof data!=='object')throw new Error('Réponse dashboard invalide.');return {orders:Array.isArray(data.orders)?data.orders:[],files:Array.isArray(data.files)?data.files:[],chats:Array.isArray(data.conversations)?data.conversations:[]}}
-async function refreshStats(){try{const d=await data();$('statOrders').textContent=d.orders.length;$('statPaid').textContent=d.orders.filter(x=>x.payment_status==='approved').length;$('statFiles').textContent=d.files.length;$('statChats').textContent=d.chats.length}catch(e){console.error(e)}}
-async function download(path){const {data,error}=await sb.storage.from(BUCKET).createSignedUrl(path,120);if(error)return alert(error.message);window.open(data.signedUrl,'_blank')}
-function orderHtml(o,files=[]){
-  const ps=o.payment_status||'pending';
-  const proof=files.find(f=>f.order_id===o.id&&f.kind==='payment_proof');
-  const title=ps==='approved'?'Demande validée':ps==='rejected'?'Demande refusée':'En attente de validation';
-  return '<div class="item">'+
-    '<div class="row"><b>'+esc(o.service_name)+'</b><span class="pill '+esc(ps)+'">'+esc(title)+'</span></div>'+
-    '<p style="color:#777;font-size:12px">Client : <strong>'+esc(o.client_name||'Client')+'</strong> · '+esc(o.client_email||'')+' · '+fmt(o.created_at)+'</p>'+
-    (o.requested_role?'<p style="margin:7px 0;font-size:12px"><b>Inscription :</b> '+esc(o.requested_role==='agent'?'Agent':'Étudiant')+' · '+esc(o.description||'')+'</p>':'<p style="margin:7px 0;font-size:12px">'+esc(o.description||'')+'</p>')+
-    (proof?'<div style="margin:10px 0;padding:10px;border:1px solid #eee;border-radius:12px;background:#fafafa"><b>📸 Preuve de paiement</b> · '+esc(proof.file_name)+'<br><button class="btn sm" data-dl="'+esc(proof.storage_path)+'">Voir / télécharger</button></div>':'<div style="margin:10px 0;color:#a00;font-size:12px"><b>⚠️ Aucune preuve de paiement jointe.</b></div>')+
-    '<div class="row"><strong>Progression <span id="v'+o.id+'">'+(o.progress||0)+'%</span></strong><span>'+esc(o.status||'En attente de validation')+'</span></div>'+
-    '<div class="bar"><div class="fill" style="width:'+(o.progress||0)+'%"></div></div>'+
-    '<input class="range" type="range" min="0" max="100" value="'+(o.progress||0)+'" data-progress="'+o.id+'">'+
-    (o.rejection_reason?'<div style="margin-top:10px;padding:10px;border-radius:12px;background:#fff1f1;color:#9d0000;font-size:12px"><b>Motif actuel :</b> '+esc(o.rejection_reason)+'</div>':'')+
-    '<textarea data-reason="'+o.id+'" rows="2" placeholder="Motif de refus (facultatif)" style="width:100%;margin-top:10px;border:1px solid #ddd;border-radius:12px;padding:10px;resize:vertical"></textarea>'+
-    '<div style="margin-top:10px"><button class="btn sm" data-approve="'+o.id+'">✓ Valider la demande</button> <button class="btn dark sm" data-reject="'+o.id+'">✕ Refuser</button></div>'+
-  '</div>';
+body{
+  font-family:Arial,sans-serif;
+  background:#f4f5f7;
+  margin:0;
+  padding:20px;
+  color:#111;
 }
-function fileHtml(f){return '<div class="item file"><div><b>'+esc(f.file_name)+'</b><small>'+esc(f.kind||'Fichier')+' · Client '+esc(f.user_id)+' · '+fmt(f.created_at)+'</small></div><span><button class="btn sm" data-dl="'+esc(f.storage_path)+'">⬇</button> <button class="btn dark sm" data-del="'+f.id+'" data-path="'+esc(f.storage_path)+'">🗑</button></span></div>'}
-function chatHtml(c){return '<div class="item"><div class="row"><b>Client '+esc(c.user_id)+'</b><small>'+fmt(c.last_message_at)+'</small></div><div style="margin-top:9px"><button class="btn sm" data-chat="'+c.id+'">Ouvrir</button> <button class="btn dark sm" data-clear="'+c.id+'">Effacer les messages</button></div></div>'}
-async function render(view='orders'){const m=$('content');m.innerHTML='<div class="item">Chargement…</div>';let d;try{d=await data()}catch(e){m.innerHTML='<div class="item"><b>Impossible de charger les données.</b><p>'+esc(e.message)+'</p><small>Exécute le SQL final dans Supabase.</small></div>';return}
-if(view==='orders'){m.innerHTML='<h2>Commandes & paiements</h2><p style="color:#777">Validez les paiements et pilotez l’avancement de chaque service.</p>'+(d.orders.map(o=>orderHtml(o,d.files)).join('')||'<div class="item">Aucune commande.</div>');m.querySelectorAll('[data-progress]').forEach(x=>x.onchange=async()=>{try{const {error}=await sb.rpc('controller_set_order_progress',{p_order_id:x.dataset.progress,p_progress:+x.value});if(error)throw error;await refreshStats();await render('orders')}catch(e){alert(e.message)}});m.querySelectorAll('[data-approve]').forEach(b=>b.onclick=async()=>{const {error}=await sb.rpc('controller_approve_order',{p_order_id:b.dataset.approve});if(error)alert(error.message);else{await refreshStats();render('orders')}});m.querySelectorAll('[data-reject]').forEach(b=>b.onclick=async()=>{
-  const reason=m.querySelector('[data-reason="'+b.dataset.reject+'"]')?.value?.trim()||'';
-  if(!confirm(reason?'Refuser cette demande avec ce motif ?':'Refuser cette demande sans motif ?'))return;
-  const {error}=await sb.rpc('controller_reject_order',{p_order_id:b.dataset.reject,p_reason:reason});
-  if(error)alert(error.message);else{await refreshStats();render('orders')}
-});return}
-if(view==='files'){m.innerHTML='<h2>Fichiers</h2><p style="color:#777">Gérez les fichiers stockés dans l’espace client.</p>'+(d.files.map(fileHtml).join('')||'<div class="item">Aucun fichier.</div>');m.querySelectorAll('[data-dl]').forEach(b=>b.onclick=()=>download(b.dataset.dl));m.querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{if(!confirm('Supprimer définitivement ce fichier ?'))return;wait(true,'Suppression…');try{let r=await sb.storage.from(BUCKET).remove([b.dataset.path]);if(r.error)throw r.error;let q=await sb.rpc('controller_delete_file_metadata',{p_file_id:b.dataset.del});if(q.error)throw q.error;await refreshStats();await render('files')}catch(e){alert(e.message)}finally{wait(false)}});return}
-if(view==='chats'){m.innerHTML='<h2>Conversations</h2><p style="color:#777">Ouvrez une conversation privée avec un client.</p>'+(d.chats.map(chatHtml).join('')||'<div class="item">Aucune conversation.</div>');m.querySelectorAll('[data-chat]').forEach(b=>b.onclick=()=>openChat(b.dataset.chat));m.querySelectorAll('[data-clear]').forEach(b=>b.onclick=async()=>{if(!confirm('Effacer tous les messages ?'))return;const {error}=await sb.rpc('controller_clear_conversation',{p_conversation_id:b.dataset.clear});if(error)alert(error.message);else render('chats')});return}}
-async function openChat(id){const {data:c,error}=await sb.rpc('controller_get_conversation',{p_conversation_id:id});if(error||!c){alert(error?.message||'Conversation introuvable');return;}const m=$('content');m.innerHTML='<div class="row"><div><h2>Conversation privée</h2><p style="color:#777">Client : '+esc(c.user_id)+'</p></div><button class="btn dark sm" id="back">← Retour</button></div><div class="chat" id="chat"></div><div class="compose"><textarea id="msg" rows="2" placeholder="Répondre au client…"></textarea><button class="btn" id="send">Envoyer</button></div><div class="item"><b>📎 Envoyer un fichier au client</b><input id="file" type="file" accept="image/*,.pdf,.doc,.docx" style="display:block;margin-top:10px"><button class="btn sm" id="sendFile" style="margin-top:8px">Envoyer</button></div>';
-async function refresh(){const {data,error}=await sb.rpc('controller_get_messages',{p_conversation_id:id});if(error){alert(error.message);return}const me=(await sb.auth.getUser()).data.user,box=$('chat');box.innerHTML=(data||[]).map(x=>'<div class="bubble '+(x.sender_id===me.id?'me':'other')+'">'+esc(x.body)+'<div style="font-size:9px;opacity:.65">'+fmt(x.created_at)+(x.sender_id===me.id?' <button style="border:0;background:none" data-del="'+x.id+'">🗑</button>':'')+'</div></div>').join('')||'<p>Aucun message.</p>';box.querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{if(!confirm('Supprimer ce message ?'))return;const {error}=await sb.rpc('controller_delete_message',{p_message_id:b.dataset.del});if(error)alert(error.message);else refresh()});box.scrollTop=box.scrollHeight}
-$('send').onclick=async()=>{const body=$('msg').value.trim();if(!body)return;const {error}=await sb.rpc('controller_send_message',{p_conversation_id:id,p_body:body});if(error)alert(error.message);else{$('msg').value='';refresh()}};$('back').onclick=()=>render('chats');$('sendFile').onclick=async()=>{const f=$('file').files[0];if(!f)return alert('Choisissez un fichier.');const safe=f.name.replace(/[^a-zA-Z0-9._-]/g,'_'),path=c.user_id+'/'+crypto.randomUUID()+'_'+safe;wait(true,'Envoi du fichier…');try{let r=await sb.storage.from(BUCKET).upload(path,f,{upsert:false});if(r.error)throw r.error;let q=await sb.rpc('controller_register_file',{p_user_id:c.user_id,p_file_name:f.name,p_storage_path:path,p_kind:'controller_file',p_expires_at:new Date(Date.now()+48*3600000).toISOString()});if(q.error){await sb.storage.from(BUCKET).remove([path]);throw q.error}alert('Fichier envoyé.');$('file').value='';await refreshStats()}catch(e){alert(e.message)}finally{wait(false)}};refresh()}
-$('logout').onclick=async()=>{sessionStorage.removeItem('controllerAccessGranted');await sb.auth.signOut();location.href='mon-espace.html'};document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');render(b.dataset.view)});(async()=>{
-const status=document.createElement("div");status.style="position:fixed;left:12px;right:12px;bottom:12px;z-index:9999;background:#111;color:#fff;padding:14px 16px;border-radius:12px;font:14px Arial;box-shadow:0 10px 30px #0005";status.textContent="Diagnostic : connexion Supabase…";document.body.appendChild(status);
-try{const {data:{user},error:ue}=await sb.auth.getUser();if(ue)throw new Error("Auth: "+ue.message);if(!user)throw new Error("Aucun utilisateur Supabase connecté.");status.textContent="Diagnostic : utilisateur connecté. Vérification contrôleur…";const {data:ok,error:ce}=await sb.rpc("is_controller");if(ce)throw new Error("is_controller: "+ce.message);if(!ok)throw new Error("is_controller retourne FALSE pour ce compte.");status.textContent="Diagnostic : contrôleur OK. Lecture dashboard…";const {data:dash,error:de}=await sb.rpc("controller_get_dashboard");if(de)throw new Error("controller_get_dashboard: "+de.message);status.textContent="Diagnostic OK : commandes="+(Array.isArray(dash?.orders)?dash.orders.length:0)+" | fichiers="+(Array.isArray(dash?.files)?dash.files.length:0)+" | conversations="+(Array.isArray(dash?.conversations)?dash.conversations.length:0);status.style.background="#16833b";await refreshStats();await render("orders")}catch(e){console.error(e);status.textContent="ERREUR : "+(e?.message||e);status.style.background="#b00020";$('content').innerHTML='<div class="item"><h2 style="color:#b00020">Erreur</h2><pre style="white-space:pre-wrap;word-break:break-word">'+esc(e?.message||e)+'</pre></div>'}})();
-sb.channel('controller-live').on('postgres_changes',{event:'*',schema:'public',table:'orders'},()=>{refreshStats();render(document.querySelector('.tab.active')?.dataset.view||'orders')}).on('postgres_changes',{event:'*',schema:'public',table:'files'},()=>{refreshStats();if(document.querySelector('.tab.active')?.dataset.view==='files')render('files')}).on('postgres_changes',{event:'*',schema:'public',table:'conversations'},()=>{refreshStats();if(document.querySelector('.tab.active')?.dataset.view==='chats')render('chats')}).subscribe();
+
+.box{
+  max-width:800px;
+  margin:auto;
+  background:#fff;
+  padding:24px;
+  border-radius:18px;
+  box-shadow:0 10px 30px #0002;
+}
+
+h1{
+  margin-top:0;
+}
+
+.ok{
+  color:#087a35;
+  margin:12px 0;
+}
+
+.err{
+  color:#b00020;
+  background:#fff0f0;
+  padding:12px;
+  border-radius:10px;
+  margin:12px 0;
+}
+
+button{
+  padding:12px 16px;
+  border:0;
+  border-radius:10px;
+  background:#e60000;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+pre{
+  white-space:pre-wrap;
+  word-break:break-word;
+  background:#111;
+  color:#fff;
+  padding:15px;
+  border-radius:10px;
+  margin-top:8px;
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+<div class="box">
+
+<h1>🔧 Test Contrôleur Baba Design</h1>
+
+<p>
+Cette page sert uniquement à diagnostiquer pourquoi les commandes
+ne s'affichent pas dans le contrôleur.
+</p>
+
+<button id="test">
+Lancer le test
+</button>
+
+<div id="result">
+<p>Appuie sur « Lancer le test ».</p>
+</div>
+
+</div>
+
+<script>
+
+const SUPABASE_URL =
+"https://drvcneeaothydjmqpdzg.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_k8DUVt12k1GN4n7yiYBnYw_gXltrpmp";
+
+const sb =
+supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY,
+  {
+    auth:{
+      persistSession:true,
+      autoRefreshToken:true,
+      detectSessionInUrl:true
+    }
+  }
+);
+
+const out =
+document.getElementById("result");
+
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replace(/[<>&]/g,function(c){
+
+      return {
+        "<":"&lt;",
+        ">":"&gt;",
+        "&":"&amp;"
+
+      }[c];
+
+    });
+
+}
+
+
+function show(title,ok,details=""){
+
+  out.innerHTML += `
+
+    <div class="${ok ? "ok" : "err"}">
+
+      <b>${escapeHtml(title)}</b>
+
+      <br>
+
+      ${ok ? "✅ OK" : "❌ ERREUR"}
+
+      ${
+        details
+        ?
+        `<pre>${escapeHtml(details)}</pre>`
+        :
+        ""
+      }
+
+    </div>
+
+  `;
+
+}
+
+
+async function run(){
+
+  out.innerHTML = "";
+
+  /*
+  =========================================
+  1 — TEST SUPABASE
+  =========================================
+  */
+
+  show(
+    "Connexion Supabase",
+    true,
+    SUPABASE_URL
+  );
+
+
+  try{
+
+    /*
+    =========================================
+    2 — TEST UTILISATEUR CONNECTÉ
+    =========================================
+    */
+
+    const {
+      data:{user},
+      error
+    } =
+    await sb.auth.getUser();
+
+
+    if(error){
+
+      throw error;
+
+    }
+
+
+    show(
+      "Utilisateur connecté",
+      !!user,
+
+      user
+
+      ?
+
+      (
+        "ID : "
+        + user.id
+        + "\nEmail : "
+        + (user.email || "non affiché")
+      )
+
+      :
+
+      "AUCUN UTILISATEUR CONNECTÉ"
+    );
+
+
+    if(!user){
+
+      return;
+
+    }
+
+
+    /*
+    =========================================
+    3 — TEST IS_CONTROLLER
+    =========================================
+    */
+
+    const controller =
+    await sb.rpc(
+      "is_controller"
+    );
+
+
+    show(
+
+      "RPC is_controller",
+
+      !controller.error,
+
+      controller.error
+
+      ?
+
+      controller.error.message
+
+      :
+
+      (
+        "Résultat : "
+        +
+        JSON.stringify(
+          controller.data,
+          null,
+          2
+        )
+      )
+
+    );
+
+
+    if(controller.error){
+
+      return;
+
+    }
+
+
+    /*
+    =========================================
+    4 — TEST DASHBOARD
+    =========================================
+    */
+
+    const dashboard =
+    await sb.rpc(
+      "controller_get_dashboard"
+    );
+
+
+    show(
+
+      "RPC controller_get_dashboard",
+
+      !dashboard.error,
+
+      dashboard.error
+
+      ?
+
+      dashboard.error.message
+
+      :
+
+      JSON.stringify(
+        dashboard.data,
+        null,
+        2
+      )
+
+    );
+
+
+    if(dashboard.error){
+
+      return;
+
+    }
+
+
+    /*
+    =========================================
+    5 — EXTRACTION DES DONNÉES
+    =========================================
+    */
+
+    const orders =
+      Array.isArray(
+        dashboard.data?.orders
+      )
+
+      ?
+
+      dashboard.data.orders
+
+      :
+
+      [];
+
+
+    const files =
+      Array.isArray(
+        dashboard.data?.files
+      )
+
+      ?
+
+      dashboard.data.files
+
+      :
+
+      [];
+
+
+    const chats =
+      Array.isArray(
+        dashboard.data?.conversations
+      )
+
+      ?
+
+      dashboard.data.conversations
+
+      :
+
+      [];
+
+
+    /*
+    =========================================
+    6 — RÉSULTATS
+    =========================================
+    */
+
+    show(
+
+      "Commandes reçues",
+
+      true,
+
+      "Nombre : "
+      +
+      orders.length
+
+    );
+
+
+    show(
+
+      "Fichiers reçus",
+
+      true,
+
+      "Nombre : "
+      +
+      files.length
+
+    );
+
+
+    show(
+
+      "Conversations reçues",
+
+      true,
+
+      "Nombre : "
+      +
+      chats.length
+
+    );
+
+
+  }
+
+  catch(e){
+
+    show(
+
+      "Erreur générale",
+
+      false,
+
+      e?.message || String(e)
+
+    );
+
+  }
+
+}
+
+
+/*
+=========================================
+BOUTON TEST
+=========================================
+*/
+
+document
+.getElementById("test")
+.onclick = run;
+
 </script>
-</body></html>
+
+</body>
+</html>
