@@ -3600,13 +3600,11 @@ paidNo.addEventListener(
 
 
 /* ==================================================
-   FORMULAIRE SERVICES → SUPABASE / CONTRÔLEUR
-   Le bouton Commander enregistre maintenant la commande
-   directement dans Supabase.
+   FORMULAIRE SERVICES → SUPABASE
 ================================================== */
 
-// Le traitement de orderForm est centralisé plus bas dans submitOrder().
-// Aucun ancien envoi WhatsApp ne doit intercepter le formulaire.
+// L'ancien envoi WhatsApp est désactivé : la commande passe directement
+// dans Supabase pour apparaître chez le contrôleur.
 
 /* ==================================================
    AKADEMI — TYPE ÉTUDIANT / AGENT
@@ -4899,87 +4897,72 @@ Merci.
   async function uploadOne(file,userId,kind,orderId=null,expiresHours=null){const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');const path=`${userId}/${crypto.randomUUID()}_${safe}`;const {error}=await sb.storage.from(BUCKET).upload(path,file,{upsert:false});if(error)throw error;const {error:e2}=await sb.from('files').insert({user_id:userId,order_id:orderId,file_name:file.name,storage_path:path,kind,expires_at:expiresHours?new Date(Date.now()+expiresHours*3600000).toISOString():null});if(e2){await sb.storage.from(BUCKET).remove([path]);throw e2;}return path;}
 
   async function submitOrder(form){
-    const p=await getProfile();
-    if(!p){
-      showAuth();
-      toast('Compte requis','Connecte-toi ou crée ton compte avant d’envoyer une commande.');
-      return;
-    }
-
-    const proof=$('paymentProof')?.files?.[0];
-    if(!proof){
-      alert('La preuve de paiement est obligatoire.');
-      return;
-    }
-
-    const selected=document.querySelector('input[name="service"]:checked') || document.getElementById('service');
-    if(!selected){
-      alert('Veuillez sélectionner un service.');
-      return;
-    }
-
-    const service=selected.value || 'Service design';
-    const clientName=$('clientName')?.value?.trim() || p.full_name || '';
-    const clientPhone=$('clientPhone')?.value?.trim() || p.phone || '';
-    const custom=$('customService')?.value?.trim() || '';
-    const deadline=$('deadline')?.value || '';
-    const designInfo=$('designInfo')?.value?.trim() || '';
-    const agentId=$('agentId')?.value?.trim() || '';
-    const payment=document.querySelector('input[name="paid"]:checked');
-    const paymentValue=payment?.value || '';
-    if(!paymentValue){
-      alert('Veuillez indiquer votre statut de paiement.');
-      return;
-    }
-    const transcode=$('transcode')?.value?.trim() || '';
-    if(paymentValue==='Oui' && !transcode){
-      alert('Veuillez entrer votre transcode de paiement.');
-      return;
-    }
-
-    const priceText=$('totalPrice')?.textContent || selected.dataset?.price || '0';
-    const price=parseFloat(String(priceText).replace(/[^0-9,.-]/g,'').replace(/\.(?=.*\.)/g,'').replace(',','.')) || parseFloat(selected.dataset?.price||'0') || 0;
-
-    const description=[
-      `Client: ${clientName || 'Non fourni'}`,
-      `WhatsApp: ${clientPhone || 'Non fourni'}`,
-      `Délai: ${deadline || 'Non fourni'}`,
-      `Informations du visuel: ${designInfo || 'Non fourni'}`,
-      `Paiement effectué: ${paymentValue}`,
-      `Transcode: ${transcode || 'Non fourni'}`,
-      `ID Agent: ${agentId || 'Aucun'}`,
-      custom ? `Autre service demandé: ${custom}` : ''
-    ].filter(Boolean).join('\n');
-
-    wait(true,'Enregistrement de votre commande…');
-    try{
-      const {data:o,error}=await sb.from('orders').insert({
-        user_id:p.id,
-        service_name:service,
-        description,
-        price_htg:price,
-        status:'En attente de validation',
-        payment_status:'pending'
-      }).select().single();
-      if(error) throw error;
-      if(!o?.id) throw new Error('La commande n’a pas pu être créée.');
-
-      await uploadOne(proof,p.id,'payment_proof',o.id,null);
-
-      const files=Array.from($('orderFiles')?.files || []);
-      for(const f of files){
-        await uploadOne(f,p.id,'client_project',o.id,null);
-      }
-
-      toast('Commande envoyée 🎉','Ta commande et ta preuve de paiement sont maintenant chez le contrôleur.');
-      form.reset();
-    }catch(err){
-      console.error('submitOrder:',err);
-      alert(err?.message || 'Une erreur est survenue pendant l’envoi de la commande.');
-    }finally{
-      wait(false);
-    }
+  const p=await getProfile();
+  if(!p){
+    $('portalAuth').style.display='block';
+    showAuth();
+    toast('Compte requis','Connecte-toi ou crée ton compte avant d’envoyer une commande.');
+    return;
   }
+  const selected=document.querySelector('input[name="service"]:checked');
+  if(!selected){alert('Veuillez sélectionner un service.');return;}
+  const proof=$('paymentProof')?.files?.[0];
+  if(!proof){alert('La preuve de paiement est obligatoire.');return;}
+  const payment=document.querySelector('input[name="paid"]:checked');
+  if(!payment){alert('Veuillez indiquer votre statut de paiement.');return;}
+  const transcodeValue=$('transcode')?.value?.trim()||'Non fourni';
+  if(payment.value==='Oui' && !transcodeValue){alert('Veuillez entrer votre transcode de paiement.');return;}
+
+  const service=selected.value||'Service design';
+  const price=Number(selected.dataset.price||0);
+  const clientName=$('clientName')?.value?.trim()||p.full_name||'';
+  const clientPhone=$('clientPhone')?.value?.trim()||p.phone||'';
+  const custom=$('customService')?.value?.trim()||'';
+  const deadline=$('deadline')?.value||'';
+  const designInfo=$('designInfo')?.value?.trim()||'';
+  const agentId=$('agentId')?.value?.trim()||'';
+  const description=[
+    `Client: ${clientName}`,
+    `WhatsApp: ${clientPhone||'Non fourni'}`,
+    `Service: ${service}`,
+    `Prix: ${price} HTG`,
+    `Dépôt 70%: ${Math.round(price*0.70)} HTG`,
+    `Solde 30%: ${Math.round(price*0.30)} HTG`,
+    `Délai: ${deadline||'Non fourni'}`,
+    `Informations du visuel: ${designInfo||'Non fourni'}`,
+    `Paiement effectué: ${payment.value}`,
+    `Transcode: ${transcodeValue}`,
+    `ID Agent: ${agentId||'Aucun'}`,
+    custom ? `Autre service demandé: ${custom}` : ''
+  ].filter(Boolean).join('\n');
+
+  wait(true,'Enregistrement de votre commande…');
+  try{
+    const {data:o,error}=await sb.from('orders').insert({
+      user_id:p.id,
+      service_name:service,
+      description,
+      price_htg:price,
+      status:'En attente de validation',
+      payment_status:'pending'
+    }).select().single();
+    if(error) throw new Error('Impossible de créer la commande : '+error.message);
+    if(!o?.id) throw new Error('La commande a été créée sans identifiant.');
+
+    try{
+      await uploadOne(proof,p.id,'payment_proof',o.id,null);
+      for(const f of Array.from($('orderFiles')?.files||[])) await uploadOne(f,p.id,'client_project',o.id,null);
+    }catch(uploadError){
+      throw new Error('La commande a été créée, mais le fichier/preuve n’a pas pu être envoyé : '+(uploadError.message||uploadError));
+    }
+    toast('Commande envoyée 🎉','Votre commande et votre preuve de paiement sont maintenant chez le contrôleur.');
+    form.reset();
+    updatePrice();
+  }catch(err){
+    console.error('submitOrder:',err);
+    alert(err.message||'Erreur lors de l’envoi de la commande.');
+  }finally{wait(false);}
+}
 
   async function submitRegistration(form){
   const p=await getProfile();
@@ -5028,16 +5011,28 @@ Merci.
 
   async function submitPublicite(form){const p=await getProfile();if(!p){showAuth();toast('Compte requis','Connecte-toi avant de commander une publicité.');return;}const proof=$('pubPaymentProof')?.files?.[0];if(!proof){alert('La preuve de paiement est obligatoire.');return;}wait(true,'Envoi de la demande…');try{const type=$('pubType')?.value||'Publicité',duration=$('pubDuration')?.value||'';const price=parseFloat(($('pubHtg')?.textContent||'0').replace(/[^0-9]/g,''))||0;const {data:o,error}=await sb.from('orders').insert({user_id:p.id,service_name:`Publicité ${type} ${duration}`,price_htg:price,description:'Demande de publicité',status:'En attente de validation',payment_status:'pending'}).select().single();if(error)throw error;await uploadOne(proof,p.id,'payment_proof',o.id,null);toast('Demande envoyée 🎉','La preuve de paiement et la demande sont chez le contrôleur.');form.reset();}catch(err){alert(err.message||'Erreur.');}finally{wait(false);}}
 
-  // Un seul gestionnaire pour les formulaires : il empêche tout ancien handler
-  // de WhatsApp de reprendre le contrôle du bouton Commander.
+  // SERVICES: un seul gestionnaire d'envoi.
+  // La commande est enregistrée dans Supabase puis la preuve est envoyée au contrôleur.
+  const orderFormEl=document.getElementById('orderForm');
+  if(orderFormEl){
+    orderFormEl.addEventListener('submit',async e=>{
+      e.preventDefault();
+      e.stopPropagation();
+      await submitOrder(e.target);
+    });
+  }
+
+  // Les autres formulaires utilisent le gestionnaire commun.
   document.addEventListener('submit',e=>{
-    const form=e.target;
-    if(!form || !['orderForm','registrationForm','publiciteForm'].includes(form.id)) return;
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    if(form.id==='orderForm') return void submitOrder(form);
-    if(form.id==='registrationForm') return void submitRegistration(form);
-    if(form.id==='publiciteForm') return void submitPublicite(form);
+    if(e.target.id==='registrationForm'){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      submitRegistration(e.target);
+    }else if(e.target.id==='publiciteForm'){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      submitPublicite(e.target);
+    }
   },true);
 
   // Realtime chat/order updates.
