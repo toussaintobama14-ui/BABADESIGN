@@ -226,6 +226,33 @@ body{
   background:#b91c1c;
 }
 
+/* Notification des nouveaux messages */
+.chat-notification{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  margin-left:7px;
+  padding:4px 8px;
+  border-radius:999px;
+  background:#dc2626;
+  color:#fff;
+  font-size:10px;
+  font-weight:900;
+  vertical-align:middle;
+  animation:chatPulse 1.5s ease-in-out infinite;
+}
+.chat-notification-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#fff;
+  display:inline-block;
+}
+@keyframes chatPulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.04)}
+}
+
 .btn.sm{
   padding:7px 10px;
   font-size:11px;
@@ -551,6 +578,51 @@ const SUPABASE_KEY =
 
 const BUCKET =
   "client-files";
+
+
+/* =========================
+   NOTIFICATIONS CONVERSATIONS
+   ========================= */
+
+const CHAT_READ_KEY = "baba_controller_chat_read_v1";
+
+function getChatReadMap(){
+  try{
+    const raw = localStorage.getItem(CHAT_READ_KEY);
+    const parsed = raw ? JSON.parse(raw) : {};
+    return parsed && typeof parsed === "object" ? parsed : {};
+  }catch{
+    return {};
+  }
+}
+
+function saveChatReadMap(map){
+  try{
+    localStorage.setItem(CHAT_READ_KEY, JSON.stringify(map));
+  }catch{}
+}
+
+function chatHasNewMessage(conversation){
+  if(!conversation?.id || !conversation?.last_message_at)
+    return false;
+
+  const readMap = getChatReadMap();
+  const lastRead = readMap[String(conversation.id)];
+
+  if(!lastRead)
+    return true;
+
+  return new Date(conversation.last_message_at).getTime() >
+         new Date(lastRead).getTime();
+}
+
+function markChatRead(conversationId,lastMessageAt){
+  if(!conversationId) return;
+  const map = getChatReadMap();
+  map[String(conversationId)] =
+    lastMessageAt || new Date().toISOString();
+  saveChatReadMap(map);
+}
 
 
 const sb =
@@ -1996,6 +2068,12 @@ async function renderChats(){
                     )}
                   </strong>
 
+                  ${
+                    chatHasNewMessage(c)
+                      ? `<span class="chat-notification"><span class="chat-notification-dot"></span>NOUVEAU</span>`
+                      : ""
+                  }
+
                   ${profile?.phone ? ` · ${esc(profile.phone)}` : ""}
                 </div>
 
@@ -2462,6 +2540,8 @@ async function openChat(
 
       box.scrollTop =
         box.scrollHeight;
+
+      return Array.isArray(data) ? data : [];
     }
 
 
@@ -2513,7 +2593,18 @@ async function openChat(
             "";
 
 
-          await refreshMessages();
+          const sentMessages = await refreshMessages();
+          const latestSentMessage =
+            sentMessages.length
+              ? sentMessages[sentMessages.length - 1]
+              : null;
+
+          markChatRead(
+            conversationId,
+            latestSentMessage?.created_at ||
+            c.last_message_at ||
+            new Date().toISOString()
+          );
 
 
         }catch(e){
@@ -2671,7 +2762,18 @@ async function openChat(
       };
 
 
-    await refreshMessages();
+    const openedMessages = await refreshMessages();
+    const latestOpenedMessage =
+      openedMessages.length
+        ? openedMessages[openedMessages.length - 1]
+        : null;
+
+    markChatRead(
+      conversationId,
+      latestOpenedMessage?.created_at ||
+      c.last_message_at ||
+      c.created_at
+    );
 
 
   }catch(e){
