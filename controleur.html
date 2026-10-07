@@ -214,8 +214,16 @@ body{
   background:#16a34a;
 }
 
-.btn.red{
+ .btn.red{
   background:#dc2626;
+}
+
+.btn.chatbtn{
+  background:#0284c7;
+}
+
+.btn.delete-order{
+  background:#b91c1c;
 }
 
 .btn.sm{
@@ -1160,6 +1168,26 @@ function orderHtml(
         ✕ Refuser
       </button>
 
+      <button
+        class="btn chatbtn"
+        data-order-chat="${esc(
+          o.user_id ||
+          ""
+        )}"
+      >
+        💬 Écrire
+      </button>
+
+      <button
+        class="btn delete-order"
+        data-delete-order="${esc(
+          o.id ||
+          ""
+        )}"
+      >
+        🗑 Effacer commande
+      </button>
+
     </div>
 
   `;
@@ -1204,6 +1232,69 @@ function orderHtml(
 
 
 /* =========================
+   CLIENTS / PROFILS
+========================= */
+
+const clientNameCache = new Map();
+
+async function getClientProfile(userId){
+
+  if(!userId) return null;
+
+  const key = String(userId);
+
+  if(clientNameCache.has(key))
+    return clientNameCache.get(key);
+
+  const {data,error} = await sb
+    .from("profiles")
+    .select("full_name,phone,email")
+    .eq("id",userId)
+    .maybeSingle();
+
+  if(error){
+    console.warn("Profil client:",error.message);
+    return null;
+  }
+
+  clientNameCache.set(key,data || null);
+  return data || null;
+}
+
+async function enrichClientNames(orders){
+
+  const list = Array.isArray(orders) ? orders : [];
+
+  await Promise.all(
+    list.map(async o => {
+      if(!o.user_id) return;
+
+      const profile = await getClientProfile(o.user_id);
+
+      if(profile){
+        o.client_name =
+          profile.full_name ||
+          o.client_name ||
+          "Client";
+
+        o.client_phone =
+          profile.phone ||
+          o.client_phone ||
+          "";
+
+        o.client_email =
+          profile.email ||
+          o.client_email ||
+          "";
+      }
+    })
+  );
+
+  return list;
+}
+
+
+/* =========================
    RENDER COMMANDES
 ========================= */
 
@@ -1223,6 +1314,8 @@ async function renderOrders(){
 
     const d =
       await getDashboard();
+
+    await enrichClientNames(d.orders);
 
 
     if(
@@ -1422,6 +1515,99 @@ async function renderOrders(){
       );
 
 
+    /* ÉCRIRE AU CLIENT */
+
+    app
+      .querySelectorAll("[data-order-chat]")
+      .forEach(btn => {
+
+        btn.onclick = async () => {
+
+          const userId = btn.dataset.orderChat;
+
+          if(!userId){
+            alert("Ce client n'a pas d'identifiant de compte.");
+            return;
+          }
+
+          try{
+
+            wait(true,"Recherche de la conversation…");
+
+            const current = await getDashboard();
+
+            const conversation =
+              current.conversations.find(
+                c => String(c.user_id || "") === String(userId)
+              );
+
+            if(!conversation){
+              alert("Aucune conversation n'existe encore pour ce client.");
+              return;
+            }
+
+            await openChat(conversation.id);
+
+          }catch(e){
+
+            alert("❌ " + e.message);
+
+          }finally{
+
+            wait(false);
+
+          }
+        };
+
+      });
+
+
+    /* EFFACER COMMANDE */
+
+    app
+      .querySelectorAll("[data-delete-order]")
+      .forEach(btn => {
+
+        btn.onclick = async () => {
+
+          const orderId = btn.dataset.deleteOrder;
+
+          if(!orderId) return;
+
+          if(!confirm(
+            "⚠️ Voulez-vous vraiment effacer cette commande ?\n\nLa commande sera supprimée de Supabase ainsi que ses fichiers liés."
+          )) return;
+
+          try{
+
+            wait(true,"Suppression de la commande…");
+
+            const {error} = await sb.rpc(
+              "controller_delete_order",
+              {p_order_id:orderId}
+            );
+
+            if(error) throw error;
+
+            alert("✅ Commande effacée avec succès.");
+
+            await refreshStats();
+            await renderOrders();
+
+          }catch(e){
+
+            alert("❌ Impossible d'effacer la commande : " + e.message);
+
+          }finally{
+
+            wait(false);
+
+          }
+        };
+
+      });
+
+
     /* PROGRESSION */
 
     app
@@ -1613,7 +1799,7 @@ async function renderFiles(){
                   )}"
                   data-file-name="${esc(f.file_name || "fichier")}"
                 >
-                  👁 Voir
+                  ⬇ Télécharger
                 </button>
 
                 <button
@@ -1779,10 +1965,17 @@ async function renderChats(){
     }
 
 
+    const chatRows = await Promise.all(
+      d.conversations.map(async c => {
+        const profile = await getClientProfile(c.user_id);
+        return {c,profile};
+      })
+    );
+
     app.innerHTML =
-      d.conversations
+      chatRows
         .map(
-          c => `
+          ({c,profile}) => `
 
           <div class="item">
 
@@ -1796,10 +1989,14 @@ async function renderChats(){
 
                 <div class="muted">
                   Client :
-                  ${esc(
-                    c.user_id ||
-                    "—"
-                  )}
+                  <strong>
+                    ${esc(
+                      profile?.full_name ||
+                      "Client"
+                    )}
+                  </strong>
+
+                  ${profile?.phone ? ` · ${esc(profile.phone)}` : ""}
                 </div>
 
                 <div
@@ -1990,6 +2187,16 @@ async function openChat(
       return;
     }
 
+    const clientProfile = await getClientProfile(c.user_id);
+
+    const clientDisplayName =
+      clientProfile?.full_name ||
+      "Client";
+
+    const clientPhone =
+      clientProfile?.phone ||
+      "";
+
 
     const app =
       $("content");
@@ -2010,10 +2217,10 @@ async function openChat(
             style="margin-top:5px"
           >
             Client :
-            ${esc(
-              c.user_id ||
-              "—"
-            )}
+            <strong>
+              ${esc(clientDisplayName)}
+            </strong>
+            ${clientPhone ? ` · ${esc(clientPhone)}` : ""}
           </p>
 
         </div>
