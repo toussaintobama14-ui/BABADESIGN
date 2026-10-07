@@ -2194,22 +2194,23 @@ body{
 
 
                 <div
-                    class="field hidden"
-                    id="transcodeBox"
+                    class="field portal-upload-field"
                     style="margin-top:20px;"
                 >
-
                     <label>
-                        Transcode de paiement
+                        Photo de preuve de paiement
                         <span class="required">*</span>
                     </label>
-
                     <input
-                        type="text"
-                        id="transcode"
-                        placeholder="Entrez votre transcode de paiement"
+                        id="paymentProof"
+                        type="file"
+                        accept="image/*"
+                        capture="environment"
+                        required
                     >
-
+                    <small style="display:block;margin-top:7px;color:#777;">
+                        Après votre paiement, ajoutez une photo claire de la preuve.
+                    </small>
                 </div>
 
 
@@ -2300,7 +2301,7 @@ body{
 
             <div class="card">
 
-                <div class="field portal-upload-field"><label>Preuve de paiement <span class="required">*</span></label><input id="paymentProof" type="file" accept="image/*,.pdf" required></div><div class="field portal-upload-field"><label>Photos / fichiers de votre projet</label><input id="orderFiles" type="file" accept="image/*,.pdf,.doc,.docx" multiple></div>
+                <div class="field portal-upload-field"><label>Photos / fichiers de votre projet</label><input id="orderFiles" type="file" accept="image/*,.pdf,.doc,.docx" multiple></div>
 
 <button
                     type="submit"
@@ -3484,16 +3485,6 @@ const paidNo =
         "paidNo"
     );
 
-const transcodeBox =
-    document.getElementById(
-        "transcodeBox"
-    );
-
-const transcode =
-    document.getElementById(
-        "transcode"
-    );
-
 const customService =
     document.getElementById(
         "customService"
@@ -3561,44 +3552,6 @@ serviceInputs.forEach(
             "change",
             updatePrice
         );
-
-    }
-);
-
-
-paidYes.addEventListener(
-    "change",
-    function(){
-
-        if(this.checked){
-
-            transcodeBox.classList.remove(
-                "hidden"
-            );
-
-            transcode.required = true;
-
-        }
-
-    }
-);
-
-
-paidNo.addEventListener(
-    "change",
-    function(){
-
-        if(this.checked){
-
-            transcodeBox.classList.add(
-                "hidden"
-            );
-
-            transcode.required = false;
-
-            transcode.value = "";
-
-        }
 
     }
 );
@@ -4921,7 +4874,6 @@ Merci.
     const deadline=$('deadline')?.value||'';
     const designInfo=$('designInfo')?.value.trim()||'';
     const paid=document.querySelector('input[name="paid"]:checked')?.value||'';
-    const transcode=$('transcode')?.value.trim()||'';
     const agentId=$('agentId')?.value.trim()||'';
     const proof=$('paymentProof')?.files?.[0];
 
@@ -4930,7 +4882,6 @@ Merci.
     if(!deadline){alert('Veuillez choisir le délai de livraison.');$('deadline')?.focus();return;}
     if(!designInfo){alert('Veuillez indiquer les informations à mettre sur le visuel.');$('designInfo')?.focus();return;}
     if(!paid){alert('Veuillez indiquer si le paiement a déjà été effectué.');return;}
-    if(paid==='Oui'&&!transcode){alert('Veuillez entrer le transcode de paiement.');$('transcode')?.focus();return;}
     if(!proof){alert('La preuve de paiement est obligatoire.');return;}
 
     const priceText=$('totalPrice')?.textContent||'0';
@@ -4942,10 +4893,9 @@ Merci.
       `Délai : ${deadline}`,
       `Informations du visuel : ${designInfo}`,
       `Paiement effectué : ${paid}`,
-      paid==='Oui'?`Transcode : ${transcode}`:'Transcode : Non fourni (paiement non effectué)',
+      `Preuve de paiement : ${proof.name}`,
       `ID Agent : ${agentId||'Aucun'}`,
-      `Prix : ${price} HTG`,
-      `Preuve de paiement : ${proof.name}`
+      `Prix : ${price} HTG`
     ].join('\n');
 
     wait(true,'Envoi de votre commande au contrôleur…');
