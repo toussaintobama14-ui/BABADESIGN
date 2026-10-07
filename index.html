@@ -1821,7 +1821,7 @@ body{
 
     <div class="order-wrapper">
 
-        <form id="orderForm">
+        <form id="orderForm" novalidate>
 
             <div class="card">
 
@@ -3605,190 +3605,14 @@ paidNo.addEventListener(
 
 
 /* ==================================================
-   FORMULAIRE SERVICES → WHATSAPP
+   FORMULAIRE SERVICES → SUPABASE / CONTROLEUR
 ================================================== */
-
-document
-.getElementById("orderForm")
-.addEventListener(
-    "submit",
-    function(event){
-
-        event.preventDefault();
-
-
-        const clientName =
-            document
-            .getElementById("clientName")
-            .value
-            .trim();
-
-
-        const clientPhone =
-            document
-            .getElementById("clientPhone")
-            .value
-            .trim();
-
-
-        const selected =
-            getSelectedService();
-
-
-        if(!selected){
-
-            alert(
-                "Veuillez sélectionner un service."
-            );
-
-            return;
-
-        }
-
-
-        const service =
-            selected.value;
-
-
-        const price =
-            parseFloat(
-                selected.dataset.price
-            );
-
-
-        const custom =
-            customService.value.trim();
-
-
-        const deadline =
-            document
-            .getElementById("deadline")
-            .value;
-
-
-        const designInfo =
-            document
-            .getElementById("designInfo")
-            .value
-            .trim();
-
-
-        const payment =
-            document.querySelector(
-                'input[name="paid"]:checked'
-            );
-
-
-        if(!payment){
-
-            alert(
-                "Veuillez indiquer votre statut de paiement."
-            );
-
-            return;
-
-        }
-
-
-        const paymentValue =
-            payment.value;
-
-
-        let transcodeValue =
-            "Non fourni";
-
-
-        if(paymentValue === "Oui"){
-
-            transcodeValue =
-                transcode.value.trim();
-
-            if(!transcodeValue){
-
-                alert(
-                    "Veuillez entrer votre transcode de paiement."
-                );
-
-                return;
-
-            }
-
-        }
-
-
-        const agentId =
-            document
-            .getElementById("agentId")
-            .value
-            .trim();
-
-
-        const deposit =
-            price * 0.70;
-
-
-        const remaining =
-            price * 0.30;
-
-
-        let message =
-
-`*NOUVELLE COMMANDE — BABA DESIGN*
-
- *Client :*
-${clientName}
-
- *WhatsApp :*
-${clientPhone || "Non fourni"}
-
- *Service :*
-${service}
-
- *Prix :*
-${formatMoney(price)}
-
- *Dépôt 70% :*
-${formatMoney(deposit)}
-
- *Solde 30% :*
-${formatMoney(remaining)}
-
- *Délai :*
-${deadline}
-
- *Informations du visuel :*
-${designInfo}
-
- *Paiement effectué :*
-${paymentValue}
-
- *Transcode :*
-${transcodeValue}
-
- *ID Agent :*
-${agentId || "Aucun"}
-
-${custom ? ` *Autre service demandé :*\n${custom}` : ""}
-
-Merci pour votre commande.
-*Baba Design*`;
-
-
-        const url =
-            "https://wa.me/" +
-            whatsappNumber +
-            "?text=" +
-            encodeURIComponent(message);
-
-
-        window.open(
-            url,
-            "_blank"
-        );
-
-    }
-);
-
+/*
+   IMPORTANT :
+   Cette section remplace uniquement l'ancien envoi WhatsApp
+   du formulaire #orderForm.
+   Les autres formulaires et connexions ne sont pas modifiés.
+*/
 
 /* ==================================================
    AKADEMI — TYPE ÉTUDIANT / AGENT
@@ -5218,8 +5042,28 @@ Merci.
 
   async function submitPublicite(form){const p=await getProfile();if(!p){showAuth();toast('Compte requis','Connecte-toi avant de commander une publicité.');return;}const proof=$('pubPaymentProof')?.files?.[0];if(!proof){alert('La preuve de paiement est obligatoire.');return;}wait(true,'Envoi de la demande…');try{const type=$('pubType')?.value||'Publicité',duration=$('pubDuration')?.value||'';const price=parseFloat(($('pubHtg')?.textContent||'0').replace(/[^0-9]/g,''))||0;const {data:o,error}=await sb.from('orders').insert({user_id:p.id,service_name:`Publicité ${type} ${duration}`,price_htg:price,description:'Demande de publicité',status:'En attente de validation',payment_status:'pending'}).select().single();if(error)throw error;await uploadOne(proof,p.id,'payment_proof',o.id,null);toast('Demande envoyée 🎉','La preuve de paiement et la demande sont chez le contrôleur.');form.reset();}catch(err){alert(err.message||'Erreur.');}finally{wait(false);}}
 
-  // Capture phase: blocks the old WhatsApp-only submit handlers and routes everything to Supabase.
-  document.addEventListener('submit',e=>{if(e.target.id==='orderForm'){e.preventDefault();e.stopImmediatePropagation();submitOrder(e.target)}else if(e.target.id==='registrationForm'){e.preventDefault();e.stopImmediatePropagation();submitRegistration(e.target)}else if(e.target.id==='publiciteForm'){e.preventDefault();e.stopImmediatePropagation();submitPublicite(e.target)}},true);
+  // Submit routing:
+  // ONLY orderForm is handled by submitOrder() for the Services → Contrôleur flow.
+  // Registration and Publicité keep their existing behavior.
+  document.addEventListener('submit',e=>{
+    if(e.target.id==='orderForm'){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      submitOrder(e.target).catch(err=>{
+        console.error('Erreur commande Services:',err);
+        wait(false);
+        alert(err?.message||'Impossible d’envoyer la commande au contrôleur.');
+      });
+    }else if(e.target.id==='registrationForm'){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      submitRegistration(e.target);
+    }else if(e.target.id==='publiciteForm'){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      submitPublicite(e.target);
+    }
+  },true);
 
   // Realtime chat/order updates.
   sb.channel('portal-live').on('postgres_changes',{event:'*',schema:'public',table:'messages'},()=>{if($('chatMessages'))refreshChat()}).on('postgres_changes',{event:'*',schema:'public',table:'orders'},()=>{if($('portalMain'))renderView('orders').catch(()=>{})}).subscribe();
