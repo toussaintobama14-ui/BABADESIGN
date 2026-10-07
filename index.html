@@ -1821,7 +1821,7 @@ body{
 
     <div class="order-wrapper">
 
-        <form id="orderForm" novalidate>
+        <form id="orderForm">
 
             <div class="card">
 
@@ -5080,7 +5080,96 @@ Merci.
 
   async function uploadOne(file,userId,kind,orderId=null,expiresHours=null){const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');const path=`${userId}/${crypto.randomUUID()}_${safe}`;const {error}=await sb.storage.from(BUCKET).upload(path,file,{upsert:false});if(error)throw error;const {error:e2}=await sb.from('files').insert({user_id:userId,order_id:orderId,file_name:file.name,storage_path:path,kind,expires_at:expiresHours?new Date(Date.now()+expiresHours*3600000).toISOString():null});if(e2){await sb.storage.from(BUCKET).remove([path]);throw e2;}return path;}
 
-  async function submitOrder(form){const p=await getProfile();if(!p){$('portalAuth').style.display='block';showAuth();toast('Compte requis','Connecte-toi ou crée ton compte avant d’envoyer une commande.');return;}const proof=$('paymentProof')?.files?.[0];if(!proof){alert('La preuve de paiement est obligatoire.');return;}wait(true,'Enregistrement de votre commande…');try{const service=document.querySelector('input[name="service"]:checked')?.value||document.getElementById('service')?.value||'Service design';const desc=[document.getElementById('customService')?.value,document.getElementById('designInfo')?.value].filter(Boolean).join('\n');const priceText=document.getElementById('totalPrice')?.textContent||'0';const price=parseFloat(priceText.replace(/[^0-9,.-]/g,'').replace(/\./g,'').replace(',','.'))||0;const {data:o,error}=await sb.from('orders').insert({user_id:p.id,service_name:service,description:desc,price_htg:price,status:'En attente de validation',payment_status:'pending'}).select().single();if(error)throw error;await uploadOne(proof,p.id,'payment_proof',o.id,null);for(const f of Array.from($('orderFiles')?.files||[]))await uploadOne(f,p.id,'client_project',o.id,null);toast('Commande envoyée 🎉','Ta commande et ta preuve de paiement sont maintenant chez le contrôleur.');form.reset();}catch(err){alert(err.message||'Erreur lors de l’envoi.');}finally{wait(false);}}
+  async function submitOrder(form){
+    const p=await getProfile();
+    if(!p){
+      $('portalAuth').style.display='block';
+      showAuth();
+      toast('Compte requis','Connecte-toi ou crée ton compte avant d’envoyer une commande.');
+      return;
+    }
+
+    const clientName=$('clientName')?.value.trim()||'';
+    const clientPhone=$('clientPhone')?.value.trim()||'';
+    const selectedService=document.querySelector('input[name="service"]:checked');
+    const customService=$('customService')?.value.trim()||'';
+    const service=selectedService?.value||customService;
+    const deadline=$('deadline')?.value||'';
+    const designInfo=$('designInfo')?.value.trim()||'';
+    const paid=document.querySelector('input[name="paid"]:checked')?.value||'';
+    const transcode=$('transcode')?.value.trim()||'';
+    const agentId=$('agentId')?.value.trim()||'';
+    const proof=$('paymentProof')?.files?.[0];
+
+    if(!clientName){alert('Veuillez entrer votre nom complet.');$('clientName')?.focus();return;}
+    if(!service){alert('Veuillez choisir un service ou préciser un autre service.');$('customService')?.focus();return;}
+    if(!deadline){alert('Veuillez choisir le délai de livraison.');$('deadline')?.focus();return;}
+    if(!designInfo){alert('Veuillez indiquer les informations à mettre sur le visuel.');$('designInfo')?.focus();return;}
+    if(!paid){alert('Veuillez indiquer si le paiement a déjà été effectué.');return;}
+    if(paid==='Oui'&&!transcode){alert('Veuillez entrer le transcode de paiement.');$('transcode')?.focus();return;}
+    if(!proof){alert('La preuve de paiement est obligatoire.');return;}
+
+    const priceText=$('totalPrice')?.textContent||'0';
+    const price=parseFloat(priceText.replace(/[^0-9,.-]/g,'').replace(/\./g,'').replace(',','.'))||0;
+    const summary=[
+      `Nom : ${clientName}`,
+      `WhatsApp : ${clientPhone||'Non fourni'}`,
+      `Service : ${service}`,
+      `Délai : ${deadline}`,
+      `Informations du visuel : ${designInfo}`,
+      `Paiement effectué : ${paid}`,
+      paid==='Oui'?`Transcode : ${transcode}`:'Transcode : Non fourni (paiement non effectué)',
+      `ID Agent : ${agentId||'Aucun'}`,
+      `Prix : ${price} HTG`,
+      `Preuve de paiement : ${proof.name}`
+    ].join('\n');
+
+    wait(true,'Envoi de votre commande au contrôleur…');
+    let orderId=null;
+    try{
+      const {data:o,error}=await sb.from('orders').insert({
+        user_id:p.id,
+        service_name:service,
+        description:summary,
+        price_htg:price,
+        status:'En attente de validation',
+        payment_status:'pending'
+      }).select().single();
+      if(error)throw error;
+      orderId=o.id;
+
+      await uploadOne(proof,p.id,'payment_proof',orderId,null);
+      for(const f of Array.from($('orderFiles')?.files||[])){
+        await uploadOne(f,p.id,'client_project',orderId,null);
+      }
+
+      // Envoie aussi le résumé dans la conversation du client pour que le contrôleur
+      // retrouve immédiatement la commande avec toutes les informations fournies.
+      const {data:conv,error:convError}=await sb.from('conversations')
+        .upsert({user_id:p.id},{onConflict:'user_id'})
+        .select('id').single();
+      if(!convError&&conv?.id){
+        await sb.from('messages').insert({
+          conversation_id:conv.id,
+          sender_id:p.id,
+          body:`📦 NOUVELLE COMMANDE\n\n${summary}`
+        });
+      }
+
+      toast('Commande envoyée 🎉','Votre commande, les informations obligatoires et la preuve de paiement sont maintenant chez le contrôleur.');
+      form.reset();
+      if($('totalPrice'))$('totalPrice').textContent='0 HTG';
+      if($('depositPrice'))$('depositPrice').textContent='0 HTG';
+      if($('remainingPrice'))$('remainingPrice').textContent='0 HTG';
+    }catch(err){
+      // Si l’envoi d’un fichier échoue après la création de la commande,
+      // on tente de supprimer la commande afin d’éviter une commande incomplète.
+      if(orderId){
+        try{await sb.rpc('controller_delete_order',{p_order_id:orderId});}catch(_e){}
+      }
+      alert(err?.message||'Impossible d’envoyer la commande au contrôleur.');
+    }finally{wait(false);}
+  }
 
   async function submitRegistration(form){
   const p=await getProfile();
@@ -5130,24 +5219,7 @@ Merci.
   async function submitPublicite(form){const p=await getProfile();if(!p){showAuth();toast('Compte requis','Connecte-toi avant de commander une publicité.');return;}const proof=$('pubPaymentProof')?.files?.[0];if(!proof){alert('La preuve de paiement est obligatoire.');return;}wait(true,'Envoi de la demande…');try{const type=$('pubType')?.value||'Publicité',duration=$('pubDuration')?.value||'';const price=parseFloat(($('pubHtg')?.textContent||'0').replace(/[^0-9]/g,''))||0;const {data:o,error}=await sb.from('orders').insert({user_id:p.id,service_name:`Publicité ${type} ${duration}`,price_htg:price,description:'Demande de publicité',status:'En attente de validation',payment_status:'pending'}).select().single();if(error)throw error;await uploadOne(proof,p.id,'payment_proof',o.id,null);toast('Demande envoyée 🎉','La preuve de paiement et la demande sont chez le contrôleur.');form.reset();}catch(err){alert(err.message||'Erreur.');}finally{wait(false);}}
 
   // Capture phase: blocks the old WhatsApp-only submit handlers and routes everything to Supabase.
-  document.addEventListener('submit',e=>{
-    const form=e.target;
-    if(form.id==='orderForm'){
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      if(!form.checkValidity()){form.reportValidity();return;}
-      if(!document.querySelector('input[name="service"]:checked')){alert('Veuillez sélectionner un service.');return;}
-      submitOrder(form);
-    }else if(form.id==='registrationForm'){
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      submitRegistration(form);
-    }else if(form.id==='publiciteForm'){
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      submitPublicite(form);
-    }
-  },true);
+  document.addEventListener('submit',e=>{if(e.target.id==='orderForm'){e.preventDefault();e.stopImmediatePropagation();submitOrder(e.target)}else if(e.target.id==='registrationForm'){e.preventDefault();e.stopImmediatePropagation();submitRegistration(e.target)}else if(e.target.id==='publiciteForm'){e.preventDefault();e.stopImmediatePropagation();submitPublicite(e.target)}},true);
 
   // Realtime chat/order updates.
   sb.channel('portal-live').on('postgres_changes',{event:'*',schema:'public',table:'messages'},()=>{if($('chatMessages'))refreshChat()}).on('postgres_changes',{event:'*',schema:'public',table:'orders'},()=>{if($('portalMain'))renderView('orders').catch(()=>{})}).subscribe();
