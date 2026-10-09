@@ -1137,6 +1137,37 @@ async function envoyerDevoir(encodedDevoirId,encodedStudentId){
   }
 }
 
+// Téléchargement robuste des certificats (images ou PDF hébergés sur Supabase).
+document.addEventListener("click", async (event) => {
+  const link = event.target.closest("a.certificate-download");
+  if (!link) return;
+  event.preventDefault();
+  const url = link.dataset.url || link.href;
+  const originalText = link.textContent;
+  link.textContent = "Préparation du téléchargement…";
+  link.style.pointerEvents = "none";
+  try {
+    const response = await fetch(url, { mode: "cors" });
+    if (!response.ok) throw new Error("Le fichier n’est pas accessible (HTTP " + response.status + ").");
+    const blob = await response.blob();
+    const objectUrl = URL.createObjectURL(blob);
+    const ext = (blob.type || "").includes("pdf") ? ".pdf" : ((blob.type || "").includes("png") ? ".png" : ((blob.type || "").includes("jpeg") ? ".jpg" : ".file"));
+    const a = document.createElement("a");
+    a.href = objectUrl;
+    a.download = (link.dataset.name || "certificat") + ext;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(objectUrl), 1500);
+    link.textContent = "Téléchargement lancé";
+  } catch (error) {
+    console.error("Téléchargement du certificat :", error);
+    // Fallback : ouvrir le fichier directement pour que l’élève puisse l’enregistrer.
+    window.open(url, "_blank", "noopener");
+    link.textContent = "Ouvrir le certificat";
+  } finally {
+    setTimeout(() => { link.textContent = originalText; link.style.pointerEvents = ""; }, 2500);
+  }
+});
+
 async function chargerCertificats(studentId){
   const container = document.getElementById("certificatesContainer");
   try{
@@ -1157,7 +1188,7 @@ async function chargerCertificats(studentId){
       const url = c.fichier_url || c.photo_url || c.image_url || "";
       return `<article class="certificate-card">
         <h3>${escapeHtml(c.titre || c.nom || "Certificat de formation")}</h3>
-        ${url ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener" style="display:none"></a><img src="${escapeHtml(url)}" alt="${escapeHtml(c.titre || "Certificat")}" loading="lazy"><a href="${escapeHtml(url)}" target="_blank" rel="noopener" download>Consulter / télécharger</a>` : '<div class="notice-box">Le certificat est enregistré, mais son fichier n’est pas encore disponible.</div>'}
+        ${url ? `${/\.(pdf)(\?|$)/i.test(url) ? '<div class="notice-box">Document PDF prêt à être téléchargé.</div>' : `<img src="${escapeHtml(url)}" alt="${escapeHtml(c.titre || "Certificat")}" loading="lazy" onerror="this.style.display='none'">`}<a href="${escapeHtml(url)}" class="certificate-download" data-url="${escapeHtml(url)}" data-name="${escapeHtml((c.titre || c.nom || "certificat").replace(/[^a-z0-9_-]+/gi,"-") )}" target="_blank" rel="noopener">Télécharger mon certificat</a>` : '<div class="notice-box">Le certificat est enregistré, mais son fichier n’est pas encore disponible.</div>'}
         <p class="upload-note">Ajouté le ${formatDateFr(c.created_at)}</p>
       </article>`;
     }).join("");
