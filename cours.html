@@ -380,6 +380,41 @@ button:disabled{
   font-size:12px;
 }
 
+
+/* Tableau de bord élève */
+.dashboard-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:24px 0}
+.stat-card{border:1px solid var(--border);border-radius:18px;padding:20px;background:linear-gradient(145deg,#fff,#fffaf6);position:relative;overflow:hidden}
+.stat-card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(var(--red),var(--orange),var(--yellow))}
+.stat-label{font-size:11px;font-weight:900;letter-spacing:.1em;color:var(--gray);text-transform:uppercase}
+.stat-value{font-size:32px;line-height:1.15;font-weight:900;margin-top:10px;letter-spacing:-.04em}
+.stat-hint{font-size:12px;color:var(--gray);margin-top:6px}
+.section-title{display:flex;align-items:center;gap:11px;margin:30px 0 14px;font-size:21px;letter-spacing:-.025em}
+.section-icon{width:38px;height:38px;display:inline-flex;align-items:center;justify-content:center;border-radius:12px;background:#fff0e8;color:var(--red);flex-shrink:0}
+.section-icon svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.assignment-list,.certificate-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.assignment-card,.certificate-card{background:#fff;border:1px solid var(--border);border-radius:18px;padding:20px;min-width:0}
+.assignment-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.assignment-card h3,.certificate-card h3{font-size:17px;margin:0 0 9px}
+.assignment-description{font-size:14px;color:#555;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere}
+.deadline{display:flex;gap:8px;align-items:flex-start;background:#fff8ed;border:1px solid #ffe0b8;border-radius:12px;padding:11px 12px;margin:15px 0;font-size:13px;color:#6b3b00}
+.deadline svg{width:17px;height:17px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:1.8}
+.status-pill{display:inline-flex;align-items:center;border-radius:999px;padding:6px 9px;font-size:11px;font-weight:850;white-space:nowrap;background:#f1f1f1;color:#555}
+.status-pill.open{background:#eaf3ff;color:#1555a0}
+.status-pill.done{background:#e7f8ed;color:#16743b}
+.status-pill.late{background:#fff0e8;color:#bd3b00}
+.upload-area{border:1px dashed #d8d8d8;background:#fafafa;border-radius:13px;padding:14px;margin-top:12px}
+.upload-area label{display:block;font-size:13px;font-weight:800;margin-bottom:8px}
+.upload-area input[type=file]{width:100%;padding:10px;border:1px solid #ddd;border-radius:10px;background:#fff;font-size:13px;margin:0}
+.upload-area button,.assignment-card button{margin-top:10px;width:100%;padding:12px;border-radius:11px;font-size:13px}
+.upload-note{font-size:12px;color:var(--gray);line-height:1.5;margin:8px 0 0}
+.preview-image{display:block;max-width:100%;max-height:220px;object-fit:contain;border-radius:12px;border:1px solid var(--border);margin-top:12px;background:#f8f8f8}
+.certificate-card{display:flex;flex-direction:column;gap:10px}
+.certificate-card img{width:100%;max-height:250px;object-fit:contain;border-radius:12px;background:#f8f8f8;border:1px solid var(--border)}
+.certificate-card a{display:flex;align-items:center;justify-content:center;text-decoration:none;border-radius:11px;padding:12px;background:var(--dark);color:#fff;font-weight:800;font-size:13px}
+.notice-box{border-radius:13px;padding:13px 15px;margin-top:12px;font-size:13px;line-height:1.5;background:#f6f6f6;color:#555}
+.notice-box.error-note{background:#fff0ef;color:#a82020}
+@media(max-width:760px){.dashboard-grid{grid-template-columns:1fr}.assignment-list,.certificate-grid{grid-template-columns:1fr}.stat-value{font-size:29px}}
+
 @media(max-width:760px){
   .wrap{width:min(94%,1180px)}
   .top{padding:42px 0 24px}
@@ -605,30 +640,51 @@ async function afficherEspaceEleve(student){
 
     <div id="messageContainer"></div>
 
-    <h2 style="margin-top:28px">
-      Mes formations
-    </h2>
-
-    <div id="coursesContainer"
-         class="loading">
-
-      Chargement de vos formations...
-
+    <div class="dashboard-grid" aria-label="Résumé de votre parcours">
+      <div class="stat-card">
+        <div class="stat-label">Ma note</div>
+        <div class="stat-value" id="studentNote">—<span style="font-size:15px;color:#777"> / 100</span></div>
+        <div class="stat-hint">Dernière note publiée</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Certificats obtenus</div>
+        <div class="stat-value" id="certificateCount">0</div>
+        <div class="stat-hint">Certificats disponibles dans votre espace</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Mes formations</div>
+        <div class="stat-value" id="courseCount">0</div>
+        <div class="stat-hint">Formations qui vous sont attribuées</div>
+      </div>
     </div>
 
-    <button
-      class="logout"
-      onclick="logout()">
+    <h2 class="section-title">
+      <span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21z"/><path d="M4 5.5v13A2.5 2.5 0 0 1 6.5 16H20"/></svg></span>
+      Mes formations
+    </h2>
+    <div id="coursesContainer" class="loading">Chargement de vos formations...</div>
 
-      Se déconnecter
+    <h2 class="section-title">
+      <span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8z"/><path d="M8 3v5h8V3M8 14h8M8 17h5"/></svg></span>
+      Mes devoirs
+    </h2>
+    <p style="color:#666;line-height:1.6;margin-top:-4px">Consultez les consignes, la date et l'heure limites, puis envoyez une photo de votre travail.</p>
+    <div id="assignmentsContainer" class="loading">Chargement de vos devoirs...</div>
 
-    </button>
+    <h2 class="section-title">
+      <span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 19 6v5c0 5-3.5 8-7 10-3.5-2-7-5-7-10V6z"/><path d="m9 12 2 2 4-4"/></svg></span>
+      Mes certificats
+    </h2>
+    <p style="color:#666;line-height:1.6;margin-top:-4px">Vos certificats seront affichés ici dès que l'administration les aura ajoutés à votre dossier.</p>
+    <div id="certificatesContainer" class="loading">Chargement de vos certificats...</div>
+
+    <button class="logout" onclick="logout()">Se déconnecter</button>
   `;
 
 
   await chargerMessages();
-
   afficherCours(student.courses);
+  await chargerTableauDeBord(student);
 }
 
 
@@ -637,6 +693,9 @@ async function afficherEspaceEleve(student){
    ========================================================= */
 
 function afficherCours(courses){
+
+  const count = document.getElementById("courseCount");
+  if(count) count.textContent = String((courses || []).length);
 
   const container =
     document.getElementById("coursesContainer");
@@ -708,6 +767,186 @@ function afficherCours(courses){
     .join("");
 }
 
+
+
+/* =========================================================
+   NOTES, DEVOIRS ET CERTIFICATS
+   Tables attendues : notes, devoirs, devoirs_remis, certificats.
+   Les noms de colonnes sont centralisés dans les fonctions ci-dessous.
+   ========================================================= */
+
+function studentIdOf(student){
+  return student?.id ?? student?.eleve_id ?? student?.student_id ?? student?.profile_id ?? null;
+}
+
+function formatDateFr(value){
+  if(!value) return "Date non précisée";
+  const d = new Date(value);
+  if(Number.isNaN(d.getTime())) return escapeHtml(value);
+  return d.toLocaleDateString("fr-FR",{day:"2-digit",month:"long",year:"numeric"});
+}
+
+function formatTimeFr(value){
+  if(!value) return "Heure non précisée";
+  const match = String(value).match(/^(\d{1,2}):(\d{2})/);
+  return match ? `${match[1].padStart(2,"0")}:${match[2]}` : escapeHtml(value);
+}
+
+function safeFileName(name){
+  return String(name || "fichier").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-zA-Z0-9._-]/g,"_").slice(-100);
+}
+
+async function chargerTableauDeBord(student){
+  const studentId = studentIdOf(student);
+  const noteEl = document.getElementById("studentNote");
+  const assignmentsEl = document.getElementById("assignmentsContainer");
+  const certificatesEl = document.getElementById("certificatesContainer");
+  if(!studentId){
+    assignmentsEl.innerHTML = '<div class="notice-box error-note">Impossible d’identifier votre dossier élève. La fonction student_login doit renvoyer l’identifiant de l’élève dans le champ id.</div>';
+    certificatesEl.innerHTML = '<div class="empty">Votre identifiant élève est nécessaire pour charger vos certificats.</div>';
+    return;
+  }
+  await Promise.all([
+    chargerNote(studentId, student),
+    chargerDevoirs(studentId),
+    chargerCertificats(studentId)
+  ]);
+}
+
+async function chargerNote(studentId, student){
+  const noteEl = document.getElementById("studentNote");
+  const noteDirecte = student.note_sur_100 ?? student.note ?? student.notes;
+  if(noteDirecte !== undefined && noteDirecte !== null && noteDirecte !== ""){
+    const n = Number(noteDirecte);
+    noteEl.innerHTML = `${Number.isFinite(n) ? escapeHtml(n) : "—"}<span style="font-size:15px;color:#777"> / 100</span>`;
+    return;
+  }
+  try{
+    const {data,error} = await supabaseClient.from("notes")
+      .select("note_sur_100, note, created_at")
+      .eq("eleve_id",studentId)
+      .order("created_at",{ascending:false})
+      .limit(1);
+    if(error) throw error;
+    const value = data?.[0]?.note_sur_100 ?? data?.[0]?.note;
+    noteEl.innerHTML = `${value !== undefined && value !== null ? escapeHtml(value) : "—"}<span style="font-size:15px;color:#777"> / 100</span>`;
+  }catch(err){
+    console.warn("Chargement de la note :",err.message || err);
+    noteEl.innerHTML = `—<span style="font-size:15px;color:#777"> / 100</span>`;
+  }
+}
+
+async function chargerDevoirs(studentId){
+  const container = document.getElementById("assignmentsContainer");
+  try{
+    const [{data:devoirs,error:devoirsError},{data:remises,error:remisesError}] = await Promise.all([
+      supabaseClient.from("devoirs").select("*").eq("publie",true).order("date_limite",{ascending:true}),
+      supabaseClient.from("devoirs_remis").select("*").eq("eleve_id",studentId).order("created_at",{ascending:false})
+    ]);
+    if(devoirsError) throw devoirsError;
+    if(remisesError) throw remisesError;
+    if(!devoirs || devoirs.length===0){
+      container.className="empty";
+      container.textContent="Aucun devoir n’a été publié pour le moment.";
+      return;
+    }
+    const remisParDevoir = new Map((remises||[]).map(r=>[String(r.devoir_id),r]));
+    container.className="assignment-list";
+    container.innerHTML = devoirs.map(d=>{
+      const remise = remisParDevoir.get(String(d.id));
+      const deadline = d.date_limite ? new Date(`${String(d.date_limite).slice(0,10)}T${String(d.heure_limite||"23:59:00").slice(0,8)}`) : null;
+      const enRetard = !remise && deadline && !Number.isNaN(deadline.getTime()) && deadline < new Date();
+      const status = remise ? '<span class="status-pill done">Devoir envoyé</span>' : enRetard ? '<span class="status-pill late">Date limite dépassée</span>' : '<span class="status-pill open">À remettre</span>';
+      const description = d.description || d.consignes || "Aucune description n’a été ajoutée pour ce devoir.";
+      const remiseUrl = remise?.fichier_url || remise?.photo_url || "";
+      return `<article class="assignment-card">
+        <div class="assignment-top"><h3>${escapeHtml(d.titre || d.nom || "Devoir sans titre")}</h3>${status}</div>
+        <div class="assignment-description">${escapeHtml(description)}</div>
+        <div class="deadline"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div><strong>Date limite :</strong> ${formatDateFr(d.date_limite)}<br><strong>Heure limite :</strong> ${formatTimeFr(d.heure_limite)}</div></div>
+        ${remiseUrl ? `<p class="upload-note">Votre fichier a été envoyé. <a href="${escapeHtml(remiseUrl)}" target="_blank" rel="noopener">Voir le devoir envoyé</a></p>` : `
+          <div class="upload-area">
+            <label for="devoir-file-${escapeHtml(d.id)}">Photo ou fichier du devoir</label>
+            <input id="devoir-file-${escapeHtml(d.id)}" type="file" accept="image/*,.pdf" />
+            <p class="upload-note">Formats acceptés : image ou PDF. Veuillez vérifier votre fichier avant l’envoi.</p>
+            <button type="button" onclick="envoyerDevoir('${encodeURIComponent(String(d.id))}','${encodeURIComponent(String(studentId))}')">Envoyer mon devoir</button>
+            <div id="devoir-msg-${escapeHtml(d.id)}" class="upload-note" aria-live="polite"></div>
+          </div>`}
+      </article>`;
+    }).join("");
+  }catch(err){
+    console.error("Chargement des devoirs :",err);
+    container.className="";
+    container.innerHTML='<div class="notice-box error-note">Les devoirs ne peuvent pas être chargés. Vérifiez que les tables « devoirs » et « devoirs_remis » existent et que leurs autorisations Supabase sont configurées.</div>';
+  }
+}
+
+async function envoyerDevoir(encodedDevoirId,encodedStudentId){
+  const devoirId = decodeURIComponent(encodedDevoirId);
+  const studentId = decodeURIComponent(encodedStudentId);
+  const input = document.getElementById(`devoir-file-${devoirId}`);
+  const message = document.getElementById(`devoir-msg-${devoirId}`);
+  const button = input?.closest(".upload-area")?.querySelector("button");
+  const file = input?.files?.[0];
+  if(!file){ message.textContent="Veuillez sélectionner une photo ou un fichier avant l’envoi."; return; }
+  if(file.size > 10*1024*1024){ message.textContent="Le fichier dépasse 10 Mo. Choisissez un fichier plus léger."; return; }
+  if(!(file.type.startsWith("image/") || file.type==="application/pdf")){ message.textContent="Veuillez choisir une image ou un fichier PDF."; return; }
+  if(button){button.disabled=true;button.textContent="Envoi en cours…";}
+  message.textContent="Téléversement du fichier…";
+  try{
+    const path = `${studentId}/${devoirId}/${Date.now()}-${safeFileName(file.name)}`;
+    const {data:uploadData,error:uploadError} = await supabaseClient.storage.from("devoirs").upload(path,file,{upsert:false,contentType:file.type});
+    if(uploadError) throw uploadError;
+    const {data:urlData} = supabaseClient.storage.from("devoirs").getPublicUrl(uploadData.path);
+    const fichierUrl = urlData?.publicUrl;
+    const {error:insertError} = await supabaseClient.from("devoirs_remis").insert({
+      devoir_id:devoirId,
+      eleve_id:studentId,
+      fichier_url:fichierUrl,
+      nom_fichier:file.name,
+      statut:"remis"
+    });
+    if(insertError) throw insertError;
+    message.textContent="Votre devoir a été envoyé avec succès.";
+    await chargerDevoirs(studentId);
+  }catch(err){
+    console.error("Envoi du devoir :",err);
+    message.textContent="L’envoi a échoué. Vérifiez le bucket Storage « devoirs », les autorisations et les colonnes de la table devoirs_remis.";
+  }finally{
+    if(button){button.disabled=false;button.textContent="Envoyer mon devoir";}
+  }
+}
+
+async function chargerCertificats(studentId){
+  const container = document.getElementById("certificatesContainer");
+  try{
+    const {data,error} = await supabaseClient.from("certificats")
+      .select("*")
+      .eq("eleve_id",studentId)
+      .order("created_at",{ascending:false});
+    if(error) throw error;
+    const certificates = data || [];
+    document.getElementById("certificateCount").textContent=String(certificates.length);
+    if(!certificates.length){
+      container.className="empty";
+      container.textContent="Aucun certificat n’est encore disponible. Il apparaîtra ici dès que l’administration l’aura ajouté.";
+      return;
+    }
+    container.className="certificate-grid";
+    container.innerHTML=certificates.map(c=>{
+      const url = c.fichier_url || c.photo_url || c.image_url || "";
+      return `<article class="certificate-card">
+        <h3>${escapeHtml(c.titre || c.nom || "Certificat de formation")}</h3>
+        ${url ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener" style="display:none"></a><img src="${escapeHtml(url)}" alt="${escapeHtml(c.titre || "Certificat")}" loading="lazy"><a href="${escapeHtml(url)}" target="_blank" rel="noopener" download>Consulter / télécharger</a>` : '<div class="notice-box">Le certificat est enregistré, mais son fichier n’est pas encore disponible.</div>'}
+        <p class="upload-note">Ajouté le ${formatDateFr(c.created_at)}</p>
+      </article>`;
+    }).join("");
+  }catch(err){
+    console.error("Chargement des certificats :",err);
+    document.getElementById("certificateCount").textContent="—";
+    container.className="";
+    container.innerHTML='<div class="notice-box error-note">Les certificats ne peuvent pas être chargés. Vérifiez la table « certificats » et les autorisations Supabase.</div>';
+  }
+}
 
 /* =========================================================
    CHARGER LES MESSAGES ADMIN
