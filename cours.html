@@ -3,7 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Akademi Dizay — Formations</title>
+<title>Akademi Dizay — Espace élève</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -26,7 +29,7 @@ html{scroll-behavior:smooth}
 
 body{
   margin:0;
-  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Montserrat",sans-serif;
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   background:var(--light);
   color:var(--dark);
   min-height:100vh;
@@ -561,6 +564,68 @@ button:hover{background:#e92308;box-shadow:0 8px 20px rgba(255,38,8,.15)}
  .grid,.assignment-list{grid-template-columns:1fr}
  .course{padding:19px}
 }
+
+
+/* FINITION VISUELLE — palette officielle : rouge dégradé, noir, jaune abricot */
+:root{
+  --red:#ff2b12;
+  --orange:#ff5a24;
+  --yellow:#ffbf47;
+  --dark:#303030;
+  --white:#ffffff;
+  --gray:#626262;
+  --light:#ffffff;
+  --border:#eaeaea;
+  --shadow:0 12px 32px rgba(25,25,25,.06);
+}
+html,body,button,input,select,textarea{font-family:'Montserrat',sans-serif!important}
+body{background:#fff!important;color:#242424}
+.top h1,.top h2,.top p,.brand,.card,.course,.assignment-card,.certificate-card,.stat-card,
+button,input,.head,.head *{font-family:'Montserrat',sans-serif!important}
+.top h1{font-family:'Montserrat',sans-serif!important;font-weight:800;letter-spacing:-.045em;color:#242424}
+.top p{color:#666;line-height:1.75}
+.brand{background:#303030;color:#fff;border:1px solid #484848}
+#student{background:#fff;border:1px solid #ededed;border-radius:26px;padding:26px;box-shadow:0 8px 30px rgba(0,0,0,.045)}
+#student .head{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:20px;
+  min-height:250px;padding:30px;border-radius:24px;
+  color:#fff!important;
+  background:linear-gradient(120deg,#292929 0%,#383838 58%,#242424 100%)!important;
+  border:0;box-shadow:0 12px 28px rgba(0,0,0,.11);position:relative;overflow:hidden;
+}
+#student .head:after{content:"";position:absolute;right:-55px;top:-95px;width:270px;height:270px;border-radius:50%;border:38px solid rgba(255,191,71,.10);pointer-events:none}
+#student .head .tag{display:inline-flex;align-items:center;background:rgba(255,255,255,.10)!important;color:#ffca78!important;border:1px solid rgba(255,255,255,.17)!important;border-radius:999px;padding:8px 14px;font-size:11px;font-weight:800;letter-spacing:.09em}
+#student .head h2,#student .head h2[style],#student .head h3{color:#fff!important;font-family:'Montserrat',sans-serif!important;font-weight:800!important;letter-spacing:-.035em;line-height:1.2}
+#student .head .student-info{color:#f0f0f0!important;font-size:14px;line-height:1.7}
+#student .head .logout{position:relative;z-index:2}
+.section-title{font-family:'Montserrat',sans-serif!important;font-weight:800!important;letter-spacing:.07em;color:#303030}
+.section-title:before{background:linear-gradient(180deg,#ff2b12,#ffbf47)!important}
+.dashboard-grid{gap:16px}
+.stat-card{background:#fff!important;border:1px solid #ededed!important;border-radius:19px!important;box-shadow:0 4px 14px rgba(0,0,0,.035)!important;padding:22px!important}
+.stat-label{color:#707070!important;font-weight:700!important;letter-spacing:.08em}
+.stat-value{color:#303030!important;font-weight:800!important}
+.stat-value strong,.stat-value .accent{color:#ff4b22!important}
+.course{background:#fff!important;border:1px solid #eaeaea!important;border-radius:20px!important;box-shadow:0 4px 15px rgba(0,0,0,.035)!important}
+.course h3,.assignment-card h3,.certificate-card h3{font-family:'Montserrat',sans-serif!important;color:#292929!important;font-weight:800!important}
+.course:hover{border-color:#ffc4a5!important;box-shadow:0 12px 25px rgba(0,0,0,.07)!important}
+.assignment-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.assignment-card{background:#fff!important;border:1px solid #eaeaea!important;border-radius:19px!important;box-shadow:0 4px 15px rgba(0,0,0,.035)!important}
+.assignment-card .status,.tag-status{border-radius:999px}
+.links a,.copy,.certificate-card a{background:linear-gradient(110deg,#ff2b12,#ff5125)!important;color:#fff!important;border:0!important;border-radius:12px!important;font-family:'Montserrat',sans-serif!important;font-weight:800!important}
+.copy{background:#fff3e6!important;color:#c83a1c!important;border:1px solid #ffddbd!important}
+button{background:linear-gradient(110deg,#ff2b12 0%,#ff5125 72%,#ff7134 100%)!important;color:#fff!important;font-weight:800!important;border-radius:13px!important}
+button:hover{filter:brightness(.97);box-shadow:0 8px 18px rgba(255,43,18,.18)!important}
+input,textarea,select{border:1px solid #e3e3e3!important;border-radius:12px!important}
+input:focus,textarea:focus,select:focus{border-color:#ff8b56!important;box-shadow:0 0 0 4px #fff0e6!important}
+.message,.notice-box{background:#fff7ef!important;border-left-color:#ff4b22!important;color:#494949!important}
+.certificate-card{background:#fff!important;border:1px solid #ececec!important;border-radius:19px!important}
+.certificate-card a{display:inline-flex;justify-content:center;align-items:center;text-decoration:none;padding:12px 16px}
+.logout{background:#303030!important;color:#fff!important;border:0!important}
+.logout:hover{background:#1d1d1d!important}
+.foot{font-family:'Montserrat',sans-serif!important;color:#777}
+@media(max-width:760px){#student{padding:12px;border-radius:20px}#student .head{padding:24px 20px;min-height:220px}.assignment-list{grid-template-columns:1fr}.dashboard-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:480px){#student .head h2,#student .head h2[style]{font-size:28px!important}.dashboard-grid{grid-template-columns:1fr}.stat-card{padding:18px!important}.assignment-card{padding:17px!important}}
+
 </style>
 </head>
 
