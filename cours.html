@@ -26,7 +26,7 @@ html{scroll-behavior:smooth}
 
 body{
   margin:0;
-  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-family:Inter,system-ui,-apple-system,Montserrat,"Segoe UI",sans-serif;
   background:var(--light);
   color:var(--dark);
   min-height:100vh;
@@ -513,6 +513,54 @@ button:hover{box-shadow:0 13px 27px rgba(240,91,53,.25);filter:none}
 @media(max-width:480px){.wrap{width:92%}.top{padding-top:28px}.top h1{font-size:34px}.top p{font-size:14px}.brand{font-size:10px}.card{padding:18px;border-radius:19px}#student{border-radius:20px}.course{padding:19px}.assignment-card,.certificate-card{padding:16px}.assignment-top{flex-direction:column;align-items:flex-start}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 
+
+/* Refonte visuelle inspirée des références fournies : tableau de bord blanc, charbon et rouge */
+:root{--red:#ff2608;--orange:#ff4b22;--yellow:#ffc400;--dark:#303030;--white:#fff;--gray:#667085;--light:#fff;--border:#ececec;--shadow:0 12px 30px rgba(25,25,25,.055)}
+body{background:#fff;color:#242424;font-family:Inter,"Segoe UI",Arial,sans-serif}
+body:before{height:4px;background:#ff2608}
+.wrap{width:min(1180px,94%);max-width:1180px}
+.top{text-align:left;padding:32px 0 18px}
+.brand{background:#353535;letter-spacing:.08em;border-radius:999px}
+.top h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(38px,5vw,60px);font-weight:800;letter-spacing:-.04em;margin:18px 0 8px}
+.top h1:after{display:none}
+.top p{font-size:15px;color:#606060}
+.card{border-radius:24px;padding:28px;background:#fff;border:1px solid #ececec;box-shadow:0 2px 5px rgba(0,0,0,.04)}
+#login{max-width:560px;margin:30px auto}
+#login:before{height:0}
+#login h2{font-size:27px}
+input,button{border-radius:13px}
+button{background:#ff2608;color:#fff;box-shadow:none;font-weight:800}
+button:hover{background:#e92308;box-shadow:0 8px 20px rgba(255,38,8,.15)}
+#student:before{display:none}
+#student{margin:20px auto 50px;overflow:visible}
+.head{align-items:flex-start;padding:30px;border:0;border-radius:25px;background:#353535;color:#fff;min-height:250px}
+.head h2,.head h3{color:#fff}
+.head .student-info{color:#dedede}
+.head .tag{background:#4a4a4a;border:1px solid #5d5d5d}
+.logout{background:#ff2608;color:#fff;border:0}
+.grid{gap:18px}
+.course{border:1px solid #ededed;border-radius:20px;padding:22px;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.035)}
+.course:before{height:0}
+.course:hover{transform:translateY(-3px);border-color:#ffc0b4;box-shadow:0 12px 28px rgba(0,0,0,.07)}
+.course h3{font-size:20px}
+.links a,.copy{background:#ff2608;color:#fff;border-radius:12px;box-shadow:none}
+.copy{background:#fff4f1;color:#ff2608;border:1px solid #ffd5cc}
+.message{border:0;border-left:4px solid #ff2608;background:#fff4f1;border-radius:14px}
+.assignment-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.assignment-card{border:1px solid #ededed!important;border-radius:18px!important;background:#fff!important;padding:21px!important;box-shadow:0 3px 9px rgba(0,0,0,.035)}
+.assignment-card h3{font-size:18px;color:#242424}
+.assignment-description{line-height:1.7;color:#606060}
+.assignment-card button,.upload-area button{background:#ff2608;color:#fff;border-radius:12px}
+.upload-area{border:1px dashed #ffc2b6!important;background:#fff8f6!important;border-radius:14px!important;padding:15px!important}
+.status-pill{border-radius:999px!important}
+#certificatesContainer .course,#certificatesContainer article{border-radius:18px}
+@media(max-width:760px){
+ .wrap{width:92%}.top{padding:25px 0 12px}.card{padding:20px;border-radius:20px}
+ .head{padding:22px;min-height:0;flex-direction:column;gap:12px}
+ .logout{max-width:none}
+ .grid,.assignment-list{grid-template-columns:1fr}
+ .course{padding:19px}
+}
 </style>
 </head>
 
@@ -522,7 +570,7 @@ button:hover{box-shadow:0 13px 27px rgba(240,91,53,.25);filter:none}
 
 <header class="top">
   <div class="brand">AKADEMI DIZAY</div>
-  <h1>Espace Formations</h1>
+  <h1>EF</h1>
   <p>Accédez à vos cours avec votre code personnel.</p>
 </header>
 
@@ -938,19 +986,24 @@ async function chargerDevoirs(studentId){
     const devoirsUniques = [];
     const indexParCle = new Map();
     for (const d of devoirs) {
-      const cle = d.admin_assignment_id != null
-        ? `admin:${d.admin_assignment_id}`
-        : [d.course_slug || "", (d.titre || d.nom || "").trim().toLowerCase(),
-           (d.description || d.consignes || "").trim().toLowerCase(),
-           String(d.date_limite || "").slice(0,10), String(d.heure_limite || "").slice(0,8)]
-          .join("|");
+      // Les copies synchronisées peuvent avoir des IDs, dates ou champs techniques différents.
+      // Pour l’affichage, un même titre normalisé ne doit apparaître qu’une fois.
+      const titreCle = String(d.titre || d.nom || "devoir sans titre")
+        .normalize("NFD").replace(/[\\u0300-\\u036f]/g, "")
+        .trim().toLowerCase().replace(/\\s+/g, " ");
+      const cle = titreCle;
       if (!indexParCle.has(cle)) {
         indexParCle.set(cle, devoirsUniques.length);
         devoirsUniques.push(d);
       } else {
         const idx = indexParCle.get(cle);
-        if (!remisParDevoir.has(String(devoirsUniques[idx].id)) && remisParDevoir.has(String(d.id))) {
+        const actuel = devoirsUniques[idx];
+        // Garder en priorité le devoir auquel l’élève a déjà remis un fichier.
+        if (!remisParDevoir.has(String(actuel.id)) && remisParDevoir.has(String(d.id))) {
           devoirsUniques[idx] = d;
+        } else if (String(d.description || d.consignes || "").length > String(actuel.description || actuel.consignes || "").length) {
+          // Si aucun devoir n’a été remis, conserver la fiche la plus complète.
+          if (!remisParDevoir.has(String(actuel.id))) devoirsUniques[idx] = d;
         }
       }
     }
