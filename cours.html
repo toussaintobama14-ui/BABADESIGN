@@ -795,6 +795,7 @@ await afficherEspaceEleve(student);
    ========================================================= */
 
 async function afficherEspaceEleve(student){
+  window.currentStudent = student;
 
   const loginBox =
     document.getElementById("login");
@@ -1003,7 +1004,7 @@ async function chargerTableauDeBord(student){
   }
   await Promise.all([
     chargerNote(studentId, student),
-    chargerDevoirs(studentId),
+    chargerDevoirs(studentId, student.code),
     chargerCertificats(studentId)
   ]);
 }
@@ -1031,11 +1032,17 @@ async function chargerNote(studentId, student){
   }
 }
 
-async function chargerDevoirs(studentId){
+async function chargerDevoirs(studentId, studentCode){
   const container = document.getElementById("assignmentsContainer");
   try{
+    if(!studentCode){
+      container.className="empty";
+      container.textContent="Impossible d’identifier votre code élève pour afficher vos devoirs personnels. Contactez l’administrateur.";
+      return;
+    }
     const [{data:devoirs,error:devoirsError},{data:remises,error:remisesError}] = await Promise.all([
-      supabaseClient.from("devoirs").select("*").eq("publie",true).order("date_limite",{ascending:true}),
+      // IMPORTANT : ne charger que les devoirs affectés à ce code élève.
+      supabaseClient.from("devoirs").select("*").eq("publie",true).eq("student_code",String(studentCode)).order("date_limite",{ascending:true}),
       supabaseClient.from("devoirs_remis").select("*").eq("eleve_id",studentId).order("created_at",{ascending:false})
     ]);
     if(devoirsError) throw devoirsError;
@@ -1129,7 +1136,7 @@ async function envoyerDevoir(encodedDevoirId,encodedStudentId){
       sent++;
     }
     message.textContent=`Succès : ${sent} fichier(s) envoyé(s).`;
-    await chargerDevoirs(studentId);
+    await chargerDevoirs(studentId, window.currentStudent?.code || window.studentSession?.code || document.getElementById("studentCode")?.value?.trim());
   }catch(err){
     console.error("Envoi du devoir :",err);
     message.textContent = sent ? `${sent} fichier(s) envoyé(s), mais un autre envoi a échoué. Relancez pour les fichiers restants.` : "L’envoi a échoué. Vérifiez le bucket Storage « devoirs », les autorisations et les colonnes de la table devoirs_remis.";
