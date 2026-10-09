@@ -1087,9 +1087,9 @@ async function chargerDevoirs(studentId){
         ${remiseUrl ? `<p class="upload-note">Votre fichier a été envoyé. <a href="${escapeHtml(remiseUrl)}" target="_blank" rel="noopener">Voir le devoir envoyé</a></p>` : `
           <div class="upload-area">
             <label for="devoir-file-${escapeHtml(d.id)}">Photo ou fichier du devoir</label>
-            <input id="devoir-file-${escapeHtml(d.id)}" type="file" accept="image/*,.pdf" />
-            <p class="upload-note">Formats acceptés : image ou PDF. Veuillez vérifier votre fichier avant l’envoi.</p>
-            <button type="button" onclick="envoyerDevoir('${encodeURIComponent(String(d.id))}','${encodeURIComponent(String(studentId))}')">Envoyer mon devoir</button>
+            <input id="devoir-file-${escapeHtml(d.id)}" type="file" accept="image/*,.pdf" multiple />
+            <p class="upload-note">Vous pouvez sélectionner plusieurs photos et/ou PDF en une seule fois. Chaque fichier sera envoyé séparément (10 Mo maximum par fichier).</p>
+            <button type="button" onclick="envoyerDevoir('${encodeURIComponent(String(d.id))}','${encodeURIComponent(String(studentId))}')">Envoyer mes fichiers</button>
             <div id="devoir-msg-${escapeHtml(d.id)}" class="upload-note" aria-live="polite"></div>
           </div>`}
       </article>`;
@@ -1107,33 +1107,34 @@ async function envoyerDevoir(encodedDevoirId,encodedStudentId){
   const input = document.getElementById(`devoir-file-${devoirId}`);
   const message = document.getElementById(`devoir-msg-${devoirId}`);
   const button = input?.closest(".upload-area")?.querySelector("button");
-  const file = input?.files?.[0];
-  if(!file){ message.textContent="Veuillez sélectionner une photo ou un fichier avant l’envoi."; return; }
-  if(file.size > 10*1024*1024){ message.textContent="Le fichier dépasse 10 Mo. Choisissez un fichier plus léger."; return; }
-  if(!(file.type.startsWith("image/") || file.type==="application/pdf")){ message.textContent="Veuillez choisir une image ou un fichier PDF."; return; }
+  const files = Array.from(input?.files || []);
+  if(!files.length){ message.textContent="Veuillez sélectionner au moins un fichier."; return; }
+  const invalid = files.find(file => file.size > 10*1024*1024 || !(file.type.startsWith("image/") || file.type==="application/pdf"));
+  if(invalid){ message.textContent = invalid.size > 10*1024*1024 ? `« ${invalid.name} » dépasse 10 Mo.` : `« ${invalid.name} » n’est pas une image ou un PDF.`; return; }
   if(button){button.disabled=true;button.textContent="Envoi en cours…";}
-  message.textContent="Téléversement du fichier…";
+  let sent = 0;
   try{
-    const path = `${studentId}/${devoirId}/${Date.now()}-${safeFileName(file.name)}`;
-    const {data:uploadData,error:uploadError} = await supabaseClient.storage.from("devoirs").upload(path,file,{upsert:false,contentType:file.type});
-    if(uploadError) throw uploadError;
-    const {data:urlData} = supabaseClient.storage.from("devoirs").getPublicUrl(uploadData.path);
-    const fichierUrl = urlData?.publicUrl;
-    const {error:insertError} = await supabaseClient.from("devoirs_remis").insert({
-      devoir_id:devoirId,
-      eleve_id:studentId,
-      fichier_url:fichierUrl,
-      nom_fichier:file.name,
-      statut:"remis"
-    });
-    if(insertError) throw insertError;
-    message.textContent="Votre devoir a été envoyé avec succès.";
+    for (const file of files) {
+      message.textContent=`Envoi du fichier ${sent+1} sur ${files.length} : ${file.name}`;
+      const path = `${studentId}/${devoirId}/${Date.now()}-${Math.random().toString(36).slice(2,8)}-${safeFileName(file.name)}`;
+      const {data:uploadData,error:uploadError} = await supabaseClient.storage.from("devoirs").upload(path,file,{upsert:false,contentType:file.type});
+      if(uploadError) throw uploadError;
+      const {data:urlData} = supabaseClient.storage.from("devoirs").getPublicUrl(uploadData.path);
+      const fichierUrl = urlData?.publicUrl;
+      const {error:insertError} = await supabaseClient.from("devoirs_remis").insert({
+        devoir_id:devoirId, eleve_id:studentId, fichier_url:fichierUrl,
+        nom_fichier:file.name, statut:"remis"
+      });
+      if(insertError) throw insertError;
+      sent++;
+    }
+    message.textContent=`Succès : ${sent} fichier(s) envoyé(s).`;
     await chargerDevoirs(studentId);
   }catch(err){
     console.error("Envoi du devoir :",err);
-    message.textContent="L’envoi a échoué. Vérifiez le bucket Storage « devoirs », les autorisations et les colonnes de la table devoirs_remis.";
+    message.textContent = sent ? `${sent} fichier(s) envoyé(s), mais un autre envoi a échoué. Relancez pour les fichiers restants.` : "L’envoi a échoué. Vérifiez le bucket Storage « devoirs », les autorisations et les colonnes de la table devoirs_remis.";
   }finally{
-    if(button){button.disabled=false;button.textContent="Envoyer mon devoir";}
+    if(button){button.disabled=false;button.textContent="Envoyer mes fichiers";}
   }
 }
 
