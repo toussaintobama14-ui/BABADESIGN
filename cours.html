@@ -645,7 +645,7 @@ body:before{display:none}
 #student .head>div{position:relative;z-index:1}
 #student .head .tag{background:#292929!important;border:1px solid #4a4a4a!important;color:#fff!important;padding:9px 13px!important;font-size:11px!important}
 #student .head h2{font-size:clamp(30px,5vw,48px)!important;margin:24px 0 10px!important;color:#fff!important}
-#student .head h2:before{content:"BONJOUR ";display:block;font-size:13px;letter-spacing:.2em;color:#c8c8c8;margin-bottom:13px;font-weight:800}
+#student .head h2:before{content:"BONJOUR 👋";display:block;font-size:13px;letter-spacing:.2em;color:#c8c8c8;margin-bottom:13px;font-weight:800}
 #student .head .student-info{color:#d0d0d0!important;font-size:15px!important}
 #student .head .student-info:before{content:"Bienvenue dans votre espace de formation";display:block;margin:7px 0 0;color:#c9c9c9;font-size:14px}
 #student .head .logout{margin-top:18px!important;max-width:180px!important;position:relative;z-index:3}
@@ -684,7 +684,7 @@ body:before{display:none}
 @media(max-width:760px){.wrap{width:92%!important}.top{padding:18px 0 14px!important}.top .brand{font-size:22px!important}.dashboard-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important}.stat-card{padding:14px 10px!important}.stat-value{font-size:25px!important}.stat-hint{font-size:10px!important}.assignment-list,.certificate-grid{grid-template-columns:1fr}.featured-lesson{padding:15px;border-radius:23px}.featured-cover{min-height:165px}}
 @media(max-width:390px){#student .head{padding:23px 18px!important}.dashboard-grid{grid-template-columns:1fr 1fr!important}.dashboard-grid .stat-card:last-child{grid-column:1/-1}.dashboard-nav a{font-size:9px}.dashboard-nav a .nav-icon{font-size:19px}}
 
-.course-lessons{margin-top:18px;display:grid;gap:14px}.course-lesson{padding:14px;border:1px solid #ececec;border-radius:18px;background:#fff;box-shadow:0 8px 22px rgba(17,17,17,.04);animation:cardIn .4s ease both}.course-lesson h4{margin:0 0 8px;font-size:16px}.course-lesson p{color:#777;line-height:1.5}.video-frame{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:14px;background:#111}.video-frame iframe,.video-frame video{position:absolute;inset:0;width:100%;height:100%;border:0}.video-frame video{display:block;object-fit:contain;background:#000;outline:none}.video-frame video::-webkit-media-controls{display:flex!important}.course-photo{display:block;width:100%;max-height:420px;object-fit:contain;background:#f7f7f7;border-radius:12px;margin:10px 0}.download-photo{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:11px 16px;border-radius:12px;background:linear-gradient(135deg,#e60000,#ff7300);color:#fff!important;text-decoration:none;font-weight:800;cursor:pointer;border:0}.course-lesson .hint{color:#777}
+.course-lessons{margin-top:18px;display:grid;gap:14px}.course-lesson{padding:14px;border:1px solid #ececec;border-radius:18px;background:#fff;box-shadow:0 8px 22px rgba(17,17,17,.04);animation:cardIn .4s ease both}.course-lesson h4{margin:0 0 8px;font-size:16px}.course-lesson p{color:#777;line-height:1.5}.video-frame{position:relative;width:100%;max-width:430px;margin:12px auto;aspect-ratio:9/16;overflow:hidden;border-radius:18px;background:#111;box-shadow:0 8px 24px rgba(0,0,0,.16)}.video-frame iframe,.video-frame video{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}.video-frame video{display:block;object-fit:contain;background:#000;outline:none}.video-frame video::-webkit-media-controls{display:flex!important}.video-frame video::-webkit-media-controls-panel{display:flex!important;opacity:1!important}.download-photo:disabled{opacity:.65;cursor:wait}.brand-logo{display:block;width:min(210px,65vw);max-height:82px;object-fit:contain;object-position:left center}.course-photo{display:block;width:100%;max-height:420px;object-fit:contain;background:#f7f7f7;border-radius:12px;margin:10px 0}.download-photo{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:11px 16px;border-radius:12px;background:linear-gradient(135deg,#e60000,#ff7300);color:#fff!important;text-decoration:none;font-weight:800;cursor:pointer;border:0}.course-lesson .hint{color:#777}
 </style>
 </head>
 
@@ -693,7 +693,7 @@ body:before{display:none}
 <div class="wrap">
 
 <header class="top">
-  <div class="brand">AKADEMI DIZAY</div>
+  <div class="brand"><img class="brand-logo" src="LOGO%20AKADEMI%20DIZAY.png" alt="Logo Akademi Dizay"></div>
   <h1>Espace Formations</h1>
   <p>Accédez à vos cours avec votre code personnel.</p>
 </header>
@@ -1014,7 +1014,7 @@ async function afficherCours(courses){
       : lessons.length ? lessons.map(lesson => {
         const mediaUrl = String(lesson.media_url || '');
         const isDirectVideo = /\.(mp4|webm|ogg)(?:$|[?#])/i.test(mediaUrl);
-        if(lesson.content_type === 'photo') return `<article class="course-lesson"><h4>${escapeHtml(lesson.title)}</h4><p>${escapeHtml(lesson.description||'')}</p><img class="course-photo" src="${escapeHtml(mediaUrl)}" alt="${escapeHtml(lesson.title)}"><button type="button" class="download-photo" data-download-url="${escapeHtml(mediaUrl)}" data-download-name="${escapeHtml((lesson.title||'photo').replace(/[^a-z0-9_-]/gi,'_'))}.jpg">Télécharger la photo</button></article>`;
+        if(lesson.content_type === 'photo') return `<article class="course-lesson"><h4>${escapeHtml(lesson.title)}</h4><p>${escapeHtml(lesson.description||'')}</p><img class="course-photo" src="${escapeHtml(mediaUrl)}" alt="${escapeHtml(lesson.title)}"><button type="button" class="download-photo" data-download-url="${escapeHtml(mediaUrl)}" data-download-name="${escapeHtml((lesson.title||'photo').replace(/[^a-z0-9_-]/gi,'_'))}.${/\.png(?:$|[?#])/i.test(mediaUrl)?'png':/\.webp(?:$|[?#])/i.test(mediaUrl)?'webp':/\.gif(?:$|[?#])/i.test(mediaUrl)?'gif':'jpg'}">Télécharger la photo</button></article>`;
         const videoPlayer = isDirectVideo
           ? `<video controls playsinline webkit-playsinline preload="metadata" controlslist="nodownload" aria-label="${escapeHtml(lesson.title)}"><source src="${escapeHtml(mediaUrl)}">Votre navigateur ne peut pas lire cette vidéo.</video>`
           : `<iframe src="${escapeHtml(mediaUrl)}" title="${escapeHtml(lesson.title)}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
