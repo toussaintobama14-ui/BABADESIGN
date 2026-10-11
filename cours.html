@@ -685,6 +685,12 @@ body:before{display:none}
 @media(max-width:390px){#student .head{padding:23px 18px!important}.dashboard-grid{grid-template-columns:1fr 1fr!important}.dashboard-grid .stat-card:last-child{grid-column:1/-1}.dashboard-nav a{font-size:9px}.dashboard-nav a .nav-icon{font-size:19px}}
 
 .course-lessons{margin-top:18px;display:grid;gap:14px}.course-lesson{padding:14px;border:1px solid #ececec;border-radius:18px;background:#fff;box-shadow:0 8px 22px rgba(17,17,17,.04);animation:cardIn .4s ease both}.course-lesson h4{margin:0 0 8px;font-size:16px}.course-lesson p{color:#777;line-height:1.5}.video-frame{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:14px;background:#111}.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}.course-photo{display:block;width:100%;max-height:420px;object-fit:contain;background:#f7f7f7;border-radius:12px;margin:10px 0}.download-photo{display:inline-flex;padding:11px 16px;border-radius:12px;background:linear-gradient(135deg,#e60000,#ff7300);color:#fff!important;text-decoration:none;font-weight:800}.course-lesson .hint{color:#777}
+
+/* Logo Akademi Dizay : remplace le texte uniquement dans l'espace cours */
+.top .logo-brand{display:flex!important;align-items:center;justify-content:flex-start;background:transparent!important;border:0!important;padding:0!important;margin:0!important;box-shadow:none!important;width:auto!important;min-width:0!important;line-height:1!important}
+.top .logo-brand:after{content:none!important;display:none!important}
+.top .logo-brand img{display:block;width:clamp(135px,18vw,205px);height:64px;max-width:100%;object-fit:contain;object-position:left center}
+@media(max-width:600px){.top .logo-brand img{width:clamp(115px,34vw,155px);height:54px}}
 </style>
 </head>
 
@@ -693,7 +699,7 @@ body:before{display:none}
 <div class="wrap">
 
 <header class="top">
-  <div class="brand">AKADEMI DIZAY</div>
+  <div class="brand logo-brand"><img src="LOGO%20AKADEMI%20DIZAY01.jpg" alt="Logo Akademi Dizay"></div>
   <h1>Espace Formations</h1>
   <p>Accédez à vos cours avec votre code personnel.</p>
 </header>
@@ -978,10 +984,9 @@ async function afficherCours(courses){
     const first = courses[0];
     if(featuredTitle) featuredTitle.textContent = first.nom || "Formation Akademi Dizay";
     if(featuredDesc) featuredDesc.textContent = "Reprenez votre formation et continuez votre progression.";
-    if(featuredPlay) featuredPlay.onclick = () => {
-      if(first.lien) window.open(first.lien, "_blank", "noopener");
-      else document.getElementById("coursesContainer")?.scrollIntoView({behavior:"smooth"});
-    };
+    // Le bouton de la bannière ne doit jamais ouvrir Classroom.
+    // Il amène l’élève à la liste des formations et de leurs vidéos intégrées.
+    if(featuredPlay) featuredPlay.onclick = () => document.getElementById("coursesContainer")?.scrollIntoView({behavior:"smooth"});
     if(featuredCover) featuredCover.setAttribute("aria-label", first.nom || "Formation");
   } else {
     if(featuredTitle) featuredTitle.textContent = "Vos formations vous attendent";
