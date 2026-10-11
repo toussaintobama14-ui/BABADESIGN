@@ -645,7 +645,7 @@ body:before{display:none}
 #student .head>div{position:relative;z-index:1}
 #student .head .tag{background:#292929!important;border:1px solid #4a4a4a!important;color:#fff!important;padding:9px 13px!important;font-size:11px!important}
 #student .head h2{font-size:clamp(30px,5vw,48px)!important;margin:24px 0 10px!important;color:#fff!important}
-#student .head h2:before{content:"BONJOUR 👋";display:block;font-size:13px;letter-spacing:.2em;color:#c8c8c8;margin-bottom:13px;font-weight:800}
+#student .head h2:before{content:"BONJOUR ";display:block;font-size:13px;letter-spacing:.2em;color:#c8c8c8;margin-bottom:13px;font-weight:800}
 #student .head .student-info{color:#d0d0d0!important;font-size:15px!important}
 #student .head .student-info:before{content:"Bienvenue dans votre espace de formation";display:block;margin:7px 0 0;color:#c9c9c9;font-size:14px}
 #student .head .logout{margin-top:18px!important;max-width:180px!important;position:relative;z-index:3}
@@ -684,6 +684,7 @@ body:before{display:none}
 @media(max-width:760px){.wrap{width:92%!important}.top{padding:18px 0 14px!important}.top .brand{font-size:22px!important}.dashboard-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important}.stat-card{padding:14px 10px!important}.stat-value{font-size:25px!important}.stat-hint{font-size:10px!important}.assignment-list,.certificate-grid{grid-template-columns:1fr}.featured-lesson{padding:15px;border-radius:23px}.featured-cover{min-height:165px}}
 @media(max-width:390px){#student .head{padding:23px 18px!important}.dashboard-grid{grid-template-columns:1fr 1fr!important}.dashboard-grid .stat-card:last-child{grid-column:1/-1}.dashboard-nav a{font-size:9px}.dashboard-nav a .nav-icon{font-size:19px}}
 
+.course-lessons{margin-top:18px;display:grid;gap:14px}.course-lesson{padding:14px;border:1px solid #ececec;border-radius:18px;background:#fff;box-shadow:0 8px 22px rgba(17,17,17,.04);animation:cardIn .4s ease both}.course-lesson h4{margin:0 0 8px;font-size:16px}.course-lesson p{color:#777;line-height:1.5}.video-frame{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:14px;background:#111}.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}.course-photo{display:block;width:100%;max-height:420px;object-fit:contain;background:#f7f7f7;border-radius:12px;margin:10px 0}.download-photo{display:inline-flex;padding:11px 16px;border-radius:12px;background:linear-gradient(135deg,#e60000,#ff7300);color:#fff!important;text-decoration:none;font-weight:800}.course-lesson .hint{color:#777}
 </style>
 </head>
 
@@ -961,7 +962,7 @@ async function afficherEspaceEleve(student){
    CHARGER LES COURS DE L'ÉLÈVE
    ========================================================= */
 
-function afficherCours(courses){
+async function afficherCours(courses){
 
   const count = document.getElementById("courseCount");
   if(count) count.textContent = String((courses || []).length);
@@ -1000,61 +1001,24 @@ function afficherCours(courses){
   }
 
   container.className = "grid";
-
-  container.innerHTML =
-    courses
-    .map(course => `
-
-      <div class="course">
-
-        <h3>
-          ${escapeHtml(course.nom)}
-        </h3>
-
-        <p>
-          Votre formation est prête.
-          Utilisez les boutons ci-dessous
-          pour accéder à votre cours.
-        </p>
-
-        <div class="links">
-
-          <a
-            href="${escapeHtml(course.lien || "")}"
-            target="_blank"
-            rel="noopener">
-
-            Ouvrir la formation
-
-          </a>
-
-          <button
-            type="button"
-            class="copy"
-            onclick="copyText('${encodeURIComponent(course.lien || "")}')">
-
-            Copier le lien
-
-          </button>
-
-          <button
-            type="button"
-            class="copy"
-            onclick="copyText('${encodeURIComponent(course.code || "")}')">
-
-            Copier le code du cours :
-            ${escapeHtml(course.code || "")}
-
-          </button>
-
-        </div>
-
-      </div>
-
-    `)
-    .join("");
+  container.innerHTML = '<div class="empty">Chargement des leçons…</div>';
+  const studentCode = String(window.currentStudent?.code || window.currentStudent?.student_code || '');
+  const cards = await Promise.all(courses.map(async course => {
+    let lessons = [], lessonError = null;
+    if(studentCode){
+      const result = await supabaseClient.rpc('student_list_course_lessons',{p_code:studentCode,p_course_slug:course.slug});
+      lessons = result.data || []; lessonError = result.error;
+    }
+    const lessonHtml = lessonError
+      ? `<p class="hint">Les leçons intégrées ne sont pas encore disponibles. L’administrateur doit installer le SQL de la bibliothèque des cours.</p>`
+      : lessons.length ? lessons.map(lesson => {
+        if(lesson.content_type === 'photo') return `<article class="course-lesson"><h4>${escapeHtml(lesson.title)}</h4><p>${escapeHtml(lesson.description||'')}</p><img class="course-photo" src="${escapeHtml(lesson.media_url)}" alt="${escapeHtml(lesson.title)}"><a class="download-photo" href="${escapeHtml(lesson.media_url)}" download="${escapeHtml((lesson.title||'photo').replace(/[^a-z0-9_-]/gi,'_'))}.jpg">Télécharger la photo</a></article>`;
+        return `<article class="course-lesson"><h4>▶ ${escapeHtml(lesson.title)}</h4><p>${escapeHtml(lesson.description||'')}</p><div class="video-frame"><iframe src="${escapeHtml(lesson.media_url)}" title="${escapeHtml(lesson.title)}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div></article>`;
+      }).join('') : '<p class="hint">Aucune leçon publiée pour le moment.</p>';
+    return `<div class="course"><h3>${escapeHtml(course.nom||'Formation')}</h3><p>Votre formation et ses leçons sont disponibles ci-dessous.</p><div class="links">${course.lien?`<a href="${escapeHtml(course.lien)}" target="_blank" rel="noopener">Ouvrir le lien de formation existant</a><button type="button" class="copy" onclick="copyText('${encodeURIComponent(course.lien||'')}')">Copier le lien</button>`:''}${course.code?`<button type="button" class="copy" onclick="copyText('${encodeURIComponent(course.code||'')}')">Copier le code : ${escapeHtml(course.code)}</button>`:''}</div><div class="course-lessons"><h4>Leçons de la formation</h4>${lessonHtml}</div></div>`;
+  }));
+  container.innerHTML = cards.join('');
 }
-
 
 
 /* =========================================================
