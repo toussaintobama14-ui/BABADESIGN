@@ -645,7 +645,7 @@ body:before{display:none}
 #student .head>div{position:relative;z-index:1}
 #student .head .tag{background:#292929!important;border:1px solid #4a4a4a!important;color:#fff!important;padding:9px 13px!important;font-size:11px!important}
 #student .head h2{font-size:clamp(30px,5vw,48px)!important;margin:24px 0 10px!important;color:#fff!important}
-#student .head h2:before{content:"BONJOUR ";display:block;font-size:13px;letter-spacing:.2em;color:#c8c8c8;margin-bottom:13px;font-weight:800}
+#student .head h2:before{content:"BONJOUR 👋";display:block;font-size:13px;letter-spacing:.2em;color:#c8c8c8;margin-bottom:13px;font-weight:800}
 #student .head .student-info{color:#d0d0d0!important;font-size:15px!important}
 #student .head .student-info:before{content:"Bienvenue dans votre espace de formation";display:block;margin:7px 0 0;color:#c9c9c9;font-size:14px}
 #student .head .logout{margin-top:18px!important;max-width:180px!important;position:relative;z-index:3}
@@ -1015,7 +1015,7 @@ async function afficherCours(courses){
         if(lesson.content_type === 'photo') return `<article class="course-lesson"><h4>${escapeHtml(lesson.title)}</h4><p>${escapeHtml(lesson.description||'')}</p><img class="course-photo" src="${escapeHtml(lesson.media_url)}" alt="${escapeHtml(lesson.title)}"><a class="download-photo" href="${escapeHtml(lesson.media_url)}" download="${escapeHtml((lesson.title||'photo').replace(/[^a-z0-9_-]/gi,'_'))}.jpg">Télécharger la photo</a></article>`;
         return `<article class="course-lesson"><h4>▶ ${escapeHtml(lesson.title)}</h4><p>${escapeHtml(lesson.description||'')}</p><div class="video-frame"><iframe src="${escapeHtml(lesson.media_url)}" title="${escapeHtml(lesson.title)}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div></article>`;
       }).join('') : '<p class="hint">Aucune leçon publiée pour le moment.</p>';
-    return `<div class="course"><h3>${escapeHtml(course.nom||'Formation')}</h3><p>Votre formation et ses leçons sont disponibles ci-dessous.</p><div class="links">${course.lien?`<a href="${escapeHtml(course.lien)}" target="_blank" rel="noopener">Ouvrir le lien de formation existant</a><button type="button" class="copy" onclick="copyText('${encodeURIComponent(course.lien||'')}')">Copier le lien</button>`:''}${course.code?`<button type="button" class="copy" onclick="copyText('${encodeURIComponent(course.code||'')}')">Copier le code : ${escapeHtml(course.code)}</button>`:''}</div><div class="course-lessons"><h4>Leçons de la formation</h4>${lessonHtml}</div></div>`;
+    return `<div class="course"><h3>${escapeHtml(course.nom||'Formation')}</h3><p>Les vidéos et les photos de cette formation sont disponibles ci-dessous.</p><div class="course-lessons"><h4>Leçons de la formation</h4>${lessonHtml}</div></div>`;
   }));
   container.innerHTML = cards.join('');
 }
