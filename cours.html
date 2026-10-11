@@ -682,9 +682,16 @@ body:before{display:none}
 .featured-title{font-size:19px;font-weight:900;letter-spacing:-.04em;margin:17px 0 5px;overflow-wrap:anywhere}
 .featured-desc{font-size:14px;color:#898989;line-height:1.6;margin:0}
 @media(max-width:760px){.wrap{width:92%!important}.top{padding:18px 0 14px!important}.top .brand{font-size:22px!important}.dashboard-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important}.stat-card{padding:14px 10px!important}.stat-value{font-size:25px!important}.stat-hint{font-size:10px!important}.assignment-list,.certificate-grid{grid-template-columns:1fr}.featured-lesson{padding:15px;border-radius:23px}.featured-cover{min-height:165px}}
-@media(max-width:390px){#student .head{padding:23px 18px!important}.dashboard-grid{grid-template-columns:1fr 1fr!important}.dashboard-grid .stat-card:last-child{grid-column:1/-1}.dashboard-nav a{font-size:9px}.dashboard-nav a .nav-icon{font-size:19px}}
+@media(max-width:390px){#student .head{padding:23px 18px!important}.dashboard-grid{grid-template-columns:1fr 1fr!important}.dashboard-grid .stat-card:last-child{grid-column:1/-1}.dashboard-nav a{font-size:9px}.dashboard-nav a .nav-icon{font-size:19px}.course-lessons{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.course-lesson h4{font-size:13px;margin:10px 9px 6px}.course-lesson p{font-size:12px;margin:0 9px 10px}.course-lesson .video-frame{aspect-ratio:4/3}.course-lesson .course-photo{height:130px}.course-lesson .download-photo{margin:9px;font-size:11px;padding:9px 10px}}
 
-.course-lessons{margin-top:18px;display:grid;gap:14px}.course-lesson{padding:14px;border:1px solid #ececec;border-radius:18px;background:#fff;box-shadow:0 8px 22px rgba(17,17,17,.04);animation:cardIn .4s ease both}.course-lesson h4{margin:0 0 8px;font-size:16px}.course-lesson p{color:#777;line-height:1.5}.video-frame{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:14px;background:#000;min-width:0;max-height:none}.video-frame iframe,.video-frame video{position:absolute;inset:0;display:block;width:100%;height:100%;border:0}.video-frame video{object-fit:contain}@media(max-width:600px){.course-lesson{padding:10px}.video-frame{border-radius:12px;aspect-ratio:16/9}}.course-photo{display:block;width:100%;max-height:420px;object-fit:contain;background:#f7f7f7;border-radius:12px;margin:10px 0}.download-photo{display:inline-flex;padding:11px 16px;border-radius:12px;background:linear-gradient(135deg,#e60000,#ff7300);color:#fff!important;text-decoration:none;font-weight:800}.course-lesson .hint{color:#777}
+.course-lessons{margin-top:18px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start}.course-lessons>h4{grid-column:1/-1;margin:0 0 2px}.course-lesson{min-width:0;padding:0 0 14px;border:1px solid #e8e8e8;border-radius:20px;background:#fff;box-shadow:0 5px 18px rgba(17,17,17,.045);overflow:hidden;animation:cardIn .4s ease both}.course-lesson h4{margin:14px 14px 7px;font-size:15px;line-height:1.35;font-weight:850;color:#171717}.course-lesson p{margin:0 14px 12px;color:#777;line-height:1.5;font-size:13px}.course-lesson .video-frame{margin:0;border-radius:0;aspect-ratio:16/10}.course-lesson .course-photo{width:100%;height:180px;max-height:none;object-fit:cover;border-radius:0;margin:0}.course-lesson .download-photo{margin:12px 14px 0}.video-frame{position:relative;width:100%;aspect-ratio:16/9;height:auto;min-height:0;overflow:hidden;border-radius:12px;background:#000;min-width:0;margin:12px 0}
+.video-frame iframe,.video-frame video{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;background:#000}
+.video-frame video{object-fit:contain}
+.video-frame:fullscreen,.video-frame:-webkit-full-screen{width:100vw;height:100vh;max-width:none;max-height:none;aspect-ratio:auto;border-radius:0;background:#000}
+.video-frame:fullscreen iframe,.video-frame:-webkit-full-screen iframe,.video-frame:fullscreen video,.video-frame:-webkit-full-screen video{width:100%;height:100%}
+.video-frame video::-webkit-media-controls{display:flex!important}
+@media(max-width:600px){.course-lesson{padding:10px}.video-frame{width:100%;aspect-ratio:16/9;height:auto;min-height:0;max-height:none;border-radius:10px}}
+@media(max-width:390px){.video-frame{aspect-ratio:16/9;min-height:0}}.course-photo{display:block;width:100%;max-height:420px;object-fit:contain;background:#f7f7f7;border-radius:12px;margin:10px 0}.download-photo{display:inline-flex;padding:11px 16px;border-radius:12px;background:linear-gradient(135deg,#e60000,#ff7300);color:#fff!important;text-decoration:none;font-weight:800}.course-lesson .hint{color:#777}
 
 /* Logo Akademi Dizay : remplace le texte uniquement dans l'espace cours */
 .top .logo-brand{display:flex!important;align-items:center;justify-content:flex-start;background:transparent!important;border:0!important;padding:0!important;margin:0!important;box-shadow:none!important;width:auto!important;min-width:0!important;line-height:1!important}
@@ -968,23 +975,6 @@ async function afficherEspaceEleve(student){
    CHARGER LES COURS DE L'ÉLÈVE
    ========================================================= */
 
-function buildLessonEmbedUrl(rawUrl){
-  try {
-    const u = new URL(rawUrl, window.location.href);
-    const host = u.hostname.replace(/^www\./, '').toLowerCase();
-    let id = '';
-    if (host === 'youtu.be') id = u.pathname.split('/').filter(Boolean)[0] || '';
-    else if (host.endsWith('youtube.com') || host === 'youtube-nocookie.com') {
-      if (u.pathname === '/watch') id = u.searchParams.get('v') || '';
-      else if (u.pathname.startsWith('/embed/')) id = u.pathname.split('/')[2] || '';
-      else if (u.pathname.startsWith('/shorts/')) id = u.pathname.split('/')[2] || '';
-      else if (u.pathname.startsWith('/live/')) id = u.pathname.split('/')[2] || '';
-    }
-    if (id) return `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?playsinline=1&rel=0`;
-    return rawUrl;
-  } catch (_) { return rawUrl; }
-}
-
 async function afficherCours(courses){
 
   const count = document.getElementById("courseCount");
@@ -1035,14 +1025,12 @@ async function afficherCours(courses){
       ? `<p class="hint">Les leçons intégrées ne sont pas encore disponibles. L’administrateur doit installer le SQL de la bibliothèque des cours.</p>`
       : lessons.length ? lessons.map(lesson => {
         if(lesson.content_type === 'photo') return `<article class="course-lesson"><h4>${escapeHtml(lesson.title)}</h4><p>${escapeHtml(lesson.description||'')}</p><img class="course-photo" src="${escapeHtml(lesson.media_url)}" alt="${escapeHtml(lesson.title)}"><a class="download-photo" href="${escapeHtml(lesson.media_url)}" download="${escapeHtml((lesson.title||'photo').replace(/[^a-z0-9_-]/gi,'_'))}.jpg">Télécharger la photo</a></article>`;
-        const mediaUrl = String(lesson.media_url || '').trim();
-        const videoUrl = buildLessonEmbedUrl(mediaUrl);
-        const safeTitle = escapeHtml(lesson.title || 'Vidéo de la leçon');
-        const isDirectVideo = /\.(mp4|webm|ogg)(?:[?#].*)?$/i.test(mediaUrl);
+        const videoUrl = String(lesson.media_url || '').trim();
+        const isDirectVideo = /\.(mp4|webm|ogv|m4v)(\?.*)?$/i.test(videoUrl);
         const player = isDirectVideo
-          ? `<video controls playsinline webkit-playsinline preload="metadata" title="${safeTitle}"><source src="${escapeHtml(mediaUrl)}"></video>`
-          : `<iframe src="${escapeHtml(videoUrl)}" title="${safeTitle}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen webkitallowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
-        return `<article class="course-lesson"><h4>▶ ${safeTitle}</h4><p>${escapeHtml(lesson.description||'')}</p><div class="video-frame">${player}</div></article>`;
+          ? `<video controls playsinline webkit-playsinline preload="metadata" controlsList="nodownload" title="${escapeHtml(lesson.title)}"><source src="${escapeHtml(videoUrl)}"></video>`
+          : `<iframe src="${escapeHtml(videoUrl)}" title="${escapeHtml(lesson.title)}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen="true" webkitallowfullscreen="true" referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+        return `<article class="course-lesson"><h4>▶ ${escapeHtml(lesson.title)}</h4><p>${escapeHtml(lesson.description||'')}</p><div class="video-frame">${player}</div></article>`;
       }).join('') : '<p class="hint">Aucune leçon publiée pour le moment.</p>';
     return `<div class="course"><h3>${escapeHtml(course.nom||'Formation')}</h3><p>Les vidéos et les photos de cette formation sont disponibles ci-dessous.</p><div class="course-lessons"><h4>Leçons de la formation</h4>${lessonHtml}</div></div>`;
   }));
