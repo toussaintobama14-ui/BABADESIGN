@@ -684,7 +684,7 @@ body:before{display:none}
 @media(max-width:760px){.wrap{width:92%!important}.top{padding:18px 0 14px!important}.top .brand{font-size:22px!important}.dashboard-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important}.stat-card{padding:14px 10px!important}.stat-value{font-size:25px!important}.stat-hint{font-size:10px!important}.assignment-list,.certificate-grid{grid-template-columns:1fr}.featured-lesson{padding:15px;border-radius:23px}.featured-cover{min-height:165px}}
 @media(max-width:390px){#student .head{padding:23px 18px!important}.dashboard-grid{grid-template-columns:1fr 1fr!important}.dashboard-grid .stat-card:last-child{grid-column:1/-1}.dashboard-nav a{font-size:9px}.dashboard-nav a .nav-icon{font-size:19px}}
 
-.course-lessons{margin-top:18px;display:grid;gap:14px}.course-lesson{padding:14px;border:1px solid #ececec;border-radius:18px;background:#fff;box-shadow:0 8px 22px rgba(17,17,17,.04);animation:cardIn .4s ease both}.course-lesson h4{margin:0 0 8px;font-size:16px}.course-lesson p{color:#777;line-height:1.5}.video-frame{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:14px;background:#111}.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}.video-expand{position:absolute;z-index:5;right:9px;top:9px;border:0;border-radius:10px;background:rgba(0,0,0,.78);color:#fff;padding:9px 11px;font-size:12px;font-weight:800;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.25)}.video-frame:fullscreen,.video-frame:-webkit-full-screen{width:100vw;height:100vh;max-width:none;max-height:none;aspect-ratio:auto;border-radius:0;background:#000}.video-frame:fullscreen iframe,.video-frame:-webkit-full-screen iframe{width:100%;height:100%}.video-frame:fullscreen .video-expand,.video-frame:-webkit-full-screen .video-expand{top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right))}@media(max-width:600px){.video-frame{border-radius:12px}.video-expand{font-size:11px;padding:9px 10px}}.course-photo{display:block;width:100%;max-height:420px;object-fit:contain;background:#f7f7f7;border-radius:12px;margin:10px 0}.download-photo{display:inline-flex;padding:11px 16px;border-radius:12px;background:linear-gradient(135deg,#e60000,#ff7300);color:#fff!important;text-decoration:none;font-weight:800}.course-lesson .hint{color:#777}
+.course-lessons{margin-top:18px;display:grid;gap:14px}.course-lesson{padding:14px;border:1px solid #ececec;border-radius:18px;background:#fff;box-shadow:0 8px 22px rgba(17,17,17,.04);animation:cardIn .4s ease both}.course-lesson h4{margin:0 0 8px;font-size:16px}.course-lesson p{color:#777;line-height:1.5}.video-frame{position:relative;width:100%;aspect-ratio:16/9;min-height:240px;overflow:hidden;border-radius:14px;background:#111;resize:vertical;touch-action:pan-y;max-height:85vh;min-width:0}.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}.video-frame:fullscreen,.video-frame:-webkit-full-screen{width:100vw;height:100vh;max-width:none;max-height:none;aspect-ratio:auto;border-radius:0;background:#000}.video-frame:fullscreen iframe,.video-frame:-webkit-full-screen iframe{width:100%;height:100%}@media(max-width:600px){.course-lesson{padding:10px}.video-frame{border-radius:12px;aspect-ratio:3/4;min-height:360px;max-height:82vh;resize:vertical}}@media(max-width:390px){.video-frame{min-height:330px;aspect-ratio:3/4}}.course-photo{display:block;width:100%;max-height:420px;object-fit:contain;background:#f7f7f7;border-radius:12px;margin:10px 0}.download-photo{display:inline-flex;padding:11px 16px;border-radius:12px;background:linear-gradient(135deg,#e60000,#ff7300);color:#fff!important;text-decoration:none;font-weight:800}.course-lesson .hint{color:#777}
 
 /* Logo Akademi Dizay : remplace le texte uniquement dans l'espace cours */
 .top .logo-brand{display:flex!important;align-items:center;justify-content:flex-start;background:transparent!important;border:0!important;padding:0!important;margin:0!important;box-shadow:none!important;width:auto!important;min-width:0!important;line-height:1!important}
@@ -699,7 +699,7 @@ body:before{display:none}
 <div class="wrap">
 
 <header class="top">
-  <div class="brand logo-brand"><img src="LOGO%20AKADEMI%20DIZAY01.jpg" alt="Logo Akademi Dizay"></div>
+  <div class="brand logo-brand"><img src="LOGO%20AKADEMI%20DIZAY.png" alt="Logo Akademi Dizay"></div>
   <h1>Espace Formations</h1>
   <p>Accédez à vos cours avec votre code personnel.</p>
 </header>
@@ -1018,7 +1018,7 @@ async function afficherCours(courses){
       ? `<p class="hint">Les leçons intégrées ne sont pas encore disponibles. L’administrateur doit installer le SQL de la bibliothèque des cours.</p>`
       : lessons.length ? lessons.map(lesson => {
         if(lesson.content_type === 'photo') return `<article class="course-lesson"><h4>${escapeHtml(lesson.title)}</h4><p>${escapeHtml(lesson.description||'')}</p><img class="course-photo" src="${escapeHtml(lesson.media_url)}" alt="${escapeHtml(lesson.title)}"><a class="download-photo" href="${escapeHtml(lesson.media_url)}" download="${escapeHtml((lesson.title||'photo').replace(/[^a-z0-9_-]/gi,'_'))}.jpg">Télécharger la photo</a></article>`;
-        return `<article class="course-lesson"><h4>▶ ${escapeHtml(lesson.title)}</h4><p>${escapeHtml(lesson.description||'')}</p><div class="video-frame"><iframe src="${escapeHtml(lesson.media_url)}" title="${escapeHtml(lesson.title)}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe><button type="button" class="video-expand" aria-label="Agrandir la vidéo">⛶ Plein écran</button></div></article>`;
+        return `<article class="course-lesson"><h4>▶ ${escapeHtml(lesson.title)}</h4><p>${escapeHtml(lesson.description||'')}</p><div class="video-frame"><iframe src="${escapeHtml(lesson.media_url)}" title="${escapeHtml(lesson.title)}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div></article>`;
       }).join('') : '<p class="hint">Aucune leçon publiée pour le moment.</p>';
     return `<div class="course"><h3>${escapeHtml(course.nom||'Formation')}</h3><p>Les vidéos et les photos de cette formation sont disponibles ci-dessous.</p><div class="course-lessons"><h4>Leçons de la formation</h4>${lessonHtml}</div></div>`;
   }));
@@ -1403,31 +1403,7 @@ function escapeHtml(value){
 }
 
 
-/* Agrandir les vidéos en plein écran sur téléphone et ordinateur */
-document.addEventListener("click", async function(event){
-  const button = event.target.closest(".video-expand");
-  if(!button) return;
-  const frame = button.closest(".video-frame");
-  if(!frame) return;
-  try {
-    if(document.fullscreenElement === frame || document.webkitFullscreenElement === frame){
-      if(document.exitFullscreen) await document.exitFullscreen();
-      else if(document.webkitExitFullscreen) document.webkitExitFullscreen();
-      return;
-    }
-    if(frame.requestFullscreen) await frame.requestFullscreen();
-    else if(frame.webkitRequestFullscreen) frame.webkitRequestFullscreen();
-    else {
-      const iframe = frame.querySelector("iframe");
-      if(iframe && iframe.requestFullscreen) await iframe.requestFullscreen();
-      else alert("Utilisez le bouton plein écran dans le lecteur vidéo.");
-    }
-  } catch(error) {
-    const iframe = frame.querySelector("iframe");
-    if(iframe && iframe.requestFullscreen) iframe.requestFullscreen().catch(()=>alert("Utilisez le bouton plein écran dans le lecteur vidéo."));
-    else alert("Utilisez le bouton plein écran dans le lecteur vidéo.");
-  }
-});
+/* Le bouton superposé de plein écran a été retiré : utilisez la commande native du lecteur vidéo. */
 
 /* Navigation du tableau de bord mobile */
 document.addEventListener("click", function(event){
