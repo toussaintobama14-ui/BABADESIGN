@@ -174,12 +174,112 @@ button:active{transform:translateY(0)}
 .preview-work{display:block;max-width:100%;max-height:360px;object-fit:contain;border-radius:12px;margin-top:10px;border:1px solid #eee}
 .status-pill{display:inline-block;padding:5px 9px;border-radius:99px;background:#fff1e8;color:#a63d00;font-size:12px;font-weight:800}
 @media(max-width:600px){.admin-actions button{width:100%}}
+
+/* === Akademi Dizay modern dashboard polish: visual-only enhancements === */
+:root{
+  --red:#ef2600; --orange:#ff4a00; --yellow:#ffbd00;
+  --dark:#101012; --white:#fff; --gray:#777780; --light:#f5f5f7;
+}
+body{
+  background:#f4f4f5;
+  background-image:radial-gradient(circle at 8% 4%,rgba(239,38,0,.07),transparent 24%),
+                   radial-gradient(circle at 95% 18%,rgba(255,189,0,.09),transparent 26%);
+}
+body:before{opacity:.7}
+.wrap{width:min(1200px,94%);padding-bottom:28px}
+.top{
+  margin:24px 0 22px;padding:28px 30px;border-radius:30px;overflow:hidden;
+  color:#fff;position:relative;
+  background:radial-gradient(circle at 82% 110%,rgba(255,74,0,.42),transparent 35%),
+             linear-gradient(135deg,#0d0d0f 0%,#19191c 65%,#25201b 100%);
+  box-shadow:0 22px 55px rgba(15,15,18,.16);
+  animation:heroIn .65s cubic-bezier(.2,.8,.2,1) both;
+}
+.top:after{
+  content:"";position:absolute;width:300px;height:300px;right:-90px;top:-170px;
+  border:1px dashed rgba(255,255,255,.22);border-radius:50%;pointer-events:none;
+  box-shadow:0 0 0 35px rgba(255,255,255,.025),0 0 0 75px rgba(255,255,255,.02);
+}
+.brand{color:#fff;letter-spacing:.18em;position:relative;z-index:1}
+.top h1{
+  position:relative;z-index:1;font-size:clamp(34px,5vw,56px);margin:17px 0 9px;
+  background:linear-gradient(90deg,#fff 0%,#fff 40%,#ffbd00 75%,#ff4a00 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.top p{position:relative;z-index:1;color:#c8c8cc;font-size:14px;letter-spacing:.04em}
+.card{
+  border:1px solid rgba(20,20,24,.07);border-radius:24px;padding:clamp(18px,2.5vw,28px);
+  box-shadow:0 15px 40px rgba(17,17,20,.055);
+  transition:box-shadow .25s,border-color .25s,transform .25s;
+}
+.card:before{height:3px;opacity:.95}
+.grid{gap:16px;margin:0 0 20px}
+.stat{
+  border:1px solid rgba(255,255,255,.10);border-radius:22px;padding:22px;
+  color:#fff;background:linear-gradient(145deg,#171719,#25211e);
+  box-shadow:0 15px 32px rgba(15,15,18,.12);animation:statIn .55s ease both;
+}
+.stat:nth-child(2){animation-delay:.08s}
+.stat:nth-child(3){animation-delay:.16s}
+.stat span{color:#b8b8bd}
+.stat b{font-size:clamp(28px,4vw,36px);color:#ffbd00}
+.stat:after{opacity:.22}
+h2{font-size:clamp(22px,3vw,29px);margin-top:0}
+h3{font-size:19px}
+.tabs{
+  position:sticky;top:8px;z-index:5;padding:8px;margin:18px 0;
+  border:1px solid rgba(20,20,24,.08);border-radius:20px;background:rgba(255,255,255,.88);
+  backdrop-filter:blur(14px);box-shadow:0 10px 30px rgba(17,17,20,.07);
+}
+.tab{
+  border-radius:13px;padding:11px 15px;font-weight:800;
+  transition:transform .2s,background .2s,color .2s,box-shadow .2s;
+}
+.tab.active{background:linear-gradient(135deg,#ef2600,#ff4a00 65%,#ff7a00);box-shadow:0 8px 18px rgba(239,38,0,.2)}
+.notice{border-radius:15px;border:1px solid #f0e1d9;border-left:4px solid #ff4a00;background:#fff8f4}
+input,select,textarea{border-radius:13px;background:#fff}
+input:focus,select:focus,textarea:focus{border-color:#ff4a00;box-shadow:0 0 0 4px rgba(255,74,0,.12)}
+button{border-radius:13px;background:linear-gradient(135deg,#ef2600,#ff4a00);box-shadow:0 8px 18px rgba(239,38,0,.16)}
+button:hover{box-shadow:0 12px 24px rgba(239,38,0,.22)}
+.btn-light,.tab:not(.active){box-shadow:none}
+.person,.submission-card,.finance-agent{
+  border-radius:18px;transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;
+}
+.person:hover,.submission-card:hover,.finance-agent:hover{
+  transform:translateY(-3px);border-color:rgba(255,74,0,.25);box-shadow:0 16px 34px rgba(17,17,20,.08)
+}
+.finance-panel{border-radius:22px;background:linear-gradient(145deg,#fafafa,#f3f3f5)}
+.money-stat{border-radius:14px}
+.badge-count{background:#ef2600;box-shadow:0 4px 10px rgba(239,38,0,.2)}
+.foot{padding:28px 12px}
+@keyframes heroIn{from{opacity:0;transform:translateY(12px) scale(.99)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes statIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:700px){
+ .wrap{width:94%}
+ .top{margin:12px 0 16px;padding:24px 20px;border-radius:25px}
+ .grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+ .stat{padding:15px 11px;border-radius:17px}
+ .stat b{font-size:27px}
+ .stat span{font-size:9px;letter-spacing:.06em}
+ .tabs{position:relative;top:auto;gap:6px;padding:7px}
+ .tab{font-size:12px;padding:10px}
+ .card{padding:18px;border-radius:21px}
+}
+@media(max-width:420px){
+ .grid{grid-template-columns:1fr}
+ .stat{padding:18px}
+ .stat span{font-size:10px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+
 </style></head><body><div class="wrap">
 <header class="top"><div class="brand">AKADEMI DIZAY</div><h1>BABA DESIGN</h1><p>GS</p></header>
 <section id="adminLogin" class="card login"><h2>Connexion</h2><input id="adminCode" type="password" placeholder="Code" autocomplete="off"><button onclick="adminLogin()">Ouvrir</button><div id="adminError" class="error"></div><p class="hint">Baba Design</p></section>
 <main id="dashboard" class="hidden"><section class="grid"><div class="stat"><span>Agents</span><b id="agentCount">0</b></div><div class="stat"><span>Élèves</span><b id="studentCount">0</b></div><div class="stat"><span>Formations</span><b id="courseCount">0</b></div></section>
 <div class="notice" id="adminSubmissionNotice">Notifications : connectez-vous pour consulter les nouveaux devoirs remis par les élèves.</div>
-<div class="tabs"><button class="tab active" onclick="showTab('agents',this)">Agents</button><button class="tab" onclick="showTab('students',this)">Élèves</button><button class="tab" onclick="showTab('messages',this)">Messages</button><button class="tab" onclick="showTab('guide',this)"><button class="tab" onclick="showTab('pedagogie',this);loadPedagogy()">Devoirs & certificats <span id="submissionBadge" class="badge-count">0</span></button><button class="tab" onclick="showTab('guide',this)">Guide</button></div>
+<div class="tabs"><button class="tab active" onclick="showTab('agents',this)">Agents</button><button class="tab" onclick="showTab('students',this)">Élèves</button><button class="tab" onclick="showTab('messages',this)">Messages</button><button class="tab" onclick="showTab('pedagogie',this);loadPedagogy()">Devoirs & certificats <span id="submissionBadge" class="badge-count">0</span></button><button class="tab" onclick="showTab('guide',this)">Guide</button></div>
 <section id="agents" class="card"><h2>Créer un agent</h2><div class="formgrid"><input id="aCode" placeholder="Code personnel, ex: AD003"><input id="aName" placeholder="Nom complet"><input id="aPhone" placeholder="Téléphone"><input id="aRole" placeholder="Fonction" value="Agent"><div class="wide"><label for="aPhoto"><b>Photo de l’agent</b></label><input id="aPhoto" type="file" accept="image/jpeg,image/png,image/webp" style="margin-top:8px"><div class="hint" style="margin-top:6px">Choisissez directement la photo depuis votre ordinateur. Elle sera envoyée dans Supabase automatiquement.</div><img id="photoPreview" class="hidden" style="margin-top:10px;width:110px;height:110px;object-fit:cover;border-radius:16px;border:1px solid #e7e0b9"></div><button class="wide" onclick="createAgent()">Créer l'agent directement</button></div><div id="agentResult" class="notice" style="margin-top:14px">L'agent sera enregistré dans Supabase immédiatement.</div>
 <div class="finance-panel">
   <div class="finance-head"><div><span class="finance-kicker">GESTION FINANCIÈRE</span><h3>Revenus & retraits des agents</h3></div></div>
