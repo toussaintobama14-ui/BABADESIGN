@@ -673,28 +673,27 @@ body:before{display:none}
 .dashboard-nav a .nav-icon{font-size:21px;line-height:1.1}
 .dashboard-nav a.active{background:#fff;color:#151515}
 .dashboard-nav a.active .nav-icon{color:var(--brand-red)}
-.featured-lesson{background:#fff;border:1px solid #e9e9e9;border-radius:27px;padding:19px;margin:24px 0 28px;overflow:hidden}
-.featured-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px;font-size:12px;font-weight:900;letter-spacing:.1em;color:#8b8b91}
-.featured-status{color:#16a34a;letter-spacing:0;font-size:12px;white-space:nowrap}
-.featured-cover{min-height:175px;border-radius:22px;background:radial-gradient(ellipse at 80% 90%,rgba(255,80,20,.45),transparent 40%),linear-gradient(135deg,#222,#555);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.featured-cover:before{content:"AD";font-size:100px;font-weight:900;letter-spacing:-.1em;color:rgba(255,255,255,.12);position:absolute}
-.featured-play{width:76px;height:76px;border:0!important;border-radius:50%!important;background:var(--brand-red)!important;color:#fff!important;font-size:28px!important;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;box-shadow:0 0 0 9px rgba(255,255,255,.12)!important;margin:0!important}
-.featured-title{font-size:19px;font-weight:900;letter-spacing:-.04em;margin:17px 0 5px;overflow-wrap:anywhere}
-.featured-desc{font-size:14px;color:#898989;line-height:1.6;margin:0}
-@media(max-width:760px){.wrap{width:92%!important}.top{padding:18px 0 14px!important}.top .brand{font-size:22px!important}.dashboard-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important}.stat-card{padding:14px 10px!important}.stat-value{font-size:25px!important}.stat-hint{font-size:10px!important}.assignment-list,.certificate-grid{grid-template-columns:1fr}.featured-lesson{padding:15px;border-radius:23px}.featured-cover{min-height:165px}}
+
+
+
+
+
+
+
+
+@media(max-width:760px){.wrap{width:92%!important}.top{padding:18px 0 14px!important}.top .brand{font-size:22px!important}.dashboard-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important}.stat-card{padding:14px 10px!important}.stat-value{font-size:25px!important}.stat-hint{font-size:10px!important}.assignment-list,.certificate-grid{grid-template-columns:1fr}}
 @media(max-width:390px){#student .head{padding:23px 18px!important}.dashboard-grid{grid-template-columns:1fr 1fr!important}.dashboard-grid .stat-card:last-child{grid-column:1/-1}.dashboard-nav a{font-size:9px}.dashboard-nav a .nav-icon{font-size:19px}}
 
-.course-lessons{margin-top:18px;display:grid;gap:14px}.course-lesson{padding:14px;border:1px solid #ececec;border-radius:18px;background:#fff;box-shadow:0 8px 22px rgba(17,17,17,.04);animation:cardIn .4s ease both}.course-lesson h4{margin:0 0 8px;font-size:16px}.course-lesson p{color:#777;line-height:1.5}.video-frame{position:relative;display:block;width:100%;max-width:360px;margin:12px auto;aspect-ratio:9/16;overflow:hidden;border-radius:16px;background:#000;box-shadow:0 8px 24px rgba(0,0,0,.16);isolation:isolate}.video-frame iframe,.video-frame video{position:absolute;display:block;inset:0;width:100%;height:100%;max-width:100%;max-height:100%;margin:0;padding:0;border:0;background:#000;box-sizing:border-box}.video-frame video{object-fit:contain;outline:none;touch-action:manipulation}.video-frame iframe{object-fit:contain}
-.video-expand{position:absolute;z-index:8;top:8px;right:8px;width:42px;height:42px;border:0;border-radius:12px;background:#ff4b24;color:#fff;font-size:24px;font-weight:900;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px #0005;cursor:pointer}
-.video-frame:fullscreen,.video-frame:-webkit-full-screen{width:100vw!important;height:100vh!important;max-width:none!important;max-height:none!important;aspect-ratio:auto!important;border-radius:0!important;margin:0!important;position:fixed!important;inset:0!important;z-index:2147483647!important;background:#000!important}
-.video-frame:fullscreen iframe,.video-frame:-webkit-full-screen iframe,.video-frame:fullscreen video,.video-frame:-webkit-full-screen video{width:100%!important;height:100%!important}
-.custom-video-controls{position:absolute;z-index:7;left:10px;right:10px;bottom:10px;display:flex;align-items:center;gap:9px;padding:10px 12px;border-radius:18px;background:rgba(20,20,20,.88);color:#fff;backdrop-filter:blur(8px);font:600 13px system-ui,sans-serif;box-sizing:border-box}
-.custom-video-controls button{border:0;background:transparent;color:#fff;min-width:28px;padding:4px;font-size:21px;line-height:1;cursor:pointer}
-.custom-video-controls input[type=range]{accent-color:#ff4b24;min-width:0;cursor:pointer}
-.custom-video-controls .seek{flex:1;width:30%;}.custom-video-controls .volume{width:65px;max-width:18%;}.custom-video-controls .time{white-space:nowrap;font-variant-numeric:tabular-nums;font-size:11px}
-.video-frame:fullscreen .custom-video-controls,.video-frame:-webkit-full-screen .custom-video-controls{left: max(12px, env(safe-area-inset-left));right:max(12px, env(safe-area-inset-right));bottom:max(12px, env(safe-area-inset-bottom))}
-@media(max-width:480px){.custom-video-controls{gap:6px;padding:9px 10px}.custom-video-controls button{font-size:19px}.custom-video-controls .time{font-size:10px}.custom-video-controls .volume{width:48px}}
-@media(max-width:480px){.course-lesson{min-width:0;padding:12px}.video-frame{width:min(100%,320px);max-width:100%;aspect-ratio:9/16;margin:12px auto}.video-frame video{object-fit:contain}}download-photo:disabled{opacity:.65;cursor:wait}.brand-logo{display:block;width:min(210px,65vw);max-height:82px;object-fit:contain;object-position:left center}.course-photo{display:block;width:100%;max-height:420px;object-fit:contain;background:#f7f7f7;border-radius:12px;margin:10px 0}.download-photo{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:11px 16px;border-radius:12px;background:linear-gradient(135deg,#e60000,#ff7300);color:#fff!important;text-decoration:none;font-weight:800;cursor:pointer;border:0}.course-lesson .hint{color:#777}
+.course-lessons{margin-top:18px;display:grid;gap:14px}.course-lesson{padding:14px;border:1px solid #ececec;border-radius:18px;background:#fff;box-shadow:0 8px 22px rgba(17,17,17,.04);animation:cardIn .4s ease both}.course-lesson h4{margin:0 0 8px;font-size:16px}.course-lesson p{color:#777;line-height:1.5}.video-frame{position:relative;display:block;width:100%;max-width:360px;margin:12px auto;aspect-ratio:9/16;overflow:hidden;border-radius:16px;background:#000;box-shadow:0 8px 24px rgba(0,0,0,.16);isolation:isolate}.video-frame iframe,.video-frame video{position:absolute;display:block;inset:0;width:100%;height:100%;max-width:100%;max-height:100%;margin:0;padding:0;border:0;background:#000;box-sizing:border-box}.video-frame video{object-fit:contain;outline:none;touch-action:manipulation}.video-frame iframe{object-fit:contain}.video-expand{position:absolute;z-index:20;top:10px;right:10px;width:46px;height:46px;border:1px solid rgba(255,255,255,.35);border-radius:12px;background:rgba(0,0,0,.78);color:#fff;font-size:25px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.35)}.video-frame:fullscreen,.video-frame:-webkit-full-screen{width:100vw;height:100vh;max-width:none;max-height:none;aspect-ratio:auto;border-radius:0;margin:0;background:#000}.video-frame:fullscreen iframe,.video-frame:-webkit-full-screen iframe,.video-frame:fullscreen video,.video-frame:-webkit-full-screen video{width:100%;height:100%}.video-frame:fullscreen .video-expand,.video-frame:-webkit-full-screen .video-expand{top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right))}@media(max-width:480px){.course-lesson{min-width:0;padding:12px}.video-frame{width:min(100%,320px);max-width:100%;aspect-ratio:9/16;margin:12px auto}.video-frame video{object-fit:contain}}download-photo:disabled{opacity:.65;cursor:wait}.brand-logo{display:block;width:min(300px,82vw);height:120px;max-height:none;object-fit:contain;object-position:center center;margin:0 auto}@media(max-width:480px){.brand-logo{width:min(330px,88vw);height:132px}}.course-photo{display:block;width:100%;max-height:420px;object-fit:contain;background:#f7f7f7;border-radius:12px;margin:10px 0}.download-photo{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:11px 16px;border-radius:12px;background:linear-gradient(135deg,#e60000,#ff7300);color:#fff!important;text-decoration:none;font-weight:800;cursor:pointer;border:0}.course-lesson .hint{color:#777}
+
+/* Plein écran de secours compatible avec les lecteurs intégrés */
+.video-frame.is-expanded{position:fixed!important;inset:0!important;z-index:2147483647!important;width:100vw!important;height:100dvh!important;max-width:none!important;aspect-ratio:auto!important;margin:0!important;border-radius:0!important;background:#000!important;box-shadow:none!important}
+.video-frame.is-expanded iframe,.video-frame.is-expanded video{width:100%!important;height:100%!important;max-width:none!important;max-height:none!important}
+body.video-expanded-open{overflow:hidden!important}
+.video-expand{width:42px!important;height:42px!important;font-size:22px!important;touch-action:manipulation}
+/* Logo agrandi; coupe la petite mention intégrée sous le logo dans l’image */
+.top .brand-logo{width:min(290px,78vw)!important;height:92px!important;max-height:none!important;overflow:hidden;object-fit:cover!important;object-position:top center!important}
+@media(max-width:600px){.top .brand-logo{width:min(270px,78vw)!important;height:84px!important}}
 </style>
 </head>
 
@@ -704,8 +703,6 @@ body:before{display:none}
 
 <header class="top">
   <div class="brand"><img class="brand-logo" src="LOGO%20AKADEMI%20DIZAY.png" alt="Logo Akademi Dizay"></div>
-  <h1>Espace Formations</h1>
-  <p>Accédez à vos cours avec votre code personnel.</p>
 </header>
 
 <section id="login" class="card">
@@ -905,12 +902,7 @@ async function afficherEspaceEleve(student){
 
     <div id="messageContainer"></div>
 
-    <section class="featured-lesson" id="featuredLesson">
-      <div class="featured-top"><span>CONTINUER À APPRENDRE</span><span class="featured-status">● Leçon en cours</span></div>
-      <div class="featured-cover"><button type="button" class="featured-play" id="featuredPlay" aria-label="Ouvrir la formation">▶</button></div>
-      <div class="featured-title" id="featuredTitle">Vos formations vous attendent</div>
-      <p class="featured-desc" id="featuredDesc">Continuez votre progression en ouvrant une formation ci-dessous.</p>
-    </section>
+    
 
     <nav class="dashboard-nav" aria-label="Navigation élève">
       <a href="#student" class="active"><span class="nav-icon">▦</span><span>Accueil</span></a>
@@ -982,7 +974,7 @@ async function afficherCours(courses){
 
   const featuredTitle = document.getElementById("featuredTitle");
   const featuredDesc = document.getElementById("featuredDesc");
-  const featuredPlay = document.getElementById("featuredPlay");
+
   const featuredCover = document.querySelector(".featured-cover");
   if(courses && courses.length){
     const first = courses[0];
@@ -996,7 +988,7 @@ async function afficherCours(courses){
   } else {
     if(featuredTitle) featuredTitle.textContent = "Vos formations vous attendent";
     if(featuredDesc) featuredDesc.textContent = "Aucune formation n’est encore attribuée à votre compte.";
-    if(featuredPlay) featuredPlay.onclick = () => document.getElementById("coursesContainer")?.scrollIntoView({behavior:"smooth"});
+
   }
 
   if(!courses || courses.length === 0){
@@ -1026,9 +1018,9 @@ async function afficherCours(courses){
         const isDirectVideo = /\.(mp4|webm|ogg)(?:$|[?#])/i.test(mediaUrl);
         if(lesson.content_type === 'photo') return `<article class="course-lesson"><h4>${escapeHtml(lesson.title)}</h4><p>${escapeHtml(lesson.description||'')}</p><img class="course-photo" src="${escapeHtml(mediaUrl)}" alt="${escapeHtml(lesson.title)}"><button type="button" class="download-photo" data-download-url="${escapeHtml(mediaUrl)}" data-download-name="${escapeHtml((lesson.title||'photo').replace(/[^a-z0-9_-]/gi,'_'))}.${/\.png(?:$|[?#])/i.test(mediaUrl)?'png':/\.webp(?:$|[?#])/i.test(mediaUrl)?'webp':/\.gif(?:$|[?#])/i.test(mediaUrl)?'gif':'jpg'}">Télécharger la photo</button></article>`;
         const videoPlayer = isDirectVideo
-          ? `<video class="course-video" playsinline webkit-playsinline preload="metadata" aria-label="${escapeHtml(lesson.title)}"><source src="${escapeHtml(mediaUrl)}">Votre navigateur ne peut pas lire cette vidéo.</video><div class="custom-video-controls"><button type="button" class="vc-play" aria-label="Lecture/Pause">▶</button><input class="seek" type="range" min="0" max="1000" value="0" aria-label="Progression"><span class="time">0:00 / 0:00</span><button type="button" class="vc-mute" aria-label="Son">🔊</button><input class="volume" type="range" min="0" max="1" step="0.05" value="1" aria-label="Volume"><button type="button" class="vc-full" aria-label="Plein écran">⛶</button></div>`
-          : `<iframe src="${escapeHtml(mediaUrl)}" title="${escapeHtml(lesson.title)}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
-        return `<article class="course-lesson"><h4>▶ ${escapeHtml(lesson.title)}</h4><p>${escapeHtml(lesson.description||'')}</p><div class="video-frame">${videoPlayer}<button type="button" class="video-expand" aria-label="Agrandi videyo a" title="Agrandi videyo a">⛶</button></div></article>`;
+          ? `<video controls playsinline webkit-playsinline preload="metadata" controlslist="nodownload" aria-label="${escapeHtml(lesson.title)}"><source src="${escapeHtml(mediaUrl)}">Votre navigateur ne peut pas lire cette vidéo.</video>`
+          : `<iframe src="${escapeHtml(mediaUrl)}" title="${escapeHtml(lesson.title)}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen webkitallowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+        return `<article class="course-lesson"><h4>▶ ${escapeHtml(lesson.title)}</h4><p>${escapeHtml(lesson.description||'')}</p><div class="video-frame">${videoPlayer}<button type="button" class="video-expand" aria-label="Plein écran" title="Plein écran">⛶</button></div></article>`;
       }).join('') : '<p class="hint">Aucune leçon publiée pour le moment.</p>';
     return `<div class="course"><h3>${escapeHtml(course.nom||'Formation')}</h3><p>Votre formation et ses leçons sont disponibles ci-dessous.</p><div class="course-lessons"><h4>Leçons de la formation</h4>${lessonHtml}</div></div>`;
   }));
@@ -1444,6 +1436,40 @@ document
 
 <script>
 // Téléchargement des images de cours : essaie le fichier direct, puis un téléchargement Blob si autorisé par le serveur.
+/* Plein écran robuste : vidéo native si possible, mode agrandi intégré pour iframe Google Drive/YouTube */
+document.addEventListener('click', async function(event){
+  const button = event.target.closest('.video-expand');
+  if(!button) return;
+  const frame = button.closest('.video-frame');
+  if(!frame) return;
+  if(frame.classList.contains('is-expanded')) {
+    frame.classList.remove('is-expanded');
+    document.body.classList.remove('video-expanded-open');
+    button.setAttribute('aria-label','Plein écran');
+    return;
+  }
+  const video = frame.querySelector('video');
+  if(video) {
+    try {
+      if(video.requestFullscreen) { await video.requestFullscreen(); return; }
+      if(video.webkitEnterFullscreen) { video.webkitEnterFullscreen(); return; }
+    } catch(e) { /* fallback below */ }
+  }
+  try {
+    if(frame.requestFullscreen) { await frame.requestFullscreen(); return; }
+    if(frame.webkitRequestFullscreen) { frame.webkitRequestFullscreen(); return; }
+  } catch(e) { /* iframe/browser may block fullscreen API */ }
+  frame.classList.add('is-expanded');
+  document.body.classList.add('video-expanded-open');
+  button.setAttribute('aria-label','Fermer le plein écran');
+});
+document.addEventListener('keydown', function(event){
+  if(event.key === 'Escape') {
+    document.querySelectorAll('.video-frame.is-expanded').forEach(frame => frame.classList.remove('is-expanded'));
+    document.body.classList.remove('video-expanded-open');
+  }
+});
+
 document.addEventListener('click', async function(event){
   const button = event.target.closest('.download-photo[data-download-url]');
   if(!button) return;
@@ -1470,35 +1496,6 @@ document.addEventListener('click', async function(event){
     button.disabled = false; button.textContent = originalText;
   }
 });
-</script>
-
-
-<script>
-// Kontwòl videyo: bouton yo rete andedan jwè a; agrandisman itilize Fullscreen API.
-function fmtVideoTime(sec){ if(!Number.isFinite(sec)||sec<0) sec=0; const m=Math.floor(sec/60), s=Math.floor(sec%60); return m+':'+String(s).padStart(2,'0'); }
-function enterVideoFullscreen(frame){
-  const target=frame;
-  const fn=target.requestFullscreen||target.webkitRequestFullscreen||target.msRequestFullscreen;
-  if(fn){ try { const result=fn.call(target); if(result&&result.catch) result.catch(()=>{}); } catch(e){} }
-  else { const video=frame.querySelector('video'); if(video&&(video.webkitEnterFullscreen)){try{video.webkitEnterFullscreen();}catch(e){}} }
-}
-document.addEventListener('click',function(e){
-  const expand=e.target.closest('.video-expand,.vc-full');
-  if(expand){const frame=expand.closest('.video-frame'); if(frame) enterVideoFullscreen(frame); return;}
-  const play=e.target.closest('.vc-play');
-  if(play){const frame=play.closest('.video-frame'),v=frame&&frame.querySelector('video');if(!v)return;if(v.paused){v.play().catch(()=>{});}else v.pause();return;}
-  const mute=e.target.closest('.vc-mute');
-  if(mute){const frame=mute.closest('.video-frame'),v=frame&&frame.querySelector('video');if(!v)return;v.muted=!v.muted;mute.textContent=v.muted?'🔇':'🔊';return;}
-});
-document.addEventListener('input',function(e){
-  if(e.target.matches('.custom-video-controls .seek')){const c=e.target.closest('.custom-video-controls'),v=c&&c.closest('.video-frame').querySelector('video');if(v&&v.duration)v.currentTime=(Number(e.target.value)/1000)*v.duration;}
-  if(e.target.matches('.custom-video-controls .volume')){const c=e.target.closest('.custom-video-controls'),v=c&&c.closest('.video-frame').querySelector('video');if(v){v.volume=Number(e.target.value);v.muted=v.volume===0;const b=c.querySelector('.vc-mute');if(b)b.textContent=v.muted?'🔇':'🔊';}}
-});
-function updateCourseVideo(v){const frame=v.closest('.video-frame'),c=frame&&frame.querySelector('.custom-video-controls');if(!c)return;const play=c.querySelector('.vc-play'),seek=c.querySelector('.seek'),time=c.querySelector('.time');if(play)play.textContent=v.paused?'▶':'Ⅱ';if(seek&&v.duration)seek.value=String(Math.round(v.currentTime/v.duration*1000));if(time)time.textContent=fmtVideoTime(v.currentTime)+' / '+fmtVideoTime(v.duration);}
-document.addEventListener('loadedmetadata',e=>{if(e.target.matches('video.course-video'))updateCourseVideo(e.target)} ,true);
-document.addEventListener('timeupdate',e=>{if(e.target.matches('video.course-video'))updateCourseVideo(e.target)},true);
-document.addEventListener('play',e=>{if(e.target.matches('video.course-video'))updateCourseVideo(e.target)},true);
-document.addEventListener('pause',e=>{if(e.target.matches('video.course-video'))updateCourseVideo(e.target)},true);
 </script>
 
 </body>
