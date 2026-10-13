@@ -302,19 +302,27 @@ button:hover{box-shadow:0 12px 24px rgba(239,38,0,.22)}
 
 <section id="courseMedia" class="card hidden">
 <h2>Bibliothèque des cours</h2>
-<div class="notice">Une leçon peut être publiée pour tous les élèves ou attribuée à un seul élève. Vous pouvez aussi verrouiller une leçon pour un élève sans bloquer les autres.</div>
+<div class="notice">Ajoutez les vidéos Google Drive et les photos à télécharger. Les vidéos verrouillées ne s’affichent pas aux élèves. Les photos sont enregistrées dans la base sous forme de données intégrées, sans bucket supplémentaire.</div>
 <div class="formgrid" style="margin-top:16px">
 <input id="lessonId" type="hidden">
 <select id="lessonCourse" class="wide"><option value="">Choisir une formation</option></select>
-<select id="lessonStudent" class="wide"><option value="">Tous les élèves (leçon globale)</option></select>
 <input id="lessonTitle" placeholder="Titre de la leçon">
 <select id="lessonType"><option value="video">Vidéo</option><option value="photo">Photo téléchargeable</option></select>
 <input id="lessonOrder" type="number" min="0" value="0" placeholder="Ordre d’affichage">
 <input id="lessonDriveUrl" class="wide" placeholder="Lien Google Drive (vidéo) ou URL image">
 <input id="lessonDriveId" class="wide" placeholder="ID Google Drive (facultatif)">
+<label class="wide">Ou téléverser directement une vidéo depuis votre ordinateur
+  <input id="lessonVideoFile" type="file" accept="video/mp4,video/webm,video/ogg,video/quicktime">
+  <span class="hint">Vidéo directe : maximum 100 Mo. Pour les vidéos plus lourdes, utilisez Google Drive.</span>
+</label>
 <textarea id="lessonDescription" class="wide" placeholder="Description (facultative)"></textarea>
 <label class="wide" id="lessonPhotoLabel">Ou choisir une photo à intégrer à la leçon <input id="lessonPhotoFile" type="file" accept="image/*"></label>
 <div class="checks wide"><label><input id="lessonPublished" type="checkbox" checked> Publiée</label><label><input id="lessonLocked" type="checkbox"> Verrouillée</label></div>
+<div class="wide" style="padding:14px;border:1px solid #eee;border-radius:14px;background:#fff8f5">
+  <b>Verrouiller pour un élève précis</b>
+  <p class="hint">Sélectionnez un élève puis utilisez le bouton sur la leçon concernée. Cela ne modifie pas l’accès des autres élèves.</p>
+  <select id="lessonTargetStudent"><option value="">Choisir un élève</option></select>
+</div>
 <button onclick="saveCourseMedia()">Enregistrer la leçon</button><button class="btn-light" onclick="resetCourseMediaForm()">Nouveau / vider le formulaire</button>
 </div><div id="lessonResult" class="notice" style="margin-top:12px"></div><div id="lessonList" class="list">Connectez-vous pour charger les leçons.</div>
 </section>
@@ -518,12 +526,84 @@ document.getElementById('pedCourse')?.addEventListener('change',async()=>{let sl
 
 function fillLessonCourses(){const el=document.getElementById('lessonCourse');if(!el)return;const old=el.value;el.innerHTML='<option value="">Choisir une formation</option>'+(DATA.courses||[]).map(c=>`<option value="${esc(c.slug)}">${esc(c.nom)}</option>`).join('');if(old)el.value=old}
 function driveEmbedUrl(url,id){let fileId=id||'';const m=String(url||'').match(/drive\.google\.com\/file\/d\/([^/]+)/);if(!fileId&&m)fileId=m[1];if(!fileId){const q=String(url||'').match(/[?&]id=([^&]+)/);if(q)fileId=q[1]}return fileId?`https://drive.google.com/file/d/${encodeURIComponent(fileId)}/preview`:url}
-async function loadCourseMedia(){if(!ADMIN_CODE_SESSION)return;fillLessonCourses();const box=document.getElementById('lessonList');box.innerHTML='Chargement…';const [lr,sr]=await Promise.all([db.rpc('admin_list_course_lessons',{p_admin_code:ADMIN_CODE_SESSION}),db.rpc('admin_list_course_lesson_students',{p_admin_code:ADMIN_CODE_SESSION})]);if(lr.error){box.innerHTML=`<div class="notice">${esc(lr.error.message)}<br>Installez le SQL de migration des leçons individuelles.</div>`;return}window.COURSE_MEDIA_ROWS=lr.data||[];window.COURSE_MEDIA_STUDENTS=sr.data||[];fillLessonStudents();const studentOptions='<option value="">Choisir un élève…</option>'+window.COURSE_MEDIA_STUDENTS.map(s=>`<option value="${esc(s.student_code)}">${esc(s.student_name)} · ${esc(s.student_code)}</option>`).join('');box.innerHTML=window.COURSE_MEDIA_ROWS.length?window.COURSE_MEDIA_ROWS.map(x=>`<article class="person"><div class="finance-head"><b>${esc(x.title)}</b><span class="status-pill">${x.content_type==='video'?'VIDÉO':'PHOTO'} · ${x.is_locked?'VERROUILLÉE':'OUVERTE'}</span></div><div class="hint">Formation : ${esc((DATA.courses||[]).find(c=>c.slug===x.course_slug)?.nom||x.course_slug)} · Destinataire : ${x.assigned_student_code?esc((window.COURSE_MEDIA_STUDENTS.find(s=>String(s.student_code)===String(x.assigned_student_code))||{}).student_name||x.assigned_student_code):'Tous les élèves'} · Ordre : ${Number(x.sort_order)||0} · ${x.is_published?'Publiée':'Masquée'}</div><p>${esc(x.description||'')}</p>${x.content_type==='photo'?`<img src="${esc(x.media_url)}" class="preview-work" alt="${esc(x.title)}">`:''}<div class="admin-actions"><button onclick="editCourseMedia('${x.id}')">Modifier</button><button class="btn-light" onclick="toggleCourseMediaLock('${x.id}',${!x.is_locked})">${x.is_locked?'Déverrouiller pour tous':'Verrouiller pour tous'}</button><button class="btn-light" onclick="toggleCourseMediaPublish('${x.id}',${!x.is_published})">${x.is_published?'Masquer':'Publier'}</button><button class="btn-danger" onclick="deleteCourseMedia('${x.id}')">Supprimer</button></div><div class="formgrid" style="margin-top:12px"><select id="lesson-access-${x.id}" class="wide">${studentOptions}</select><button class="btn-light" onclick="setCourseLessonStudentLock('${x.id}',true)">Verrouiller pour cet élève</button><button class="btn-light" onclick="setCourseLessonStudentLock('${x.id}',false)">Déverrouiller pour cet élève</button></div></article>`).join(''):'<div class="hint">Aucune leçon pour le moment.</div>';if(sr.error){box.insertAdjacentHTML('afterbegin',`<div class="notice">Impossible de charger la liste des élèves : ${esc(sr.error.message)}</div>`)}}
-function fillLessonStudents(){const el=document.getElementById('lessonStudent');if(!el)return;const old=el.value;el.innerHTML='<option value="">Tous les élèves (leçon globale)</option>'+(window.COURSE_MEDIA_STUDENTS||[]).map(s=>`<option value="${esc(s.student_code)}">${esc(s.student_name)} · ${esc(s.student_code)}</option>`).join('');if(old)el.value=old}
-async function setCourseLessonStudentLock(id,locked){const sel=document.getElementById('lesson-access-'+id);const code=sel?.value;if(!code){alert('Choisissez un élève avant de modifier son accès.');return}const {data,error}=await db.rpc('admin_set_course_lesson_student_lock',{p_admin_code:ADMIN_CODE_SESSION,p_id:id,p_student_code:code,p_locked:locked});if(error||!data?.ok){alert(data?.message||error?.message||'Erreur.');return}alert(data.message);await loadCourseMedia()}
-function resetCourseMediaForm(){['lessonId','lessonTitle','lessonDriveUrl','lessonDriveId','lessonDescription'].forEach(id=>document.getElementById(id).value='');document.getElementById('lessonCourse').value='';document.getElementById('lessonStudent').value='';document.getElementById('lessonType').value='video';document.getElementById('lessonOrder').value='0';document.getElementById('lessonPublished').checked=true;document.getElementById('lessonLocked').checked=false;document.getElementById('lessonPhotoFile').value='';document.getElementById('lessonResult').textContent=''}
-function editCourseMedia(id){const x=(window.COURSE_MEDIA_ROWS||[]).find(r=>r.id===id);if(!x)return;document.getElementById('lessonId').value=x.id;document.getElementById('lessonCourse').value=x.course_slug;document.getElementById('lessonStudent').value=x.assigned_student_code||'';document.getElementById('lessonTitle').value=x.title;document.getElementById('lessonType').value=x.content_type;document.getElementById('lessonOrder').value=x.sort_order||0;document.getElementById('lessonDriveUrl').value=x.media_url;document.getElementById('lessonDriveId').value=x.drive_file_id||'';document.getElementById('lessonDescription').value=x.description||'';document.getElementById('lessonPublished').checked=!!x.is_published;document.getElementById('lessonLocked').checked=!!x.is_locked;document.getElementById('lessonResult').textContent='Modification de : '+x.title;document.getElementById('courseMedia').scrollIntoView({behavior:'smooth'})}
-async function saveCourseMedia(){const id=document.getElementById('lessonId').value||null,course_slug=document.getElementById('lessonCourse').value,title=document.getElementById('lessonTitle').value.trim(),content_type=document.getElementById('lessonType').value;let media_url=document.getElementById('lessonDriveUrl').value.trim(),drive_file_id=document.getElementById('lessonDriveId').value.trim();const file=document.getElementById('lessonPhotoFile').files[0],box=document.getElementById('lessonResult');if(!course_slug||!title){box.textContent='Choisissez une formation et indiquez un titre.';return}if(content_type==='photo'&&file){if(!file.type.startsWith('image/')){box.textContent='Choisissez un fichier image.';return}if(file.size>2*1024*1024){box.textContent='Image trop grande : maximum 2 Mo.';return}media_url=await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)});drive_file_id=''}else if(content_type==='video'){if(!media_url&&!drive_file_id){box.textContent='Ajoutez le lien Google Drive de la vidéo.';return}media_url=driveEmbedUrl(media_url,drive_file_id)}else if(!media_url){box.textContent='Ajoutez une URL d’image ou choisissez un fichier.';return}box.textContent='Enregistrement…';const {data,error}=await db.rpc('admin_save_course_lesson_for_student',{p_admin_code:ADMIN_CODE_SESSION,p_id:id,p_course_slug:course_slug,p_title:title,p_description:document.getElementById('lessonDescription').value.trim(),p_content_type:content_type,p_media_url:media_url,p_drive_file_id:drive_file_id||null,p_sort_order:Number(document.getElementById('lessonOrder').value)||0,p_is_published:document.getElementById('lessonPublished').checked,p_is_locked:document.getElementById('lessonLocked').checked,p_assigned_student_code:document.getElementById('lessonStudent').value||null});box.textContent=data?.message||error?.message||'Erreur.';if(data?.ok){resetCourseMediaForm();await loadCourseMedia()}}
+async function loadCourseMedia(){
+ if(!ADMIN_CODE_SESSION)return;
+ fillLessonCourses();
+ const studentSelect=document.getElementById('lessonTargetStudent');
+ if(studentSelect){
+   const previous=studentSelect.value;
+   studentSelect.innerHTML='<option value="">Choisir un élève pour gérer ses accès</option>'+(DATA.students||[]).map(s=>`<option value="${esc(s.code)}">${esc(s.nom)} — ${esc(s.code)}</option>`).join('');
+   if(previous)studentSelect.value=previous;
+   studentSelect.onchange=()=>loadCourseMedia();
+ }
+ const box=document.getElementById('lessonList');box.innerHTML='Chargement…';
+ const {data,error}=await db.rpc('admin_list_course_lessons',{p_admin_code:ADMIN_CODE_SESSION});
+ if(error){box.innerHTML=`<div class="notice">${esc(error.message)}<br>Installez le SQL de migration fourni avec ce fichier.</div>`;return}
+ window.COURSE_MEDIA_ROWS=data||[];
+ let lockedIds=new Set();
+ if(studentSelect?.value){
+   const lr=await db.rpc('admin_list_student_lesson_locks',{p_admin_code:ADMIN_CODE_SESSION,p_student_code:studentSelect.value});
+   if(lr.error){box.innerHTML=`<div class="notice">${esc(lr.error.message)}</div>`;return}
+   lockedIds=new Set((lr.data||[]).filter(x=>x.is_locked).map(x=>x.lesson_id));
+ }
+ const target=studentSelect?.value||'';
+ box.innerHTML=window.COURSE_MEDIA_ROWS.length?window.COURSE_MEDIA_ROWS.map(x=>{
+   const perStudentLocked=lockedIds.has(x.id);
+   return `<article class="person"><div class="finance-head"><b>${esc(x.title)}</b><span class="status-pill">${x.content_type==='video'?'VIDÉO':'PHOTO'} · ${x.is_locked?'VERROUILLÉE POUR TOUS':'OUVERTE'}</span></div><div class="hint">Formation : ${esc((DATA.courses||[]).find(c=>c.slug===x.course_slug)?.nom||x.course_slug)} · Ordre : ${Number(x.sort_order)||0} · ${x.is_published?'Publiée':'Masquée'}</div><p>${esc(x.description||'')}</p>${x.content_type==='photo'?`<img src="${esc(x.media_url)}" class="preview-work" alt="${esc(x.title)}">`:''}<div class="admin-actions"><button onclick="editCourseMedia('${x.id}')">Modifier</button><button class="btn-light" onclick="toggleCourseMediaLock('${x.id}',${!x.is_locked})">${x.is_locked?'Déverrouiller pour tous':'Verrouiller pour tous'}</button>${target?`<button class="btn-light" onclick="toggleStudentLessonLock('${x.id}','${esc(target)}',${!perStudentLocked})">${perStudentLocked?'🔓 Rétablir l’accès de cet élève':'🔒 Verrouiller pour cet élève'}</button>`:''}<button class="btn-light" onclick="toggleCourseMediaPublish('${x.id}',${!x.is_published})">${x.is_published?'Masquer':'Publier'}</button><button class="btn-danger" onclick="deleteCourseMedia('${x.id}')">Supprimer</button></div></article>`
+ }).join(''):'<div class="hint">Aucune leçon pour le moment.</div>'
+}
+async function toggleStudentLessonLock(id,studentCode,locked){
+ const {data,error}=await db.rpc('admin_set_student_lesson_lock',{p_admin_code:ADMIN_CODE_SESSION,p_lesson_id:id,p_student_code:studentCode,p_locked:locked});
+ if(error||!data?.ok){alert(data?.message||error?.message||'Impossible de modifier cet accès.');return}
+ await loadCourseMedia();
+}
+function resetCourseMediaForm(){['lessonId','lessonTitle','lessonDriveUrl','lessonDriveId','lessonDescription'].forEach(id=>document.getElementById(id).value='');if(document.getElementById('lessonVideoFile'))document.getElementById('lessonVideoFile').value='';document.getElementById('lessonCourse').value='';document.getElementById('lessonType').value='video';document.getElementById('lessonOrder').value='0';document.getElementById('lessonPublished').checked=true;document.getElementById('lessonLocked').checked=false;document.getElementById('lessonPhotoFile').value='';document.getElementById('lessonResult').textContent=''}
+function editCourseMedia(id){const x=(window.COURSE_MEDIA_ROWS||[]).find(r=>r.id===id);if(!x)return;document.getElementById('lessonId').value=x.id;document.getElementById('lessonCourse').value=x.course_slug;document.getElementById('lessonTitle').value=x.title;document.getElementById('lessonType').value=x.content_type;document.getElementById('lessonOrder').value=x.sort_order||0;document.getElementById('lessonDriveUrl').value=x.media_url;document.getElementById('lessonDriveId').value=x.drive_file_id||'';document.getElementById('lessonDescription').value=x.description||'';document.getElementById('lessonPublished').checked=!!x.is_published;document.getElementById('lessonLocked').checked=!!x.is_locked;document.getElementById('lessonResult').textContent='Modification de : '+x.title;document.getElementById('courseMedia').scrollIntoView({behavior:'smooth'})}
+async function saveCourseMedia(){
+ const id=document.getElementById('lessonId').value||null,
+ course_slug=document.getElementById('lessonCourse').value,
+ title=document.getElementById('lessonTitle').value.trim(),
+ content_type=document.getElementById('lessonType').value;
+ let media_url=document.getElementById('lessonDriveUrl').value.trim(),
+ drive_file_id=document.getElementById('lessonDriveId').value.trim();
+ const photoFile=document.getElementById('lessonPhotoFile').files[0],
+ videoFile=document.getElementById('lessonVideoFile')?.files[0],
+ box=document.getElementById('lessonResult');
+ if(!course_slug||!title){box.textContent='Choisissez une formation et indiquez un titre.';return}
+ box.textContent='Préparation du média…';
+ if(content_type==='photo'&&photoFile){
+   if(!photoFile.type.startsWith('image/')){box.textContent='Choisissez un fichier image.';return}
+   if(photoFile.size>2*1024*1024){box.textContent='Image trop grande : maximum 2 Mo.';return}
+   media_url=await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(photoFile)});
+   drive_file_id='';
+ }else if(content_type==='video'&&videoFile){
+   if(!videoFile.type.startsWith('video/')){box.textContent='Choisissez un fichier vidéo.';return}
+   if(videoFile.size>100*1024*1024){box.textContent='Vidéo trop volumineuse : maximum 100 Mo. Utilisez Google Drive pour les fichiers plus lourds.';return}
+   const safeName=videoFile.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+   const path=`lessons/${Date.now()}_${safeName}`;
+   box.textContent='Envoi de la vidéo vers Supabase…';
+   const up=await db.storage.from('course-media').upload(path,videoFile,{upsert:false,contentType:videoFile.type});
+   if(up.error){box.textContent='Échec de l’envoi vidéo : '+up.error.message+' — vérifiez que le SQL a créé le bucket course-media.';return}
+   media_url=db.storage.from('course-media').getPublicUrl(path).data.publicUrl;
+   drive_file_id='';
+ }else if(content_type==='video'){
+   if(!media_url&&!drive_file_id){box.textContent='Choisissez un fichier vidéo ou ajoutez un lien Google Drive / vidéo.';return}
+   media_url=(/\.(mp4|webm|ogg|mov)(?:$|[?#])/i.test(media_url)&&!drive_file_id)?media_url:driveEmbedUrl(media_url,drive_file_id);
+ }else if(content_type==='photo'&&!media_url){
+   box.textContent='Ajoutez une URL d’image ou choisissez une photo depuis votre ordinateur.';return
+ }
+ box.textContent='Enregistrement de la leçon…';
+ const {data,error}=await db.rpc('admin_save_course_lesson',{
+  p_admin_code:ADMIN_CODE_SESSION,p_id:id,p_course_slug:course_slug,p_title:title,
+  p_description:document.getElementById('lessonDescription').value.trim(),
+  p_content_type:content_type,p_media_url:media_url,p_drive_file_id:drive_file_id||null,
+  p_sort_order:Number(document.getElementById('lessonOrder').value)||0,
+  p_is_published:document.getElementById('lessonPublished').checked,
+  p_is_locked:document.getElementById('lessonLocked').checked
+ });
+ box.textContent=data?.message||error?.message||'Erreur.';
+ if(data?.ok){resetCourseMediaForm();await loadCourseMedia()}
+}
 async function toggleCourseMediaLock(id,locked){const {data,error}=await db.rpc('admin_set_course_lesson_lock',{p_admin_code:ADMIN_CODE_SESSION,p_id:id,p_locked:locked});if(error||!data?.ok){alert(data?.message||error?.message);return}await loadCourseMedia()}
 async function toggleCourseMediaPublish(id,published){const x=(window.COURSE_MEDIA_ROWS||[]).find(r=>r.id===id);if(!x)return;const {data,error}=await db.rpc('admin_save_course_lesson',{p_admin_code:ADMIN_CODE_SESSION,p_id:x.id,p_course_slug:x.course_slug,p_title:x.title,p_description:x.description||'',p_content_type:x.content_type,p_media_url:x.media_url,p_drive_file_id:x.drive_file_id||null,p_sort_order:x.sort_order||0,p_is_published:published,p_is_locked:x.is_locked});if(error||!data?.ok){alert(data?.message||error?.message);return}await loadCourseMedia()}
 async function deleteCourseMedia(id){if(!confirm('Supprimer cette leçon ?'))return;const {data,error}=await db.rpc('admin_delete_course_lesson',{p_admin_code:ADMIN_CODE_SESSION,p_id:id});if(error||!data?.ok){alert(data?.message||error?.message);return}await loadCourseMedia()}
