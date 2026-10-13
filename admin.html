@@ -274,6 +274,8 @@ button:hover{box-shadow:0 12px 24px rgba(239,38,0,.22)}
  *,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
 
+
+.lesson-student-row input{accent-color:#ef2600}.admin-actions button:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}.lesson-student-row{cursor:pointer}
 </style></head><body><div class="wrap">
 <header class="top"><div class="brand">AKADEMI DIZAY</div><h1>BABA DESIGN</h1><p>GS</p></header>
 <section id="adminLogin" class="card login"><h2>Connexion</h2><input id="adminCode" type="password" placeholder="Code" autocomplete="off"><button onclick="adminLogin()">Ouvrir</button><div id="adminError" class="error"></div><p class="hint">Baba Design</p></section>
@@ -319,9 +321,16 @@ button:hover{box-shadow:0 12px 24px rgba(239,38,0,.22)}
 <label class="wide" id="lessonPhotoLabel">Ou choisir une photo à intégrer à la leçon <input id="lessonPhotoFile" type="file" accept="image/*"></label>
 <div class="checks wide"><label><input id="lessonPublished" type="checkbox" checked> Publiée</label><label><input id="lessonLocked" type="checkbox"> Verrouillée</label></div>
 <div class="wide" style="padding:14px;border:1px solid #eee;border-radius:14px;background:#fff8f5">
-  <b>Verrouiller pour un élève précis</b>
-  <p class="hint">Sélectionnez un élève puis utilisez le bouton sur la leçon concernée. Cela ne modifie pas l’accès des autres élèves.</p>
-  <select id="lessonTargetStudent"><option value="">Choisir un élève</option></select>
+  <b>Verrouillage individuel et en groupe</b>
+  <p class="hint">Cochez plusieurs élèves, puis utilisez les boutons sur une leçon. Vous verrez aussi les noms des élèves verrouillés et pourrez rétablir l’accès individuellement.</p>
+  <div class="admin-actions" style="margin:10px 0">
+    <button type="button" class="btn-light" onclick="selectLessonStudents(true)">Sélectionner tous les élèves</button>
+    <button type="button" class="btn-light" onclick="selectLessonStudents(false)">Tout désélectionner</button>
+    <button type="button" class="btn-light" onclick="loadCourseMedia()">Actualiser les accès</button>
+  </div>
+  <input id="lessonStudentSearch" type="search" placeholder="Rechercher un élève par nom ou code" oninput="filterLessonStudents()">
+  <div id="lessonStudentChecks" class="list" style="max-height:260px;overflow:auto;margin-top:10px"><span class="hint">Connectez-vous pour afficher les élèves.</span></div>
+  <div id="lessonLockResult" class="notice" style="margin-top:10px">Sélectionnez les élèves que vous voulez verrouiller.</div>
 </div>
 <button onclick="saveCourseMedia()">Enregistrer la leçon</button><button class="btn-light" onclick="resetCourseMediaForm()">Nouveau / vider le formulaire</button>
 </div><div id="lessonResult" class="notice" style="margin-top:12px"></div><div id="lessonList" class="list">Connectez-vous pour charger les leçons.</div>
@@ -526,36 +535,57 @@ document.getElementById('pedCourse')?.addEventListener('change',async()=>{let sl
 
 function fillLessonCourses(){const el=document.getElementById('lessonCourse');if(!el)return;const old=el.value;el.innerHTML='<option value="">Choisir une formation</option>'+(DATA.courses||[]).map(c=>`<option value="${esc(c.slug)}">${esc(c.nom)}</option>`).join('');if(old)el.value=old}
 function driveEmbedUrl(url,id){let fileId=id||'';const m=String(url||'').match(/drive\.google\.com\/file\/d\/([^/]+)/);if(!fileId&&m)fileId=m[1];if(!fileId){const q=String(url||'').match(/[?&]id=([^&]+)/);if(q)fileId=q[1]}return fileId?`https://drive.google.com/file/d/${encodeURIComponent(fileId)}/preview`:url}
+function selectedLessonStudentCodes(){return [...document.querySelectorAll('#lessonStudentChecks input[data-student-code]:checked')].map(e=>e.dataset.studentCode)}
+function selectLessonStudents(checked){document.querySelectorAll('#lessonStudentChecks input[data-student-code]').forEach(e=>{if(e.closest('.lesson-student-row')?.style.display!=='none')e.checked=checked});updateLessonSelectionButtons()}
+function updateLessonSelectionButtons(){const n=selectedLessonStudentCodes().length;document.querySelectorAll('[data-lesson-bulk-action]').forEach(b=>{b.disabled=!n;b.textContent=(b.dataset.lessonBulkAction==='lock'?'🔒 Verrouiller pour les élèves sélectionnés (':'🔓 Déverrouiller pour les élèves sélectionnés (')+n+')'})}
+function filterLessonStudents(){const q=(document.getElementById('lessonStudentSearch')?.value||'').trim().toLowerCase();document.querySelectorAll('#lessonStudentChecks .lesson-student-row').forEach(row=>{row.style.display=row.dataset.search.includes(q)?'flex':'none'})}
+function renderLessonStudentChecks(){const box=document.getElementById('lessonStudentChecks');if(!box)return;box.innerHTML=(DATA.students||[]).length?DATA.students.map(s=>`<label class="lesson-student-row" data-search="${esc((s.nom+' '+s.code).toLowerCase())}" style="display:flex;align-items:center;gap:10px;padding:9px 11px;border:1px solid #eee;border-radius:11px;background:#fff"><input type="checkbox" data-student-code="${esc(s.code)}" onchange="updateLessonSelectionButtons()" style="width:auto;flex:0 0 auto"><span><b>${esc(s.nom)}</b><br><small class="hint">Code : ${esc(s.code)}</small></span></label>`).join(''):'<span class="hint">Aucun élève enregistré.</span>';filterLessonStudents()}
 async function loadCourseMedia(){
  if(!ADMIN_CODE_SESSION)return;
  fillLessonCourses();
- const studentSelect=document.getElementById('lessonTargetStudent');
- if(studentSelect){
-   const previous=studentSelect.value;
-   studentSelect.innerHTML='<option value="">Choisir un élève pour gérer ses accès</option>'+(DATA.students||[]).map(s=>`<option value="${esc(s.code)}">${esc(s.nom)} — ${esc(s.code)}</option>`).join('');
-   if(previous)studentSelect.value=previous;
-   studentSelect.onchange=()=>loadCourseMedia();
- }
- const box=document.getElementById('lessonList');box.innerHTML='Chargement…';
+ const previouslySelected=new Set(selectedLessonStudentCodes());
+ renderLessonStudentChecks();
+ document.querySelectorAll('#lessonStudentChecks input[data-student-code]').forEach(e=>{e.checked=previouslySelected.has(e.dataset.studentCode)});
+ const box=document.getElementById('lessonList');box.innerHTML='Chargement des leçons et des accès…';
  const {data,error}=await db.rpc('admin_list_course_lessons',{p_admin_code:ADMIN_CODE_SESSION});
  if(error){box.innerHTML=`<div class="notice">${esc(error.message)}<br>Installez le SQL de migration fourni avec ce fichier.</div>`;return}
  window.COURSE_MEDIA_ROWS=data||[];
- let lockedIds=new Set();
- if(studentSelect?.value){
-   const lr=await db.rpc('admin_list_student_lesson_locks',{p_admin_code:ADMIN_CODE_SESSION,p_student_code:studentSelect.value});
-   if(lr.error){box.innerHTML=`<div class="notice">${esc(lr.error.message)}</div>`;return}
-   lockedIds=new Set((lr.data||[]).filter(x=>x.is_locked).map(x=>x.lesson_id));
- }
- const target=studentSelect?.value||'';
+ const lockResults=await Promise.all((DATA.students||[]).map(async st=>{
+   const r=await db.rpc('admin_list_student_lesson_locks',{p_admin_code:ADMIN_CODE_SESSION,p_student_code:st.code});
+   return {student:st,data:r.data||[],error:r.error};
+ }));
+ const lockMap={};
+ lockResults.forEach(r=>{if(r.error)return;(r.data||[]).filter(x=>x.is_locked).forEach(x=>{const id=String(x.lesson_id);(lockMap[id]||(lockMap[id]=[])).push(r.student)})});
+ window.COURSE_LESSON_LOCK_MAP=lockMap;
+ const studentsSelected=selectedLessonStudentCodes();
  box.innerHTML=window.COURSE_MEDIA_ROWS.length?window.COURSE_MEDIA_ROWS.map(x=>{
-   const perStudentLocked=lockedIds.has(x.id);
-   return `<article class="person"><div class="finance-head"><b>${esc(x.title)}</b><span class="status-pill">${x.content_type==='video'?'VIDÉO':'PHOTO'} · ${x.is_locked?'VERROUILLÉE POUR TOUS':'OUVERTE'}</span></div><div class="hint">Formation : ${esc((DATA.courses||[]).find(c=>c.slug===x.course_slug)?.nom||x.course_slug)} · Ordre : ${Number(x.sort_order)||0} · ${x.is_published?'Publiée':'Masquée'}</div><p>${esc(x.description||'')}</p>${x.content_type==='photo'?`<img src="${esc(x.media_url)}" class="preview-work" alt="${esc(x.title)}">`:''}<div class="admin-actions"><button onclick="editCourseMedia('${x.id}')">Modifier</button><button class="btn-light" onclick="toggleCourseMediaLock('${x.id}',${!x.is_locked})">${x.is_locked?'Déverrouiller pour tous':'Verrouiller pour tous'}</button>${target?`<button class="btn-light" onclick="toggleStudentLessonLock('${x.id}','${esc(target)}',${!perStudentLocked})">${perStudentLocked?'🔓 Rétablir l’accès de cet élève':'🔒 Verrouiller pour cet élève'}</button>`:''}<button class="btn-light" onclick="toggleCourseMediaPublish('${x.id}',${!x.is_published})">${x.is_published?'Masquer':'Publier'}</button><button class="btn-danger" onclick="deleteCourseMedia('${x.id}')">Supprimer</button></div></article>`
- }).join(''):'<div class="hint">Aucune leçon pour le moment.</div>'
+   const lockedStudents=lockMap[String(x.id)]||[];
+   const lockedNames=lockedStudents.length?lockedStudents.map(st=>`<span class="status-pill" style="display:inline-flex;align-items:center;gap:5px;margin:3px">${esc(st.nom)} · ${esc(st.code)} <button type="button" class="btn-light" style="width:auto;padding:4px 7px;margin-left:2px;font-size:11px" onclick="toggleStudentLessonLock('${esc(x.id)}','${esc(st.code)}',false)">Déverrouiller</button></span>`).join(''):'<span class="hint">Aucun élève verrouillé individuellement.</span>';
+   const selectedCount=studentsSelected.length;
+   return `<article class="person"><div class="finance-head"><b>${esc(x.title)}</b><span class="status-pill">${x.content_type==='video'?'VIDÉO':'PHOTO'} · ${x.is_locked?'VERROUILLÉE POUR TOUS':'OUVERTE'}</span></div><div class="hint">Formation : ${esc((DATA.courses||[]).find(c=>c.slug===x.course_slug)?.nom||x.course_slug)} · Ordre : ${Number(x.sort_order)||0} · ${x.is_published?'Publiée':'Masquée'}</div><p>${esc(x.description||'')}</p>${x.content_type==='photo'?`<img src="${esc(x.media_url)}" class="preview-work" alt="${esc(x.title)}">`:''}<div style="margin:12px 0;padding:12px;background:#fff8f5;border:1px solid #f0e1d9;border-radius:12px"><b>Élèves verrouillés individuellement (${lockedStudents.length})</b><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px">${lockedNames}</div></div><div class="admin-actions"><button onclick="editCourseMedia('${esc(x.id)}')">Modifier</button><button class="btn-light" onclick="toggleCourseMediaLock('${esc(x.id)}',${!x.is_locked})">${x.is_locked?'Déverrouiller pour tous':'Verrouiller pour tous'}</button><button class="btn-light" data-lesson-id="${esc(x.id)}" data-lesson-bulk-action="lock" onclick="bulkToggleStudentLessonLock('${esc(x.id)}',true)" ${selectedCount?'':'disabled'}>🔒 Verrouiller pour les élèves sélectionnés (${selectedCount})</button><button class="btn-light" data-lesson-id="${esc(x.id)}" data-lesson-bulk-action="unlock" onclick="bulkToggleStudentLessonLock('${esc(x.id)}',false)" ${selectedCount?'':'disabled'}>🔓 Déverrouiller pour les élèves sélectionnés (${selectedCount})</button><button class="btn-light" onclick="toggleCourseMediaPublish('${esc(x.id)}',${!x.is_published})">${x.is_published?'Masquer':'Publier'}</button><button class="btn-danger" onclick="deleteCourseMedia('${esc(x.id)}')">Supprimer</button></div></article>`
+ }).join(''):'<div class="hint">Aucune leçon pour le moment.</div>';
+ updateLessonSelectionButtons();
 }
 async function toggleStudentLessonLock(id,studentCode,locked){
  const {data,error}=await db.rpc('admin_set_student_lesson_lock',{p_admin_code:ADMIN_CODE_SESSION,p_lesson_id:id,p_student_code:studentCode,p_locked:locked});
  if(error||!data?.ok){alert(data?.message||error?.message||'Impossible de modifier cet accès.');return}
  await loadCourseMedia();
+}
+async function bulkToggleStudentLessonLock(id,locked){
+ const codes=selectedLessonStudentCodes();
+ const result=document.getElementById('lessonLockResult');
+ if(!codes.length){if(result)result.textContent='Cochez au moins un élève avant de continuer.';return}
+ const action=locked?'verrouiller':'déverrouiller';
+ if(!confirm(`Confirmer : ${action} cette leçon pour ${codes.length} élève(s) sélectionné(s) ?`))return;
+ if(result)result.textContent=`Mise à jour des accès pour ${codes.length} élève(s)…`;
+ let ok=0,failed=[];
+ for(const code of codes){
+   const {data,error}=await db.rpc('admin_set_student_lesson_lock',{p_admin_code:ADMIN_CODE_SESSION,p_lesson_id:id,p_student_code:code,p_locked:locked});
+   if(error||!data?.ok)failed.push(code);else ok++;
+ }
+ if(result)result.textContent=`Terminé : ${ok} accès ${locked?'verrouillé(s)':'déverrouillé(s)'}.`+(failed.length?` Échec pour : ${failed.join(', ')}.`:'');
+ await loadCourseMedia();
+ if(failed.length)alert('Certains accès n’ont pas pu être modifiés : '+failed.join(', '));
 }
 function resetCourseMediaForm(){['lessonId','lessonTitle','lessonDriveUrl','lessonDriveId','lessonDescription'].forEach(id=>document.getElementById(id).value='');if(document.getElementById('lessonVideoFile'))document.getElementById('lessonVideoFile').value='';document.getElementById('lessonCourse').value='';document.getElementById('lessonType').value='video';document.getElementById('lessonOrder').value='0';document.getElementById('lessonPublished').checked=true;document.getElementById('lessonLocked').checked=false;document.getElementById('lessonPhotoFile').value='';document.getElementById('lessonResult').textContent=''}
 function editCourseMedia(id){const x=(window.COURSE_MEDIA_ROWS||[]).find(r=>r.id===id);if(!x)return;document.getElementById('lessonId').value=x.id;document.getElementById('lessonCourse').value=x.course_slug;document.getElementById('lessonTitle').value=x.title;document.getElementById('lessonType').value=x.content_type;document.getElementById('lessonOrder').value=x.sort_order||0;document.getElementById('lessonDriveUrl').value=x.media_url;document.getElementById('lessonDriveId').value=x.drive_file_id||'';document.getElementById('lessonDescription').value=x.description||'';document.getElementById('lessonPublished').checked=!!x.is_published;document.getElementById('lessonLocked').checked=!!x.is_locked;document.getElementById('lessonResult').textContent='Modification de : '+x.title;document.getElementById('courseMedia').scrollIntoView({behavior:'smooth'})}
