@@ -458,8 +458,19 @@ async function afficherEspaceEleve(student){
           ${escapeHtml(student.nom)}
         </h2>
 
-        <div class="student-info">
+        <div class="student-info student-phone">
+          <span class="phone-icon" aria-hidden="true">☎</span>
           ${escapeHtml(student.telephone || "")}
+        </div>
+
+        <div class="welcome-panel" role="status" aria-live="polite">
+          <span class="welcome-orbit" aria-hidden="true">✦</span>
+          <div class="welcome-copy">
+            <span class="welcome-eyebrow">BIENVENUE CHEZ AKADEMI DIZAY</span>
+            <h3>Bienvenue dans votre espace&nbsp;!</h3>
+            <p>Nous sommes ravis de vous retrouver. Retrouvez ici vos formations, vos devoirs et votre progression.</p>
+          </div>
+          <span class="welcome-spark" aria-hidden="true">✧</span>
         </div>
 
       </div>
@@ -1211,6 +1222,61 @@ footer{color:#b9b9c4}
 .course-photo{border-radius:20px;object-fit:cover}
 .stat-card:nth-child(2) .stat-value{color:var(--dz-red)}.stat-card:nth-child(3) .stat-value{color:#d99a00}
 .stat-value{font-size:34px}
+
+
+/* ===== Accueil animé personnalisé de l'élève ===== */
+#student .head{gap:24px}
+#student .head>div{width:100%;min-width:0}
+#student .head .student-phone{
+  display:flex;align-items:center;gap:9px;margin-top:12px;
+  color:#e7e7ee!important;font-weight:500;overflow-wrap:anywhere
+}
+.student-phone .phone-icon{
+  display:inline-grid;place-items:center;flex:0 0 30px;width:30px;height:30px;
+  border-radius:10px;background:rgba(255,255,255,.12);color:var(--dz-yellow);
+  border:1px solid rgba(255,255,255,.18);font-size:14px
+}
+.welcome-panel{
+  isolation:isolate;position:relative;display:flex;align-items:center;gap:17px;
+  width:100%;margin-top:25px;padding:22px 24px;overflow:hidden;
+  border:1px solid rgba(255,255,255,.18);border-radius:23px;
+  background:linear-gradient(115deg,rgba(255,255,255,.13),rgba(255,255,255,.055));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 16px 36px rgba(0,0,0,.13);
+  animation:welcomeEnter .85s cubic-bezier(.22,.8,.24,1) both;
+}
+.welcome-panel:before{
+  content:"";position:absolute;z-index:-1;top:-85px;right:-35px;width:220px;height:220px;
+  border-radius:50%;background:rgba(255,194,14,.16);filter:blur(8px);
+  animation:welcomeGlow 5s ease-in-out infinite alternate
+}
+.welcome-orbit{
+  display:grid;place-items:center;flex:0 0 58px;width:58px;height:58px;
+  border-radius:18px;color:#171719;font-size:27px;
+  background:linear-gradient(135deg,#ffe58a,var(--dz-yellow));
+  box-shadow:0 9px 26px rgba(255,194,14,.25);
+  animation:welcomeFloat 3.2s ease-in-out infinite
+}
+.welcome-copy{position:relative;z-index:1;min-width:0}
+.welcome-eyebrow{display:block;margin-bottom:6px;color:#ffdc68;font-size:10px;font-weight:800;letter-spacing:.16em}
+.welcome-copy h3{margin:0 0 7px!important;color:#fff!important;font-family:var(--dz-head);
+  font-size:clamp(21px,3vw,30px)!important;font-weight:800;letter-spacing:-.025em;line-height:1.1!important}
+.welcome-copy p{max-width:680px;margin:0;color:#e1e1e9;font-size:13px;line-height:1.75}
+.welcome-spark{position:absolute;right:22px;top:17px;color:var(--dz-yellow);font-size:24px;opacity:.9;
+  animation:welcomeTwinkle 2.4s ease-in-out infinite}
+@keyframes welcomeEnter{from{opacity:0;transform:translateY(18px) scale(.985);filter:blur(5px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+@keyframes welcomeFloat{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-5px) rotate(5deg)}}
+@keyframes welcomeGlow{from{transform:translate3d(0,0,0) scale(.9);opacity:.55}to{transform:translate3d(-24px,18px,0) scale(1.12);opacity:1}}
+@keyframes welcomeTwinkle{0%,100%{transform:scale(.85) rotate(0);opacity:.55}50%{transform:scale(1.15) rotate(18deg);opacity:1}}
+@media(max-width:560px){
+  .welcome-panel{gap:12px;padding:18px 16px;border-radius:19px}
+  .welcome-orbit{flex-basis:46px;width:46px;height:46px;border-radius:14px;font-size:22px}
+  .welcome-eyebrow{font-size:9px;letter-spacing:.1em}
+  .welcome-copy p{font-size:12px;padding-right:5px}
+  .welcome-spark{right:12px;top:9px;font-size:19px}
+}
+@media(prefers-reduced-motion:reduce){
+  .welcome-panel,.welcome-orbit,.welcome-panel:before,.welcome-spark{animation:none!important}
+}
 
 </style>
 </body>
