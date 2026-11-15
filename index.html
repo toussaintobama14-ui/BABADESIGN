@@ -445,6 +445,10 @@ footer{text-align:center;padding:25px 15px;font-size:13px}
             </li>
 
             <li>
+                <a href="coaching-private.html">Coaching Private</a>
+            </li>
+
+            <li>
                 <a href="#academi">Akademi Dizay</a>
             </li>
 
@@ -506,6 +510,13 @@ footer{text-align:center;padding:25px 15px;font-size:13px}
         <div class="hero-slide"><img src="services online.jpg" alt=""></div>
         <div class="hero-slide"><img src="pub sit.jpg" alt=""></div>
         <div class="hero-slide"><img src="150 htg enskri.jpg" alt=""></div>
+    
+        <div class="hero-slide" aria-hidden="true"><img src="pc sit.jpg" alt=""></div>
+        <div class="hero-slide" aria-hidden="true"><img src="150 htg enskri.jpg" alt=""></div>
+        <div class="hero-slide" aria-hidden="true"><img src="goat baba.jpg" alt=""></div>
+        <div class="hero-slide" aria-hidden="true"><img src="services online.jpg" alt=""></div>
+        <div class="hero-slide" aria-hidden="true"><img src="pub sit.jpg" alt=""></div>
+        <div class="hero-slide" aria-hidden="true"><img src="150 htg enskri.jpg" alt=""></div>
     </div>
 
     <div class="hero-overlay"></div>
@@ -528,6 +539,7 @@ footer{text-align:center;padding:25px 15px;font-size:13px}
         <div class="hero-buttons">
             <a href="#services" class="btn btn-primary">Commander un service</a>
             <a href="boutique.html" class="btn btn-glass">Découvrir la Boutique</a>
+            <a href="coaching-private.html" class="btn btn-glass">Coaching Private</a>
         </div>
 
         <div class="hero-mini-stats">
@@ -540,6 +552,23 @@ footer{text-align:center;padding:25px 15px;font-size:13px}
     <div class="hero-scroll">SCROLL <span>↓</span></div>
 </section>
 
+
+
+<!-- =========================
+     COACHING PRIVATE
+========================= -->
+<section class="section coaching-home" id="coaching">
+  <div class="coaching-card">
+    <div class="coaching-text">
+      <span class="coaching-kicker">NOUVEAU · ACCOMPAGNEMENT 1 À 1</span>
+      <h2>Coaching <em>Private</em></h2>
+      <p>Un accompagnement personnel avec Baba Design pour progresser plus vite en design, en vidéo et en digital, à votre rythme.</p>
+      <div class="coaching-chips"><span>Séances privées</span><span>Suivi personnalisé</span><span>Projet réel</span></div>
+      <a href="coaching-private.html" class="btn btn-primary coaching-btn">Découvrir le Coaching Private</a>
+    </div>
+    <div class="coaching-badge" aria-hidden="true"><b>1:1</b><small>PRIVATE</small></div>
+  </div>
+</section>
 
 <!-- =========================
      PORTFOLIO / SLIDESHOW
@@ -3700,10 +3729,12 @@ Merci.
     await refresh();
   }
 
-  async function renderController(m){const {data:orders}=await sb.from('orders').select('*').order('created_at',{ascending:false});const {data:webProjects,error:webProjectsError}=await sb.from('web_project_requests').select('*').order('created_at',{ascending:false});const {data:files}=await sb.from('files').select('*').order('created_at',{ascending:false});const {data:convs}=await sb.from('conversations').select('*').order('last_message_at',{ascending:false});const paymentProof=o=>files.find(f=>f.order_id===o.id&&f.kind==='payment_proof');m.innerHTML=`<h3>🛠️ Contrôle</h3><p>Gestion des commandes, paiements, progression, fichiers et conversations.</p><div class="order-item"><strong>${(orders||[]).length}</strong> commandes · <strong>${(files||[]).length}</strong> fichiers</div><h4>Demandes de création de sites web</h4>${webProjectsError?'<p>Demandes web indisponibles : vérifiez la table et les policies Supabase.</p>':((webProjects||[]).map(r=>`<div class="project-request-item"><div class="portal-top"><strong>${esc(r.plan)} · ${esc(r.client_name)}</strong><small>${fmt(r.created_at)}</small></div><p><b>WhatsApp :</b> ${esc(r.whatsapp)}<br><b>Entreprise :</b> ${esc(r.business_name||'Non précisée')}</p><p>${esc(r.project_description)}</p><small>Statut : ${esc(r.status||'new')}</small></div>`).join('')||'<p>Aucune demande de site web pour le moment.</p>')}<h4>Commandes</h4>${(orders||[]).map(o=>`<div class="order-item"><div class="portal-top"><strong>${esc(o.service_name)}</strong><span>${esc(o.payment_status)}</span></div><small>Client: ${esc(o.user_id)}</small>${paymentProof(o)?`<div style="margin:10px 0;padding:10px;border:1px solid #eee;border-radius:12px;background:#fafafa"><b>📸 Preuve de paiement</b><br><small>${esc(paymentProof(o).file_name)}</small><br><button type="button" class="portal-btn small" data-file-download="${esc(paymentProof(o).storage_path)}">Voir / télécharger</button></div>`:'<div style="margin:10px 0;color:#a00;font-size:12px"><b>⚠️ Aucune preuve de paiement jointe.</b></div>'}<div class="portal-field"><label>Progression: <span id="pv-${o.id}">${o.progress||0}%</span></label><input type="range" min="0" max="100" value="${o.progress||0}" data-progress="${o.id}"></div><button class="portal-btn small" data-approve="${o.id}">✅ Valider paiement</button> <button class="portal-btn small dark" data-reject="${o.id}">❌ Refuser</button></div>`).join('')||'<p>Aucune commande.</p>'}<h4>Fichiers</h4><div class="file-list">${(files||[]).map(f=>`<div class="file-item"><div><strong>${esc(f.file_name)}</strong><br><small>${esc(f.kind)} · ${fmt(f.created_at)}</small></div><span><button class="portal-btn small" data-file-download="${esc(f.storage_path)}">⬇️</button> <button class="portal-btn small dark" data-file-delete="${f.id}" data-path="${esc(f.storage_path)}">🗑️</button></span></div>`).join('')||'<p>Aucun fichier.</p>'}</div><h4>Conversations</h4>${(convs||[]).map(c=>`<div class="order-item"><strong>Client ${esc(c.user_id)}</strong><br><button class="portal-btn small" data-open-chat="${c.id}">Ouvrir</button> <button class="portal-btn small dark" data-clear-chat="${c.id}">🗑️ Effacer messages</button></div>`).join('')||'<p>Aucune conversation.</p>'}`;
+  async function renderController(m){const {data:orders}=await sb.from('orders').select('*').order('created_at',{ascending:false});const {data:webProjects,error:webProjectsError}=await sb.from('web_project_requests').select('*').order('created_at',{ascending:false});const {data:coachRes,error:coachErr}=await sb.from('coaching_reservations').select('*').order('created_at',{ascending:false});const {data:files}=await sb.from('files').select('*').order('created_at',{ascending:false});const {data:convs}=await sb.from('conversations').select('*').order('last_message_at',{ascending:false});const paymentProof=o=>files.find(f=>f.order_id===o.id&&f.kind==='payment_proof');m.innerHTML=`<h3>🛠️ Contrôle</h3><p>Gestion des commandes, paiements, progression, fichiers et conversations.</p><div class="order-item"><strong>${(orders||[]).length}</strong> commandes · <strong>${(files||[]).length}</strong> fichiers</div><h4>Demandes de création de sites web</h4>${webProjectsError?'<p>Demandes web indisponibles : vérifiez la table et les policies Supabase.</p>':((webProjects||[]).map(r=>`<div class="project-request-item"><div class="portal-top"><strong>${esc(r.plan)} · ${esc(r.client_name)}</strong><small>${fmt(r.created_at)}</small></div><p><b>WhatsApp :</b> ${esc(r.whatsapp)}<br><b>Entreprise :</b> ${esc(r.business_name||'Non précisée')}</p><p>${esc(r.project_description)}</p><small>Statut : ${esc(r.status||'new')}</small></div>`).join('')||'<p>Aucune demande de site web pour le moment.</p>')}<h4>Réservations Coaching Private</h4>${coachErr?'<p>Réservations coaching indisponibles : exécutez le SQL coaching-reservations.sql dans Supabase.</p>':((coachRes||[]).map(r=>`<div class="project-request-item"><div class="portal-top"><strong>${esc(r.formation)} · ${esc(r.client_name)}</strong><small>${fmt(r.created_at)}</small></div><p><b>WhatsApp :</b> ${esc(r.whatsapp)}<br><b>Prix :</b> ${Number(r.price_htg||0).toLocaleString('fr-FR')} HTG</p><small>Statut : ${esc(r.status||'new')}</small><div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="portal-btn small" data-coach-status="confirmed" data-coach-id="${r.id}">✅ Confirmer</button> <button type="button" class="portal-btn small dark" data-coach-status="cancelled" data-coach-id="${r.id}">❌ Annuler</button> <button type="button" class="portal-btn small dark" data-coach-del="${r.id}">🗑️</button></div></div>`).join('')||'<p>Aucune réservation coaching pour le moment.</p>')}<h4>Commandes</h4>${(orders||[]).map(o=>`<div class="order-item"><div class="portal-top"><strong>${esc(o.service_name)}</strong><span>${esc(o.payment_status)}</span></div><small>Client: ${esc(o.user_id)}</small>${paymentProof(o)?`<div style="margin:10px 0;padding:10px;border:1px solid #eee;border-radius:12px;background:#fafafa"><b>📸 Preuve de paiement</b><br><small>${esc(paymentProof(o).file_name)}</small><br><button type="button" class="portal-btn small" data-file-download="${esc(paymentProof(o).storage_path)}">Voir / télécharger</button></div>`:'<div style="margin:10px 0;color:#a00;font-size:12px"><b>⚠️ Aucune preuve de paiement jointe.</b></div>'}<div class="portal-field"><label>Progression: <span id="pv-${o.id}">${o.progress||0}%</span></label><input type="range" min="0" max="100" value="${o.progress||0}" data-progress="${o.id}"></div><button class="portal-btn small" data-approve="${o.id}">✅ Valider paiement</button> <button class="portal-btn small dark" data-reject="${o.id}">❌ Refuser</button></div>`).join('')||'<p>Aucune commande.</p>'}<h4>Fichiers</h4><div class="file-list">${(files||[]).map(f=>`<div class="file-item"><div><strong>${esc(f.file_name)}</strong><br><small>${esc(f.kind)} · ${fmt(f.created_at)}</small></div><span><button class="portal-btn small" data-file-download="${esc(f.storage_path)}">⬇️</button> <button class="portal-btn small dark" data-file-delete="${f.id}" data-path="${esc(f.storage_path)}">🗑️</button></span></div>`).join('')||'<p>Aucun fichier.</p>'}</div><h4>Conversations</h4>${(convs||[]).map(c=>`<div class="order-item"><strong>Client ${esc(c.user_id)}</strong><br><button class="portal-btn small" data-open-chat="${c.id}">Ouvrir</button> <button class="portal-btn small dark" data-clear-chat="${c.id}">🗑️ Effacer messages</button></div>`).join('')||'<p>Aucune conversation.</p>'}`;
     m.querySelectorAll('[data-progress]').forEach(x=>x.oninput=async()=>{$('pv-'+x.dataset.progress).textContent=x.value+'%';await sb.rpc('controller_set_order_progress',{p_order_id:x.dataset.progress,p_progress:+x.value})});
     m.querySelectorAll('[data-approve]').forEach(b=>b.onclick=async()=>{await sb.rpc('controller_approve_order',{p_order_id:b.dataset.approve});toast('Paiement réussi 🎉','Le client recevra la confirmation.');await renderController(m)});
     m.querySelectorAll('[data-reject]').forEach(b=>b.onclick=async()=>{await sb.rpc('controller_reject_order',{p_order_id:b.dataset.reject});await renderController(m)});
+    m.querySelectorAll('[data-coach-status]').forEach(b=>b.onclick=async()=>{const {error}=await sb.from('coaching_reservations').update({status:b.dataset.coachStatus}).eq('id',b.dataset.coachId);if(error)alert(error.message);else await renderController(m)});
+    m.querySelectorAll('[data-coach-del]').forEach(b=>b.onclick=async()=>{if(!confirm('Supprimer cette réservation ?'))return;const {error}=await sb.from('coaching_reservations').delete().eq('id',b.dataset.coachDel);if(error)alert(error.message);else await renderController(m)});
     m.querySelectorAll('[data-file-download]').forEach(b=>b.onclick=()=>downloadFile(b.dataset.fileDownload));
     m.querySelectorAll('[data-file-download]').forEach(b=>b.onclick=()=>downloadFile(b.dataset.fileDownload));m.querySelectorAll('[data-file-delete]').forEach(b=>b.onclick=async()=>{if(!confirm('Télécharger le fichier avant suppression si nécessaire. Supprimer définitivement de Storage et de la base ?'))return;wait(true,'Suppression définitive…');try{const {error}=await sb.storage.from(BUCKET).remove([b.dataset.path]);if(error)throw error;const {data:e2,error:e2err}=await sb.rpc('controller_delete_file_metadata',{p_file_id:b.dataset.fileDelete});if(e2err)throw e2err;await renderController(m);}catch(e){alert(e.message)}finally{wait(false)}});
     m.querySelectorAll('[data-open-chat]').forEach(b=>b.onclick=()=>openControllerChat(b.dataset.openChat,m));
@@ -4181,6 +4212,95 @@ document.addEventListener('click',function(e){
  .baba-photo{max-width:min(100%,330px);}
 }
 @media(prefers-reduced-motion:reduce){.hero-content-modern,.baba-photo{animation:none!important}}
+</style>
+
+
+<style id="baba-update-v2">
+/* ===== 1. RÉALISATIONS : images entières et nettes ===== */
+.portfolio-slider{background:#07111f;border-radius:20px}
+.portfolio-slide img{object-fit:contain!important;background:#07111f}
+.portfolio-glass{left:16px;bottom:16px;padding:10px 14px;min-width:0}
+.portfolio-glass small{display:none}
+.portfolio-glass strong{font-size:15px}
+@media(max-width:600px){.portfolio-slider{height:auto;aspect-ratio:4/5}.portfolio-glass{right:auto;left:10px;bottom:10px}.portfolio-dots{bottom:14px}}
+
+/* ===== 2. PACKAGES WEB : fond blanc, textes assortis ===== */
+.web-packages{background:#fff!important;color:#0b1b2e}
+.web-packages-glow{display:none}
+.web-packages-heading h2{color:#0b1b2e}
+.web-packages-heading h2 em{color:#0ab3d1}
+.web-packages-heading p,.web-package-note{color:#4a5d72}
+.web-packages-heading span,.web-package-label,.web-package-card h4{color:#0876c9;-webkit-text-fill-color:#0876c9;background:none}
+.web-package-card,.web-package-featured{background:#fff!important;border:1px solid #dbe6f0!important;box-shadow:0 18px 45px -26px rgba(7,17,31,.25)!important}
+.web-package-featured{border-color:#12d6f5!important;box-shadow:0 22px 55px -26px rgba(18,214,245,.55)!important}
+.web-package-card:hover{border-color:#12d6f5!important;box-shadow:0 26px 60px -28px rgba(8,125,224,.4)!important}
+.web-package-card h3{color:#0b1b2e}
+.web-package-intro,.web-package-meta span{color:#4a5d72}
+.web-package-meta b{color:#0b1b2e}
+.web-package-meta,.web-package-bottom{border-color:#e3eaf2}
+.web-page-list li,.web-project-list li{color:#27394d}
+.web-page-list li:before,.web-project-list li:before{color:#0ab3d1}
+.web-type-tags span{background:#eef8fc;border-color:#cdebf5;color:#0b4a63}
+.web-package-icon{background:#e6f8fd;border-color:#bfe9f6;color:#0876c9}
+.web-quote{color:#0b1b2e}
+
+/* ===== PUBLICITÉ : même style que les cartes de création web ===== */
+.publicite-box{background:#fff;border:1px solid #dbe6f0;border-radius:24px;box-shadow:0 18px 45px -26px rgba(7,17,31,.25);padding:clamp(20px,3.5vw,34px);color:#0b1b2e}
+.publicite-box .section-title{color:#0b1b2e}
+.publicite-price-box{background:#eef8fc;border:1px solid #cdebf5;border-radius:16px}
+.publicite-price-box strong{color:#0876c9}
+.publicite-box .submit-btn{border-radius:14px;min-height:54px;font-weight:800}
+
+/* ===== 3. MENU : sans rond, icône blanche, gros textes, défilement ===== */
+@media(max-width:1100px){
+  .navbar .menu-toggle{display:block;background:none!important;border-radius:0;width:auto;height:auto;padding:4px 8px;color:#fff;font-size:36px;line-height:1;box-shadow:none}
+  .navbar .menu-toggle:hover{transform:none;box-shadow:none;filter:none}
+  .navbar .nav-container{flex-wrap:nowrap;padding-block:0;min-height:70px}
+  .navbar .nav-links{position:absolute;top:100%;left:0;width:100%;flex-direction:column;align-items:stretch;flex-wrap:nowrap;gap:0;max-height:0;overflow:hidden;padding:0;background:#07111f;border-radius:0 0 18px 18px;transition:max-height .35s ease}
+  .navbar .nav-links.active{max-height:calc(100vh - 80px);max-height:calc(100dvh - 80px);overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:8px 0 18px;border-bottom:1px solid rgba(18,214,245,.3)}
+  .navbar .nav-links li{width:100%;border-bottom:1px solid rgba(255,255,255,.07)}
+  .navbar .nav-links a{display:block;padding:18px 28px;font-size:20px;font-weight:700;color:#fff;letter-spacing:.01em}
+  .navbar .nav-links a:hover{background:rgba(18,214,245,.1);color:#12d6f5}
+  .navbar .nav-links a.nav-boutique{display:block;border-radius:0;background:none;color:#12d6f5!important;padding:18px 28px!important}
+}
+
+/* ===== 4. ACCUEIL : images en plein fond, derrière le texte ===== */
+.hero-modern{min-height:720px;padding:110px 20px 130px!important}
+.hero-modern .hero-slideshow{inset:0!important;height:100%!important;width:max-content;padding:0!important;gap:0!important;opacity:1!important;filter:none!important;transform:none!important;z-index:-3;align-items:stretch;animation:heroPan 48s linear infinite!important}
+.hero-modern .hero-slide{flex:0 0 clamp(240px,32vw,460px)!important;height:100%!important;margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+.hero-modern .hero-slide img{opacity:1}
+.hero-modern .hero-overlay{display:block!important;z-index:-2;background:linear-gradient(180deg,rgba(7,17,31,.62) 0%,rgba(7,17,31,.42) 45%,rgba(7,17,31,.72) 100%)}
+.hero-content-modern h1,.hero-content-modern>p{text-shadow:0 3px 22px rgba(0,0,0,.55)}
+.hero-content-modern>p{color:#e3edf7!important}
+@keyframes heroPan{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(max-width:760px){.hero-modern{min-height:640px;padding:80px 16px 100px!important}}
+
+/* ===== 5. COACHING PRIVATE (accueil) ===== */
+.coaching-home{padding-top:60px;padding-bottom:20px}
+.coaching-card{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:30px;padding:clamp(26px,4vw,50px);border-radius:26px;color:#fff;background:radial-gradient(ellipse 55% 90% at 100% 0%,rgba(43,111,224,.55),transparent 65%),linear-gradient(135deg,#07111f,#0c2c4d 70%,#0e4160);border:1px solid rgba(18,214,245,.35);box-shadow:0 30px 60px -28px rgba(7,17,31,.6)}
+.coaching-kicker{font-size:12px;font-weight:800;letter-spacing:.16em;color:#12d6f5}
+.coaching-card h2{font-size:clamp(34px,5.5vw,60px);margin:10px 0;color:#fff;font-family:'Space Grotesk',sans-serif}
+.coaching-card h2 em{font-style:normal;color:#12d6f5}
+.coaching-card p{max-width:560px;color:#c3d3e3;line-height:1.75;margin-bottom:16px}
+.coaching-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.coaching-chips span{padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(18,214,245,.35);font-size:13px;font-weight:700;color:#e4f7fd}
+.coaching-badge{flex:0 0 auto;width:170px;height:170px;border-radius:50%;display:grid;place-content:center;text-align:center;background:linear-gradient(135deg,#12d6f5,#4aa8ff);color:#04121f;box-shadow:0 0 0 12px rgba(18,214,245,.12),0 0 60px rgba(18,214,245,.45);animation:coachPulse 3.6s ease-in-out infinite}
+.coaching-badge b{font-size:50px;line-height:1;font-family:'Space Grotesk',sans-serif}
+.coaching-badge small{font-weight:800;letter-spacing:.2em;font-size:11px}
+@keyframes coachPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+@media(max-width:760px){.coaching-card{flex-direction:column-reverse;align-items:flex-start}.coaching-badge{width:110px;height:110px}.coaching-badge b{font-size:34px}}
+
+/* ===== 6. PORTRAIT BABA DESIGN : nouvelle animation ===== */
+@property --bdA{syntax:'<angle>';inherits:false;initial-value:0deg}
+.baba-photo{animation:bdFloat 6.5s ease-in-out infinite!important}
+.baba-photo:before{inset:-9px!important;transform:none!important;border:0!important;border-radius:34px!important;padding:3px;background:conic-gradient(from var(--bdA),#12d6f5,transparent 28%,#4aa8ff 52%,transparent 78%,#12d6f5);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);animation:bdSpin 5s linear infinite}
+.baba-photo-inner:after{content:"";position:absolute;inset:-20% auto -20% -60%;width:40%;z-index:3;background:linear-gradient(105deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-18deg);animation:bdShine 5.5s ease-in-out infinite;pointer-events:none}
+.baba-photo img{animation:bdZoom 12s ease-in-out infinite alternate}
+@keyframes bdSpin{to{--bdA:360deg}}
+@keyframes bdFloat{0%,100%{transform:translateY(0) rotate(0);box-shadow:0 28px 60px -24px rgba(0,125,224,.55)}50%{transform:translateY(-14px) rotate(.8deg);box-shadow:0 44px 70px -26px rgba(18,214,245,.7)}}
+@keyframes bdShine{0%,55%{left:-60%}100%{left:130%}}
+@keyframes bdZoom{from{transform:scale(1)}to{transform:scale(1.08)}}
+@media(prefers-reduced-motion:reduce){.hero-modern .hero-slideshow,.baba-photo,.baba-photo:before,.baba-photo-inner:after,.baba-photo img,.coaching-badge{animation:none!important}}
 </style>
 
 </body>
