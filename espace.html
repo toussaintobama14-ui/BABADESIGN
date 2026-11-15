@@ -33,11 +33,51 @@ section{flex:1;padding:20px;min-width:0}
 .sub{border-top:1px dashed var(--line);margin-top:10px;padding-top:10px}.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.row input{flex:1;min-width:110px}
 #toast{position:fixed;right:16px;bottom:16px;display:grid;gap:8px;z-index:50}#toast div{background:var(--navy);color:#fff;padding:12px 18px;border-radius:14px;border-left:4px solid var(--cy);box-shadow:0 10px 30px rgba(0,0,0,.3)}
 @media(max-width:800px){.wrap{flex-direction:column}aside{width:100%;border:0;border-bottom:1px solid var(--line)}.b{max-width:92%}}
+
+/* ===== v3 : animations + mobile ===== */
+.btn{transition:transform .2s,box-shadow .25s,filter .2s;position:relative;overflow:hidden}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 24px -10px rgba(18,214,245,.85);filter:brightness(1.06)}
+.btn:active{transform:scale(.95)}
+.btn:before{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);transition:left .6s}
+.btn:hover:before{left:130%}
+.btn.ghost:hover{box-shadow:0 10px 20px -12px rgba(8,118,201,.7)}
+#view>*{animation:up .5s cubic-bezier(.2,.8,.2,1) both}
+#view>*:nth-child(2){animation-delay:.06s}#view>*:nth-child(3){animation-delay:.12s}#view>*:nth-child(4){animation-delay:.18s}#view>*:nth-child(n+5){animation-delay:.24s}
+@keyframes up{from{opacity:0;transform:translateY(16px)}}
+@keyframes pop{from{opacity:0;transform:scale(.92)}}
+@keyframes pl{50%{box-shadow:0 0 0 7px rgba(46,227,125,0)}}
+@keyframes tin{from{opacity:0;transform:translateX(30px)}}
+.card{transition:transform .25s,box-shadow .25s,border-color .25s}.card:hover{transform:translateY(-3px);border-color:var(--cy);box-shadow:0 20px 40px -24px rgba(8,118,201,.5)}
+.dot.on{animation:pl 2s infinite}.b{animation:pop .3s both}#toast div{animation:tin .4s both}
+.stu{transition:transform .2s,border-color .2s,background .2s}.stu:hover{transform:translateX(3px);border-color:var(--cy)}
+#tabs button{transition:transform .2s,background .25s,color .25s,box-shadow .25s}#tabs button:hover{transform:translateY(-2px)}#tabs button.on{box-shadow:0 8px 18px -8px rgba(7,17,31,.6)}
+#tabs button span{margin-right:6px}
+#shead{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}#shead:empty{display:none}#shead strong{margin-right:auto;font-size:18px}
+.kpi div{position:relative;overflow:hidden;transition:transform .3s}.kpi div:hover{transform:translateY(-4px) scale(1.02)}
+.kpi div:nth-child(2){background:linear-gradient(135deg,#0b2a4a,#0876c9)}.kpi div:nth-child(3){background:linear-gradient(135deg,#3b1d6e,#7a4ae0)}.kpi div:nth-child(4){background:linear-gradient(135deg,#0b3a3a,#12a89a)}
+.kpi i{position:absolute;right:12px;top:8px;font-style:normal;font-size:30px;opacity:.35}.kpi b.sm{font-size:19px;line-height:1.3;margin-top:6px}
+.pre{white-space:pre-wrap;margin:8px 0}
+.chat{height:min(55vh,560px)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media(max-width:1000px){aside{width:220px}}
+@media(max-width:800px){
+ body{padding-bottom:84px}header{min-height:56px;padding:0 14px;gap:8px}header b{font-size:18px}#who{font-size:13px;color:#c3d3e3}header small{font-size:11px}
+ aside{display:flex;overflow-x:auto;gap:8px;padding:10px 12px;-webkit-overflow-scrolling:touch}aside>*{flex:0 0 auto}.stu{min-width:165px}aside .btn{white-space:nowrap;padding:9px 14px}
+ section{padding:14px 12px}
+ #tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:8px 8px calc(8px + env(safe-area-inset-bottom));flex-wrap:nowrap;overflow-x:auto;gap:4px;margin:0;justify-content:flex-start}
+ #tabs:empty{display:none}
+ #tabs button{flex:0 0 auto;min-width:68px;display:flex;flex-direction:column;align-items:center;gap:2px;border:0;border-radius:14px;padding:7px 10px;font-size:11px}#tabs button span{font-size:20px;margin:0}
+ .kpi{grid-template-columns:1fr 1fr;gap:10px}.kpi div{padding:14px}.kpi b{font-size:28px}.kpi div:last-child{grid-column:span 2}
+ .card,.f{padding:14px;border-radius:16px}.row{flex-direction:column}.row input,.row .btn{width:100%}
+ .chat{height:calc(100dvh - 290px);min-height:300px}.b{max-width:90%}.cform input{min-width:0}
+ #toast{left:12px;right:12px;bottom:92px}
+ input,select,textarea{font-size:16px}
+}
 </style></head><body>
 <div id="login"><form id="lf"><h1>Baba<em>Design</em></h1><p>Entrez votre code d'accès (professeur ou élève).</p><input id="code" placeholder="CODE" autocomplete="off" required><button class="btn">Entrer</button><div id="ls" role="status"></div></form></div>
 <div id="app" hidden>
 <header><b>Baba<span>Design</span></b><span id="who"></span><span class="sp"></span><small id="onl"></small><button class="btn ghost" onclick="logout()">Quitter</button></header>
-<div class="wrap"><aside id="side" hidden></aside><section><div id="tabs"></div><div id="view"></div></section></div></div>
+<div class="wrap"><aside id="side" hidden></aside><section><div id="shead"></div><div id="tabs"></div><div id="view"></div></section></div></div>
 <div id="toast"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
@@ -51,7 +91,7 @@ function left(d){let s=Math.floor((new Date(d)-Date.now())/1000);if(s<=0)return'
 function toast(t){const e=document.createElement('div');e.textContent=t;$('#toast').append(e);setTimeout(()=>e.remove(),5000)}
 function notify(t){toast(t);try{if(document.hidden&&Notification.permission==='granted')new Notification('Baba Design',{body:t})}catch(e){}}
 function media(f){const t=f.type||'';return t==='link'?`<a href="${esc(f.url)}" target="_blank" rel="noopener">🔗 ${esc(f.name)}</a>`:t.startsWith('image')?`<img src="${esc(f.url)}" alt="">`:t.startsWith('video')?`<video src="${esc(f.url)}" controls></video>`:`<a href="${esc(f.url)}" target="_blank">📄 ${esc(f.name)}</a>`}
-async function up(file){const path=`${cur}/${Date.now()}-${file.name.replace(/[^\w.-]/g,'_')}`;const {error}=await sb.storage.from('files').upload(path,file);if(error)throw error;return{path,url:sb.storage.from('files').getPublicUrl(path).data.publicUrl,name:file.name,type:file.type}}
+async function up(file,pre=cur){const path=`${pre}/${Date.now()}-${file.name.replace(/[^\w.-]/g,'_')}`;const {error}=await sb.storage.from('files').upload(path,file);if(error)throw error;return{path,url:sb.storage.from('files').getPublicUrl(path).data.publicUrl,name:file.name,type:file.type}}
 const rm=async fs=>{const p=(fs||[]).map(f=>f.path).filter(Boolean);if(p.length)await sb.storage.from('files').remove(p)};
 
 /* ---- Login ---- */
@@ -73,13 +113,13 @@ function listen(){const ch=sb.channel('db');
  ch.on('postgres_changes',{event:'INSERT',schema:'public',table:'messages'},async p=>{const m=p.new,mine=m.from_teacher===T(),open=tab==='chat'&&cur===m.student_id;
   if(open){await loadMsgs();if(!mine)await markRead()}else if(!mine){notify('💬 Nouveau message de '+(T()?nameOf(m.student_id):'votre professeur'))}if(T())refreshSide()});
  if(T())ch.on('postgres_changes',{event:'INSERT',schema:'public',table:'submissions'},p=>notify('📥 Devoir remis par '+nameOf(p.new.student_id)));
- else[['assignments','📝 Nouveau devoir'],['schedule','🗓️ Horaire mis à jour'],['certificates','🎓 Nouveau certificat']].forEach(([t,x])=>ch.on('postgres_changes',{event:'INSERT',schema:'public',table:t},()=>{notify(x);if(({assignments:'work',schedule:'sched',certificates:'certs'})[t]===tab||tab==='home')go()}));
+ else[['assignments','📝 Nouveau devoir'],['lessons','🎬 Nouveau cours'],['schedule','🗓️ Horaire mis à jour'],['certificates','🎓 Nouveau certificat']].forEach(([t,x])=>ch.on('postgres_changes',{event:'INSERT',schema:'public',table:t},()=>{notify(x);if(({lessons:'lessons',assignments:'work',schedule:'sched',certificates:'certs'})[t]===tab||tab==='home')go()}));
  if(!T())ch.on('postgres_changes',{event:'UPDATE',schema:'public',table:'submissions'},p=>{if(p.new.grade!=null){notify('⭐ Nouvelle note : '+p.new.grade+'/100');if(tab==='work'||tab==='home')go()}});ch.subscribe()}
 
 /* ---- Teacher sidebar ---- */
 async function refreshSide(){const [a,b]=await Promise.all([sb.from('students').select('*').order('name'),sb.from('messages').select('student_id').eq('from_teacher',false).eq('read',false)]);
  students=a.data||[];unread={};(b.data||[]).forEach(m=>unread[m.student_id]=(unread[m.student_id]||0)+1);
- $('#side').innerHTML=`<button class="btn" onclick="newStu()">+ Nouvel élève</button><button class="btn ghost" onclick="resView()">Réservations</button>`+students.map(s=>`<div class="stu ${s.id===cur?'on':''}" onclick="pick('${s.id}')"><i class="dot ${online(s.last_seen)?'on':''}"></i><span>${esc(s.name)}<small>${esc(s.course||'')}</small></span>${unread[s.id]?`<em>${unread[s.id]}</em>`:''}</div>`).join('');
+ $('#side').innerHTML=`<button class="btn" onclick="newStu()">+ Nouvel élève</button><button class="btn ghost" onclick="lessView()">🎬 Cours (tous)</button><button class="btn ghost" onclick="resView()">Réservations</button>`+students.map(s=>`<div class="stu ${s.id===cur?'on':''}" onclick="pick('${s.id}')"><i class="dot ${online(s.last_seen)?'on':''}"></i><span>${esc(s.name)}<small>${esc(s.course||'')}</small></span>${unread[s.id]?`<em>${unread[s.id]}</em>`:''}</div>`).join('');
  if(cur&&T())renderTabs()}
 function pick(id){cur=id;tab='chat';renderTabs();go();refreshSide()}
 function newStu(name='',course=COURSES[0]){cur=null;renderTabs();
@@ -93,9 +133,10 @@ async function delRes(id){await sb.from('coaching_reservations').delete().eq('id
 async function delStu(){if(!confirm('Supprimer cet élève et ses données ?'))return;const {data}=await sb.from('submissions').select('files').eq('student_id',cur);for(const s of data||[])await rm(s.files);await sb.from('students').delete().eq('id',cur);cur=null;await refreshSide();newStu()}
 
 /* ---- Tabs ---- */
-function renderTabs(){const t=[...(T()?[]:[['home','Accueil']]),['chat','Chat'],['work','Devoirs'],['sched','Horaire'],['certs','Certificats']];const s=students.find(x=>x.id===cur);
- $('#tabs').innerHTML=cur?(T()&&s?`<strong><i class="dot ${online(s.last_seen)?'on':''}"></i>${esc(s.name)} <span class="code">${esc(s.code)}</span></strong>`:'')+t.map(([k,l])=>`<button class="${k===tab?'on':''}" onclick="go('${k}')">${l}</button>`).join('')+`<button onclick="call()">📹 Appel vidéo</button>`+(T()?`<button onclick="delStu()">🗑</button>`:''):''}
-function go(k){if(k)tab=k;renderTabs();({home:vHome,chat:vChat,work:vWork,sched:vSched,certs:vCerts})[tab]()}
+function renderTabs(){const t=[...(T()?[]:[['home','🏠','Accueil']]),['lessons','🎬','Cours'],['chat','💬','Chat'],['work','📝','Devoirs'],['sched','🗓️','Horaire'],['certs','🎓','Certificats']],st=students.find(x=>x.id===cur);
+ $('#shead').innerHTML=cur&&T()&&st?`<strong><i class="dot ${online(st.last_seen)?'on':''}"></i>${esc(st.name)} <span class="code">${esc(st.code)}</span></strong><button class="btn ghost" onclick="delStu()">🗑 Supprimer</button>`:'';
+ $('#tabs').innerHTML=cur?t.map(([k,i,l])=>`<button class="${k===tab?'on':''}" onclick="go('${k}')"><span>${i}</span>${l}</button>`).join('')+`<button onclick="call()"><span>📹</span>Appel</button>`:''}
+function go(k){if(k)tab=k;renderTabs();({home:vHome,lessons:vLessons,chat:vChat,work:vWork,sched:vSched,certs:vCerts})[tab]()}
 function call(){window.open('https://meet.jit.si/BabaDesign-'+cur,'_blank','noopener')}
 
 /* ---- Chat ---- */
@@ -123,6 +164,19 @@ async function grade(id){const {error}=await sb.from('submissions').update({grad
 async function delSub(id){if(!confirm('Effacer cette remise et ses fichiers ?'))return;await rm(SUBS.find(s=>s.id===id)?.files);await sb.from('submissions').delete().eq('id',id);vWork()}
 async function delA(id){if(!confirm('Supprimer ce devoir et les remises ?'))return;for(const s of SUBS.filter(s=>s.assignment_id===id))await rm(s.files);await sb.from('assignments').delete().eq('id',id);vWork()}
 
+/* ---- Cours (video, photos, documents) ---- */
+let LESS=[];
+function lessView(){cur=null;tab='lessons';renderTabs();vLessons()}
+async function vLessons(){let q=sb.from('lessons').select('*').order('created_at',{ascending:false});if(T()&&cur)q=q.or(`student_id.eq.${cur},student_id.is.null`);
+ const {data}=await q;LESS=data||[];
+ $('#view').innerHTML=(T()?`<form id="lf2" class="f"><h3>🎬 Publier un cours</h3><input id="lt" placeholder="Titre du cours" required><textarea id="ld" rows="3" placeholder="Description du cours…"></textarea><label>Vidéos, photos ou documents (plusieurs possibles)<input id="lfi" type="file" multiple accept="video/*,image/*,.pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.zip"></label><input id="ll" type="url" placeholder="Lien (YouTube, Drive… optionnel)"><label>Pour qui ?<select id="lw"><option value="">Tous les élèves</option>${students.map(s=>`<option value="${s.id}" ${s.id===cur?'selected':''}>${esc(s.name)}</option>`).join('')}</select></label><button class="btn">Publier</button><small id="lp"></small></form>`:'')
+ +(LESS.map(l=>`<div class="card"><h3>${esc(l.title)}<span class="pill">${l.student_id?esc(nameOf(l.student_id)):'Tous'}</span></h3><small>${fmtD(l.created_at)}</small><p class="pre">${esc(l.description)}</p>${(l.files||[]).map(media).join('<br>')}${T()?`<div class="row"><button class="btn ghost" onclick="delLesson(${l.id})">Supprimer</button></div>`:''}</div>`).join('')||'<p class="mut">Aucun cours publié.</p>');
+ if(T())$('#lf2').onsubmit=async e=>{e.preventDefault();const b=e.target.querySelector('button.btn');b.disabled=true;
+  try{const files=[],fl=[...$('#lfi').files];for(let i=0;i<fl.length;i++){$('#lp').textContent=`Envoi ${i+1}/${fl.length}…`;files.push(await up(fl[i],'cours'))}
+   const l=$('#ll').value.trim();if(l){if(!/^https?:\/\//.test(l))throw Error('Lien invalide.');files.push({url:l,name:l,type:'link'})}
+   const {error}=await sb.from('lessons').insert({student_id:$('#lw').value||null,title:$('#lt').value.trim(),description:$('#ld').value,files});if(error)throw error;toast('Cours publié ✅')}catch(x){toast('Erreur : '+x.message)}vLessons()}}
+async function delLesson(id){if(!confirm('Supprimer ce cours et ses fichiers ?'))return;await rm(LESS.find(l=>l.id===id)?.files);await sb.from('lessons').delete().eq('id',id);vLessons()}
+
 /* ---- Horaire ---- */
 async function vSched(){const {data}=await sb.from('schedule').select('*').eq('student_id',cur).order('starts_at');
  $('#view').innerHTML=(T()?`<form id="sf" class="f"><h3>Nouveau cours</h3><input id="sd" type="datetime-local" required><input id="sm" type="number" min="15" step="15" value="60" placeholder="Durée (minutes)"><input id="st" placeholder="Sujet du cours"><button class="btn">Ajouter</button></form>`:'')+((data||[]).map(s=>{const past=new Date(s.starts_at)<Date.now();return`<div class="card" style="${past?'opacity:.55':''}"><h3>${fmtD(s.starts_at)}<span class="pill">${s.minutes} min</span>${past?'':`<span class="pill">dans ${left(s.starts_at)}</span>`}</h3><p>${esc(s.topic||'')}</p>${T()?`<button class="btn ghost" onclick="sb.from('schedule').delete().eq('id',${s.id}).then(vSched)">Supprimer</button>`:''}</div>`}).join('')||'<p class="mut">Aucun cours planifié.</p>');
@@ -142,6 +196,7 @@ function cert(id){const c=CERTS.find(x=>x.id===id),n=esc(nameOf(cur)),w=window.o
 /* ---- Accueil élève ---- */
 async function vHome(){const [a,s,sc,c]=await Promise.all([sb.from('assignments').select('*').eq('student_id',cur),sb.from('submissions').select('*').eq('student_id',cur),sb.from('schedule').select('*').eq('student_id',cur).gte('starts_at',new Date().toISOString()).order('starts_at').limit(1),sb.from('certificates').select('id').eq('student_id',cur)]);
  const A=a.data||[],S=s.data||[],G=S.filter(x=>x.grade!=null),pend=A.filter(x=>new Date(x.due_at)>Date.now()&&!S.some(y=>y.assignment_id===x.id)).length,avg=G.length?Math.round(G.reduce((t,x)=>t+Number(x.grade),0)/G.length):'–',nx=sc.data?.[0];
- $('#view').innerHTML=`<div class="kpi"><div><b>${pend}</b><small>Devoirs à remettre</small></div><div><b>${avg}${G.length?'/100':''}</b><small>Moyenne</small></div><div><b>${(c.data||[]).length}</b><small>Certificats</small></div><div><b style="font-size:22px">${nx?fmtD(nx.starts_at):'–'}</b><small>${nx?nx.minutes+' min · '+esc(nx.topic||'Prochain cours'):'Prochain cours'}</small></div></div><h3 style="margin-bottom:10px">Mes notes</h3>`+(G.map(x=>`<div class="card"><b>${esc(A.find(y=>y.id===x.assignment_id)?.title||'Devoir')}</b><span class="pill">${x.grade}/100</span><p class="mut">${esc(x.feedback||'')}</p></div>`).join('')||'<p class="mut">Pas encore de notes.</p>')}
+ $('#view').innerHTML=`<div class="kpi"><div><i>📝</i><b data-n="${pend}">0</b><small>Devoirs à remettre</small></div><div><i>⭐</i><b ${G.length?`data-n="${avg}"`:''}>${G.length?'0':'–'}</b><small>Moyenne sur 100</small></div><div><i>🎓</i><b data-n="${(c.data||[]).length}">0</b><small>Certificats</small></div><div><i>🗓️</i><b class="sm">${nx?fmtD(nx.starts_at):'–'}</b><small>${nx?nx.minutes+' min · '+esc(nx.topic||'Prochain cours'):'Prochain cours'}</small></div></div><h3 style="margin-bottom:10px">Mes notes</h3>`+(G.map(x=>`<div class="card"><b>${esc(A.find(y=>y.id===x.assignment_id)?.title||'Devoir')}</b><span class="pill">${x.grade}/100</span><p class="mut">${esc(x.feedback||'')}</p></div>`).join('')||'<p class="mut">Pas encore de notes.</p>');countUp()}
+function countUp(){document.querySelectorAll('[data-n]').forEach(el=>{const n=+el.dataset.n,t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/800);el.textContent=Math.round(n*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(f)})(t0)})}
 boot();
 </script></body></html>
