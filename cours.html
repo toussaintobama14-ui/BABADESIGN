@@ -428,7 +428,7 @@ await afficherEspaceEleve(student);
 
 async function afficherEspaceEleve(student){
   window.currentStudent = student;
-  try{AKCHAT.start({db:supabaseClient,role:"student",code:String(student.code||student.student_code||"")})}catch(e){console.error(e)}
+  __akStart({db:supabaseClient,role:"student",name:student.nom,code:String(student.code||student.student_code||"")});
 
   const loginBox =
     document.getElementById("login");
@@ -1181,7 +1181,7 @@ footer{color:#aab9cb;font-size:13.5px}footer a{color:var(--cy)!important}
 .stat-value{font-size:30px}
 
 </style>
-<script src="akademi-chat.js"></script><script>
+<script>window.__akStart=function(o){if(!window.AKCHAT){alert("Le fichier akademi-chat.js est introuvable : mettez-le dans le même dossier que cette page.");return}try{AKCHAT.start(o)}catch(e){console.error(e);alert("Chat : "+e.message)}};</script><script src="akademi-chat.js"></script><script>
 document.addEventListener('click',async e=>{const b=e.target.closest('.lesson-done-btn');if(!b)return;const a=b.closest('.course-lesson'),done=!a.classList.contains('is-done'),code=String(window.currentStudent?.code||window.currentStudent?.student_code||'');
  b.disabled=true;const {data}=await supabaseClient.rpc('student_set_lesson_done',{p_code:code,p_course_slug:a.dataset.course,p_lesson_id:a.dataset.lid,p_done:done});b.disabled=false;if(!data?.ok)return alert('Impossible d’enregistrer pour le moment.');
  a.classList.toggle('is-done',done);b.textContent=done?'✓ Cours terminé':'Marquer comme terminé';
