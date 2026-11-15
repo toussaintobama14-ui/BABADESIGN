@@ -106,7 +106,7 @@ fieldset{border:0;margin:14px 0 4px}legend{font-size:13px;font-weight:700;color:
 </style>
 </head>
 <body>
-<header class="top"><div><a class="logo" href="index.html">Baba<span>Design</span></a><a class="back" href="index.html">← Retour au site</a></div></header>
+<header class="top"><div><a class="logo" href="index.html">Baba<span>Design</span></a><span><a class="back" href="espace.html">Espace Prof / Élèves</a> <a class="back" href="index.html">← Retour au site</a></span></div></header>
 
 <section class="hero">
   <span class="kicker">FORMATIONS PRIVÉES · 1 À 1</span>
@@ -196,7 +196,7 @@ fieldset{border:0;margin:14px 0 4px}legend{font-size:13px;font-weight:700;color:
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const sb=window.supabase.createClient("https://drvcneeaothydjmqpdzg.supabase.co","sb_publishable_k8DUVt12k1GN4n7yiYBnYw_gXltrpmp",{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});
+const sb=window.supabase.createClient("https://iridwdplzuskththpjnk.supabase.co","sb_publishable_Mgkrnj4LCgzbfpwi__29eQ_EVGhXcjT",{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});
 const modal=document.getElementById('resModal'),form=document.getElementById('resForm'),st=document.getElementById('resStatus'),sub=document.getElementById('resSubmit');
 function openM(f){form.reset();st.textContent='';st.className='status';if(f){const r=form.querySelector('input[value="'+f+'"]');if(r)r.checked=true}modal.classList.add('open');modal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'}
 function closeM(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');document.body.style.overflow=''}
