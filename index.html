@@ -500,40 +500,14 @@ footer{text-align:center;padding:25px 15px;font-size:13px}
 ========================= -->
 
 <section class="hero hero-modern" id="accueil">
-    <div class="hero-orb orb-one"></div>
-    <div class="hero-orb orb-two"></div>
-
-    <div class="hero-slideshow" aria-hidden="true">
-        <div class="hero-slide"><img src="pc sit.jpg" alt=""></div>
-        <div class="hero-slide"><img src="150 htg enskri.jpg" alt=""></div>
-        <div class="hero-slide"><img src="goat baba.jpg" alt=""></div>
-        <div class="hero-slide"><img src="services online.jpg" alt=""></div>
-        <div class="hero-slide"><img src="pub sit.jpg" alt=""></div>
-        <div class="hero-slide"><img src="150 htg enskri.jpg" alt=""></div>
-    
-        <div class="hero-slide" aria-hidden="true"><img src="pc sit.jpg" alt=""></div>
-        <div class="hero-slide" aria-hidden="true"><img src="150 htg enskri.jpg" alt=""></div>
-        <div class="hero-slide" aria-hidden="true"><img src="goat baba.jpg" alt=""></div>
-        <div class="hero-slide" aria-hidden="true"><img src="services online.jpg" alt=""></div>
-        <div class="hero-slide" aria-hidden="true"><img src="pub sit.jpg" alt=""></div>
-        <div class="hero-slide" aria-hidden="true"><img src="150 htg enskri.jpg" alt=""></div>
-    </div>
-
-    <div class="hero-overlay"></div>
-
     <div class="hero-content hero-content-modern">
-        <span class="hero-badge">
-            BABA DESIGN • CRÉATIVITÉ • DIGITAL
-        </span>
-
         <h1>
             Créons quelque chose
             <span class="gradient-text">d'exception.</span>
         </h1>
 
         <p>
-            Design professionnel, solutions digitales, Akademi Dizay
-            et une nouvelle expérience web pensée pour vous.
+            Design professionnel, solutions digitales et création web pensés pour votre marque.
         </p>
 
         <div class="hero-buttons">
@@ -541,15 +515,7 @@ footer{text-align:center;padding:25px 15px;font-size:13px}
             <a href="boutique.html" class="btn btn-glass">Découvrir la Boutique</a>
             <a href="coaching-private.html" class="btn btn-glass">Coaching Private</a>
         </div>
-
-        <div class="hero-mini-stats">
-            <span> Design</span>
-            <span> Vidéo</span>
-            <span> Digital</span>
-        </div>
     </div>
-
-    <div class="hero-scroll">SCROLL <span>↓</span></div>
 </section>
 
 
@@ -626,13 +592,11 @@ footer{text-align:center;padding:25px 15px;font-size:13px}
       <div class="web-package-top"><span class="web-package-label">POUR VOTRE ACTIVITÉ</span><span class="web-package-icon" aria-hidden="true">02</span></div>
       <h3>Business</h3>
       <p class="web-package-intro">Un site structuré pour valoriser votre entreprise, vos offres et vos clients.</p>
-      <div class="web-package-meta"><span><b>5 pages</b> incluses</span><span><b>7 jours</b> de livraison</span></div>
-      <h4>Exemples de pages</h4>
-      <ul class="web-page-list">
-        <li>Accueil</li><li>À propos</li><li>Services</li><li>Réalisations</li><li>Contact</li>
-      </ul>
+      <div class="web-package-meta"><span>Pages<b>Jusqu’à 10 pages</b></span><span>Livraison<b>15 jours</b></span></div>
       <h4>Types de sites</h4>
-      <div class="web-type-tags"><span>Landing page</span><span>Présentation d'entreprise</span><span>Site de service / livraison</span></div>
+      <ul class="web-page-list web-page-list-one">
+        <li>Site professionnel complet</li><li>Blog professionnel</li><li>Portfolio avancé</li><li>Site de services</li><li>Site e-commerce avancé</li><li>Site avec espace client</li><li>Plateforme web légère</li>
+      </ul>
       <div class="web-package-bottom"><span class="web-quote">À partir de 799 $ USD · jusqu’à 999 $</span><button type="button" class="web-package-cta" data-build-project="Business">Construire mon projet <b>↗</b></button></div>
     </article>
 
@@ -4303,5 +4267,22 @@ document.addEventListener('click',function(e){
 @media(prefers-reduced-motion:reduce){.hero-modern .hero-slideshow,.baba-photo,.baba-photo:before,.baba-photo-inner:after,.baba-photo img,.coaching-badge{animation:none!important}}
 </style>
 
+<style id="baba-hero-clean">
+/* ACCUEIL : fond dégradé propre, sans photos */
+.hero-modern{min-height:640px!important;padding:130px 20px 120px!important;position:relative;overflow:hidden;isolation:isolate;
+  background:
+    radial-gradient(ellipse 60% 70% at 85% 5%,rgba(43,111,224,.50),transparent 65%),
+    radial-gradient(ellipse 50% 60% at 8% 100%,rgba(18,214,245,.22),transparent 65%),
+    linear-gradient(135deg,#07111f 0%,#0a1f3d 55%,#0b3350 100%)!important}
+.hero-modern:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+  background-size:56px 56px;
+  -webkit-mask-image:radial-gradient(ellipse 70% 80% at 50% 40%,#000 25%,transparent 75%);mask-image:radial-gradient(ellipse 70% 80% at 50% 40%,#000 25%,transparent 75%)}
+.hero-content-modern h1,.hero-content-modern>p{text-shadow:none}
+.hero-content-modern>p{color:#b4c3d6!important}
+@media(max-width:760px){.hero-modern{min-height:540px!important;padding:96px 16px 80px!important}}
+/* Carte Business : liste des types de sites */
+.web-page-list.web-page-list-one{grid-template-columns:1fr}
+</style>
 </body>
 </html>
