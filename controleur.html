@@ -193,6 +193,12 @@ if(
     ◌ Conversations
   </button>
 
+  <button
+    class="tab"
+    data-view="web">
+    ◈ Sites web <span id="webBadge"></span>
+  </button>
+
 </div>
 
 
@@ -424,6 +430,8 @@ async function getDashboard(){
 ========================= */
 
 async function refreshStats(){
+
+  refreshWebBadge();
 
   try{
 
@@ -766,13 +774,8 @@ function orderHtml(
 
         <button
           class="btn sm"
-          data-dl="
-            ${esc(
-              proof.storage_path ||
-              ""
-            )}
-          "
-          data-dl-name="${esc(proof.file_name || "preuve")}
+          data-dl="${esc((proof.storage_path || "").trim())}"
+          data-dl-name="${esc(proof.file_name || "preuve")}"
         >
           Voir / télécharger
         </button>
@@ -1864,6 +1867,164 @@ async function renderChats(){
 }
 
 
+
+/* =========================
+   DEMANDES CRÉATION WEB
+   (formulaire "Envoyer ma demande" du site)
+========================= */
+
+async function getWebRequests(){
+
+  const {data,error} = await sb
+    .from("web_project_requests")
+    .select("*")
+    .order("created_at",{ascending:false});
+
+  if(error) throw error;
+
+  return Array.isArray(data) ? data : [];
+}
+
+async function refreshWebBadge(){
+
+  const badge = $("webBadge");
+  if(!badge) return;
+
+  try{
+    const list = await getWebRequests();
+    const fresh = list.filter(
+      r => !r.status || String(r.status).toLowerCase() === "new"
+    ).length;
+
+    badge.innerHTML = fresh
+      ? `<span class="chat-notification"><span class="chat-notification-dot"></span>${fresh}</span>`
+      : "";
+  }catch{
+    badge.innerHTML = "";
+  }
+}
+
+function webStatusPill(status){
+
+  const s = String(status || "new").toLowerCase();
+
+  if(s === "done")
+    return `<span class="pill approved">TERMINÉ</span>`;
+
+  if(s === "contacted")
+    return `<span class="pill pending">CONTACTÉ</span>`;
+
+  return `<span class="pill" style="background:#2563eb">NOUVEAU</span>`;
+}
+
+async function renderWeb(){
+
+  const app = $("content");
+
+  app.innerHTML = `<div class="empty">Chargement des demandes…</div>`;
+
+  try{
+
+    const list = await getWebRequests();
+
+    if(!list.length){
+      app.innerHTML = `
+        <div class="empty">
+          <h3>Aucune demande</h3>
+          <p>Aucune demande de création de site web pour le moment.</p>
+        </div>`;
+      return;
+    }
+
+    app.innerHTML = list.map(r => {
+
+      const digits = String(r.whatsapp || "").replace(/[^0-9]/g,"");
+
+      return `
+        <div class="item">
+
+          <div class="row">
+            <div>
+              <b style="font-size:17px">
+                ${esc(r.plan || "Projet")} · ${esc(r.client_name || "Client")}
+              </b>
+              <div class="muted" style="margin-top:4px">${fmt(r.created_at)}</div>
+            </div>
+            ${webStatusPill(r.status)}
+          </div>
+
+          <p style="margin-top:10px;font-size:13px;line-height:1.6">
+            <b>WhatsApp :</b> ${esc(r.whatsapp || "—")}<br>
+            <b>Entreprise :</b> ${esc(r.business_name || "Non précisée")}
+          </p>
+
+          <div style="margin:10px 0;padding:12px;border-radius:13px;background:#f7f7f8">
+            <b>Description du site</b><br>
+            <span style="font-size:13px;white-space:pre-wrap">${esc(r.project_description || "")}</span>
+          </div>
+
+          <div class="actions">
+            ${digits ? `<a class="btn sm" target="_blank" rel="noopener" href="https://wa.me/${digits}">💬 WhatsApp</a>` : ""}
+            <button class="btn sm" data-web-status="contacted" data-web-id="${esc(r.id)}">☎ Contacté</button>
+            <button class="btn green sm" data-web-status="done" data-web-id="${esc(r.id)}">✓ Terminé</button>
+            <button class="btn red sm" data-web-del="${esc(r.id)}">🗑 Supprimer</button>
+          </div>
+
+        </div>`;
+    }).join("");
+
+    app.querySelectorAll("[data-web-status]").forEach(btn => {
+      btn.onclick = async () => {
+        try{
+          wait(true,"Mise à jour…");
+          const {error} = await sb
+            .from("web_project_requests")
+            .update({status:btn.dataset.webStatus})
+            .eq("id",btn.dataset.webId);
+          if(error) throw error;
+          await refreshWebBadge();
+          await renderWeb();
+        }catch(e){
+          alert("❌ " + e.message);
+        }finally{
+          wait(false);
+        }
+      };
+    });
+
+    app.querySelectorAll("[data-web-del]").forEach(btn => {
+      btn.onclick = async () => {
+        if(!confirm("Supprimer cette demande ?")) return;
+        try{
+          wait(true,"Suppression…");
+          const {error} = await sb
+            .from("web_project_requests")
+            .delete()
+            .eq("id",btn.dataset.webDel);
+          if(error) throw error;
+          await refreshWebBadge();
+          await renderWeb();
+        }catch(e){
+          alert("❌ " + e.message);
+        }finally{
+          wait(false);
+        }
+      };
+    });
+
+  }catch(e){
+
+    console.error(e);
+
+    app.innerHTML = `
+      <div class="empty">
+        <b>Demandes web indisponibles</b><br><br>
+        ${esc(e.message)}<br><br>
+        <small>Exécutez le fichier web-project-requests.sql dans Supabase (SQL Editor).</small>
+      </div>`;
+  }
+}
+
 /* =========================
    OUVRIR CHAT
 ========================= */
@@ -2506,6 +2667,14 @@ async function render(
     await renderChats();
 
   }
+
+  else if(
+    view === "web"
+  ){
+
+    await renderWeb();
+
+  }
 }
 
 
@@ -2644,6 +2813,28 @@ sb.channel(
       await render(
         active
       );
+
+  }
+)
+
+.on(
+  "postgres_changes",
+  {
+    event:"*",
+    schema:"public",
+    table:"web_project_requests"
+  },
+  async () => {
+
+    await refreshWebBadge();
+
+    const active =
+      document.querySelector(
+        ".tab.active"
+      )?.dataset.view;
+
+    if(active === "web")
+      await renderWeb();
 
   }
 )
