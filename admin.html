@@ -138,7 +138,7 @@ h3{font-size:19px}
 <input id="lessonId" type="hidden">
 <select id="lessonCourse" class="wide"><option value="">Choisir une formation</option></select>
 <input id="lessonTitle" placeholder="Titre de la leçon">
-<select id="lessonType"><option value="video">Vidéo</option><option value="photo">Photo téléchargeable</option></select>
+<select id="lessonType"><option value="video">Vidéo</option><option value="photo">Photo téléchargeable</option><option value="pdf">Document PDF</option></select>
 <input id="lessonOrder" type="number" min="0" value="0" placeholder="Ordre d’affichage">
 <input id="lessonDriveUrl" class="wide" placeholder="Lien Google Drive (vidéo) ou URL image">
 <input id="lessonDriveId" class="wide" placeholder="ID Google Drive (facultatif)">
@@ -148,6 +148,7 @@ h3{font-size:19px}
 </label>
 <textarea id="lessonDescription" class="wide" placeholder="Description (facultative)"></textarea>
 <label class="wide" id="lessonPhotoLabel">Ou choisir une photo à intégrer à la leçon <input id="lessonPhotoFile" type="file" accept="image/*"></label>
+<label class="wide" id="lessonPdfLabel">Ou téléverser un PDF (cours, support, exercices) <input id="lessonPdfFile" type="file" accept="application/pdf"><span class="hint">PDF : maximum 50 Mo. Vous pouvez aussi coller un lien PDF dans le champ ci-dessus.</span></label>
 <div class="checks wide"><label><input id="lessonPublished" type="checkbox" checked> Publiée</label><label><input id="lessonLocked" type="checkbox"> Verrouillée</label></div>
 <div class="wide" style="padding:14px;border:1px solid #eee;border-radius:14px;background:#fff8f5">
   <b>Verrouillage individuel et en groupe</b>
@@ -391,7 +392,7 @@ async function loadCourseMedia(){
    const lockedStudents=lockMap[String(x.id)]||[];
    const lockedNames=lockedStudents.length?lockedStudents.map(st=>`<span class="status-pill" style="display:inline-flex;align-items:center;gap:5px;margin:3px">${esc(st.nom)} · ${esc(st.code)} <button type="button" class="btn-light" style="width:auto;padding:4px 7px;margin-left:2px;font-size:11px" onclick="toggleStudentLessonLock('${esc(x.id)}','${esc(st.code)}',false)">Déverrouiller</button></span>`).join(''):'<span class="hint">Aucun élève verrouillé individuellement.</span>';
    const selectedCount=studentsSelected.length;
-   return `<article class="person"><div class="finance-head"><b>${esc(x.title)}</b><span class="status-pill">${x.content_type==='video'?'VIDÉO':'PHOTO'} · ${x.is_locked?'VERROUILLÉE POUR TOUS':'OUVERTE'}</span></div><div class="hint">Formation : ${esc((DATA.courses||[]).find(c=>c.slug===x.course_slug)?.nom||x.course_slug)} · Ordre : ${Number(x.sort_order)||0} · ${x.is_published?'Publiée':'Masquée'}</div><p>${esc(x.description||'')}</p>${x.content_type==='photo'?`<img src="${esc(x.media_url)}" class="preview-work" alt="${esc(x.title)}">`:''}<div style="margin:12px 0;padding:12px;background:#fff8f5;border:1px solid #f0e1d9;border-radius:12px"><b>Élèves verrouillés individuellement (${lockedStudents.length})</b><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px">${lockedNames}</div></div><div class="admin-actions"><button onclick="editCourseMedia('${esc(x.id)}')">Modifier</button><button class="btn-light" onclick="toggleCourseMediaLock('${esc(x.id)}',${!x.is_locked})">${x.is_locked?'Déverrouiller pour tous':'Verrouiller pour tous'}</button><button class="btn-light" data-lesson-id="${esc(x.id)}" data-lesson-bulk-action="lock" onclick="bulkToggleStudentLessonLock('${esc(x.id)}',true)" ${selectedCount?'':'disabled'}>🔒 Verrouiller pour les élèves sélectionnés (${selectedCount})</button><button class="btn-light" data-lesson-id="${esc(x.id)}" data-lesson-bulk-action="unlock" onclick="bulkToggleStudentLessonLock('${esc(x.id)}',false)" ${selectedCount?'':'disabled'}>🔓 Déverrouiller pour les élèves sélectionnés (${selectedCount})</button><button class="btn-light" onclick="toggleCourseMediaPublish('${esc(x.id)}',${!x.is_published})">${x.is_published?'Masquer':'Publier'}</button><button class="btn-danger" onclick="deleteCourseMedia('${esc(x.id)}')">Supprimer</button></div></article>`
+   return `<article class="person"><div class="finance-head"><b>${esc(x.title)}</b><span class="status-pill">${x.content_type==='video'?'VIDÉO':(x.content_type==='pdf'?'PDF':'PHOTO')} · ${x.is_locked?'VERROUILLÉE POUR TOUS':'OUVERTE'}</span></div><div class="hint">Formation : ${esc((DATA.courses||[]).find(c=>c.slug===x.course_slug)?.nom||x.course_slug)} · Ordre : ${Number(x.sort_order)||0} · ${x.is_published?'Publiée':'Masquée'}</div><p>${esc(x.description||'')}</p>${x.content_type==='photo'?`<img src="${esc(x.media_url)}" class="preview-work" alt="${esc(x.title)}">`:''}${x.content_type==='pdf'?`<a href="${esc(x.media_url)}" target="_blank" rel="noopener">📄 Ouvrir le PDF</a>`:''}<div style="margin:12px 0;padding:12px;background:#fff8f5;border:1px solid #f0e1d9;border-radius:12px"><b>Élèves verrouillés individuellement (${lockedStudents.length})</b><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px">${lockedNames}</div></div><div class="admin-actions"><button onclick="editCourseMedia('${esc(x.id)}')">Modifier</button><button class="btn-light" onclick="toggleCourseMediaLock('${esc(x.id)}',${!x.is_locked})">${x.is_locked?'Déverrouiller pour tous':'Verrouiller pour tous'}</button><button class="btn-light" data-lesson-id="${esc(x.id)}" data-lesson-bulk-action="lock" onclick="bulkToggleStudentLessonLock('${esc(x.id)}',true)" ${selectedCount?'':'disabled'}>🔒 Verrouiller pour les élèves sélectionnés (${selectedCount})</button><button class="btn-light" data-lesson-id="${esc(x.id)}" data-lesson-bulk-action="unlock" onclick="bulkToggleStudentLessonLock('${esc(x.id)}',false)" ${selectedCount?'':'disabled'}>🔓 Déverrouiller pour les élèves sélectionnés (${selectedCount})</button><button class="btn-light" onclick="toggleCourseMediaPublish('${esc(x.id)}',${!x.is_published})">${x.is_published?'Masquer':'Publier'}</button><button class="btn-danger" onclick="deleteCourseMedia('${esc(x.id)}')">Supprimer</button></div></article>`
  }).join(''):'<div class="hint">Aucune leçon pour le moment.</div>';
  updateLessonSelectionButtons();
 }
@@ -416,8 +417,8 @@ async function bulkToggleStudentLessonLock(id,locked){
  await loadCourseMedia();
  if(failed.length)alert('Certains accès n’ont pas pu être modifiés : '+failed.join(', '));
 }
-function resetCourseMediaForm(){['lessonId','lessonTitle','lessonDriveUrl','lessonDriveId','lessonDescription'].forEach(id=>document.getElementById(id).value='');if(document.getElementById('lessonVideoFile'))document.getElementById('lessonVideoFile').value='';document.getElementById('lessonCourse').value='';document.getElementById('lessonType').value='video';document.getElementById('lessonOrder').value='0';document.getElementById('lessonPublished').checked=true;document.getElementById('lessonLocked').checked=false;document.getElementById('lessonPhotoFile').value='';document.getElementById('lessonResult').textContent=''}
-function editCourseMedia(id){const x=(window.COURSE_MEDIA_ROWS||[]).find(r=>r.id===id);if(!x)return;document.getElementById('lessonId').value=x.id;document.getElementById('lessonCourse').value=x.course_slug;document.getElementById('lessonTitle').value=x.title;document.getElementById('lessonType').value=x.content_type;document.getElementById('lessonOrder').value=x.sort_order||0;document.getElementById('lessonDriveUrl').value=x.media_url;document.getElementById('lessonDriveId').value=x.drive_file_id||'';document.getElementById('lessonDescription').value=x.description||'';document.getElementById('lessonPublished').checked=!!x.is_published;document.getElementById('lessonLocked').checked=!!x.is_locked;document.getElementById('lessonResult').textContent='Modification de : '+x.title;document.getElementById('courseMedia').scrollIntoView({behavior:'smooth'})}
+function resetCourseMediaForm(){['lessonId','lessonTitle','lessonDriveUrl','lessonDriveId','lessonDescription'].forEach(id=>document.getElementById(id).value='');if(document.getElementById('lessonVideoFile'))document.getElementById('lessonVideoFile').value='';document.getElementById('lessonCourse').value='';document.getElementById('lessonType').value='video';document.getElementById('lessonOrder').value='0';document.getElementById('lessonPublished').checked=true;document.getElementById('lessonLocked').checked=false;document.getElementById('lessonPhotoFile').value='';if(document.getElementById('lessonPdfFile'))document.getElementById('lessonPdfFile').value='';document.getElementById('lessonResult').textContent='';updateLessonTypeUI()}
+function editCourseMedia(id){const x=(window.COURSE_MEDIA_ROWS||[]).find(r=>r.id===id);if(!x)return;document.getElementById('lessonId').value=x.id;document.getElementById('lessonCourse').value=x.course_slug;document.getElementById('lessonTitle').value=x.title;document.getElementById('lessonType').value=x.content_type;document.getElementById('lessonOrder').value=x.sort_order||0;document.getElementById('lessonDriveUrl').value=x.media_url;document.getElementById('lessonDriveId').value=x.drive_file_id||'';document.getElementById('lessonDescription').value=x.description||'';document.getElementById('lessonPublished').checked=!!x.is_published;document.getElementById('lessonLocked').checked=!!x.is_locked;document.getElementById('lessonResult').textContent='Modification de : '+x.title;updateLessonTypeUI();document.getElementById('courseMedia').scrollIntoView({behavior:'smooth'})}
 async function saveCourseMedia(){
  const id=document.getElementById('lessonId').value||null,
  course_slug=document.getElementById('lessonCourse').value,
@@ -427,6 +428,7 @@ async function saveCourseMedia(){
  drive_file_id=document.getElementById('lessonDriveId').value.trim();
  const photoFile=document.getElementById('lessonPhotoFile').files[0],
  videoFile=document.getElementById('lessonVideoFile')?.files[0],
+ pdfFile=document.getElementById('lessonPdfFile')?.files[0],
  box=document.getElementById('lessonResult');
  if(!course_slug||!title){box.textContent='Choisissez une formation et indiquez un titre.';return}
  box.textContent='Préparation du média…';
@@ -435,6 +437,19 @@ async function saveCourseMedia(){
    if(photoFile.size>2*1024*1024){box.textContent='Image trop grande : maximum 2 Mo.';return}
    media_url=await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(photoFile)});
    drive_file_id='';
+ }else if(content_type==='pdf'&&pdfFile){
+   if(pdfFile.type!=='application/pdf'&&!/\.pdf$/i.test(pdfFile.name)){box.textContent='Choisissez un fichier PDF.';return}
+   if(pdfFile.size>50*1024*1024){box.textContent='PDF trop volumineux : maximum 50 Mo.';return}
+   const safePdf=pdfFile.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+   const pdfPath=`pdf/${Date.now()}_${safePdf}`;
+   box.textContent='Envoi du PDF vers Supabase…';
+   const upPdf=await db.storage.from('course-media').upload(pdfPath,pdfFile,{upsert:false,contentType:'application/pdf'});
+   if(upPdf.error){box.textContent='Échec de l’envoi du PDF : '+upPdf.error.message+' — exécutez le SQL (bucket course-media).';return}
+   media_url=db.storage.from('course-media').getPublicUrl(pdfPath).data.publicUrl;
+   drive_file_id='';
+ }else if(content_type==='pdf'){
+   if(!media_url&&!drive_file_id){box.textContent='Choisissez un PDF ou collez un lien PDF / Google Drive.';return}
+   if(drive_file_id||/drive\.google\.com/.test(media_url))media_url=driveEmbedUrl(media_url,drive_file_id);
  }else if(content_type==='video'&&videoFile){
    if(!videoFile.type.startsWith('video/')){box.textContent='Choisissez un fichier vidéo.';return}
    if(videoFile.size>100*1024*1024){box.textContent='Vidéo trop volumineuse : maximum 100 Mo. Utilisez Google Drive pour les fichiers plus lourds.';return}
@@ -599,4 +614,7 @@ input+button,select+button,textarea+button,.formgrid+button{margin-top:12px}
 function renderCourseAdminList(){document.getElementById("ncList").innerHTML="<h3>Formations existantes</h3>"+(DATA.courses.map(c=>`<div class="person"><b>${esc(c.nom)}</b> — ${esc(c.slug)}</div>`).join("")||"<div class=hint>Aucune formation.</div>")}
 document.addEventListener("input",e=>{if(e.target.id==="ncName"){const sl=document.getElementById("ncSlug");if(!sl.dataset.t)sl.value=e.target.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")}if(e.target.id==="ncSlug")e.target.dataset.t=1});
 async function createCourse(){const b=document.getElementById("ncResult"),nom=document.getElementById("ncName").value.trim(),slug=document.getElementById("ncSlug").value.trim();if(!nom||!slug){b.textContent="Nom et identifiant obligatoires.";return}b.textContent="Création…";const {data,error}=await db.rpc("admin_create_course",{p_admin_code:ADMIN_CODE_SESSION,p_nom:nom,p_slug:slug});if(error||!data?.ok){b.textContent=data?.message||error?.message||"Erreur.";return}b.textContent="✅ "+data.message;document.getElementById("ncName").value="";document.getElementById("ncSlug").value="";await loadData();renderCourseAdminList()}
+
+function updateLessonTypeUI(){const t=document.getElementById('lessonType').value;const v=document.getElementById('lessonVideoFile')?.closest('label'),ph=document.getElementById('lessonPhotoLabel'),pd=document.getElementById('lessonPdfLabel');if(v)v.style.display=t==='video'?'':'none';if(ph)ph.style.display=t==='photo'?'':'none';if(pd)pd.style.display=t==='pdf'?'':'none'}
+document.getElementById('lessonType').addEventListener('change',updateLessonTypeUI);updateLessonTypeUI();
 </script><link rel="stylesheet" href="baba-pro.css"><script src="baba-pro.js"></script></body></html>
