@@ -297,6 +297,106 @@ download-photo:disabled{opacity:.65;cursor:wait}
 .video-frame:fullscreen iframe,.video-frame:-webkit-full-screen iframe,.video-frame:fullscreen video,.video-frame:-webkit-full-screen video{width:100%!important;height:100%!important;object-fit:contain!important}
 </style>
 
+
+<style id="akademi-video-final-fix">
+/* Lecteur responsive final : téléphone, tablette et ordinateur */
+#coursesContainer .course,
+#coursesContainer .course-lesson,
+#coursesContainer .course-lessons {min-width:0;max-width:100%}
+
+#coursesContainer .video-frame{
+  position:relative!important;
+  display:block!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  height:auto!important;
+  aspect-ratio:16/9!important;
+  margin:14px 0 18px!important;
+  padding:0!important;
+  overflow:hidden!important;
+  isolation:isolate;
+  background:#000!important;
+  border-radius:14px!important;
+}
+#coursesContainer .video-frame > video,
+#coursesContainer .video-frame > iframe{
+  position:absolute!important;
+  inset:0!important;
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  max-width:100%!important;
+  max-height:100%!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  background:#000!important;
+}
+#coursesContainer .video-frame > video{object-fit:contain!important;touch-action:manipulation}
+#coursesContainer .video-frame > iframe{object-fit:contain!important}
+#coursesContainer .video-expand{
+  position:absolute!important;
+  z-index:30!important;
+  top:10px!important;
+  right:10px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:46px!important;
+  height:46px!important;
+  min-height:46px!important;
+  margin:0!important;
+  padding:0!important;
+  border:1px solid rgba(255,255,255,.55)!important;
+  border-radius:12px!important;
+  background:rgba(5,12,22,.86)!important;
+  color:#fff!important;
+  font-size:27px!important;
+  line-height:1!important;
+  cursor:pointer!important;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+}
+#coursesContainer .video-expand:focus-visible{outline:3px solid #12d6f5;outline-offset:3px}
+#coursesContainer .video-frame:fullscreen,
+#coursesContainer .video-frame:-webkit-full-screen{
+  position:fixed!important;
+  inset:0!important;
+  z-index:2147483000!important;
+  width:100vw!important;
+  height:100vh!important;
+  max-width:none!important;
+  max-height:none!important;
+  aspect-ratio:auto!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:#000!important;
+}
+#coursesContainer .video-frame:fullscreen > video,
+#coursesContainer .video-frame:-webkit-full-screen > video,
+#coursesContainer .video-frame:fullscreen > iframe,
+#coursesContainer .video-frame:-webkit-full-screen > iframe{
+  width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;
+  object-fit:contain!important;background:#000!important;
+}
+#coursesContainer .video-frame:fullscreen .video-expand,
+#coursesContainer .video-frame:-webkit-full-screen .video-expand{
+  top:max(12px,env(safe-area-inset-top))!important;
+  right:max(12px,env(safe-area-inset-right))!important;
+}
+@media(max-width:600px){
+  #coursesContainer .video-frame{width:100%!important;aspect-ratio:16/9!important;border-radius:11px!important}
+  #coursesContainer .video-expand{width:44px!important;height:44px!important;min-height:44px!important;top:7px!important;right:7px!important}
+}
+@media(orientation:landscape) and (max-width:950px){
+  #coursesContainer .video-frame:fullscreen,
+  #coursesContainer .video-frame:-webkit-full-screen{width:100vw!important;height:100dvh!important}
+}
+</style>
+
 </head>
 
 <body>
@@ -1027,36 +1127,65 @@ document
 document.addEventListener('click', async function(event){
   const button = event.target.closest('.video-expand');
   if(!button) return;
+
   const frame = button.closest('.video-frame');
   if(!frame) return;
+
+  const video = frame.querySelector('video');
+  const iframe = frame.querySelector('iframe');
+  const isThisFullscreen =
+    document.fullscreenElement === frame ||
+    document.webkitFullscreenElement === frame;
+
   try {
-    if(document.fullscreenElement === frame || document.webkitFullscreenElement === frame){
+    if(isThisFullscreen) {
       if(document.exitFullscreen) await document.exitFullscreen();
       else if(document.webkitExitFullscreen) document.webkitExitFullscreen();
-    } else {
-      const video = frame.querySelector('video');
-      const iframe = frame.querySelector('iframe');
-      // Native video fullscreen on iPhone; iframe/player fullscreen when supported.
-      if(video && video.webkitEnterFullscreen) {
-        video.webkitEnterFullscreen();
-      } else if(frame.requestFullscreen) {
-        await frame.requestFullscreen();
-      } else if(frame.webkitRequestFullscreen) {
-        frame.webkitRequestFullscreen();
-      } else if(iframe && iframe.requestFullscreen) {
-        await iframe.requestFullscreen();
-      } else if(iframe && iframe.webkitRequestFullscreen) {
-        iframe.webkitRequestFullscreen();
-      }
+      return;
+    }
+
+    /* iPhone/iPad : utiliser le plein écran natif du lecteur vidéo */
+    if(video && typeof video.webkitEnterFullscreen === 'function') {
+      video.webkitEnterFullscreen();
+      return;
+    }
+
+    /* Navigateurs modernes : agrandir le conteneur complet */
+    if(typeof frame.requestFullscreen === 'function') {
+      await frame.requestFullscreen();
+      return;
+    }
+    if(typeof frame.webkitRequestFullscreen === 'function') {
+      frame.webkitRequestFullscreen();
+      return;
+    }
+
+    /* Dernier recours : plein écran de la vidéo elle-même */
+    if(video && typeof video.requestFullscreen === 'function') {
+      await video.requestFullscreen();
+      return;
+    }
+
+    /* Pour les lecteurs intégrés (YouTube, Vimeo, etc.),
+       le bouton plein écran interne du lecteur reste disponible. */
+    if(iframe) {
+      const innerButton = button;
+      innerButton.title = 'Utilisez aussi le bouton plein écran du lecteur vidéo';
+      innerButton.setAttribute('aria-label','Plein écran : utilisez le contrôle du lecteur intégré');
     }
   } catch(error) {
-    const video = frame.querySelector('video');
-    const iframe = frame.querySelector('iframe');
+    console.warn('Plein écran indisponible dans ce navigateur :', error);
     try {
-      if(video && video.webkitEnterFullscreen) video.webkitEnterFullscreen();
-      else if(iframe && iframe.requestFullscreen) await iframe.requestFullscreen();
-      else if(frame.requestFullscreen) await frame.requestFullscreen();
-    } catch (_) { /* Le navigateur peut bloquer le plein écran intégré. */ }
+      if(video && typeof video.webkitEnterFullscreen === 'function') {
+        video.webkitEnterFullscreen();
+      } else if(video && typeof video.requestFullscreen === 'function') {
+        await video.requestFullscreen();
+      } else if(frame.webkitRequestFullscreen) {
+        frame.webkitRequestFullscreen();
+      }
+    } catch(fallbackError) {
+      console.warn('Le navigateur a refusé le plein écran :', fallbackError);
+    }
   }
 });
 
