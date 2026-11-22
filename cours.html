@@ -696,8 +696,16 @@ async function afficherCours(courses){
     const lessonHtml = lessonError
       ? `<p class="hint">Les leçons intégrées ne sont pas encore disponibles. L’administrateur doit installer le SQL de la bibliothèque des cours.</p>`
       : lessons.length ? lessons.map(lesson => {
-        const mediaUrl = String(lesson.media_url || '').trim();
+        const rawMediaUrl = String(lesson.media_url || '').trim();
         const mediaType = String(lesson.content_type || '').toLowerCase();
+        // Google Drive share links (/view or /open) must use its embedded player (/preview).
+        const driveFileMatch = rawMediaUrl.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+        const driveOpenMatch = rawMediaUrl.match(/drive\.google\.com\/open\?id=([a-zA-Z0-9_-]+)/);
+        const mediaUrl = driveFileMatch
+          ? `https://drive.google.com/file/d/${driveFileMatch[1]}/preview`
+          : driveOpenMatch
+            ? `https://drive.google.com/file/d/${driveOpenMatch[1]}/preview`
+            : rawMediaUrl;
         const isDirectVideo = /\.(mp4|webm|ogg|mov|m4v)(?:$|[?#])/i.test(mediaUrl);
         const isPdf = mediaType === 'pdf' || mediaType === 'document' || mediaType === 'file' || /\.pdf(?:$|[?#])/i.test(mediaUrl);
         if(lesson.is_student_locked || lesson.is_locked || !mediaUrl) return `<article class="course-lesson lesson-locked"><div class="locked-icon" aria-hidden="true">🔒</div><h4>${escapeHtml(lesson.title)} <span class="lock-label">COURS VERROUILLÉ</span></h4><p>${escapeHtml(lesson.description||'')}</p><div class="locked-notice">Cette leçon est visible, mais l’accès a été verrouillé par l’administration.</div></article>`;
@@ -706,7 +714,7 @@ async function afficherCours(courses){
         const videoPlayer = isDirectVideo
           ? `<video controls playsinline webkit-playsinline preload="metadata" aria-label="${escapeHtml(lesson.title)}"><source src="${escapeHtml(mediaUrl)}">Votre navigateur ne peut pas lire cette vidéo.</video>`
           : `<iframe src="${escapeHtml(mediaUrl)}" title="${escapeHtml(lesson.title)}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
-        return `<article class="course-lesson${doneSet.has(String(lesson.id))?' is-done':''}" data-lid="${escapeHtml(lesson.id)}" data-course="${escapeHtml(course.slug)}"><h4>▶ ${escapeHtml(lesson.title)}</h4><p>${escapeHtml(lesson.description||'')}</p><div class="video-frame">${videoPlayer}<button type="button" class="video-expand" aria-label="Agrandir la vidéo" title="Agrandir la vidéo">⛶</button></div><button type="button" class="lesson-done-btn">${doneSet.has(String(lesson.id))?'✓ Cours terminé':'Marquer comme terminé'}</button></article>`;
+        return `<article class="course-lesson${doneSet.has(String(lesson.id))?' is-done':''}" data-lid="${escapeHtml(lesson.id)}" data-course="${escapeHtml(course.slug)}"><h4>▶ ${escapeHtml(lesson.title)}</h4><p>${escapeHtml(lesson.description||'')}</p><div class="video-frame">${videoPlayer}${isDirectVideo ? '<button type="button" class="video-expand" aria-label="Agrandir la vidéo" title="Agrandir la vidéo">⛶</button>' : ''}</div><button type="button" class="lesson-done-btn">${doneSet.has(String(lesson.id))?'✓ Cours terminé':'Marquer comme terminé'}</button></article>`;
       }).join('') : '<p class="hint">Aucune leçon publiée pour le moment.</p>';
     const vids=lessons.filter(l=>l.content_type!=='photo'&&!(l.is_student_locked||l.is_locked||!l.media_url)),dn=vids.filter(l=>doneSet.has(String(l.id))).length,pc=vids.length?Math.round(dn*100/vids.length):0;
     return `<div class="course"><h3>${escapeHtml(course.nom||'Formation')}</h3><div class="pg"><div class="pg-bar"><i style="width:${pc}%"></i></div><div class="pg-txt">Progression : ${dn}/${vids.length} cours terminés · ${pc}%</div></div><p>Votre formation et ses leçons sont disponibles ci-dessous.</p><div class="course-lessons"><h4>Leçons de la formation</h4>${lessonHtml}</div></div>`;
