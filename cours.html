@@ -264,6 +264,39 @@ download-photo:disabled{opacity:.65;cursor:wait}
 .video-frame video{width:100%;height:auto;max-width:100%;display:block;position:relative;inset:auto;aspect-ratio:16/9}
 .video-frame iframe{position:absolute;inset:0;width:100%;height:100%;max-width:100%;display:block}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+<style id="course-media-responsive">
+/* Documents PDF : boutons utilisables au doigt et mise en page adaptative */
+.document-lesson{display:flex;flex-direction:column;gap:10px;min-width:0}
+.document-icon{width:58px;height:66px;border-radius:13px;display:flex;align-items:center;justify-content:center;background:#e8f7fb;color:#087f9b;font-weight:900;letter-spacing:.04em;border:1px solid #bcebf3}
+.document-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch}
+.document-actions a,.document-actions button{display:flex;align-items:center;justify-content:center;flex:1 1 190px;min-height:48px;margin:0;padding:12px 16px;border:0;border-radius:12px;text-align:center;font:inherit;font-size:14px;font-weight:800;cursor:pointer}
+.document-open{background:#eaf1f8;color:#10243a}
+.document-actions button{background:linear-gradient(135deg,#12d6f5,#4aa8ff);color:#061827}
+.document-actions button:disabled{opacity:.7;cursor:wait}
+
+/* Lecteur vidéo fluide sur téléphone, tablette et ordinateur */
+.course-lesson,.course,.course-lessons{min-width:0;max-width:100%}
+.video-frame{position:relative!important;display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;aspect-ratio:16/9!important;height:auto!important;margin:12px 0 20px!important;padding:0!important;overflow:hidden!important;border-radius:16px!important;background:#000!important}
+.video-frame iframe,.video-frame video{position:absolute!important;inset:0!important;display:block!important;width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important;margin:0!important;padding:0!important;border:0!important;object-fit:contain!important;background:#000!important}
+.video-frame video{touch-action:pan-y!important}
+.video-expand{z-index:5;touch-action:manipulation}
+.course-lesson p{overflow-wrap:anywhere}
+@media (max-width: 900px){
+  .course-lesson{padding:16px!important}
+  .video-frame{border-radius:13px!important}
+}
+@media (max-width: 600px){
+  .course-lesson{padding:13px!important}
+  .video-frame{width:100%!important;aspect-ratio:16/9!important;border-radius:11px!important;margin:10px 0 16px!important}
+  .video-expand{width:42px!important;height:42px!important;top:7px!important;right:7px!important;font-size:24px!important}
+  .document-actions{display:grid;grid-template-columns:1fr;width:100%}
+  .document-actions a,.document-actions button{width:100%;min-height:50px;font-size:14px}
+}
+.video-frame:fullscreen,.video-frame:-webkit-full-screen{width:100vw!important;height:100vh!important;max-width:none!important;max-height:none!important;aspect-ratio:auto!important;border-radius:0!important}
+.video-frame:fullscreen iframe,.video-frame:-webkit-full-screen iframe,.video-frame:fullscreen video,.video-frame:-webkit-full-screen video{width:100%!important;height:100%!important;object-fit:contain!important}
+</style>
+
 </head>
 
 <body>
@@ -563,12 +596,15 @@ async function afficherCours(courses){
     const lessonHtml = lessonError
       ? `<p class="hint">Les leçons intégrées ne sont pas encore disponibles. L’administrateur doit installer le SQL de la bibliothèque des cours.</p>`
       : lessons.length ? lessons.map(lesson => {
-        const mediaUrl = String(lesson.media_url || '');
-        const isDirectVideo = /\.(mp4|webm|ogg|mov)(?:$|[?#])/i.test(mediaUrl);
+        const mediaUrl = String(lesson.media_url || '').trim();
+        const mediaType = String(lesson.content_type || '').toLowerCase();
+        const isDirectVideo = /\.(mp4|webm|ogg|mov|m4v)(?:$|[?#])/i.test(mediaUrl);
+        const isPdf = mediaType === 'pdf' || mediaType === 'document' || mediaType === 'file' || /\.pdf(?:$|[?#])/i.test(mediaUrl);
         if(lesson.is_student_locked || lesson.is_locked || !mediaUrl) return `<article class="course-lesson lesson-locked"><div class="locked-icon" aria-hidden="true">🔒</div><h4>${escapeHtml(lesson.title)} <span class="lock-label">COURS VERROUILLÉ</span></h4><p>${escapeHtml(lesson.description||'')}</p><div class="locked-notice">Cette leçon est visible, mais l’accès a été verrouillé par l’administration.</div></article>`;
-        if(lesson.content_type === 'photo') return `<article class="course-lesson"><h4>${escapeHtml(lesson.title)}</h4><p>${escapeHtml(lesson.description||'')}</p><img class="course-photo" src="${escapeHtml(mediaUrl)}" alt="${escapeHtml(lesson.title)}"><button type="button" class="download-photo" data-download-url="${escapeHtml(mediaUrl)}" data-download-name="${escapeHtml((lesson.title||'photo').replace(/[^a-z0-9_-]/gi,'_'))}.${/\.png(?:$|[?#])/i.test(mediaUrl)?'png':/\.webp(?:$|[?#])/i.test(mediaUrl)?'webp':/\.gif(?:$|[?#])/i.test(mediaUrl)?'gif':'jpg'}">Télécharger la photo</button></article>`;
+        if(isPdf) return `<article class="course-lesson document-lesson"><div class="document-icon" aria-hidden="true">PDF</div><h4>${escapeHtml(lesson.title)}</h4><p>${escapeHtml(lesson.description||'Document de formation au format PDF.')}</p><div class="document-actions"><a class="document-open" href="${escapeHtml(mediaUrl)}" target="_blank" rel="noopener">Ouvrir le PDF</a><button type="button" class="download-file" data-download-url="${escapeHtml(mediaUrl)}" data-download-name="${escapeHtml(safeFileName(lesson.title||'document'))}.pdf">Télécharger le document PDF</button></div><p class="upload-note">Sur iPhone/iPad, si le PDF s’ouvre dans l’aperçu, utilisez Partager puis « Enregistrer dans Fichiers ».</p></article>`;
+        if(mediaType === 'photo') return `<article class="course-lesson"><h4>${escapeHtml(lesson.title)}</h4><p>${escapeHtml(lesson.description||'')}</p><img class="course-photo" src="${escapeHtml(mediaUrl)}" alt="${escapeHtml(lesson.title)}"><button type="button" class="download-photo" data-download-url="${escapeHtml(mediaUrl)}" data-download-name="${escapeHtml((lesson.title||'photo').replace(/[^a-z0-9_-]/gi,'_'))}.${/\.png(?:$|[?#])/i.test(mediaUrl)?'png':/\.webp(?:$|[?#])/i.test(mediaUrl)?'webp':/\.gif(?:$|[?#])/i.test(mediaUrl)?'gif':'jpg'}">Télécharger la photo</button></article>`;
         const videoPlayer = isDirectVideo
-          ? `<video controls playsinline webkit-playsinline preload="metadata" controlslist="nodownload" aria-label="${escapeHtml(lesson.title)}"><source src="${escapeHtml(mediaUrl)}">Votre navigateur ne peut pas lire cette vidéo.</video>`
+          ? `<video controls playsinline webkit-playsinline preload="metadata" aria-label="${escapeHtml(lesson.title)}"><source src="${escapeHtml(mediaUrl)}">Votre navigateur ne peut pas lire cette vidéo.</video>`
           : `<iframe src="${escapeHtml(mediaUrl)}" title="${escapeHtml(lesson.title)}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
         return `<article class="course-lesson${doneSet.has(String(lesson.id))?' is-done':''}" data-lid="${escapeHtml(lesson.id)}" data-course="${escapeHtml(course.slug)}"><h4>▶ ${escapeHtml(lesson.title)}</h4><p>${escapeHtml(lesson.description||'')}</p><div class="video-frame">${videoPlayer}<button type="button" class="video-expand" aria-label="Agrandir la vidéo" title="Agrandir la vidéo">⛶</button></div><button type="button" class="lesson-done-btn">${doneSet.has(String(lesson.id))?'✓ Cours terminé':'Marquer comme terminé'}</button></article>`;
       }).join('') : '<p class="hint">Aucune leçon publiée pour le moment.</p>';
@@ -1021,6 +1057,39 @@ document.addEventListener('click', async function(event){
       else if(iframe && iframe.requestFullscreen) await iframe.requestFullscreen();
       else if(frame.requestFullscreen) await frame.requestFullscreen();
     } catch (_) { /* Le navigateur peut bloquer le plein écran intégré. */ }
+  }
+});
+
+document.addEventListener('click', async function(event){
+  const button = event.target.closest('.download-file[data-download-url]');
+  if(!button) return;
+  const url = button.getAttribute('data-download-url');
+  const filename = button.getAttribute('data-download-name') || 'document.pdf';
+  const originalText = button.textContent;
+  button.disabled = true;
+  button.textContent = 'Préparation du PDF…';
+  try {
+    const response = await fetch(url, {mode:'cors'});
+    if(!response.ok) throw new Error('HTTP ' + response.status);
+    const blob = await response.blob();
+    const pdfBlob = blob.type === 'application/pdf' ? blob : new Blob([blob], {type:'application/pdf'});
+    const objectUrl = URL.createObjectURL(pdfBlob);
+    const a = document.createElement('a');
+    a.href = objectUrl;
+    a.download = filename.toLowerCase().endsWith('.pdf') ? filename : filename + '.pdf';
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(objectUrl), 60000);
+    button.textContent = 'Téléchargement lancé';
+  } catch(error) {
+    console.warn('Téléchargement PDF direct indisponible :', error);
+    // Certains hébergeurs bloquent le téléchargement cross-origin : ouverture du PDF en secours.
+    window.open(url, '_blank', 'noopener');
+    button.textContent = 'PDF ouvert — enregistrez-le';
+  } finally {
+    setTimeout(() => { button.disabled = false; button.textContent = originalText; }, 3000);
   }
 });
 
