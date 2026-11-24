@@ -336,7 +336,7 @@ input[type=range]::-moz-range-track{height:8px;border-radius:99px;background:#db
   *,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
 
-</style>
+.side-nav{gap:3px}.side-nav .tab{font-size:13px}@media(max-width:899px){.side-nav .tab{font-size:10px;padding-inline:1px}}\n</style>
 <script>window.IC=n=>`<svg class="ic" aria-hidden="true"><use href="#i-${n}"/></svg>`;</script>
 </head>
 
@@ -395,6 +395,9 @@ if(
       <button class="tab" data-view="files"><svg class="ic" aria-hidden="true"><use href="#i-folder"/></svg><span class="lbl">Fichiers</span><span class="lbl-s">Fichiers</span></button>
       <button class="tab" data-view="chats"><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg><span class="lbl">Conversations</span><span class="lbl-s">Chats</span></button>
       <button class="tab" data-view="web"><svg class="ic" aria-hidden="true"><use href="#i-web"/></svg><span class="lbl">Sites web</span><span class="lbl-s">Sites</span><span id="webBadge"></span></button>
+      <button class="tab" data-view="wallet"><svg class="ic" aria-hidden="true"><use href="#i-chart"/></svg><span class="lbl">Recharges Wallet</span><span class="lbl-s">Wallet</span></button>
+      <button class="tab" data-view="emergency"><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg><span class="lbl">Cartes urgence</span><span class="lbl-s">Urgence</span></button>
+      <button class="tab" data-view="emails"><svg class="ic" aria-hidden="true"><use href="#i-send"/></svg><span class="lbl">E-mails clients</span><span class="lbl-s">E-mails</span></button>
     </nav>
     <div class="side-card"><i class="ice ice-4"></i><span class="row-live"><i class="live"></i>Connexion active</span><b>Session contrôleur</b><small>Accès réservé</small></div>
   </div></aside>
@@ -610,14 +613,19 @@ async function getDashboard(){
       ? data
       : {};
 
+  // Lecture directe autorisée aux contrôleurs par la migration Wallet :
+  // cela inclut aussi les nouvelles commandes payées depuis le portefeuille.
+  const directOrders = await sb.from("orders")
+    .select("*")
+    .order("created_at",{ascending:false})
+    .limit(500);
+
   return {
 
     orders:
-      Array.isArray(
-        result.orders
-      )
-        ? result.orders
-        : [],
+      !directOrders.error && Array.isArray(directOrders.data)
+        ? directOrders.data
+        : (Array.isArray(result.orders) ? result.orders : []),
 
     files:
       Array.isArray(
@@ -952,6 +960,17 @@ function orderHtml(
   }
 
 
+
+  if(Number(o.deposit_amount_htg||0)>0 || Number(o.remaining_amount_htg||0)>0){
+    html += `
+      <div class="notice" style="margin:12px 0">
+        <b>Suivi du Wallet</b><br>
+        Payé : ${Number(o.amount_paid_htg||0).toLocaleString("fr-FR")} HTG
+        · Solde restant : ${Number(o.remaining_amount_htg||0).toLocaleString("fr-FR")} HTG
+      </div>
+    `;
+  }
+
   /* PREUVE */
 
   if(proof){
@@ -992,6 +1011,14 @@ function orderHtml(
           Voir / télécharger
         </button>
 
+      </div>
+    `;
+
+  }else if(paymentStatus === "approved"){
+
+    html += `
+      <div class="notice">
+        <b>${IC('check')} Paiement confirmé depuis le Wallet.</b>
       </div>
     `;
 
@@ -1083,8 +1110,9 @@ function orderHtml(
         data-ok="${esc(
           o.id
         )}"
+        ${paymentStatus === "approved" ? "disabled" : ""}
       >
-        ${IC('check')} Valider paiement
+        ${IC('check')} ${paymentStatus === "approved" ? "Paiement déjà réglé" : "Valider paiement"}
       </button>
 
       <button
@@ -2807,6 +2835,57 @@ async function openChat(
 }
 
 
+
+/* =========================
+   WALLET / RECHARGES
+========================= */
+async function renderWalletTopups(){
+ const app=$("content");
+ app.innerHTML='<div class="empty">Chargement des demandes de recharge…</div>';
+ const {data,error}=await sb.from("wallet_topups").select("*").order("created_at",{ascending:false}).limit(150);
+ if(error){app.innerHTML='<div class="notice">'+esc(error.message)+'</div>';return;}
+ const rows=data||[];
+ const names=await Promise.all(rows.map(async r=>({id:r.user_id,profile:await getClientProfile(r.user_id)})));
+ const byId=new Map(names.map(x=>[x.id,x.profile]));
+ const cards=rows.map(r=>{
+   const p=byId.get(r.user_id)||{};
+   const actions=r.status==="pending"
+     ? '<div class="actions" style="margin-top:12px"><button class="btn green" data-topup-approve="'+r.id+'">Valider et créditer le Wallet</button><button class="btn red" data-topup-reject="'+r.id+'">Refuser</button></div>'
+     : '';
+   return '<article class="item"><div class="row"><div><b>'+esc(p.full_name||p.email||"Client")+'</b><div class="muted">'+esc(r.payment_method)+' · '+fmt(r.created_at)+'</div></div><span class="pill '+esc(r.status)+'">'+(r.status==="approved"?"VALIDÉE":r.status==="rejected"?"REFUSÉE":"EN ATTENTE")+'</span></div><p style="margin:12px 0"><b>'+Number(r.amount_htg).toLocaleString("fr-FR")+' HTG</b> · Numéro : '+esc(r.sender_number)+' · Référence : '+esc(r.transaction_reference)+'</p><button class="btn sm" data-topup-proof="'+esc(r.proof_storage_path)+'">Voir la preuve</button>'+actions+(r.controller_note?'<p class="muted">Note : '+esc(r.controller_note)+'</p>':'')+'</article>';
+ }).join("");
+ app.innerHTML='<div class="sectionhead"><div><h2>Recharges Wallet</h2><p>Validez une recharge uniquement après vérification réelle du transfert.</p></div></div>'+(cards||'<div class="empty">Aucune demande de recharge.</div>');
+ app.querySelectorAll("[data-topup-proof]").forEach(b=>b.onclick=()=>downloadFile(b.dataset.topupProof,"preuve-recharge"));
+ app.querySelectorAll("[data-topup-approve]").forEach(b=>b.onclick=()=>reviewTopup(b.dataset.topupApprove,true));
+ app.querySelectorAll("[data-topup-reject]").forEach(b=>b.onclick=()=>reviewTopup(b.dataset.topupReject,false));
+}
+async function reviewTopup(id,approve){
+ const note=approve?null:prompt("Motif du refus (facultatif) :");
+ if(!approve&&note===null)return;
+ if(approve&&!confirm("Confirmer la validation ? Le montant sera ajouté au Wallet du client."))return;
+ try{wait(true,approve?"Crédit du Wallet…":"Refus de la recharge…");const {error}=await sb.rpc("wallet_review_topup",{p_topup_id:id,p_approve:approve,p_note:note});if(error)throw error;alert(approve?"Recharge validée et solde crédité.":"Demande de recharge refusée.");await renderWalletTopups();await refreshStats();}
+ catch(e){alert(e.message||"Action impossible.");}finally{wait(false);}
+}
+
+/* =========================
+   CARTES D'URGENCE
+========================= */
+async function renderEmergencyCards(){
+ const app=$("content");
+ app.innerHTML='<div class="empty">Chargement des demandes de cartes…</div>';
+ const {data,error}=await sb.from("emergency_card_requests").select("*").order("created_at",{ascending:false}).limit(150);
+ if(error){app.innerHTML='<div class="notice">'+esc(error.message)+'</div>';return;}
+ const rows=data||[];
+ const names=await Promise.all(rows.map(async r=>({id:r.user_id,profile:await getClientProfile(r.user_id)})));
+ const byId=new Map(names.map(x=>[x.id,x.profile]));
+ const cards=rows.map(r=>{
+   const p=byId.get(r.user_id)||{};
+   return '<article class="item"><div class="row"><b>'+esc(r.full_name)+'</b><span class="pill approved">PAYÉ · 1 000 HTG</span></div><p class="muted">'+esc(p.email||"")+' · '+fmt(r.created_at)+'</p><div class="notice"><b>Date de naissance :</b> '+esc(r.birth_date)+'<br><b>Groupe sanguin :</b> '+esc(r.blood_group)+'<br><b>Natcom :</b> '+esc(r.natcom_emergency_phone)+'<br><b>Digicel :</b> '+esc(r.digicel_emergency_phone)+'<br><b>WhatsApp :</b> '+esc(r.whatsapp_phone)+'<br><b>Adresse :</b> '+esc(r.home_address)+'</div><button class="btn sm" data-emergency-photo="'+esc(r.portrait_storage_path)+'">Télécharger la photo</button></article>';
+ }).join("");
+ app.innerHTML='<div class="sectionhead"><div><h2>Cartes d’urgence</h2><p>Dossiers privés payés depuis le Wallet des clients.</p></div></div>'+(cards||'<div class="empty">Aucune demande de carte d’urgence.</div>');
+ app.querySelectorAll("[data-emergency-photo]").forEach(b=>b.onclick=()=>downloadFile(b.dataset.emergencyPhoto,"portrait-carte-urgence"));
+}
+
 /* =========================
    TABS
 ========================= */
@@ -2849,6 +2928,40 @@ document
 
 
 /* =========================
+   EMAILS CLIENTS — contacts + envoi via Supabase Edge Function
+========================= */
+let emailAudienceCache=[];
+async function loadEmailAudience(){
+  const {data,error}=await sb.rpc('controller_list_email_recipients');
+  if(error) throw error;
+  emailAudienceCache=Array.isArray(data)?data:[];
+  return emailAudienceCache;
+}
+async function renderEmails(){
+  const app=$('content');
+  app.innerHTML='<div class="empty">Chargement des adresses e-mail…</div>';
+  try{
+    const rows=await loadEmailAudience();
+    const options=rows.map((r,i)=>`<option value="${esc(r.email)}">${esc(r.full_name||r.email)} — ${esc(r.email)}</option>`).join('');
+    app.innerHTML=`<div class="sectionhead"><div><h2>Campagnes e-mail</h2><p>Les e-mails fournis dans les demandes et les comptes clients sont ajoutés automatiquement à cette liste.</p></div><span class="pill approved">${rows.length} adresse(s)</span></div>
+      <div class="card"><h3>Envoyer un message</h3><div class="field"><label>Destinataires</label><select id="emailMode"><option value="one">Un seul client</option><option value="all">Tous les contacts (${rows.length})</option></select></div>
+      <div class="field" id="emailRecipientBox"><label>Choisir un client</label><select id="emailRecipient"><option value="">Sélectionner une adresse e-mail</option>${options}</select></div>
+      <div class="field"><label>Objet du message</label><input id="emailSubject" maxlength="180" placeholder="Ex. Une nouvelle offre Baba Design"></div>
+      <div class="field"><label>Votre message</label><textarea id="emailBody" rows="7" maxlength="10000" placeholder="Bonjour, voici les informations que nous souhaitons partager avec vous…"></textarea></div>
+      <div class="notice">Le message sera présenté dans un e-mail professionnel avec l'identité Baba Design. Chaque destinataire reçoit son propre e-mail : les adresses des autres clients ne sont pas visibles.</div>
+      <div class="actions"><button class="btn" id="emailPreview">Aperçu du message</button><button class="btn green" id="emailSend">Envoyer</button></div><p id="emailStatus" class="muted" style="margin-top:12px" role="status"></p><div id="emailPreviewBox" class="card" hidden></div></div>
+      <div class="card"><h3>Ajouter une adresse manuellement</h3><p class="muted">Pour enregistrer un contact qui n'a pas encore rempli de demande.</p><div class="grid" style="grid-template-columns:1fr 1fr;gap:10px"><input id="manualEmailName" placeholder="Nom du contact"><input id="manualEmailAddress" type="email" placeholder="adresse@email.com"></div><button class="btn" id="addManualEmail" style="margin-top:12px">Enregistrer l'adresse</button><p id="manualEmailStatus" class="muted"></p></div>
+      <div class="card"><div class="row"><h3>Liste des e-mails enregistrés</h3><button class="btn sm dark" id="refreshEmailList">Actualiser</button></div><div style="overflow:auto"><table style="width:100%;border-collapse:collapse;margin-top:12px"><thead><tr><th style="text-align:left;padding:9px">Nom</th><th style="text-align:left;padding:9px">Adresse e-mail</th><th style="text-align:left;padding:9px">Origine</th></tr></thead><tbody>${rows.map(r=>`<tr><td style="padding:9px;border-top:1px solid #e3eaf2">${esc(r.full_name||'—')}</td><td style="padding:9px;border-top:1px solid #e3eaf2">${esc(r.email)}</td><td style="padding:9px;border-top:1px solid #e3eaf2">${esc(r.source||'Compte / demande')}</td></tr>`).join('')||'<tr><td colspan="3" style="padding:12px">Aucune adresse enregistrée pour le moment.</td></tr>'}</tbody></table></div></div>`;
+    const mode=$('emailMode'), recipientBox=$('emailRecipientBox');
+    mode.onchange=()=>recipientBox.hidden=mode.value==='all';
+    $('refreshEmailList').onclick=()=>renderEmails();
+    $('addManualEmail').onclick=async()=>{const email=$('manualEmailAddress').value.trim().toLowerCase(),name=$('manualEmailName').value.trim();const out=$('manualEmailStatus');if(!/^\S+@\S+\.\S+$/.test(email)){out.textContent='Entrez une adresse e-mail valide.';return;}try{const {error}=await sb.from('email_contacts').upsert({email,full_name:name||null,source:'manual'},{onConflict:'email'});if(error)throw error;out.textContent='Adresse enregistrée.';await renderEmails();}catch(e){out.textContent=e.message||'Enregistrement impossible.';}};
+    $('emailPreview').onclick=()=>{const subject=$('emailSubject').value.trim()||'(Sans objet)',body=$('emailBody').value.trim();const box=$('emailPreviewBox');box.hidden=false;box.innerHTML=`<strong>Aperçu — Baba Design</strong><h3 style="margin:10px 0">${esc(subject)}</h3><div style="white-space:pre-wrap;line-height:1.6">${esc(body||'Votre message apparaîtra ici.')}</div>`;};
+    $('emailSend').onclick=async()=>{const subject=$('emailSubject').value.trim(),body=$('emailBody').value.trim(),mode=$('emailMode').value,email=$('emailRecipient').value;const status=$('emailStatus');if(!subject||!body){status.textContent='Ajoutez un objet et un message.';return;}if(mode==='one'&&!email){status.textContent='Choisissez un destinataire.';return;}if(mode==='all'&&!rows.length){status.textContent='Aucune adresse e-mail enregistrée.';return;}const count=mode==='all'?rows.length:1;if(!confirm(`Confirmer l'envoi à ${count} destinataire(s) ?`))return;const btn=$('emailSend');btn.disabled=true;status.textContent='Envoi en cours…';try{const {data,error}=await sb.functions.invoke('send-branded-email',{body:{mode,recipient_email:mode==='one'?email:null,subject,body}});if(error)throw error;status.textContent=`Envoi terminé : ${data?.sent??count} e-mail(s) envoyé(s).${data?.failed?` ${data.failed} échec(s).`:''}`;}catch(e){console.error('send-branded-email',e);status.textContent=e.message||'Échec de l’envoi. Vérifiez le déploiement de la fonction et la configuration Resend.';}finally{btn.disabled=false;}};
+  }catch(e){app.innerHTML=`<div class="notice">Impossible de charger la liste des e-mails : ${esc(e.message||e)}<br>Vérifiez que le fichier SQL fourni a été exécuté dans Supabase.</div>`;}
+}
+
+/* =========================
    RENDER
 ========================= */
 
@@ -2886,6 +2999,12 @@ async function render(
 
     await renderWeb();
 
+  } else if(view === "wallet") {
+    await renderWalletTopups();
+  } else if(view === "emergency") {
+    await renderEmergencyCards();
+  } else if(view === "emails") {
+    await renderEmails();
   }
 }
 
@@ -3109,5 +3228,63 @@ document.querySelectorAll('.side-nav .tab,.side-nav .navbtn').forEach(b=>b.addEv
  if(innerWidth>=900)return;const t=document.getElementById('content')||document.getElementById('main');
  if(t)setTimeout(()=>t.scrollIntoView({behavior:'smooth',block:'start'}),80)}))})();
 </script>
+<style id="baba-aurora-espace">
+/* === Baba Design · AURORA LUXE — espaces (blanc) === */
+@property --az{syntax:"<angle>";inherits:false;initial-value:0deg}
+html{background:#fff}
+html::before{content:"";position:fixed;inset:-10%;z-index:-2;pointer-events:none;
+ background:radial-gradient(40% 35% at 12% 18%,rgba(18,214,245,.3),transparent 70%),radial-gradient(38% 40% at 88% 12%,rgba(120,140,255,.24),transparent 70%),radial-gradient(45% 40% at 72% 92%,rgba(74,168,255,.24),transparent 70%),radial-gradient(30% 30% at 8% 88%,rgba(18,214,245,.18),transparent 70%);
+ background-size:130% 130%;animation:azAurora 22s ease-in-out infinite alternate}
+html::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.55;
+ background-image:radial-gradient(circle,rgba(18,214,245,.55) 0 2px,transparent 3px),radial-gradient(circle,rgba(43,111,224,.35) 0 1.5px,transparent 2.5px),radial-gradient(circle,rgba(18,214,245,.3) 0 3px,transparent 4px);
+ background-size:230px 230px,170px 170px,310px 310px;background-position:0 0,60px 90px,130px 40px;animation:azRise 40s linear infinite}
+body{background-color:transparent!important;background-image:none!important}
+
+/* coque en verre avec bordure qui tourne */
+.shell{background:rgba(255,255,255,.66)!important;backdrop-filter:blur(24px) saturate(1.4);-webkit-backdrop-filter:blur(24px) saturate(1.4);box-shadow:inset 0 1px 0 #fff,0 50px 100px -40px rgba(8,80,160,.45),0 0 0 1px rgba(255,255,255,.7)!important;animation:azPop .7s cubic-bezier(.2,.8,.2,1) both}
+.shell::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.5px;pointer-events:none;z-index:30;background:conic-gradient(from var(--az),transparent 0 55%,#12d6f5,#2b6fe0,transparent 95%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:azSpin 7s linear infinite}
+.side{background:rgba(255,255,255,.78)!important;backdrop-filter:blur(18px)}
+.top{background:rgba(255,255,255,.6)!important}
+.navbtn,.tab{transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s,background .25s}
+.side-nav .navbtn:hover,.side-nav .tab:hover{transform:translateX(5px)}
+.navbtn.active,.tab.active,.navbtn.on,.tab.on{box-shadow:0 12px 24px -12px rgba(18,214,245,.9);animation:azGlow 3.2s ease-in-out infinite}
+.avatar-sil,.avatar{animation:azPulse 2.8s infinite}
+
+/* héros animé */
+.hero{background-size:180% 180%!important;animation:azGrad 14s ease-in-out infinite alternate}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.4) 50%,transparent 62%);transform:translateX(-130%);animation:azSweep 7s ease-in-out infinite}
+.hero .stat{animation:azBob 5s ease-in-out infinite}.hero .stat:nth-child(2){animation-delay:-1.6s}.hero .stat:nth-child(3){animation-delay:-3.2s}
+.hero h2,.hero h1,.sectionhead h2,.sectionhead h3{position:relative}
+.sectionhead h2::after,.sectionhead h3::after{content:"";display:block;height:3px;width:40px;margin-top:8px;border-radius:99px;background:linear-gradient(90deg,#12d6f5,#2b6fe0);animation:azRun 2.6s ease-in-out infinite alternate}
+
+/* cartes, éléments, boutons */
+.card,.item,.stat-box,.wallet-box{border-radius:24px!important;transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s}
+.card:hover,.item:hover,.wallet-box:hover{transform:translateY(-4px);box-shadow:0 26px 50px -24px rgba(8,80,160,.4)}
+.btn,.portal-btn{position:relative;overflow:hidden}
+.btn:not(.dark):not(.red):not(.green):not(.delete-order)::before,.portal-btn::before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.55) 50%,transparent 65%);transform:translateX(-130%);animation:azSweep 4.8s ease-in-out infinite;pointer-events:none}
+.btn:hover:not(:disabled){transform:translateY(-2px)}
+.field input,.field select,.field textarea,.portal-field input,.portal-field select,.portal-field textarea{border-radius:16px!important;transition:box-shadow .25s,border-color .25s,transform .25s}
+.field input:focus,.field select:focus,.field textarea:focus,.portal-field input:focus{box-shadow:0 0 0 5px rgba(18,214,245,.16),0 10px 24px -12px rgba(8,80,160,.35);transform:translateY(-2px)}
+.pill.pending,.live,.chat-notification-dot,.bl-dot{animation:azPulse 2s infinite}
+.bar .fill{background-image:linear-gradient(110deg,#12d6f5,#2b6fe0,#12d6f5)!important;background-size:200% 100%;animation:azGrad2 3s linear infinite}
+.bubble{animation:azPop .35s cubic-bezier(.2,.8,.2,1) both}
+.notice{border-radius:16px!important}
+.ice{animation-duration:11s}
+@supports (animation-timeline:view()){.item,.card{animation:azRiseV both;animation-timeline:view();animation-range:entry 0% cover 25%}}
+
+@keyframes azAurora{0%{background-position:0 0;transform:scale(1)}100%{background-position:100% 100%;transform:scale(1.12) rotate(2deg)}}
+@keyframes azRise{to{background-position:0 -460px,60px -340px,130px -620px}}
+@keyframes azPop{from{opacity:0;transform:scale(.97) translateY(14px)}to{opacity:1;transform:none}}
+@keyframes azRiseV{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes azSpin{to{--az:360deg}}
+@keyframes azGrad{0%{background-position:0 0}100%{background-position:100% 100%}}
+@keyframes azGrad2{to{background-position:-200% 0}}
+@keyframes azSweep{0%,55%{transform:translateX(-130%)}100%{transform:translateX(130%)}}
+@keyframes azGlow{0%,100%{box-shadow:0 12px 24px -12px rgba(18,214,245,.6)}50%{box-shadow:0 16px 34px -8px rgba(18,214,245,1)}}
+@keyframes azBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes azRun{from{transform:translateX(-14px)}to{transform:translateX(30px)}}
+@keyframes azPulse{0%{box-shadow:0 0 0 0 rgba(18,214,245,.55)}70%{box-shadow:0 0 0 12px rgba(18,214,245,0)}100%{box-shadow:0 0 0 0 rgba(18,214,245,0)}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
 </body>
 </html>
