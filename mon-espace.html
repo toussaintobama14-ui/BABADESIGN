@@ -336,6 +336,20 @@ input[type=range]::-moz-range-track{height:8px;border-radius:99px;background:#db
 
 </style>
 <script>window.IC=n=>`<svg class="ic" aria-hidden="true"><use href="#i-${n}"/></svg>`;</script>
+
+<style>
+.meta-verified{width:19px;height:19px;border-radius:50%;background:#1877f2;color:#fff;display:inline-grid;place-items:center;vertical-align:middle;flex:none}
+.meta-verified svg{width:19px;height:19px;display:block}
+.wallet-hero{padding:24px;border-radius:22px;background:linear-gradient(135deg,#07111f,#16407a 65%,#087de0);color:#fff;margin-bottom:18px;position:relative;overflow:hidden}
+.wallet-hero small{color:#c5e8ff;font-weight:700}.wallet-hero strong{display:block;font-size:clamp(30px,5vw,42px);margin:5px 0}
+.wallet-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.wallet-box{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px}
+.wallet-history{display:grid;gap:9px;margin-top:12px}.wallet-row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:13px;border:1px solid var(--line);border-radius:13px;background:#fff}
+.wallet-row small{display:block;color:var(--muted);margin-top:3px}.wallet-plus{color:#16864b;font-weight:900}.wallet-minus{color:#bd333b;font-weight:900}
+.wallet-wait{display:inline-flex;align-items:center;gap:9px;color:#0a6f91;font-weight:800}.wallet-wait:before{content:"";width:16px;height:16px;border:3px solid #d9f2fa;border-top-color:#087de0;border-radius:50%;animation:walletSpin .8s linear infinite}
+@keyframes walletSpin{to{transform:rotate(360deg)}}
+@media(max-width:650px){.wallet-grid{grid-template-columns:1fr}.wallet-row{align-items:flex-start;flex-direction:column}}
+</style>
+
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -399,6 +413,7 @@ input[type=range]::-moz-range-track{height:8px;border-radius:99px;background:#db
     <nav class="side-nav" aria-label="Navigation">
       <button class="navbtn active" data-view="dashboard"><svg class="ic" aria-hidden="true"><use href="#i-home"/></svg><span class="lbl">Tableau de bord</span><span class="lbl-s">Accueil</span></button>
       <button class="navbtn" data-view="orders"><svg class="ic" aria-hidden="true"><use href="#i-task"/></svg><span class="lbl">Mes services</span><span class="lbl-s">Services</span></button>
+      <button class="navbtn" data-view="wallet"><svg class="ic" aria-hidden="true"><use href="#i-chart"/></svg><span class="lbl">Mon portefeuille</span><span class="lbl-s">Wallet</span></button>
       <button class="navbtn" data-view="files"><svg class="ic" aria-hidden="true"><use href="#i-folder"/></svg><span class="lbl">Mes fichiers</span><span class="lbl-s">Fichiers</span></button>
       <button class="navbtn" data-view="chat"><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg><span class="lbl">Conversation privée</span><span class="lbl-s">Chat</span></button>
       <button class="navbtn" data-view="profile"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg><span class="lbl">Mon profil</span><span class="lbl-s">Profil</span></button>
@@ -437,6 +452,29 @@ function wait(on,t='Traitement…'){$('loadingText').textContent=t;$('loading').
 function notice(t){$('notice').textContent=t;$('notice').classList.remove('hidden')}
 async function profile(){const {data:{user}}=await sb.auth.getUser();if(!user)return null;const {data,error}=await sb.from('profiles').select('*').eq('id',user.id).maybeSingle();if(error)throw error;return data||{id:user.id,email:user.email,full_name:user.user_metadata?.full_name||'',role:'client'}}
 async function orders(){const p=await profile();if(!p)return [];const {data,error}=await sb.from('orders').select('*').eq('user_id',p.id).order('created_at',{ascending:false});if(error)throw error;return data||[]}
+
+async function walletOverview(){const {data,error}=await sb.rpc('wallet_get_overview');if(error)throw error;return data||{balance_htg:0,transactions:[],topups:[]};}
+async function renderWallet(m,p){
+ const w=await walletOverview();
+ const tx=w.transactions||[],topups=w.topups||[];
+ m.innerHTML=`<div class="sectionhead"><div><h2>Mon portefeuille</h2><p>Rechargez votre compte, suivez votre solde et consultez chaque opération.</p></div></div>
+ <div class="wallet-hero"><small>SOLDE DISPONIBLE</small><strong>${Number(w.balance_htg||0).toLocaleString('fr-FR')} HTG</strong><span>Portefeuille Baba Design</span></div>
+ <div class="wallet-grid">
+ <div class="wallet-box"><h3>Recharger mon compte</h3><p class="muted">Effectuez le transfert puis envoyez la référence et la preuve.</p>
+ <div class="natcash-premium" style="margin:12px 0;padding:16px;border-radius:16px;background:linear-gradient(135deg,#07111f,#16407a);color:#fff"><small>NUMÉRO NATCASH</small><h3 style="font-size:24px;color:#fff;margin:5px 0">+509 4005-2773</h3><b>Marie Alberte Darisme</b></div>
+ <form id="walletTopupForm">
+ <div class="field"><label>Montant à recharger (HTG)</label><input id="topupAmount" type="number" min="100" max="1000000" step="1" required></div>
+ <div class="field"><label>Moyen de paiement</label><select id="topupMethod" required><option>NatCash</option></select></div>
+ <div class="field"><label>Numéro utilisé pour le transfert</label><input id="topupSender" type="tel" required></div>
+ <div class="field"><label>Référence / transcode</label><input id="topupReference" required></div>
+ <div class="field"><label>Preuve de paiement</label><input id="topupProof" type="file" accept="image/*,.pdf" required></div>
+ <button class="btn" id="topupSubmit" type="submit">Envoyer la demande de recharge</button><p id="topupStatus" class="muted" role="status"></p></form></div>
+ <div class="wallet-box"><h3>Demandes de recharge</h3><div class="wallet-history">${topups.length?topups.map(t=>`<div class="wallet-row"><div><b>${Number(t.amount_htg).toLocaleString('fr-FR')} HTG</b><small>${esc(t.payment_method)} · ${fmt(t.created_at)} · Réf. ${esc(t.transaction_reference)}</small></div><span class="pill ${esc(t.status)}">${t.status==='approved'?'Validée':t.status==='rejected'?'Refusée':'En attente'}</span>${t.controller_note?`<small>${esc(t.controller_note)}</small>`:''}</div>`).join(''):'<p class="muted">Aucune demande de recharge.</p>'}</div></div></div>
+ <div class="wallet-box" style="margin-top:16px"><h3>Historique des transactions</h3><div class="wallet-history">${tx.length?tx.map(t=>`<div class="wallet-row"><div><b>${esc(t.description||t.transaction_type)}</b><small>${fmt(t.created_at)} · Solde après opération : ${Number(t.balance_after_htg).toLocaleString('fr-FR')} HTG</small></div><span class="${['topup','credit','refund'].includes(t.transaction_type)?'wallet-plus':'wallet-minus'}">${['topup','credit','refund'].includes(t.transaction_type)?'+':'−'}${Number(t.amount_htg).toLocaleString('fr-FR')} HTG</span></div>`).join(''):'<p class="muted">Aucune transaction pour le moment.</p>'}</div></div>`;
+ const form=$('walletTopupForm');
+ form.onsubmit=async e=>{e.preventDefault();const btn=$('topupSubmit'),status=$('topupStatus');let path=null;try{btn.disabled=true;status.innerHTML='<span class="wallet-wait">Vérification de la demande…</span>';const file=$('topupProof').files[0];if(!file)throw new Error('Ajoutez la preuve du transfert.');const safe=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');path=`${p.id}/${crypto.randomUUID()}_${safe}`;const up=await sb.storage.from(BUCKET).upload(path,file,{upsert:false});if(up.error)throw up.error;const {error}=await sb.rpc('wallet_request_topup',{p_amount:Number($('topupAmount').value),p_method:$('topupMethod').value,p_sender_number:$('topupSender').value.trim(),p_transaction_reference:$('topupReference').value.trim(),p_proof_storage_path:path});if(error)throw error;status.textContent='Demande envoyée. Votre solde augmentera après validation du contrôleur.';await renderWallet(m,p);}catch(err){if(path)await sb.storage.from(BUCKET).remove([path]);status.textContent=err.message||'Impossible de soumettre la recharge.';}finally{btn.disabled=false;}};
+}
+
 async function downloadFile(path){const {data,error}=await sb.storage.from(BUCKET).createSignedUrl(path,120);if(error)return alert(error.message);window.open(data.signedUrl,'_blank')}
 function showAuth(){ $('auth').classList.remove('hidden');$('app').classList.add('hidden') }
 async function showApp(){const p=await profile();if(!p)return showAuth();$('auth').classList.add('hidden');$('app').classList.remove('hidden');$('welcomeName').textContent=esc((p.full_name||'').split(' ')[0]||'');$('identity').textContent=p.email||'';$('avatar').textContent=(p.full_name||p.email||'B').charAt(0).toUpperCase();render('dashboard')}
@@ -466,13 +504,24 @@ ${os.length?os.map(o=>{
     <div style="margin-top:15px;font-size:28px;font-weight:950">${o.progress||0}%</div>
     <div class="bar"><div class="fill" style="width:${o.progress||0}%"></div></div>
     <small style="color:var(--muted)">${esc(o.status||'En attente de validation')} · ${fmt(o.created_at)}</small>
+     ${Number(o.remaining_amount_htg||0)>0?`<div class="wallet-row" style="margin-top:14px"><div><b>Solde restant : ${Number(o.remaining_amount_htg).toLocaleString('fr-FR')} HTG</b><small>À régler avant la livraison du fichier final.</small></div><button class="btn sm" type="button" data-pay-balance="${esc(o.id)}">Payer le solde</button></div>`:`${Number(o.price_htg||0)>0?`<small style="display:block;margin-top:8px;color:#16864b">Paiement complet</small>`:''}`}
   </div>`;
 }).join(''):'<div class="card">Aucun service ou demande enregistré pour le moment.</div>'}`;
 return}
-if(view==='files'){const {data,error}=await sb.from('files').select('*').eq('user_id',p.id).order('created_at',{ascending:false});if(error)throw error;m.innerHTML=`<div class="sectionhead"><div><h2>Mes fichiers</h2><p>Documents et créations disponibles.</p></div></div>${(data||[]).map(f=>`<div class="card file"><div><strong>${esc(f.file_name)}</strong><small>${esc(f.kind||'Fichier')} · ${fmt(f.created_at)}</small></div><button class="btn sm" data-download="${esc(f.storage_path)}">${IC('download')}Télécharger</button></div>`).join('')||'<div class="card">Aucun fichier disponible.</div>'}`;m.querySelectorAll('[data-download]').forEach(b=>b.onclick=()=>downloadFile(b.dataset.download));return}
-if(view==='chat'){m.innerHTML=`<div class="sectionhead"><div><h2>Conversation privée</h2><p>Votre conversation avec Baba Design.</p></div></div><div class="private-profile"><img class="private-profile-photo" src="./“Create_a_realistic_professional_studio_202605171725.jpeg" alt="Baba Design" onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<div class=&quot;private-profile-photo&quot; style=&quot;background:linear-gradient(135deg,#12d6f5,#12d6f5,#12d6f5);display:grid;place-items:center;color:#fff;font-weight:950&quot;>B</div>')"><div><div class="private-profile-name">Baba Design <span class="meta-verified" title="Vérifié">${IC('check')}</span></div><div class="private-profile-sub">Contrôleur vérifié</div></div></div><div class="chat" id="chat"></div><div class="compose"><textarea id="msg" rows="2" placeholder="Écrire un message…"></textarea><button class="btn" id="send">${IC('send')}Envoyer</button></div>`;await refreshChat();$('send').onclick=sendChat;return}
+if(view==='wallet'){await renderWallet(m,p);return}
+ if(view==='files'){const {data,error}=await sb.from('files').select('*').eq('user_id',p.id).order('created_at',{ascending:false});if(error)throw error;const ownOrders=await orders();const hasOutstandingBalance=ownOrders.some(o=>Number(o.remaining_amount_htg||0)>0);const visibleFiles=(data||[]).filter(f=>!(f.kind==='controller_file'&&hasOutstandingBalance));m.innerHTML=`<div class="sectionhead"><div><h2>Mes fichiers</h2><p>Documents et créations disponibles.</p></div></div>${(visibleFiles||[]).map(f=>`<div class="card file"><div><strong>${esc(f.file_name)}</strong><small>${esc(f.kind||'Fichier')} · ${fmt(f.created_at)}</small></div><button class="btn sm" data-download="${esc(f.storage_path)}">${IC('download')}Télécharger</button></div>`).join('')||'<div class="card">Aucun fichier disponible.</div>'}`;m.querySelectorAll('[data-download]').forEach(b=>b.onclick=()=>downloadFile(b.dataset.download));return}
+if(view==='chat'){m.innerHTML=`<div class="sectionhead"><div><h2>Conversation privée</h2><p>Votre conversation avec Baba Design.</p></div></div><div class="private-profile"><img class="private-profile-photo" src="./“Create_a_realistic_professional_studio_202605171725.jpeg" alt="Baba Design" onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<div class=&quot;private-profile-photo&quot; style=&quot;background:linear-gradient(135deg,#12d6f5,#12d6f5,#12d6f5);display:grid;place-items:center;color:#fff;font-weight:950&quot;>B</div>')"><div><div class="private-profile-name">Baba Design <span class="meta-verified" title="Compte vérifié" aria-label="Compte vérifié"><svg viewBox="0 0 24 24" role="img"><path fill="currentColor" d="M12 1.4 14.1 3l2.7-.1 1.1 2.5 2.4 1.2-.1 2.7 1.6 2.1-1.6 2.1.1 2.7-2.4 1.2-1.1 2.5-2.7-.1-2.1 1.6-2.1-1.6-2.7.1-1.1-2.5-2.4-1.2.1-2.7L2.2 12l1.6-2.1-.1-2.7 2.4-1.2 1.1-2.5 2.7.1z"/><path fill="#fff" d="m10.2 15.9-3.1-3.1 1.5-1.5 1.6 1.6 5-5 1.5 1.5z"/></svg></span></div><div class="private-profile-sub">Contrôleur vérifié</div></div></div><div class="chat" id="chat"></div><div class="compose"><textarea id="msg" rows="2" placeholder="Écrire un message…"></textarea><button class="btn" id="send">${IC('send')}Envoyer</button></div>`;await refreshChat();$('send').onclick=sendChat;return}
 if(view==='profile'){m.innerHTML=`<div class="sectionhead"><div><h2>Mon profil</h2><p>Informations de votre compte.</p></div></div><div class="card"><div class="row"><b>Nom complet</b><span>${esc(p.full_name||'—')}</span></div></div><div class="card"><div class="row"><b>Email</b><span>${esc(p.email||'—')}</span></div></div><div class="card"><div class="row"><b>Téléphone</b><span>${esc(p.phone||'—')}</span></div></div><div class="card"><div class="row"><b>Rôle</b><span class="pill">${esc(p.role||'client')}</span></div></div>`;return}
 }catch(e){m.innerHTML=`<div class="card"><b>Impossible de charger cet espace.</b><p style="color:var(--muted)">${esc(e.message)}</p></div>`}}
+
+document.addEventListener('click',async e=>{
+ const b=e.target.closest('[data-pay-balance]');if(!b)return;
+ if(!confirm('Confirmer le paiement du solde depuis votre Wallet ?'))return;
+ b.disabled=true;const old=b.textContent;b.textContent='Paiement…';
+ try{const {error}=await sb.rpc('wallet_pay_order_balance',{p_order_id:b.dataset.payBalance});if(error)throw error;alert('Solde payé avec succès.');await render('orders');}
+ catch(err){alert(err.message||'Paiement impossible. Rechargez votre Wallet si nécessaire.');b.disabled=false;b.textContent=old;}
+});
+
 async function refreshChat(){const p=await profile(),box=$('chat');if(!box)return;const {data:conv}=await sb.from('conversations').select('id').eq('user_id',p.id).maybeSingle();if(!conv){box.innerHTML='<p>Aucun message. Écris au contrôleur</p>';return}const {data,error}=await sb.from('messages').select('*').eq('conversation_id',conv.id).order('created_at');if(error){box.innerHTML='<p>Impossible de charger les messages.</p>';return}box.innerHTML=(data||[]).map(x=>`<div class="bubble ${x.sender_id===p.id?'me':'other'}">${esc(x.body)}<div class="meta">${fmt(x.created_at)} ${x.sender_id===p.id?`<button class="mini-del" aria-label="Supprimer" data-del="${x.id}">${IC('trash')}</button>`:''}</div></div>`).join('')||'<p>Aucun message.</p>';box.querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{if(confirm('Supprimer ce message ?')){await sb.from('messages').delete().eq('id',b.dataset.del);refreshChat()}});box.scrollTop=box.scrollHeight}
 async function sendChat(){const body=$('msg')?.value.trim();if(!body)return;const p=await profile();const {data:conv,error}=await sb.from('conversations').upsert({user_id:p.id},{onConflict:'user_id'}).select().single();if(error)return alert(error.message);const {error:e}=await sb.from('messages').insert({conversation_id:conv.id,sender_id:p.id,body});if(e)alert(e.message);else{$('msg').value='';refreshChat()}}
 
@@ -525,6 +574,12 @@ const workflowChannel=sb.channel('client-workflow-live')
    }catch(e){console.error('notification realtime',e)}
  }).subscribe();
 
+
+sb.channel('wallet-client-live')
+ .on('postgres_changes',{event:'*',schema:'public',table:'wallets'},async()=>{if(document.querySelector('.navbtn.active')?.dataset.view==='wallet')await render('wallet');})
+ .on('postgres_changes',{event:'*',schema:'public',table:'wallet_topups'},async()=>{if(document.querySelector('.navbtn.active')?.dataset.view==='wallet')await render('wallet');})
+ .subscribe();
+
 sb.auth.onAuthStateChange((_,session)=>{if(session)showApp();else showAuth()});watchWorkflow().catch(()=>{});sb.auth.getSession().then(({data})=>data.session?showApp():showAuth());
 </script>
 <div class="controller-code-modal" id="controllerCodeModal" aria-hidden="true"><div class="controller-code-backdrop" data-close-controller-code></div><div class="controller-code-box"><button type="button" class="controller-code-close" data-close-controller-code aria-label="Fermer"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button><div class="controller-code-orb"><svg class="ic" aria-hidden="true"><use href="#i-lock"/></svg></div><span class="controller-code-kicker">Accès sécurisé</span><h3>Accès privé</h3><p>Entre le code contrôleur pour ouvrir l'espace de contrôle.</p><form id="controllerCodeForm"><div class="portal-field"><label>Code d'accès</label><input id="controllerCodeInput" type="password" autocomplete="off" placeholder="••••••••" required></div><p class="controller-code-error" id="controllerCodeError"></p><button class="portal-btn" type="submit">Déverrouiller l'espace</button></form></div></div><script>(function(){const $=id=>document.getElementById(id);function openGate(){$('controllerCodeError').textContent='';$('controllerCodeInput').value='';$('controllerCodeModal').classList.add('show');setTimeout(()=>$('controllerCodeInput').focus(),80)}function closeGate(){$('controllerCodeModal').classList.remove('show')}document.querySelectorAll('#controllerAccessBtn,.js-gate').forEach(b=>b.addEventListener('click',openGate));document.querySelectorAll('[data-close-controller-code]').forEach(x=>x.addEventListener('click',closeGate));$('controllerCodeForm')?.addEventListener('submit',async e=>{e.preventDefault();const code=$('controllerCodeInput').value.trim();const {data:{user}}=await sb.auth.getUser();if(!user){$('controllerCodeError').textContent='Connecte-toi d’abord.';return}const {data:ok,error}=await sb.rpc('verify_controller_code',{p_code:code});if(error){$('controllerCodeError').textContent='Erreur de vérification. Exécute le SQL final dans Supabase puis réessaie.';return}if(!ok){$('controllerCodeError').textContent='Code incorrect ou compte non autorisé.';$('controllerCodeInput').select();return}sessionStorage.setItem('controllerAccessGranted','1');window.location.href='controleur.html'})})();</script>
@@ -538,5 +593,63 @@ document.querySelectorAll('.side-nav .tab,.side-nav .navbtn').forEach(b=>b.addEv
  if(innerWidth>=900)return;const t=document.getElementById('content')||document.getElementById('main');
  if(t)setTimeout(()=>t.scrollIntoView({behavior:'smooth',block:'start'}),80)}))})();
 </script>
+<style id="baba-aurora-espace">
+/* === Baba Design · AURORA LUXE — espaces (blanc) === */
+@property --az{syntax:"<angle>";inherits:false;initial-value:0deg}
+html{background:#fff}
+html::before{content:"";position:fixed;inset:-10%;z-index:-2;pointer-events:none;
+ background:radial-gradient(40% 35% at 12% 18%,rgba(18,214,245,.3),transparent 70%),radial-gradient(38% 40% at 88% 12%,rgba(120,140,255,.24),transparent 70%),radial-gradient(45% 40% at 72% 92%,rgba(74,168,255,.24),transparent 70%),radial-gradient(30% 30% at 8% 88%,rgba(18,214,245,.18),transparent 70%);
+ background-size:130% 130%;animation:azAurora 22s ease-in-out infinite alternate}
+html::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.55;
+ background-image:radial-gradient(circle,rgba(18,214,245,.55) 0 2px,transparent 3px),radial-gradient(circle,rgba(43,111,224,.35) 0 1.5px,transparent 2.5px),radial-gradient(circle,rgba(18,214,245,.3) 0 3px,transparent 4px);
+ background-size:230px 230px,170px 170px,310px 310px;background-position:0 0,60px 90px,130px 40px;animation:azRise 40s linear infinite}
+body{background-color:transparent!important;background-image:none!important}
+
+/* coque en verre avec bordure qui tourne */
+.shell{background:rgba(255,255,255,.66)!important;backdrop-filter:blur(24px) saturate(1.4);-webkit-backdrop-filter:blur(24px) saturate(1.4);box-shadow:inset 0 1px 0 #fff,0 50px 100px -40px rgba(8,80,160,.45),0 0 0 1px rgba(255,255,255,.7)!important;animation:azPop .7s cubic-bezier(.2,.8,.2,1) both}
+.shell::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.5px;pointer-events:none;z-index:30;background:conic-gradient(from var(--az),transparent 0 55%,#12d6f5,#2b6fe0,transparent 95%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:azSpin 7s linear infinite}
+.side{background:rgba(255,255,255,.78)!important;backdrop-filter:blur(18px)}
+.top{background:rgba(255,255,255,.6)!important}
+.navbtn,.tab{transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s,background .25s}
+.side-nav .navbtn:hover,.side-nav .tab:hover{transform:translateX(5px)}
+.navbtn.active,.tab.active,.navbtn.on,.tab.on{box-shadow:0 12px 24px -12px rgba(18,214,245,.9);animation:azGlow 3.2s ease-in-out infinite}
+.avatar-sil,.avatar{animation:azPulse 2.8s infinite}
+
+/* héros animé */
+.hero{background-size:180% 180%!important;animation:azGrad 14s ease-in-out infinite alternate}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.4) 50%,transparent 62%);transform:translateX(-130%);animation:azSweep 7s ease-in-out infinite}
+.hero .stat{animation:azBob 5s ease-in-out infinite}.hero .stat:nth-child(2){animation-delay:-1.6s}.hero .stat:nth-child(3){animation-delay:-3.2s}
+.hero h2,.hero h1,.sectionhead h2,.sectionhead h3{position:relative}
+.sectionhead h2::after,.sectionhead h3::after{content:"";display:block;height:3px;width:40px;margin-top:8px;border-radius:99px;background:linear-gradient(90deg,#12d6f5,#2b6fe0);animation:azRun 2.6s ease-in-out infinite alternate}
+
+/* cartes, éléments, boutons */
+.card,.item,.stat-box,.wallet-box{border-radius:24px!important;transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s}
+.card:hover,.item:hover,.wallet-box:hover{transform:translateY(-4px);box-shadow:0 26px 50px -24px rgba(8,80,160,.4)}
+.btn,.portal-btn{position:relative;overflow:hidden}
+.btn:not(.dark):not(.red):not(.green):not(.delete-order)::before,.portal-btn::before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.55) 50%,transparent 65%);transform:translateX(-130%);animation:azSweep 4.8s ease-in-out infinite;pointer-events:none}
+.btn:hover:not(:disabled){transform:translateY(-2px)}
+.field input,.field select,.field textarea,.portal-field input,.portal-field select,.portal-field textarea{border-radius:16px!important;transition:box-shadow .25s,border-color .25s,transform .25s}
+.field input:focus,.field select:focus,.field textarea:focus,.portal-field input:focus{box-shadow:0 0 0 5px rgba(18,214,245,.16),0 10px 24px -12px rgba(8,80,160,.35);transform:translateY(-2px)}
+.pill.pending,.live,.chat-notification-dot,.bl-dot{animation:azPulse 2s infinite}
+.bar .fill{background-image:linear-gradient(110deg,#12d6f5,#2b6fe0,#12d6f5)!important;background-size:200% 100%;animation:azGrad2 3s linear infinite}
+.bubble{animation:azPop .35s cubic-bezier(.2,.8,.2,1) both}
+.notice{border-radius:16px!important}
+.ice{animation-duration:11s}
+@supports (animation-timeline:view()){.item,.card{animation:azRiseV both;animation-timeline:view();animation-range:entry 0% cover 25%}}
+
+@keyframes azAurora{0%{background-position:0 0;transform:scale(1)}100%{background-position:100% 100%;transform:scale(1.12) rotate(2deg)}}
+@keyframes azRise{to{background-position:0 -460px,60px -340px,130px -620px}}
+@keyframes azPop{from{opacity:0;transform:scale(.97) translateY(14px)}to{opacity:1;transform:none}}
+@keyframes azRiseV{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes azSpin{to{--az:360deg}}
+@keyframes azGrad{0%{background-position:0 0}100%{background-position:100% 100%}}
+@keyframes azGrad2{to{background-position:-200% 0}}
+@keyframes azSweep{0%,55%{transform:translateX(-130%)}100%{transform:translateX(130%)}}
+@keyframes azGlow{0%,100%{box-shadow:0 12px 24px -12px rgba(18,214,245,.6)}50%{box-shadow:0 16px 34px -8px rgba(18,214,245,1)}}
+@keyframes azBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes azRun{from{transform:translateX(-14px)}to{transform:translateX(30px)}}
+@keyframes azPulse{0%{box-shadow:0 0 0 0 rgba(18,214,245,.55)}70%{box-shadow:0 0 0 12px rgba(18,214,245,0)}100%{box-shadow:0 0 0 0 rgba(18,214,245,0)}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
 </body>
 </html>
