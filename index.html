@@ -305,7 +305,11 @@ footer{text-align:center;padding:25px 15px;font-size:13px}
 .portal-upload-field{margin-top:18px}
 .portal-upload-field input{padding:10px}
 #regPaidYes, #regPaidNo, #transcodeBox, #regTranscodeBox, #pubPaidYes, #pubPaidNo, #pubTranscodeBox{display:none!important}
-.portal-section#mon-espace{display:none !important}</style>
+.portal-section#mon-espace{display:none !important}
+/* Les formulaires sont maintenant sur des pages dédiées. */
+#services,#inscription,.publicite-box{display:none!important}
+
+</style>
 
 <style>:root{--bd-red:#12d6f5;--bd-orange:#12d6f5;--bd-yellow:#12d6f5;--bd-dark:#07111f;--bd-glass:rgba(255,255,255,.10);--bd-border:rgba(255,255,255,.16)}
 .nav-links a{position:relative;padding:10px 2px}
@@ -410,6 +414,93 @@ footer{text-align:center;padding:25px 15px;font-size:13px}
 @media(max-width:600px){.project-modal{padding:10px}.project-dialog{padding:24px 18px;border-radius:20px}.project-dialog h2{font-size:31px}}
 </style>
 
+
+<style id="baba-parrainage-v1">
+.bp-wrap{max-width:1200px;margin:auto;padding:0 20px}
+.bp-talk,.bp-ref{font-family:'Manrope',system-ui,sans-serif}
+.bp-talk{padding:70px 0 20px}
+.bp-talk-card{position:relative;overflow:hidden;isolation:isolate;display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding:clamp(28px,5vw,64px);border-radius:36px;color:#fff;background:radial-gradient(900px 420px at 0% 0%,rgba(18,214,245,.28),transparent 60%),radial-gradient(700px 400px at 100% 100%,rgba(59,232,160,.16),transparent 60%),#07111f;border:1px solid rgba(18,214,245,.18);box-shadow:0 40px 90px -40px rgba(7,17,31,.9)}
+.bp-talk-card::before{content:"";position:absolute;inset:0;z-index:-1;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);background-size:26px 26px;mask-image:linear-gradient(120deg,#000,transparent 70%)}
+.bp-talk h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(38px,6vw,72px);line-height:1.02;letter-spacing:-.03em;margin-bottom:20px}
+.bp-talk h2 em,.bp-ref h2 em{font-style:normal;color:#12d6f5}
+.bp-talk h2 i{display:inline-block;width:.16em;height:.16em;border-radius:50%;background:#3be8a0;margin-left:.06em}
+.bp-talk p.bp-lead{color:#b7c8d9;font-size:18px;line-height:1.7;max-width:520px;margin-bottom:26px}
+.bp-chips{display:flex;flex-wrap:wrap;gap:10px}
+.bp-chip{display:inline-flex;align-items:center;gap:9px;padding:9px 16px 9px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);font-weight:700;font-size:14px;color:#e6f3ff}
+.bp-chip b{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#12d6f5;color:#07111f;font-size:12px}
+.bp-chat{padding:20px;border-radius:28px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(10px)}
+.bp-chat-head{display:flex;align-items:center;gap:12px;padding-bottom:14px;margin-bottom:16px;border-bottom:1px solid rgba(255,255,255,.1)}
+.bp-av{display:grid;place-items:center;width:46px;height:46px;border-radius:50%;font-weight:800;color:#07111f;background:linear-gradient(135deg,#12d6f5,#3be8a0)}
+.bp-chat-head strong{display:block;font-size:17px}
+.bp-chat-head small{color:#3be8a0;font-weight:700}
+.bp-chat-head small::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:#3be8a0;margin-right:6px;animation:bpPulse 1.6s infinite}
+.bp-bubble{max-width:88%;padding:12px 16px;border-radius:18px;margin-bottom:10px;font-size:15px;line-height:1.45;opacity:0;transform:translateY(10px);animation:bpPop .5s forwards}
+.bp-b1{background:rgba(255,255,255,.1);border-bottom-left-radius:6px;animation-delay:.3s}
+.bp-b2{background:#12d6f5;color:#06202b;font-weight:700;margin-left:auto;border-bottom-right-radius:6px;animation-delay:1.3s}
+.bp-b3{background:rgba(255,255,255,.1);border-bottom-left-radius:6px;animation-delay:2.4s}
+.bp-chat-actions{display:grid;gap:10px;margin-top:16px}
+.bp-btn{display:flex;align-items:center;justify-content:center;gap:9px;padding:15px 20px;border-radius:16px;border:0;font:800 16px 'Manrope',sans-serif;cursor:pointer;text-decoration:none;transition:transform .25s,box-shadow .25s}
+.bp-btn:hover{transform:translateY(-2px)}
+.bp-wa{background:#25d366;color:#04230f;box-shadow:0 14px 30px -14px #25d366}
+.bp-go{background:#fff;color:#07111f}
+.bp-cy{background:#12d6f5;color:#06202b;box-shadow:0 14px 34px -14px #12d6f5}
+.bp-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.28)}
+@keyframes bpPop{to{opacity:1;transform:none}}
+@keyframes bpPulse{50%{opacity:.35;transform:scale(.7)}}
+
+.bp-ref{padding:50px 0 80px}
+.bp-ref-card{position:relative;overflow:hidden;isolation:isolate;display:grid;grid-template-columns:1fr 1fr;gap:40px;padding:clamp(26px,5vw,60px);border-radius:36px;color:#fff;background:linear-gradient(150deg,#06101d 0%,#0a1d35 55%,#0b2f3f 100%);border:1px solid rgba(18,214,245,.2)}
+.bp-ref-card::after{content:"";position:absolute;z-index:-1;width:520px;height:520px;right:-160px;top:-180px;border-radius:50%;background:radial-gradient(circle,rgba(18,214,245,.25),transparent 68%)}
+.bp-tag{display:inline-flex;align-items:center;gap:9px;padding:9px 16px;border-radius:999px;background:rgba(59,232,160,.1);border:1px solid rgba(59,232,160,.35);color:#3be8a0;font-weight:800;font-size:13px;margin-bottom:20px}
+.bp-tag::before{content:"";width:8px;height:8px;border-radius:50%;background:#3be8a0}
+.bp-ref h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(34px,5vw,60px);line-height:1.04;letter-spacing:-.03em;margin-bottom:18px}
+.bp-ref p.bp-lead{color:#b7c8d9;font-size:17px;line-height:1.7;margin-bottom:22px}
+.bp-ref p.bp-lead strong{color:#fff}
+.bp-steps{list-style:none;margin:26px 0;display:grid;gap:16px;padding:0}
+.bp-steps li{display:flex;gap:14px;align-items:flex-start}
+.bp-steps li>b{flex:none;display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);font-family:'Space Grotesk',sans-serif}
+.bp-steps li:last-child>b{background:#12d6f5;color:#06202b;border-color:#12d6f5}
+.bp-steps strong{display:block;font-size:17px}
+.bp-steps span{color:#9fb4c8;font-size:14.5px;line-height:1.5}
+.bp-cta-row{display:flex;flex-wrap:wrap;gap:12px}
+.bp-cta-row .bp-btn{padding:15px 24px}
+
+.bp-calc{position:relative;padding:24px;border-radius:28px;background:#fff;color:#07111f;box-shadow:0 40px 80px -40px rgba(0,0,0,.8)}
+.bp-calc-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px}
+.bp-calc-top small{display:block;color:#6b7c8e;font-weight:700}
+.bp-calc-top strong{font-size:20px}
+.bp-toggle{display:inline-flex;padding:4px;border-radius:999px;background:#eef3f8}
+.bp-toggle button{border:0;background:transparent;padding:8px 14px;border-radius:999px;font:800 13px 'Manrope',sans-serif;color:#51657a;cursor:pointer}
+.bp-toggle button.on{background:#07111f;color:#fff}
+.bp-total{padding:20px;border-radius:20px;background:#07111f;color:#fff;position:relative;overflow:hidden}
+.bp-total small{color:#8fb0c8;font-weight:700}
+.bp-total .bp-num{display:block;font:700 clamp(40px,6vw,58px)/1.05 'Space Grotesk',sans-serif;color:#12d6f5;margin:6px 0 2px}
+.bp-total .bp-num span{font-size:.4em;color:#fff;margin-left:6px}
+.bp-formula{color:#c9dbea;font-weight:700;font-size:14.5px}
+.bp-bar{height:10px;margin-top:14px;border-radius:99px;background:rgba(255,255,255,.12);overflow:hidden}
+.bp-bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#12d6f5,#3be8a0);transition:width 1s cubic-bezier(.22,.8,.24,1)}
+.bp-toast{position:absolute;right:14px;top:14px;padding:8px 12px;border-radius:12px;background:#3be8a0;color:#04230f;font-weight:800;font-size:13px;opacity:0;transform:translateY(8px) scale(.9)}
+.bp-toast.show{animation:bpToast 1.6s}
+@keyframes bpToast{15%,70%{opacity:1;transform:none}100%{opacity:0;transform:translateY(-14px)}}
+.bp-rows{display:grid;gap:10px;margin:16px 0}
+.bp-row{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;width:100%;text-align:left;padding:12px 14px;border-radius:16px;border:1.5px solid #e3ebf3;background:#f7fafd;cursor:pointer;font:inherit;color:inherit;transition:.3s}
+.bp-row:hover{border-color:#12d6f5}
+.bp-row.on{border-color:#12d6f5;background:#e9fbff;transform:translateX(4px)}
+.bp-row b{display:grid;place-items:center;min-width:44px;height:44px;border-radius:12px;background:#07111f;color:#12d6f5;font:700 18px 'Space Grotesk',sans-serif}
+.bp-row span{font-weight:800}
+.bp-row span small{display:block;color:#6b7c8e;font-weight:600;margin-bottom:6px}
+.bp-row span em{display:block;height:6px;border-radius:9px;background:#dfe9f2;overflow:hidden}
+.bp-row span em i{display:block;height:100%;width:0;background:linear-gradient(90deg,#12d6f5,#3be8a0);border-radius:9px;transition:width 1s cubic-bezier(.22,.8,.24,1)}
+.bp-row strong{font:700 18px 'Space Grotesk',sans-serif;color:#0a8aa5}
+.bp-slider{display:flex;align-items:center;gap:12px;font-weight:800;font-size:14px}
+.bp-slider input{flex:1;accent-color:#12d6f5}
+.bp-slider output{min-width:30px;text-align:right}
+.bp-note{margin-top:14px;font-size:12.5px;line-height:1.5;color:#6b7c8e}
+.nav-parrainage{color:#12d6f5!important;font-weight:800}
+@media(max-width:900px){.bp-talk-card,.bp-ref-card{grid-template-columns:1fr;gap:30px;border-radius:28px}}
+@media(prefers-reduced-motion:reduce){.bp-bubble{opacity:1;transform:none;animation:none}.bp-bar i,.bp-row span em i{transition:none}}
+</style>
+
 </head>
 
 <body>
@@ -437,11 +528,14 @@ footer{text-align:center;padding:25px 15px;font-size:13px}
             </li>
 
             <li>
-                <a href="#services">Services</a>
+                <a href="commande-service.html">Services</a>
             </li>
 
             <li>
                 <a href="#creation-web">Création web</a>
+            </li>
+            <li>
+                <a href="#parrainage" class="nav-parrainage">Parrainage</a>
             </li>
 
             <li>
@@ -453,7 +547,7 @@ footer{text-align:center;padding:25px 15px;font-size:13px}
             </li>
 
             <li>
-                <a href="#publicite">Publicité</a>
+                <a href="commande-publicite.html">Publicité</a>
             </li>
 
             <li>
@@ -464,7 +558,13 @@ footer{text-align:center;padding:25px 15px;font-size:13px}
             </li>
 
             <li>
-                <a href="#inscription">Inscription</a>
+                <a href="inscription.html">Inscription</a>
+            </li>
+            <li>
+                <a href="carte-urgence.html">C. Urgence</a>
+            </li>
+            <li>
+                <a href="#avis-clients">Avis clients</a>
             </li>
 
             <li>
@@ -511,7 +611,7 @@ footer{text-align:center;padding:25px 15px;font-size:13px}
         </p>
 
         <div class="hero-buttons">
-            <a href="#services" class="btn btn-primary">Commander un service</a>
+            <a href="commande-service.html" class="btn btn-primary">Commander un service</a>
             <a href="boutique.html" class="btn btn-glass">Découvrir la Boutique</a>
             <a href="coaching-private.html" class="btn btn-glass">Coaching Private</a>
         </div>
@@ -654,12 +754,12 @@ footer{text-align:center;padding:25px 15px;font-size:13px}
       <div class="baba-namebar"><span class="baba-name">Baba Design</span><svg class="verified" viewBox="0 0 24 24" role="img" aria-label="Compte vérifié"><defs><linearGradient id="vbg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3fc1ff"/><stop offset="1" stop-color="#1d6fe0"/></linearGradient></defs><path fill="url(#vbg)" d="M22.5 12.5c0-1.58-.88-2.95-2.18-3.66.54-1.43.24-3.1-.9-4.24s-2.8-1.44-4.23-.9C14.49 2.4 13.12 1.5 11.5 1.5S8.51 2.4 7.8 3.7c-1.43-.54-3.1-.24-4.24.9s-1.44 2.81-.9 4.24C1.38 9.55.5 10.92.5 12.5s.88 2.95 2.18 3.66c-.54 1.43-.24 3.1.9 4.24s2.81 1.44 4.24.9c.71 1.3 2.08 2.2 3.68 2.2s2.97-.9 3.68-2.2c1.43.54 3.1.24 4.24-.9s1.44-2.81.9-4.24c1.3-.71 2.18-2.08 2.18-3.66z"/><path fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M7.5 12.6l3 3 6-6.4"/></svg></div>
       <p>Baba Design accompagne les particuliers, les entreprises et les organisations dans leur communication visuelle : affiches, cartes de visite, flyers, bannières et vidéos promotionnelles.</p>
       <div class="baba-chips"><span>Design graphique</span><span>Création visuelle</span><span>Montage vidéo</span><span>Formations pratiques</span></div>
-      <div class="baba-actions"><a class="btn btn-primary" href="#services">Commander un service</a><a class="btn btn-glass" href="#academi">Voir Akademi Dizay</a></div>
+      <div class="baba-actions"><a class="btn btn-primary" href="commande-service.html">Commander un service</a><a class="btn btn-glass" href="#academi">Voir Akademi Dizay</a></div>
     </div>
   </div>
   <div class="price-wrap">
     <div class="section-header"><span>Tarifs</span><h2>Des prix clairs, sans surprise</h2><p>Tous les prix sont affichés en gourdes (HTG). Un dépôt de 70 % lance votre commande, les 30 % restants sont réglés selon les conditions convenues.</p></div>
-    <div class="price-grid"><a class="price-card" href="#services"><span class="pc-name">Affiche événement</span><span class="pc-amount">30<small> USD</small></span><span class="pc-go">Commander</span></a><a class="price-card" href="#services"><span class="pc-name">Carte de visite</span><span class="pc-amount">20<small> USD</small></span><span class="pc-go">Commander</span></a><a class="price-card" href="#services"><span class="pc-name">Certificat / Unité</span><span class="pc-amount">3<small> USD</small></span><span class="pc-go">Commander</span></a><a class="price-card" href="#services"><span class="pc-name">Flyer Business</span><span class="pc-amount">25<small> USD</small></span><span class="pc-go">Commander</span></a><a class="price-card" href="#services"><span class="pc-name">Étiquette</span><span class="pc-amount">60<small> USD</small></span><span class="pc-go">Commander</span></a><a class="price-card" href="#services"><span class="pc-name">Vidéo promotionnelle</span><span class="pc-amount">50<small> USD</small></span><span class="pc-go">Commander</span></a><a class="price-card" href="#services"><span class="pc-name">Bannière</span><span class="pc-amount">65<small> USD</small></span><span class="pc-go">Commander</span></a><a class="price-card is-custom" href="#services"><span class="pc-name">Autre besoin ?</span><span class="pc-amount pc-text">Dites-nous ce qu'il vous faut</span><span class="pc-go">Commander</span></a></div>
+    <div class="price-grid"><a class="price-card" href="commande-service.html"><span class="pc-name">Affiche événement</span><span class="pc-amount">30<small> USD</small></span><span class="pc-go">Commander</span></a><a class="price-card" href="commande-service.html"><span class="pc-name">Carte de visite</span><span class="pc-amount">20<small> USD</small></span><span class="pc-go">Commander</span></a><a class="price-card" href="commande-service.html"><span class="pc-name">Certificat / Unité</span><span class="pc-amount">3<small> USD</small></span><span class="pc-go">Commander</span></a><a class="price-card" href="commande-service.html"><span class="pc-name">Flyer Business</span><span class="pc-amount">25<small> USD</small></span><span class="pc-go">Commander</span></a><a class="price-card" href="commande-service.html"><span class="pc-name">Étiquette</span><span class="pc-amount">60<small> USD</small></span><span class="pc-go">Commander</span></a><a class="price-card" href="commande-service.html"><span class="pc-name">Vidéo promotionnelle</span><span class="pc-amount">50<small> USD</small></span><span class="pc-go">Commander</span></a><a class="price-card" href="commande-service.html"><span class="pc-name">Bannière</span><span class="pc-amount">65<small> USD</small></span><span class="pc-go">Commander</span></a><a class="price-card is-custom" href="commande-service.html"><span class="pc-name">Autre besoin ?</span><span class="pc-amount pc-text">Dites-nous ce qu'il vous faut</span><span class="pc-go">Commander</span></a></div>
   </div>
 </section>
 
@@ -1253,7 +1353,7 @@ footer{text-align:center;padding:25px 15px;font-size:13px}
                 </div>
 
                 <a
-                    href="#inscription"
+                    href="inscription.html"
                     class="formation-btn"
                 >
                     S'inscrire
@@ -1292,7 +1392,7 @@ footer{text-align:center;padding:25px 15px;font-size:13px}
                 </div>
 
                 <a
-                    href="#inscription"
+                    href="inscription.html"
                     class="formation-btn"
                 >
                     S'inscrire
@@ -1331,7 +1431,7 @@ footer{text-align:center;padding:25px 15px;font-size:13px}
                 </div>
 
                 <a
-                    href="#inscription"
+                    href="inscription.html"
                     class="formation-btn"
                 >
                     S'inscrire
@@ -1370,7 +1470,7 @@ footer{text-align:center;padding:25px 15px;font-size:13px}
                 </div>
 
                 <a
-                    href="#inscription"
+                    href="inscription.html"
                     class="formation-btn"
                 >
                     S'inscrire
@@ -2151,6 +2251,117 @@ footer{text-align:center;padding:25px 15px;font-size:13px}
 <!-- =========================
      CONTACT
 ========================= -->
+
+
+<section class="section" id="avis-clients">
+  <div class="section-header">
+    <span>Votre expérience compte</span>
+    <h2>Ce que nos clients disent</h2>
+    <p>Un espace réservé aux cinq premiers avis vérifiés de nos clients.</p>
+  </div>
+  <div class="review-window"><div id="reviewTrack" class="review-track"><div class="review-loading">Chargement des avis…</div></div></div>
+  <div class="review-form-card" id="reviewFormCard">
+    <h3>Laissez votre commentaire</h3>
+    <p>Connectez-vous à votre compte pour noter nos services sur 5 étoiles.</p>
+    <form id="siteReviewForm">
+      <label for="reviewName">Nom affiché</label><input id="reviewName" maxlength="80" required>
+      <label for="reviewText">Votre commentaire</label><textarea id="reviewText" maxlength="500" minlength="3" required placeholder="Partagez votre expérience…"></textarea>
+      <label>Votre note</label>
+      <div class="review-stars" role="radiogroup" aria-label="Note sur cinq étoiles">
+        <input type="radio" name="reviewStars" id="star1" value="1"><label for="star1" aria-label="1 étoile">★</label>
+        <input type="radio" name="reviewStars" id="star2" value="2"><label for="star2" aria-label="2 étoiles">★</label>
+        <input type="radio" name="reviewStars" id="star3" value="3"><label for="star3" aria-label="3 étoiles">★</label>
+        <input type="radio" name="reviewStars" id="star4" value="4"><label for="star4" aria-label="4 étoiles">★</label>
+        <input type="radio" name="reviewStars" id="star5" value="5" checked><label for="star5" aria-label="5 étoiles">★</label>
+      </div>
+      <button class="btn btn-primary" type="submit">Publier mon avis</button>
+      <p id="reviewStatus" role="status"></p>
+    </form>
+  </div>
+  <div id="reviewClosed" class="review-closed" hidden>Les cinq avis sont déjà publiés. Merci pour votre confiance !</div>
+</section>
+<style>
+.review-window{overflow:hidden;position:relative;max-width:1100px;margin:0 auto 28px;padding:10px 0}
+.review-track{display:flex;align-items:stretch;gap:16px;width:max-content;animation:reviewSlide 30s ease-in-out infinite alternate}
+.review-track:hover{animation-play-state:paused}
+.review-card{width:min(340px,82vw);padding:22px;border:1px solid #dce8f2;border-radius:20px;background:#fff;box-shadow:0 14px 35px #07111f12}
+.review-card strong{display:block;font-size:15px;margin-bottom:8px}.review-card p{color:#52677d;line-height:1.6;white-space:normal;overflow-wrap:anywhere}.review-card .stars{color:#e8a600;letter-spacing:3px;margin-bottom:10px}.review-card small{display:block;color:#8392a3;margin-top:12px}
+.review-loading{padding:25px;color:#6b7c8f}
+@keyframes reviewSlide{from{transform:translateX(0)}to{transform:translateX(calc(-100% + min(100vw,1100px)))}}
+.review-form-card{max-width:650px;margin:auto;padding:26px;border:1px solid #e0e9f1;border-radius:22px;background:#fff;box-shadow:0 15px 35px #07111f0d}
+.review-form-card h3{margin-bottom:6px}.review-form-card p{color:#66788c;margin-bottom:14px}.review-form-card label{display:block;font-size:13px;font-weight:800;margin:12px 0 6px}
+.review-form-card input:not([type=radio]),.review-form-card textarea{width:100%;padding:12px;border:1px solid #d7e2ec;border-radius:11px;font:inherit}.review-form-card textarea{min-height:100px}
+.review-stars{display:flex;flex-direction:row-reverse;justify-content:flex-end;gap:4px;margin:8px 0 16px}.review-stars input{position:absolute;opacity:0}.review-stars label{font-size:32px;color:#d7e0e8;cursor:pointer;margin:0}.review-stars label:hover,.review-stars label:hover~label,.review-stars input:checked~label{color:#f2b600}
+#reviewStatus{min-height:20px;margin-top:10px;font-weight:700;font-size:13px}.review-closed{max-width:650px;margin:auto;padding:18px;border-radius:16px;background:#eff8fc;text-align:center;font-weight:800}
+@media(prefers-reduced-motion:reduce){.review-track{animation:none}}
+</style>
+
+
+<!-- ===== PARLONS DE VOTRE PROJET ===== -->
+<section class="bp-talk" id="parlons">
+ <div class="bp-wrap">
+  <div class="bp-talk-card">
+   <div>
+    <h2>Parlons de<br>votre <em>projet</em><i></i></h2>
+    <p class="bp-lead">Décrivez votre activité en quelques lignes. Baba Design vous répond avec une proposition claire.</p>
+    <div class="bp-chips"><span class="bp-chip"><b>✓</b>Proposition claire</span><span class="bp-chip"><b>✓</b>Un seul interlocuteur</span><span class="bp-chip"><b>✓</b>Livraison dès 7 jours</span></div>
+   </div>
+   <div class="bp-chat">
+    <div class="bp-chat-head"><div class="bp-av">B</div><div><strong>Baba Design</strong><small>En ligne</small></div></div>
+    <div class="bp-bubble bp-b1">Bonjour 👋 Parlez-moi de votre projet.</div>
+    <div class="bp-bubble bp-b2">J’ai besoin d’un site pour mon business.</div>
+    <div class="bp-bubble bp-b3">Parfait ! Créez votre compte et envoyez votre demande.</div>
+    <div class="bp-chat-actions">
+     <a class="bp-btn bp-wa" href="https://wa.me/50940052773" target="_blank" rel="noopener">💬 Écrire sur WhatsApp</a>
+     <button type="button" class="bp-btn bp-go" data-build-project="Sur mesure">Démarrer mon projet →</button>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- ===== PARRAINAGE ===== -->
+<section class="bp-ref" id="parrainage">
+ <div class="bp-wrap">
+  <div class="bp-ref-card">
+   <div>
+    <span class="bp-tag">Programme de parrainage</span>
+    <h2>Gagnez de l’argent avec <em>Baba Design.</em></h2>
+    <p class="bp-lead">Vous connaissez quelqu’un qui a besoin d’un site ou d’un design, ou qui veut apprendre ? Recommandez-nous : <strong>500 HTG</strong> pour chaque client et <strong>500 HTG</strong> pour chaque étudiant que vous amenez.</p>
+    <ol class="bp-steps">
+     <li><b>1</b><div><strong>Créez votre compte</strong><span>Gratuit, en 2 minutes. Obligatoire avant d’envoyer une demande.</span></div></li>
+     <li><b>2</b><div><strong>Inscrivez-vous comme agent</strong><span>Recevez votre ID agent et partagez-le avec vos contacts.</span></div></li>
+     <li><b>3</b><div><strong>Recevez vos gains</strong><span>Chaque client ou étudiant référé est rattaché à votre ID.</span></div></li>
+    </ol>
+    <div class="bp-cta-row">
+     <a class="bp-btn bp-cy" href="mon-espace.html" data-bp-join>Devenir membre →</a>
+     <a class="bp-btn bp-ghost" href="inscription.html" data-bp-agent>S’inscrire comme agent</a>
+    </div>
+   </div>
+
+   <div class="bp-calc" id="bpCalc">
+    <div class="bp-calc-top">
+     <div><small>Espace agent</small><strong>Combien je peux gagner ?</strong></div>
+     <div class="bp-toggle" role="tablist"><button type="button" class="on" data-bp-kind="clients">Clients</button><button type="button" data-bp-kind="étudiants">Étudiants</button></div>
+    </div>
+    <div class="bp-total">
+     <div class="bp-toast" id="bpToast">+500 HTG</div>
+     <small id="bpWho">Clients référés</small>
+     <span class="bp-num"><b id="bpAmount">0</b><span>HTG</span></span>
+     <div class="bp-formula" id="bpFormula">—</div>
+     <div class="bp-bar"><i id="bpBar"></i></div>
+    </div>
+    <div class="bp-rows">
+     <button type="button" class="bp-row" data-bp-n="10"><b>10</b><span><small>Référez 10 personnes</small><em><i></i></em></span><strong>5 000 HTG</strong></button>
+     <button type="button" class="bp-row" data-bp-n="15"><b>15</b><span><small>Référez 15 personnes</small><em><i></i></em></span><strong>7 500 HTG</strong></button>
+     <button type="button" class="bp-row" data-bp-n="20"><b>20</b><span><small>Référez 20 personnes</small><em><i></i></em></span><strong>10 000 HTG</strong></button>
+    </div>
+    <label class="bp-slider">Essayez :<input type="range" id="bpRange" min="1" max="50" value="10"><output id="bpOut">10</output></label>
+    <p class="bp-note">500 HTG par client ou par étudiant référé. Les gains sont confirmés après validation du paiement / de l’inscription.</p>
+   </div>
+  </div>
+ </div>
+</section>
 
 <section class="section" id="contact">
 
@@ -4284,5 +4495,184 @@ document.addEventListener('click',function(e){
 /* Carte Business : liste des types de sites */
 .web-page-list.web-page-list-one{grid-template-columns:1fr}
 </style>
+
+<script>
+(() => {
+ const url="https://drvcneeaothydjmqpdzg.supabase.co";
+ const key="sb_publishable_k8DUVt12k1GN4n7yiYBnYw_gXltrpmp";
+ const client=window.supabase.createClient(url,key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+ const track=document.getElementById("reviewTrack"), form=document.getElementById("siteReviewForm");
+ const formCard=document.getElementById("reviewFormCard"), closed=document.getElementById("reviewClosed");
+ const status=document.getElementById("reviewStatus");
+ const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ const fmt=d=>d?new Date(d).toLocaleDateString("fr-FR"):"";
+ async function loadReviews(){
+   const {data,error}=await client.from("site_reviews").select("display_name,review_text,stars,created_at").order("created_at",{ascending:true}).limit(5);
+   if(error){track.innerHTML='<div class="review-loading">Les avis seront affichés après activation du module dans Supabase.</div>';return;}
+   track.innerHTML=(data||[]).map(r=>`<article class="review-card"><div class="stars">${"★".repeat(r.stars)}${"☆".repeat(5-r.stars)}</div><strong>${esc(r.display_name)}</strong><p>${esc(r.review_text)}</p><small>${fmt(r.created_at)}</small></article>`).join("")||'<div class="review-loading">Soyez le premier à partager votre expérience.</div>';
+   if((data||[]).length>=5){formCard.hidden=true;closed.hidden=false;}
+ }
+ client.auth.getUser().then(({data:{user}})=>{
+   if(user){document.getElementById("reviewName").value=user.user_metadata?.full_name||user.email?.split("@")[0]||"";}
+ });
+ form.addEventListener("submit",async e=>{
+   e.preventDefault();status.textContent="Publication en cours…";
+   try{
+     const {data:{user}}=await client.auth.getUser();
+     if(!user){status.textContent="Connectez-vous ou créez un compte dans Mon espace avant de commenter.";return;}
+     const stars=Number(document.querySelector('input[name="reviewStars"]:checked')?.value||5);
+     const {error}=await client.rpc("submit_site_review",{p_display_name:document.getElementById("reviewName").value.trim(),p_review_text:document.getElementById("reviewText").value.trim(),p_stars:stars});
+     if(error)throw error;
+     status.textContent="Merci ! Votre avis a été publié.";
+     form.reset();document.getElementById("reviewName").value=user.user_metadata?.full_name||user.email?.split("@")[0]||"";
+     await loadReviews();
+   }catch(err){status.textContent=err.message||"Impossible de publier cet avis.";}
+ });
+ loadReviews();
+})();
+</script>
+
+<style id="baba-aurora-lean">
+/* === Baba Design · AURORA LUXE LÉGER (formulaires + site) === */
+:root{--cy:#12d6f5;--bl:#2b6fe0;--ink:#0b1b2e;--soft:#f1f7fd}
+html{scroll-behavior:smooth;background:#fff}
+html::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(40% 35% at 15% 20%,rgba(18,214,245,.26),transparent 70%),radial-gradient(38% 40% at 88% 12%,rgba(120,140,255,.2),transparent 70%),radial-gradient(45% 40% at 70% 92%,rgba(74,168,255,.2),transparent 70%)}
+html::after{content:"";position:fixed;z-index:-1;pointer-events:none;width:55vmax;height:55vmax;right:-18vmax;top:-20vmax;border-radius:50%;background:radial-gradient(circle,rgba(18,214,245,.22),transparent 65%);will-change:transform;animation:azDrift 16s ease-in-out infinite alternate}
+body{background:transparent!important;animation:none!important}
+body::before,body::after{display:none!important}
+.btn,.portal-btn,.formation-btn,.submit-btn,.web-package-cta{position:relative;overflow:hidden;border-radius:999px!important;transition:transform .2s,filter .2s}
+.btn:hover,.portal-btn:hover,.formation-btn:hover,.submit-btn:hover,.web-package-cta:hover{transform:translateY(-2px);filter:brightness(1.06)}
+.btn:hover::before,.submit-btn:hover::before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.55) 50%,transparent 65%);animation:azHoverSweep .7s ease both;pointer-events:none}
+.btn[type=submit]::after,.submit-btn::after{content:"→";margin-left:10px;display:inline-block;transition:transform .2s}
+.btn[type=submit]:hover::after,.submit-btn:hover::after{transform:translateX(6px)}
+.card,.price-card,.formation-card,.service,.order-item{border-radius:26px!important;transition:transform .25s,box-shadow .25s}
+.card:hover,.price-card:hover,.formation-card:hover,.service:hover,.order-item:hover{transform:translateY(-5px);box-shadow:0 26px 50px -24px rgba(8,80,160,.32)}
+.section-title::after,.section-header h2::after{content:"";display:block;height:4px;width:46px;margin:10px auto 0;border-radius:99px;background:linear-gradient(90deg,var(--cy),var(--bl));animation:azRun 2.8s ease-in-out infinite alternate}
+.hero-modern::after{content:"";position:absolute;z-index:-1;width:60vmax;height:60vmax;left:-20vmax;top:-25vmax;border-radius:50%;background:radial-gradient(circle,rgba(18,214,245,.3),transparent 65%);pointer-events:none;will-change:transform;animation:azDrift 14s ease-in-out infinite alternate}
+.wrap{position:relative;animation:azRise .6s ease both}
+.back{padding:9px 16px;border-radius:999px;background:rgba(255,255,255,.92);border:1px solid rgba(8,125,224,.14);color:var(--ink)!important;box-shadow:0 6px 18px -8px rgba(8,80,160,.25);transition:transform .2s}
+.back:hover{transform:translateX(-4px)}
+.brand{color:var(--ink)!important;font-size:20px!important;letter-spacing:-.03em}.brand span{background:linear-gradient(90deg,var(--cy),var(--bl));-webkit-background-clip:text;background-clip:text;color:transparent!important}
+.panel{position:relative;overflow:hidden;background:rgba(255,255,255,.92)!important;border:1px solid rgba(18,214,245,.25)!important;border-radius:32px!important;box-shadow:0 36px 70px -34px rgba(8,80,160,.4)!important}
+.panel::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,var(--cy),var(--bl),var(--cy))}
+.kicker{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:rgba(18,214,245,.12);color:#0877a8!important}
+.kicker::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--cy);animation:azPulse 1.8s infinite}
+.panel h1{background:linear-gradient(100deg,var(--ink) 25%,#0a7fc7 75%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.field label{font-size:12px!important;letter-spacing:.04em;color:#38506a}
+.field input,.field select,.field textarea{border:1.5px solid transparent!important;background:var(--soft)!important;border-radius:16px!important;padding:14px 16px!important;transition:border-color .15s,box-shadow .15s,background .15s}
+.field input:focus,.field select:focus,.field textarea:focus{outline:0;background:#fff!important;border-color:var(--cy)!important;box-shadow:0 0 0 4px rgba(18,214,245,.16)}
+.btn{background:linear-gradient(110deg,#07111f,#0e3a73 55%,#087de0)!important;color:#fff!important;padding:17px 22px!important;box-shadow:0 14px 30px -14px rgba(8,125,224,.7)}
+.price{position:relative;overflow:hidden;background:linear-gradient(135deg,#07111f,#0e3a73)!important;color:#fff!important;border-radius:26px!important;box-shadow:0 22px 46px -22px rgba(8,60,120,.7)}
+.price::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 40%,rgba(18,214,245,.26) 50%,transparent 60%);transform:translateX(-130%);will-change:transform;animation:azSweep 6s ease-in-out infinite}
+.price strong{color:#7fefff!important}
+.notice{border-radius:18px!important;background:rgba(18,214,245,.09)!important;border:1px dashed rgba(8,125,224,.3)}
+.type-card{border:1.5px solid transparent!important;background:var(--soft);border-radius:20px!important;transition:transform .2s,box-shadow .2s}
+.type-card:hover{transform:translateY(-3px)}
+.type-card:has(input:checked){background:#fff!important;border-color:var(--cy)!important;transform:translateY(-2px) scale(1.03);box-shadow:0 0 0 4px rgba(18,214,245,.14),0 16px 30px -16px rgba(8,125,224,.5)}
+input[type=radio]{accent-color:#087de0}
+.account-modal{background:rgba(240,248,255,.8)!important}
+.account-box{background:#fff!important;border-radius:32px!important;animation:azRise .35s ease both}
+@keyframes azDrift{to{transform:translate3d(-16vmax,10vmax,0) scale(1.15)}}
+@keyframes azRise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes azSweep{0%,55%{transform:translateX(-130%)}100%{transform:translateX(130%)}}
+@keyframes azHoverSweep{from{transform:translateX(-130%)}to{transform:translateX(130%)}}
+@keyframes azRun{from{transform:translateX(-12px)}to{transform:translateX(26px)}}
+@keyframes azPulse{0%{box-shadow:0 0 0 0 rgba(18,214,245,.5)}70%{box-shadow:0 0 0 10px rgba(18,214,245,0)}100%{box-shadow:0 0 0 0 rgba(18,214,245,0)}}
+@media (max-width:420px){.row,.type-grid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+
+<script id="baba-parrainage-js">
+(function(){
+  /* ---------- Calculateur animé ---------- */
+  var RATE=500, MAX=20;
+  var calc=document.getElementById('bpCalc'); if(!calc) return;
+  var amt=document.getElementById('bpAmount'), formula=document.getElementById('bpFormula'),
+      bar=document.getElementById('bpBar'), who=document.getElementById('bpWho'),
+      range=document.getElementById('bpRange'), out=document.getElementById('bpOut'),
+      toast=document.getElementById('bpToast'), rows=calc.querySelectorAll('.bp-row');
+  var kind='clients', cur=0, shown=0, raf=null, timer=null, userTouched=false, started=false;
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var fmt=function(n){return Math.round(n).toLocaleString('fr-FR')};
+
+  function countTo(target){
+    cancelAnimationFrame(raf);
+    var from=shown, t0=performance.now(), dur=reduce?0:1100;
+    (function step(t){
+      var p=dur?Math.min(1,(t-t0)/dur):1, e=1-Math.pow(1-p,3);
+      shown=from+(target-from)*e; amt.textContent=fmt(shown);
+      if(p<1) raf=requestAnimationFrame(step);
+    })(t0);
+  }
+  function setN(n,fromUser){
+    cur=n; var total=n*RATE;
+    countTo(total);
+    formula.textContent=n+' '+kind+' × '+fmt(RATE)+' HTG = '+fmt(total)+' HTG';
+    bar.style.width=Math.min(100,(n/MAX)*100)+'%';
+    range.value=n; out.textContent=n;
+    rows.forEach(function(r){
+      var v=+r.dataset.bpN, on=v===n; r.classList.toggle('on',on);
+      r.querySelector('em i').style.width=(v<=n?100:Math.round(n/v*100))+'%';
+    });
+    toast.textContent='+'+fmt(total)+' HTG'; toast.classList.remove('show'); void toast.offsetWidth; toast.classList.add('show');
+  }
+  function autoplay(){
+    var seq=[10,15,20], i=0; clearInterval(timer);
+    setN(seq[0]);
+    if(reduce) return;
+    timer=setInterval(function(){ if(userTouched){clearInterval(timer);return} i=(i+1)%seq.length; setN(seq[i]); },3200);
+  }
+  function stop(){userTouched=true;clearInterval(timer)}
+  rows.forEach(function(r){r.addEventListener('click',function(){stop();setN(+r.dataset.bpN,true)})});
+  range.addEventListener('input',function(){stop();setN(+range.value,true)});
+  calc.querySelectorAll('[data-bp-kind]').forEach(function(b){b.addEventListener('click',function(){
+    calc.querySelectorAll('[data-bp-kind]').forEach(function(x){x.classList.toggle('on',x===b)});
+    kind=b.dataset.bpKind; who.textContent=(kind==='clients'?'Clients':'Étudiants')+' référés'; setN(cur||10);
+  })});
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es,o){es.forEach(function(e){if(e.isIntersecting&&!started){started=true;autoplay();o.disconnect()}})},{threshold:.35}).observe(calc);
+  } else { started=true; autoplay(); }
+
+  /* ---------- Compte obligatoire avant une demande de projet ---------- */
+  var PENDING='baba_pending_plan';
+  function client(){return window.babaSupabase}
+  function logged(){
+    try{return client().auth.getSession().then(function(r){return !!(r&&r.data&&r.data.session)})}
+    catch(e){return Promise.resolve(false)}
+  }
+  document.addEventListener('click',function(e){
+    var btn=e.target.closest&&e.target.closest('[data-build-project]'); if(!btn) return;
+    if(btn.__babaOk){btn.__babaOk=false;return}
+    e.preventDefault(); e.stopImmediatePropagation();
+    logged().then(function(ok){
+      if(ok){btn.__babaOk=true;btn.click()}
+      else{
+        try{sessionStorage.setItem(PENDING,btn.dataset.buildProject)}catch(_){}
+        alert('Créez d’abord votre compte (ou connectez-vous) pour envoyer une demande de projet. Vous allez être redirigé vers Mon espace.');
+        window.location.href='mon-espace.html';
+      }
+    });
+  },true);
+  /* Reprise après connexion : ouvre le formulaire de la formule choisie */
+  function resume(){
+    var plan; try{plan=sessionStorage.getItem(PENDING)}catch(_){}
+    if(!plan) return;
+    logged().then(function(ok){
+      if(!ok) return;
+      try{sessionStorage.removeItem(PENDING)}catch(_){}
+      var b=document.querySelector('[data-build-project="'+plan+'"]');
+      if(b){document.getElementById('creation-web')&&document.getElementById('creation-web').scrollIntoView();setTimeout(function(){b.click()},250)}
+    });
+  }
+  window.addEventListener('load',function(){setTimeout(resume,600)});
+
+  /* ---------- Inscription agent ---------- */
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('[data-bp-agent]'); if(!a) return;
+    try{sessionStorage.setItem('baba_signup_type','Agent')}catch(_){}
+  });
+})();
+</script>
+
 </body>
 </html>
