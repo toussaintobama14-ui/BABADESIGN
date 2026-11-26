@@ -2,7 +2,9 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#07111f">
+<script>if(!(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)){document.documentElement.classList.add("bd-await");setTimeout(function(){document.documentElement.classList.remove("bd-await")},2500)}</script>
 
 <!-- PARAMÈTRES WEB APP -->
 <meta name="theme-color" content="#07111f">
@@ -501,6 +503,251 @@ footer{text-align:center;padding:25px 15px;font-size:13px}
 @media(prefers-reduced-motion:reduce){.bp-bubble{opacity:1;transform:none;animation:none}.bp-bar i,.bp-row span em i{transition:none}}
 </style>
 
+
+
+<style id="baba-accueil-menu-finish">
+/* Ajustements ciblés : décor discret de l'accueil + menu ordinateur */
+@media (min-width:1101px){
+  .navbar .nav-container{
+    max-width:1360px;
+    min-height:0;
+    padding:12px 24px 10px;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    row-gap:9px;
+  }
+  .navbar .logo-nav{
+    flex:0 0 100%;
+    text-align:center;
+    font-size:23px;
+    line-height:1.2;
+    padding-bottom:2px;
+  }
+  .navbar .menu-toggle{display:none!important}
+  .navbar .nav-links{
+    width:100%;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:center;
+    gap:5px 7px;
+    margin:0;
+    padding:0;
+  }
+  .navbar .nav-links li{white-space:nowrap}
+  .navbar .nav-links a{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:34px;
+    padding:7px 11px;
+    border:1px solid transparent;
+    border-radius:10px;
+    font-size:12.5px;
+    line-height:1.2;
+    transition:background .2s ease,border-color .2s ease,color .2s ease,transform .2s ease;
+  }
+  .navbar .nav-links a:hover{
+    background:rgba(255,255,255,.07);
+    border-color:rgba(255,255,255,.10);
+    transform:translateY(-1px);
+  }
+  .navbar .nav-links a.nav-boutique{
+    padding:7px 13px!important;
+    border-radius:10px;
+  }
+  .navbar .nav-links a.nav-account-link{
+    margin-left:5px;
+    padding-inline:14px;
+    color:#07111f!important;
+    background:#12d6f5;
+    border-color:#12d6f5;
+    font-weight:800;
+  }
+}
+
+/* Le diaporama reste présent, mais devient un décor doux derrière le contenu. */
+.hero-modern .hero-slideshow{
+  opacity:.14!important;
+}
+.hero-modern .hero-overlay{
+  background:linear-gradient(180deg,rgba(7,17,31,.78) 0%,rgba(7,17,31,.68) 48%,rgba(7,17,31,.82) 100%)!important;
+}
+.hero-modern:before{
+  background-image:
+    radial-gradient(circle,rgba(91,224,255,.19) 1px,transparent 1.5px),
+    linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px)!important;
+  background-size:26px 26px,64px 64px,64px 64px!important;
+  -webkit-mask-image:radial-gradient(ellipse 72% 82% at 50% 48%,#000 18%,transparent 78%)!important;
+  mask-image:radial-gradient(ellipse 72% 82% at 50% 48%,#000 18%,transparent 78%)!important;
+}
+.hero-modern:after{
+  background:radial-gradient(circle,rgba(18,214,245,.14),transparent 68%)!important;
+  opacity:.8;
+}
+.hero-modern .hero-content-modern{position:relative;isolation:isolate}
+.hero-modern .hero-content-modern:before{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  width:132px;
+  height:132px;
+  right:5%;
+  top:-58px;
+  border:1px solid rgba(115,226,255,.16);
+  border-radius:28px;
+  transform:rotate(18deg);
+  box-shadow:0 0 0 14px rgba(115,226,255,.025),0 0 0 30px rgba(115,226,255,.018);
+  pointer-events:none;
+}
+@media(max-width:760px){
+  .hero-modern .hero-content-modern:before{width:88px;height:88px;right:2%;top:-35px}
+  .hero-modern .hero-slideshow{opacity:.10!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero-modern .hero-content-modern:before{transform:none}
+}
+</style>
+
+
+<style id="baba-navigation-responsive-finish">
+/* Menu principal : mise en page équilibrée sur tous les écrans */
+.navbar{
+  position:sticky;
+  top:0;
+  z-index:9999;
+  background:rgba(7,17,31,.96);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  -webkit-backdrop-filter:blur(16px);
+  backdrop-filter:blur(16px);
+}
+.navbar .nav-container{width:100%;min-width:0}
+.navbar .nav-links{list-style:none}
+.navbar .nav-links a{
+  text-decoration:none;
+  white-space:nowrap;
+  border-radius:10px;
+}
+.navbar .nav-links a:focus-visible,
+.navbar .menu-toggle:focus-visible{
+  outline:2px solid #12d6f5;
+  outline-offset:3px;
+}
+.navbar .menu-toggle{
+  width:44px;height:44px;
+  display:none;
+  align-items:center;justify-content:center;
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:12px;
+  background:rgba(255,255,255,.07);
+}
+.navbar .menu-toggle svg{width:25px;height:25px;fill:currentColor}
+@media (min-width:701px){
+  .navbar .nav-container{
+    max-width:1360px;
+    min-height:0;
+    padding:12px 22px;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    row-gap:9px;
+  }
+  .navbar .logo-nav{
+    flex:0 0 100%;
+    text-align:center;
+    font-size:23px;
+    line-height:1.2;
+  }
+  .navbar .menu-toggle{display:none!important}
+  .navbar .nav-links{
+    width:100%;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:center;
+    gap:5px 7px;
+    margin:0;padding:0;
+  }
+  .navbar .nav-links li{white-space:nowrap}
+  .navbar .nav-links a{
+    display:inline-flex;
+    align-items:center;justify-content:center;
+    min-height:36px;
+    padding:8px 11px;
+    font-size:12.5px;
+    line-height:1.2;
+    transition:background .2s ease,color .2s ease,transform .2s ease;
+  }
+  .navbar .nav-links a:hover{
+    background:rgba(255,255,255,.08);
+    color:#12d6f5;
+    transform:translateY(-1px);
+  }
+}
+@media (max-width:700px){
+  .navbar .nav-container{
+    min-height:66px;
+    padding:9px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+  }
+  .navbar .logo-nav{font-size:21px;line-height:1.2}
+  .navbar .menu-toggle{display:flex;flex:0 0 44px}
+  .navbar .nav-links{
+    position:absolute;
+    top:calc(100% + 1px);
+    left:0;right:0;
+    width:100%;
+    max-height:0;
+    overflow-x:hidden;
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    gap:4px;
+    margin:0;
+    padding:0 14px;
+    background:rgba(7,17,31,.985);
+    border-bottom:1px solid rgba(18,214,245,.16);
+    box-shadow:0 18px 35px rgba(0,0,0,.28);
+    opacity:0;
+    visibility:hidden;
+    transition:max-height .28s ease,padding .28s ease,opacity .2s ease,visibility .2s ease;
+  }
+  .navbar .nav-links.active{
+    max-height:calc(100dvh - 68px);
+    padding:12px 14px 18px;
+    opacity:1;
+    visibility:visible;
+  }
+  .navbar .nav-links li{width:100%}
+  .navbar .nav-links a{
+    display:flex;
+    align-items:center;
+    width:100%;
+    min-height:44px;
+    padding:11px 14px;
+    border:1px solid transparent;
+    border-radius:11px;
+    font-size:14px;
+    line-height:1.35;
+  }
+  .navbar .nav-links a:hover,
+  .navbar .nav-links a:active{
+    background:rgba(18,214,245,.09);
+    border-color:rgba(18,214,245,.18);
+  }
+}
+@media (prefers-reduced-motion:reduce){
+  .navbar .nav-links{transition:none}
+}
+</style>
+
 </head>
 
 <body>
@@ -517,9 +764,7 @@ footer{text-align:center;padding:25px 15px;font-size:13px}
             Baba<span>Design</span>
         </a>
 
-        <button class="menu-toggle" id="menuToggle">
-            ☰
-        </button>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks"><svg class="bd-burger" viewBox="0 0 24 24" aria-hidden="true"><rect class="b1" x="3" y="5.2" width="18" height="2.6" rx="1.3"/><rect class="b2" x="3" y="10.7" width="18" height="2.6" rx="1.3"/><rect class="b3" x="3" y="16.2" width="18" height="2.6" rx="1.3"/></svg></button>
 
         <ul class="nav-links" id="navLinks">
 
@@ -551,20 +796,10 @@ footer{text-align:center;padding:25px 15px;font-size:13px}
             </li>
 
             <li>
-                <!-- BOUTIQUE_CONNECT: boutique.html -->
-                <a href="boutique.html" class="nav-boutique">
-                    Boutique
-                </a>
-            </li>
-
-            <li>
                 <a href="inscription.html">Inscription</a>
             </li>
             <li>
                 <a href="carte-urgence.html">C. Urgence</a>
-            </li>
-            <li>
-                <a href="#avis-clients">Avis clients</a>
             </li>
 
             <li>
@@ -585,7 +820,6 @@ footer{text-align:center;padding:25px 15px;font-size:13px}
 
             <li>
                 <a href="#contact">Contact</a>
-                <a href="mon-espace.html" class="nav-account-link">Mon espace</a>
             </li>
 
         </ul>
@@ -701,7 +935,7 @@ footer{text-align:center;padding:25px 15px;font-size:13px}
     </article>
 
     <article class="web-package-card web-package-custom">
-      <div class="web-package-top"><span class="web-package-label">PROJET PERSONNALISÉ</span><span class="web-package-icon" aria-hidden="true">✳</span></div>
+      <div class="web-package-top"><span class="web-package-label">PROJET PERSONNALISÉ</span><span class="web-package-icon" aria-hidden="true"><svg class="bd-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2l2.2 6.3L20.5 10l-6.3 1.7L12 18l-2.2-6.3L3.5 10l6.3-1.7z"/></svg></span></div>
       <h3>Sur mesure</h3>
       <p class="web-package-intro">Pour les projets qui demandent une architecture, des fonctionnalités ou une expérience personnalisée.</p>
       <div class="web-package-meta"><span><b>Pages</b> selon le projet</span><span><b>30 jours minimum</b></span></div>
@@ -2253,48 +2487,7 @@ footer{text-align:center;padding:25px 15px;font-size:13px}
 ========================= -->
 
 
-<section class="section" id="avis-clients">
-  <div class="section-header">
-    <span>Votre expérience compte</span>
-    <h2>Ce que nos clients disent</h2>
-    <p>Un espace réservé aux cinq premiers avis vérifiés de nos clients.</p>
-  </div>
-  <div class="review-window"><div id="reviewTrack" class="review-track"><div class="review-loading">Chargement des avis…</div></div></div>
-  <div class="review-form-card" id="reviewFormCard">
-    <h3>Laissez votre commentaire</h3>
-    <p>Connectez-vous à votre compte pour noter nos services sur 5 étoiles.</p>
-    <form id="siteReviewForm">
-      <label for="reviewName">Nom affiché</label><input id="reviewName" maxlength="80" required>
-      <label for="reviewText">Votre commentaire</label><textarea id="reviewText" maxlength="500" minlength="3" required placeholder="Partagez votre expérience…"></textarea>
-      <label>Votre note</label>
-      <div class="review-stars" role="radiogroup" aria-label="Note sur cinq étoiles">
-        <input type="radio" name="reviewStars" id="star1" value="1"><label for="star1" aria-label="1 étoile">★</label>
-        <input type="radio" name="reviewStars" id="star2" value="2"><label for="star2" aria-label="2 étoiles">★</label>
-        <input type="radio" name="reviewStars" id="star3" value="3"><label for="star3" aria-label="3 étoiles">★</label>
-        <input type="radio" name="reviewStars" id="star4" value="4"><label for="star4" aria-label="4 étoiles">★</label>
-        <input type="radio" name="reviewStars" id="star5" value="5" checked><label for="star5" aria-label="5 étoiles">★</label>
-      </div>
-      <button class="btn btn-primary" type="submit">Publier mon avis</button>
-      <p id="reviewStatus" role="status"></p>
-    </form>
-  </div>
-  <div id="reviewClosed" class="review-closed" hidden>Les cinq avis sont déjà publiés. Merci pour votre confiance !</div>
-</section>
-<style>
-.review-window{overflow:hidden;position:relative;max-width:1100px;margin:0 auto 28px;padding:10px 0}
-.review-track{display:flex;align-items:stretch;gap:16px;width:max-content;animation:reviewSlide 30s ease-in-out infinite alternate}
-.review-track:hover{animation-play-state:paused}
-.review-card{width:min(340px,82vw);padding:22px;border:1px solid #dce8f2;border-radius:20px;background:#fff;box-shadow:0 14px 35px #07111f12}
-.review-card strong{display:block;font-size:15px;margin-bottom:8px}.review-card p{color:#52677d;line-height:1.6;white-space:normal;overflow-wrap:anywhere}.review-card .stars{color:#e8a600;letter-spacing:3px;margin-bottom:10px}.review-card small{display:block;color:#8392a3;margin-top:12px}
-.review-loading{padding:25px;color:#6b7c8f}
-@keyframes reviewSlide{from{transform:translateX(0)}to{transform:translateX(calc(-100% + min(100vw,1100px)))}}
-.review-form-card{max-width:650px;margin:auto;padding:26px;border:1px solid #e0e9f1;border-radius:22px;background:#fff;box-shadow:0 15px 35px #07111f0d}
-.review-form-card h3{margin-bottom:6px}.review-form-card p{color:#66788c;margin-bottom:14px}.review-form-card label{display:block;font-size:13px;font-weight:800;margin:12px 0 6px}
-.review-form-card input:not([type=radio]),.review-form-card textarea{width:100%;padding:12px;border:1px solid #d7e2ec;border-radius:11px;font:inherit}.review-form-card textarea{min-height:100px}
-.review-stars{display:flex;flex-direction:row-reverse;justify-content:flex-end;gap:4px;margin:8px 0 16px}.review-stars input{position:absolute;opacity:0}.review-stars label{font-size:32px;color:#d7e0e8;cursor:pointer;margin:0}.review-stars label:hover,.review-stars label:hover~label,.review-stars input:checked~label{color:#f2b600}
-#reviewStatus{min-height:20px;margin-top:10px;font-weight:700;font-size:13px}.review-closed{max-width:650px;margin:auto;padding:18px;border-radius:16px;background:#eff8fc;text-align:center;font-weight:800}
-@media(prefers-reduced-motion:reduce){.review-track{animation:none}}
-</style>
+
 
 
 <!-- ===== PARLONS DE VOTRE PROJET ===== -->
@@ -2308,11 +2501,11 @@ footer{text-align:center;padding:25px 15px;font-size:13px}
    </div>
    <div class="bp-chat">
     <div class="bp-chat-head"><div class="bp-av">B</div><div><strong>Baba Design</strong><small>En ligne</small></div></div>
-    <div class="bp-bubble bp-b1">Bonjour 👋 Parlez-moi de votre projet.</div>
+    <div class="bp-bubble bp-b1">Bonjour ! Parlez-moi de votre projet.</div>
     <div class="bp-bubble bp-b2">J’ai besoin d’un site pour mon business.</div>
     <div class="bp-bubble bp-b3">Parfait ! Créez votre compte et envoyez votre demande.</div>
     <div class="bp-chat-actions">
-     <a class="bp-btn bp-wa" href="https://wa.me/50940052773" target="_blank" rel="noopener">💬 Écrire sur WhatsApp</a>
+     <a class="bp-btn bp-wa" href="https://wa.me/50940052773" target="_blank" rel="noopener"><svg class="bd-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 3h16a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-8l-5 4v-4H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/></svg>Écrire sur WhatsApp</a>
      <button type="button" class="bp-btn bp-go" data-build-project="Sur mesure">Démarrer mon projet →</button>
     </div>
    </div>
@@ -2455,8 +2648,11 @@ footer{text-align:center;padding:25px 15px;font-size:13px}
 
 <!-- ===== NAVIGATION RAPIDE ===== -->
 <nav class="premium-bottom-nav" aria-label="Navigation rapide">
-  <a href="#accueil" class="bottom-home"><svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-5h5v5"/></svg><span>Accueil</span></a>
-  <a href="mon-espace.html" class="bottom-account"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 21a7 7 0 0 1 14 0"/></svg><span>Mon espace</span></a>
+  <a href="#accueil" class="bottom-home"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3 2.5 11.2a.8.8 0 0 0 .5 1.4H5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-7.4h2a.8.8 0 0 0 .5-1.4z"/></svg><span>Accueil</span></a>
+  <a href="commande-service.html" class="bn-extra bottom-services"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg><span>Services</span></a>
+  <a href="#creation-web" class="bn-extra bottom-web"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 4h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-6v2h3a1 1 0 0 1 0 2H7a1 1 0 0 1 0-2h3v-2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg><span>Création web</span></a>
+  <a href="#academi" class="bn-extra bottom-academy"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3 1 9l11 6 9-4.9V17h2V9z"/><path d="M5 13.2V17c0 1.7 3.1 3 7 3s7-1.3 7-3v-3.8l-7 3.8z"/></svg><span>Akademi</span></a>
+  <a href="mon-espace.html" class="bottom-account"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4.2"/><path d="M4 21a8 8 0 0 1 16 0z"/></svg><span>Mon espace</span></a>
 </nav>
 
 <!-- =========================
@@ -3100,7 +3296,7 @@ Merci.
             class="promo-sound"
             id="promoSound"
             aria-label="Activer le son">
-            🔇
+            <svg class="bd-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9z"/><path d="m16 9 5 6m0-6-5 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         </button>
 
 
@@ -3227,7 +3423,7 @@ promoSound.addEventListener(
 
             promoVideo.muted = false;
 
-            promoSound.textContent = "🔊";
+            promoSound.innerHTML = '<svg class="bd-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
 
             promoVideo.play().catch(function () {});
 
@@ -3235,7 +3431,7 @@ promoSound.addEventListener(
 
             promoVideo.muted = true;
 
-            promoSound.textContent = "🔇";
+            promoSound.innerHTML = '<svg class="bd-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9z"/><path d="m16 9 5 6m0-6-5 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
 
         }
 
@@ -3660,16 +3856,16 @@ Merci.
 
   async function myOrders(){const {data,error}=await sb.from('orders').select('*').order('created_at',{ascending:false});if(error)throw error;return data||[];}
   async function renderView(view){const p=await getProfile();if(!p)return;const m=$('portalMain');
-    if(view==='dashboard'){const orders=await myOrders();const {data:notifs}=await sb.from('notifications').select('*').eq('user_id',p.id).order('created_at',{ascending:false}).limit(5);const latest=(notifs||[])[0];if(latest&&latest.type==='success'&&!latest.read_at)toast(latest.title,latest.body);const avg=orders.length?Math.round(orders.reduce((a,o)=>a+(o.progress||0),0)/orders.length):0;m.innerHTML=`<div class="order-item"><h3>Bienvenue 👋</h3><p>Ton espace privé est prêt.</p><div class="progress-value">${avg}%</div><div class="progress-shell"><div class="progress-fill" style="width:${avg}%"></div></div><p>Progression moyenne de tes services.</p></div><div class="order-item"><strong>${orders.length}</strong> service(s) enregistré(s).</div>`;return;}
-    if(view==='orders'){const orders=await myOrders();m.innerHTML='<h3>🧾 Mes services</h3>'+(orders.length?orders.map(o=>`<div class="order-item"><div class="portal-top"><strong>${esc(o.service_name)}</strong><span class="status-pill ${esc(o.payment_status)}">${esc(o.payment_status)}</span></div><div class="progress-value">${o.progress||0}%</div><div class="progress-shell"><div class="progress-fill" style="width:${o.progress||0}%"></div></div><p>${esc(o.status||'En attente')} · ${fmt(o.created_at)}</p></div>`).join(''):'<p>Aucun service pour le moment.</p>');return;}
-    if(view==='files'){const {data,error}=await sb.from('files').select('*').order('created_at',{ascending:false});if(error)throw error;m.innerHTML='<h3>📁 Mes fichiers</h3><div class="file-list">'+((data||[]).map(f=>`<div class="file-item"><div><strong>${esc(f.file_name)}</strong><br><small>${esc(f.kind)} · ${fmt(f.created_at)}</small></div><button class="portal-btn small" data-download="${esc(f.storage_path)}">Télécharger</button></div>`).join('')||'<p>Aucun fichier.</p>')+'</div>';m.querySelectorAll('[data-download]').forEach(b=>b.onclick=()=>downloadFile(b.dataset.download));return;}
-    if(view==='chat'){m.innerHTML=`<div class="chat-card"><div class="chat-head">💬 Conversation privée avec le contrôleur</div><div class="chat-messages" id="chatMessages"></div><div class="emoji-row">${['😊','👍','🔥','❤️','😂','🙏','🎉','😎'].map(x=>`<button type="button" data-emoji="${x}">${x}</button>`).join('')}</div><div class="chat-compose"><textarea id="chatInput" rows="2" placeholder="Écrire un message…"></textarea><button class="portal-btn" id="chatSend" type="button">Envoyer</button></div></div>`;m.querySelectorAll('[data-emoji]').forEach(b=>b.onclick=()=>{$('chatInput').value+=b.dataset.emoji;$('chatInput').focus()});$('chatSend').onclick=sendChat;$('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat()}});await refreshChat();return;}
-    if(view==='profile'){m.innerHTML=`<h3>👤 Mon profil</h3><div class="portal-field"><label>Nom</label><input id="profileName" value="${esc(p.full_name)}"></div><div class="portal-field"><label>Téléphone</label><input id="profilePhone" value="${esc(p.phone||'')}"></div><button class="portal-btn" id="saveProfile">Enregistrer</button>`;$('saveProfile').onclick=async()=>{const {error}=await sb.from('profiles').update({full_name:$('profileName').value.trim(),phone:$('profilePhone').value.trim(),updated_at:new Date().toISOString()}).eq('id',p.id);if(error)alert(error.message);else toast('Profil mis à jour','Tes informations ont été enregistrées.');};return;}
+    if(view==='dashboard'){const orders=await myOrders();const {data:notifs}=await sb.from('notifications').select('*').eq('user_id',p.id).order('created_at',{ascending:false}).limit(5);const latest=(notifs||[])[0];if(latest&&latest.type==='success'&&!latest.read_at)toast(latest.title,latest.body);const avg=orders.length?Math.round(orders.reduce((a,o)=>a+(o.progress||0),0)/orders.length):0;m.innerHTML=`<div class="order-item"><h3>Bienvenue</h3><p>Ton espace privé est prêt.</p><div class="progress-value">${avg}%</div><div class="progress-shell"><div class="progress-fill" style="width:${avg}%"></div></div><p>Progression moyenne de tes services.</p></div><div class="order-item"><strong>${orders.length}</strong> service(s) enregistré(s).</div>`;return;}
+    if(view==='orders'){const orders=await myOrders();m.innerHTML='<h3><svg class="bd-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 2h8l6 6v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm7 1.5V9h5.5z"/></svg>Mes services</h3>'+(orders.length?orders.map(o=>`<div class="order-item"><div class="portal-top"><strong>${esc(o.service_name)}</strong><span class="status-pill ${esc(o.payment_status)}">${esc(o.payment_status)}</span></div><div class="progress-value">${o.progress||0}%</div><div class="progress-shell"><div class="progress-fill" style="width:${o.progress||0}%"></div></div><p>${esc(o.status||'En attente')} · ${fmt(o.created_at)}</p></div>`).join(''):'<p>Aucun service pour le moment.</p>');return;}
+    if(view==='files'){const {data,error}=await sb.from('files').select('*').order('created_at',{ascending:false});if(error)throw error;m.innerHTML='<h3><svg class="bd-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Mes fichiers</h3><div class="file-list">'+((data||[]).map(f=>`<div class="file-item"><div><strong>${esc(f.file_name)}</strong><br><small>${esc(f.kind)} · ${fmt(f.created_at)}</small></div><button class="portal-btn small" data-download="${esc(f.storage_path)}">Télécharger</button></div>`).join('')||'<p>Aucun fichier.</p>')+'</div>';m.querySelectorAll('[data-download]').forEach(b=>b.onclick=()=>downloadFile(b.dataset.download));return;}
+    if(view==='chat'){m.innerHTML=`<div class="chat-card"><div class="chat-head"><svg class="bd-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 3h16a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-8l-5 4v-4H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/></svg>Conversation privée avec le contrôleur</div><div class="chat-messages" id="chatMessages"></div><div class="emoji-row">${['😊','👍','🔥','❤️','😂','🙏','🎉','😎'].map(x=>`<button type="button" data-emoji="${x}">${x}</button>`).join('')}</div><div class="chat-compose"><textarea id="chatInput" rows="2" placeholder="Écrire un message…"></textarea><button class="portal-btn" id="chatSend" type="button">Envoyer</button></div></div>`;m.querySelectorAll('[data-emoji]').forEach(b=>b.onclick=()=>{$('chatInput').value+=b.dataset.emoji;$('chatInput').focus()});$('chatSend').onclick=sendChat;$('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat()}});await refreshChat();return;}
+    if(view==='profile'){m.innerHTML=`<h3><svg class="bd-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4.2"/><path d="M4 21a8 8 0 0 1 16 0z"/></svg>Mon profil</h3><div class="portal-field"><label>Nom</label><input id="profileName" value="${esc(p.full_name)}"></div><div class="portal-field"><label>Téléphone</label><input id="profilePhone" value="${esc(p.phone||'')}"></div><button class="portal-btn" id="saveProfile">Enregistrer</button>`;$('saveProfile').onclick=async()=>{const {error}=await sb.from('profiles').update({full_name:$('profileName').value.trim(),phone:$('profilePhone').value.trim(),updated_at:new Date().toISOString()}).eq('id',p.id);if(error)alert(error.message);else toast('Profil mis à jour','Tes informations ont été enregistrées.');};return;}
     if(view==='controller'){setView('dashboard');return;}
   }
 
   async function sendChat(){const body=$('chatInput')?.value.trim();if(!body)return;const p=await getProfile();const {data:conv}=await sb.from('conversations').upsert({user_id:p.id},{onConflict:'user_id'}).select().single();if(!conv)return;const {error}=await sb.from('messages').insert({conversation_id:conv.id,sender_id:p.id,body});if(error)alert(error.message);else{$('chatInput').value='';await refreshChat();}}
-  async function refreshChat(){const p=await getProfile();const {data:conv}=await sb.from('conversations').select('id').eq('user_id',p.id).maybeSingle();const box=$('chatMessages');if(!box)return;if(!conv){box.innerHTML='<p>Aucun message. Écris au contrôleur 👋</p>';return;}const {data,error}=await sb.from('messages').select('*').eq('conversation_id',conv.id).order('created_at');if(error){box.innerHTML='<p>Impossible de charger les messages.</p>';return;}box.innerHTML=(data||[]).map(x=>`<div class="chat-bubble ${x.sender_id===p.id?'me':'other'}">${esc(x.body)}<div class="chat-meta">${fmt(x.created_at)} <button style="border:0;background:none;cursor:pointer" data-del-msg="${x.id}" title="Supprimer">🗑️</button></div></div>`).join('')||'<p>Aucun message.</p>';box.querySelectorAll('[data-del-msg]').forEach(b=>b.onclick=()=>deleteMessage(b.dataset.delMsg));box.scrollTop=box.scrollHeight;}
+  async function refreshChat(){const p=await getProfile();const {data:conv}=await sb.from('conversations').select('id').eq('user_id',p.id).maybeSingle();const box=$('chatMessages');if(!box)return;if(!conv){box.innerHTML='<p>Aucun message. Écris au contrôleur</p>';return;}const {data,error}=await sb.from('messages').select('*').eq('conversation_id',conv.id).order('created_at');if(error){box.innerHTML='<p>Impossible de charger les messages.</p>';return;}box.innerHTML=(data||[]).map(x=>`<div class="chat-bubble ${x.sender_id===p.id?'me':'other'}">${esc(x.body)}<div class="chat-meta">${fmt(x.created_at)} <button style="border:0;background:none;cursor:pointer" data-del-msg="${x.id}" title="Supprimer"><svg class="bd-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 3h6l1 2h4v2H4V5h4zM6 9h12l-1 11a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2z"/></svg></button></div></div>`).join('')||'<p>Aucun message.</p>';box.querySelectorAll('[data-del-msg]').forEach(b=>b.onclick=()=>deleteMessage(b.dataset.delMsg));box.scrollTop=box.scrollHeight;}
   async function deleteMessage(id){if(!confirm('Supprimer ce message définitivement ?'))return;const {error}=await sb.from('messages').delete().eq('id',id);if(error)alert(error.message);else await refreshChat();}
 
   async function downloadFile(path){const {data,error}=await sb.storage.from(BUCKET).createSignedUrl(path,120);if(error) return alert(error.message);window.open(data.signedUrl,'_blank');}
@@ -3749,7 +3945,7 @@ Merci.
         });
       }
 
-      toast('Commande envoyée 🎉','Votre commande, les informations obligatoires et la preuve de paiement sont maintenant chez le contrôleur.');
+      toast('Commande envoyée','Votre commande, les informations obligatoires et la preuve de paiement sont maintenant chez le contrôleur.');
       form.reset();
       if($('totalPrice'))$('totalPrice').textContent='0 HTG';
       if($('depositPrice'))$('depositPrice').textContent='0 HTG';
@@ -3803,13 +3999,13 @@ Merci.
     if(error)throw error;
     await uploadOne(proof,p.id,'payment_proof',o.id,null);
     if(badge&&type==='Agent')await uploadOne(badge,p.id,'agent_badge',o.id,null);
-    toast('Inscription envoyée 🎉','Votre demande et votre preuve de paiement sont maintenant chez le contrôleur.');
+    toast('Inscription envoyée','Votre demande et votre preuve de paiement sont maintenant chez le contrôleur.');
     form.reset();
   }catch(err){alert(err.message||'Erreur.');}
   finally{wait(false);}
 }
 
-  async function submitPublicite(form){const p=await getProfile();if(!p){showAuth();toast('Compte requis','Connecte-toi avant de commander une publicité.');return;}const proof=$('pubPaymentProof')?.files?.[0];if(!proof){alert('La preuve de paiement est obligatoire.');return;}wait(true,'Envoi de la demande…');try{const type=$('pubType')?.value||'Publicité',duration=$('pubDuration')?.value||'';const price=parseFloat(($('pubHtg')?.textContent||'0').replace(/[^0-9]/g,''))||0;const {data:o,error}=await sb.from('orders').insert({user_id:p.id,service_name:`Publicité ${type} ${duration}`,price_htg:price,description:'Demande de publicité',status:'En attente de validation',payment_status:'pending'}).select().single();if(error)throw error;await uploadOne(proof,p.id,'payment_proof',o.id,null);toast('Demande envoyée 🎉','La preuve de paiement et la demande sont chez le contrôleur.');form.reset();}catch(err){alert(err.message||'Erreur.');}finally{wait(false);}}
+  async function submitPublicite(form){const p=await getProfile();if(!p){showAuth();toast('Compte requis','Connecte-toi avant de commander une publicité.');return;}const proof=$('pubPaymentProof')?.files?.[0];if(!proof){alert('La preuve de paiement est obligatoire.');return;}wait(true,'Envoi de la demande…');try{const type=$('pubType')?.value||'Publicité',duration=$('pubDuration')?.value||'';const price=parseFloat(($('pubHtg')?.textContent||'0').replace(/[^0-9]/g,''))||0;const {data:o,error}=await sb.from('orders').insert({user_id:p.id,service_name:`Publicité ${type} ${duration}`,price_htg:price,description:'Demande de publicité',status:'En attente de validation',payment_status:'pending'}).select().single();if(error)throw error;await uploadOne(proof,p.id,'payment_proof',o.id,null);toast('Demande envoyée','La preuve de paiement et la demande sont chez le contrôleur.');form.reset();}catch(err){alert(err.message||'Erreur.');}finally{wait(false);}}
 
   // Submit routing:
   // ONLY orderForm is handled by submitOrder() for the Services → Contrôleur flow.
@@ -3862,7 +4058,7 @@ Merci.
     }catch(err){
       console.warn('Akade AI indisponible, fallback local activé:',err);
       const q=t.toLowerCase();
-      let fallback='Je suis Akade 🤖. Le service IA est temporairement indisponible, mais je peux quand même t’aider avec les informations principales de Baba Design.';
+      let fallback='Je suis Akade. Le service IA est temporairement indisponible, mais je peux quand même t’aider avec les informations principales de Baba Design.';
       if(/inscri|membre|adh[eé]r|akademi/.test(q)) fallback='Pour l’inscription Akademi Dizay, remplis le formulaire, paie les frais demandés et joins une photo claire de ta preuve de paiement. Ta demande sera vérifiée par le contrôleur.';
       else if(/paiement|natcash|transcode|preuve/.test(q)) fallback='Pour un paiement, utilise le numéro NatCash indiqué sur le site et joins la photo de ton reçu dans le formulaire. Le contrôleur vérifie ensuite la transaction.';
       else if(/service|design|graph|logo|montage|publicit[eé]/.test(q)) fallback='Baba Design propose des services de design, création de visuels, montage vidéo et autres solutions digitales. Consulte la section Services pour envoyer une demande.';
@@ -3895,18 +4091,18 @@ Merci.
   async function openControllerChat(conversationId, m){
     const {data:conv}=await sb.from('conversations').select('*').eq('id',conversationId).single();
     if(!conv) return;
-    m.innerHTML=`<div class="chat-card"><div class="chat-head">💬 Conversation privée · Client ${esc(conv.user_id)}</div><div class="chat-messages" id="controllerChatMessages"></div><div class="emoji-row">${['😊','👍','🔥','❤️','😂','🙏','🎉','😎'].map(x=>`<button type="button" data-cemoji="${x}">${x}</button>`).join('')}</div><div class="chat-compose"><textarea id="controllerChatInput" rows="2" placeholder="Répondre au client…"></textarea><button class="portal-btn" id="controllerChatSend" type="button">Envoyer</button></div><div style="padding:12px;border-top:1px solid #eee"><label style="font-weight:800">📎 Envoyer une photo/document — suppression automatique après 48h</label><input id="controllerChatFile" type="file" accept="image/*,.pdf,.doc,.docx" style="display:block;margin-top:8px"><button class="portal-btn small" id="controllerFileSend" type="button" style="margin-top:8px">Envoyer le fichier</button></div><div style="padding:12px"><button class="portal-btn dark small" id="backController" type="button">← Retour au contrôle</button></div></div>`;
-    const refresh=async()=>{const {data}=await sb.from('messages').select('*').eq('conversation_id',conversationId).order('created_at');const box=$('controllerChatMessages');if(!box)return;box.innerHTML=(data||[]).map(x=>`<div class="chat-bubble ${x.sender_id===conv.user_id?'other':'me'}">${esc(x.body)}<div class="chat-meta">${fmt(x.created_at)} ${x.sender_id!==conv.user_id?`<button style="border:0;background:none;cursor:pointer" data-cmsgdel="${x.id}">🗑️</button>`:''}</div></div>`).join('')||'<p>Aucun message.</p>';box.querySelectorAll('[data-cmsgdel]').forEach(b=>b.onclick=async()=>{if(confirm('Supprimer ce message définitivement ?')){await sb.rpc('controller_delete_message',{p_message_id:b.dataset.cmsgdel});refresh();}});box.scrollTop=box.scrollHeight;};
+    m.innerHTML=`<div class="chat-card"><div class="chat-head"><svg class="bd-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 3h16a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-8l-5 4v-4H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/></svg>Conversation privée · Client ${esc(conv.user_id)}</div><div class="chat-messages" id="controllerChatMessages"></div><div class="emoji-row">${['😊','👍','🔥','❤️','😂','🙏','🎉','😎'].map(x=>`<button type="button" data-cemoji="${x}">${x}</button>`).join('')}</div><div class="chat-compose"><textarea id="controllerChatInput" rows="2" placeholder="Répondre au client…"></textarea><button class="portal-btn" id="controllerChatSend" type="button">Envoyer</button></div><div style="padding:12px;border-top:1px solid #eee"><label style="font-weight:800">Envoyer une photo/document — suppression automatique après 48h</label><input id="controllerChatFile" type="file" accept="image/*,.pdf,.doc,.docx" style="display:block;margin-top:8px"><button class="portal-btn small" id="controllerFileSend" type="button" style="margin-top:8px">Envoyer le fichier</button></div><div style="padding:12px"><button class="portal-btn dark small" id="backController" type="button">← Retour au contrôle</button></div></div>`;
+    const refresh=async()=>{const {data}=await sb.from('messages').select('*').eq('conversation_id',conversationId).order('created_at');const box=$('controllerChatMessages');if(!box)return;box.innerHTML=(data||[]).map(x=>`<div class="chat-bubble ${x.sender_id===conv.user_id?'other':'me'}">${esc(x.body)}<div class="chat-meta">${fmt(x.created_at)} ${x.sender_id!==conv.user_id?`<button style="border:0;background:none;cursor:pointer" data-cmsgdel="${x.id}"><svg class="bd-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 3h6l1 2h4v2H4V5h4zM6 9h12l-1 11a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2z"/></svg></button>`:''}</div></div>`).join('')||'<p>Aucun message.</p>';box.querySelectorAll('[data-cmsgdel]').forEach(b=>b.onclick=async()=>{if(confirm('Supprimer ce message définitivement ?')){await sb.rpc('controller_delete_message',{p_message_id:b.dataset.cmsgdel});refresh();}});box.scrollTop=box.scrollHeight;};
     m.querySelectorAll('[data-cemoji]').forEach(b=>b.onclick=()=>{$('controllerChatInput').value+=b.dataset.cemoji;$('controllerChatInput').focus()});
     $('controllerChatSend').onclick=async()=>{const body=$('controllerChatInput').value.trim();if(!body)return;const me=await getProfile();const {error}=await sb.rpc('controller_send_message',{p_conversation_id:conversationId,p_body:body});if(error)alert(error.message);else{$('controllerChatInput').value='';refresh();}};
-    $('controllerFileSend').onclick=async()=>{const f=$('controllerChatFile').files[0];if(!f)return alert('Choisis un fichier.');wait(true,'Envoi du document…');try{await uploadOne(f,conv.user_id,'controller_file',null,48);toast('Fichier envoyé 📎','Le client pourra le télécharger. Il expirera après 48h.');$('controllerChatFile').value='';}catch(e){alert(e.message)}finally{wait(false);}};
+    $('controllerFileSend').onclick=async()=>{const f=$('controllerChatFile').files[0];if(!f)return alert('Choisis un fichier.');wait(true,'Envoi du document…');try{await uploadOne(f,conv.user_id,'controller_file',null,48);toast('Fichier envoyé','Le client pourra le télécharger. Il expirera après 48h.');$('controllerChatFile').value='';}catch(e){alert(e.message)}finally{wait(false);}};
     $('backController').onclick=()=>renderController(m);
     await refresh();
   }
 
-  async function renderController(m){const {data:orders}=await sb.from('orders').select('*').order('created_at',{ascending:false});const {data:webProjects,error:webProjectsError}=await sb.from('web_project_requests').select('*').order('created_at',{ascending:false});const {data:coachRes,error:coachErr}=await sb.from('coaching_reservations').select('*').order('created_at',{ascending:false});const {data:files}=await sb.from('files').select('*').order('created_at',{ascending:false});const {data:convs}=await sb.from('conversations').select('*').order('last_message_at',{ascending:false});const paymentProof=o=>files.find(f=>f.order_id===o.id&&f.kind==='payment_proof');m.innerHTML=`<h3>🛠️ Contrôle</h3><p>Gestion des commandes, paiements, progression, fichiers et conversations.</p><div class="order-item"><strong>${(orders||[]).length}</strong> commandes · <strong>${(files||[]).length}</strong> fichiers</div><h4>Demandes de création de sites web</h4>${webProjectsError?'<p>Demandes web indisponibles : vérifiez la table et les policies Supabase.</p>':((webProjects||[]).map(r=>`<div class="project-request-item"><div class="portal-top"><strong>${esc(r.plan)} · ${esc(r.client_name)}</strong><small>${fmt(r.created_at)}</small></div><p><b>WhatsApp :</b> ${esc(r.whatsapp)}<br><b>Entreprise :</b> ${esc(r.business_name||'Non précisée')}</p><p>${esc(r.project_description)}</p><small>Statut : ${esc(r.status||'new')}</small></div>`).join('')||'<p>Aucune demande de site web pour le moment.</p>')}<h4>Réservations Coaching Private</h4>${coachErr?'<p>Réservations coaching indisponibles : exécutez le SQL coaching-reservations.sql dans Supabase.</p>':((coachRes||[]).map(r=>`<div class="project-request-item"><div class="portal-top"><strong>${esc(r.formation)} · ${esc(r.client_name)}</strong><small>${fmt(r.created_at)}</small></div><p><b>WhatsApp :</b> ${esc(r.whatsapp)}<br><b>Prix :</b> ${Number(r.price_htg||0).toLocaleString('fr-FR')} HTG</p><small>Statut : ${esc(r.status||'new')}</small><div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="portal-btn small" data-coach-status="confirmed" data-coach-id="${r.id}">✅ Confirmer</button> <button type="button" class="portal-btn small dark" data-coach-status="cancelled" data-coach-id="${r.id}">❌ Annuler</button> <button type="button" class="portal-btn small dark" data-coach-del="${r.id}">🗑️</button></div></div>`).join('')||'<p>Aucune réservation coaching pour le moment.</p>')}<h4>Commandes</h4>${(orders||[]).map(o=>`<div class="order-item"><div class="portal-top"><strong>${esc(o.service_name)}</strong><span>${esc(o.payment_status)}</span></div><small>Client: ${esc(o.user_id)}</small>${paymentProof(o)?`<div style="margin:10px 0;padding:10px;border:1px solid #eee;border-radius:12px;background:#fafafa"><b>📸 Preuve de paiement</b><br><small>${esc(paymentProof(o).file_name)}</small><br><button type="button" class="portal-btn small" data-file-download="${esc(paymentProof(o).storage_path)}">Voir / télécharger</button></div>`:'<div style="margin:10px 0;color:#a00;font-size:12px"><b>⚠️ Aucune preuve de paiement jointe.</b></div>'}<div class="portal-field"><label>Progression: <span id="pv-${o.id}">${o.progress||0}%</span></label><input type="range" min="0" max="100" value="${o.progress||0}" data-progress="${o.id}"></div><button class="portal-btn small" data-approve="${o.id}">✅ Valider paiement</button> <button class="portal-btn small dark" data-reject="${o.id}">❌ Refuser</button></div>`).join('')||'<p>Aucune commande.</p>'}<h4>Fichiers</h4><div class="file-list">${(files||[]).map(f=>`<div class="file-item"><div><strong>${esc(f.file_name)}</strong><br><small>${esc(f.kind)} · ${fmt(f.created_at)}</small></div><span><button class="portal-btn small" data-file-download="${esc(f.storage_path)}">⬇️</button> <button class="portal-btn small dark" data-file-delete="${f.id}" data-path="${esc(f.storage_path)}">🗑️</button></span></div>`).join('')||'<p>Aucun fichier.</p>'}</div><h4>Conversations</h4>${(convs||[]).map(c=>`<div class="order-item"><strong>Client ${esc(c.user_id)}</strong><br><button class="portal-btn small" data-open-chat="${c.id}">Ouvrir</button> <button class="portal-btn small dark" data-clear-chat="${c.id}">🗑️ Effacer messages</button></div>`).join('')||'<p>Aucune conversation.</p>'}`;
+  async function renderController(m){const {data:orders}=await sb.from('orders').select('*').order('created_at',{ascending:false});const {data:webProjects,error:webProjectsError}=await sb.from('web_project_requests').select('*').order('created_at',{ascending:false});const {data:coachRes,error:coachErr}=await sb.from('coaching_reservations').select('*').order('created_at',{ascending:false});const {data:files}=await sb.from('files').select('*').order('created_at',{ascending:false});const {data:convs}=await sb.from('conversations').select('*').order('last_message_at',{ascending:false});const paymentProof=o=>files.find(f=>f.order_id===o.id&&f.kind==='payment_proof');m.innerHTML=`<h3><svg class="bd-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2 4 5v6c0 5 3.4 9.3 8 11 4.6-1.7 8-6 8-11V5z"/></svg>Contrôle</h3><p>Gestion des commandes, paiements, progression, fichiers et conversations.</p><div class="order-item"><strong>${(orders||[]).length}</strong> commandes · <strong>${(files||[]).length}</strong> fichiers</div><h4>Demandes de création de sites web</h4>${webProjectsError?'<p>Demandes web indisponibles : vérifiez la table et les policies Supabase.</p>':((webProjects||[]).map(r=>`<div class="project-request-item"><div class="portal-top"><strong>${esc(r.plan)} · ${esc(r.client_name)}</strong><small>${fmt(r.created_at)}</small></div><p><b>WhatsApp :</b> ${esc(r.whatsapp)}<br><b>Entreprise :</b> ${esc(r.business_name||'Non précisée')}</p><p>${esc(r.project_description)}</p><small>Statut : ${esc(r.status||'new')}</small></div>`).join('')||'<p>Aucune demande de site web pour le moment.</p>')}<h4>Réservations Coaching Private</h4>${coachErr?'<p>Réservations coaching indisponibles : exécutez le SQL coaching-reservations.sql dans Supabase.</p>':((coachRes||[]).map(r=>`<div class="project-request-item"><div class="portal-top"><strong>${esc(r.formation)} · ${esc(r.client_name)}</strong><small>${fmt(r.created_at)}</small></div><p><b>WhatsApp :</b> ${esc(r.whatsapp)}<br><b>Prix :</b> ${Number(r.price_htg||0).toLocaleString('fr-FR')} HTG</p><small>Statut : ${esc(r.status||'new')}</small><div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="portal-btn small" data-coach-status="confirmed" data-coach-id="${r.id}">Confirmer</button> <button type="button" class="portal-btn small dark" data-coach-status="cancelled" data-coach-id="${r.id}">Annuler</button> <button type="button" class="portal-btn small dark" data-coach-del="${r.id}"><svg class="bd-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 3h6l1 2h4v2H4V5h4zM6 9h12l-1 11a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2z"/></svg></button></div></div>`).join('')||'<p>Aucune réservation coaching pour le moment.</p>')}<h4>Commandes</h4>${(orders||[]).map(o=>`<div class="order-item"><div class="portal-top"><strong>${esc(o.service_name)}</strong><span>${esc(o.payment_status)}</span></div><small>Client: ${esc(o.user_id)}</small>${paymentProof(o)?`<div style="margin:10px 0;padding:10px;border:1px solid #eee;border-radius:12px;background:#fafafa"><b>Preuve de paiement</b><br><small>${esc(paymentProof(o).file_name)}</small><br><button type="button" class="portal-btn small" data-file-download="${esc(paymentProof(o).storage_path)}">Voir / télécharger</button></div>`:'<div style="margin:10px 0;color:#a00;font-size:12px"><b>Aucune preuve de paiement jointe.</b></div>'}<div class="portal-field"><label>Progression: <span id="pv-${o.id}">${o.progress||0}%</span></label><input type="range" min="0" max="100" value="${o.progress||0}" data-progress="${o.id}"></div><button class="portal-btn small" data-approve="${o.id}">Valider paiement</button> <button class="portal-btn small dark" data-reject="${o.id}">Refuser</button></div>`).join('')||'<p>Aucune commande.</p>'}<h4>Fichiers</h4><div class="file-list">${(files||[]).map(f=>`<div class="file-item"><div><strong>${esc(f.file_name)}</strong><br><small>${esc(f.kind)} · ${fmt(f.created_at)}</small></div><span><button class="portal-btn small" data-file-download="${esc(f.storage_path)}">⬇️</button> <button class="portal-btn small dark" data-file-delete="${f.id}" data-path="${esc(f.storage_path)}"><svg class="bd-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 3h6l1 2h4v2H4V5h4zM6 9h12l-1 11a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2z"/></svg></button></span></div>`).join('')||'<p>Aucun fichier.</p>'}</div><h4>Conversations</h4>${(convs||[]).map(c=>`<div class="order-item"><strong>Client ${esc(c.user_id)}</strong><br><button class="portal-btn small" data-open-chat="${c.id}">Ouvrir</button> <button class="portal-btn small dark" data-clear-chat="${c.id}"><svg class="bd-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 3h6l1 2h4v2H4V5h4zM6 9h12l-1 11a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2z"/></svg>Effacer messages</button></div>`).join('')||'<p>Aucune conversation.</p>'}`;
     m.querySelectorAll('[data-progress]').forEach(x=>x.oninput=async()=>{$('pv-'+x.dataset.progress).textContent=x.value+'%';await sb.rpc('controller_set_order_progress',{p_order_id:x.dataset.progress,p_progress:+x.value})});
-    m.querySelectorAll('[data-approve]').forEach(b=>b.onclick=async()=>{await sb.rpc('controller_approve_order',{p_order_id:b.dataset.approve});toast('Paiement réussi 🎉','Le client recevra la confirmation.');await renderController(m)});
+    m.querySelectorAll('[data-approve]').forEach(b=>b.onclick=async()=>{await sb.rpc('controller_approve_order',{p_order_id:b.dataset.approve});toast('Paiement réussi','Le client recevra la confirmation.');await renderController(m)});
     m.querySelectorAll('[data-reject]').forEach(b=>b.onclick=async()=>{await sb.rpc('controller_reject_order',{p_order_id:b.dataset.reject});await renderController(m)});
     m.querySelectorAll('[data-coach-status]').forEach(b=>b.onclick=async()=>{const {error}=await sb.from('coaching_reservations').update({status:b.dataset.coachStatus}).eq('id',b.dataset.coachId);if(error)alert(error.message);else await renderController(m)});
     m.querySelectorAll('[data-coach-del]').forEach(b=>b.onclick=async()=>{if(!confirm('Supprimer cette réservation ?'))return;const {error}=await sb.from('coaching_reservations').delete().eq('id',b.dataset.coachDel);if(error)alert(error.message);else await renderController(m)});
@@ -4496,41 +4692,7 @@ document.addEventListener('click',function(e){
 .web-page-list.web-page-list-one{grid-template-columns:1fr}
 </style>
 
-<script>
-(() => {
- const url="https://drvcneeaothydjmqpdzg.supabase.co";
- const key="sb_publishable_k8DUVt12k1GN4n7yiYBnYw_gXltrpmp";
- const client=window.supabase.createClient(url,key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
- const track=document.getElementById("reviewTrack"), form=document.getElementById("siteReviewForm");
- const formCard=document.getElementById("reviewFormCard"), closed=document.getElementById("reviewClosed");
- const status=document.getElementById("reviewStatus");
- const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
- const fmt=d=>d?new Date(d).toLocaleDateString("fr-FR"):"";
- async function loadReviews(){
-   const {data,error}=await client.from("site_reviews").select("display_name,review_text,stars,created_at").order("created_at",{ascending:true}).limit(5);
-   if(error){track.innerHTML='<div class="review-loading">Les avis seront affichés après activation du module dans Supabase.</div>';return;}
-   track.innerHTML=(data||[]).map(r=>`<article class="review-card"><div class="stars">${"★".repeat(r.stars)}${"☆".repeat(5-r.stars)}</div><strong>${esc(r.display_name)}</strong><p>${esc(r.review_text)}</p><small>${fmt(r.created_at)}</small></article>`).join("")||'<div class="review-loading">Soyez le premier à partager votre expérience.</div>';
-   if((data||[]).length>=5){formCard.hidden=true;closed.hidden=false;}
- }
- client.auth.getUser().then(({data:{user}})=>{
-   if(user){document.getElementById("reviewName").value=user.user_metadata?.full_name||user.email?.split("@")[0]||"";}
- });
- form.addEventListener("submit",async e=>{
-   e.preventDefault();status.textContent="Publication en cours…";
-   try{
-     const {data:{user}}=await client.auth.getUser();
-     if(!user){status.textContent="Connectez-vous ou créez un compte dans Mon espace avant de commenter.";return;}
-     const stars=Number(document.querySelector('input[name="reviewStars"]:checked')?.value||5);
-     const {error}=await client.rpc("submit_site_review",{p_display_name:document.getElementById("reviewName").value.trim(),p_review_text:document.getElementById("reviewText").value.trim(),p_stars:stars});
-     if(error)throw error;
-     status.textContent="Merci ! Votre avis a été publié.";
-     form.reset();document.getElementById("reviewName").value=user.user_metadata?.full_name||user.email?.split("@")[0]||"";
-     await loadReviews();
-   }catch(err){status.textContent=err.message||"Impossible de publier cet avis.";}
- });
- loadReviews();
-})();
-</script>
+
 
 <style id="baba-aurora-lean">
 /* === Baba Design · AURORA LUXE LÉGER (formulaires + site) === */
@@ -4674,5 +4836,187 @@ input[type=radio]{accent-color:#087de0}
 })();
 </script>
 
+
+<!-- ===== MISE À JOUR NOV. 2026 : boutons, mobile, mouvement (GSAP) ===== -->
+<style id="bd-update-nov26">
+/* =====================================================================
+   BABA DESIGN · mise à jour (boutons, mobile, mouvement)
+   Rien ici ne touche à Supabase, au SQL ni aux formulaires.
+   >>> Pour changer la couleur des boutons : modifier --bt-* ci-dessous <<<
+   ===================================================================== */
+:root{
+  --bt-bg:#12d6f5;          /* bouton principal */
+  --bt-bg-hover:#4ae2fa;    /* bouton principal au survol */
+  --bt-ink:#04121f;         /* texte du bouton principal */
+  --bt-line:rgba(11,27,46,.16);
+  --grad:linear-gradient(135deg,#12d6f5 0%,#0fc4e8 100%);
+  --bd-safe-b:env(safe-area-inset-bottom,0px);
+  --bd-arrow:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 12h14M13 6l6 6-6 6' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --bd-chev:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+html{-webkit-tap-highlight-color:transparent;scroll-padding-top:84px}
+:focus-visible{outline:3px solid rgba(18,214,245,.55);outline-offset:2px}
+
+/* ---------- Icônes SVG (à la place des emojis) ---------- */
+.bd-ic{width:1.05em;height:1.05em;fill:currentColor;vertical-align:-.18em;margin-right:.5em;flex:0 0 auto}
+button>.bd-ic:only-child,.web-package-icon .bd-ic{margin:0}
+.promo-sound .bd-ic{width:22px;height:22px}
+.promo-video-box{max-width:calc(100vw - 24px)}
+#promoVideo{max-width:100%}
+
+/* ---------- Boutons : une seule palette, nette et lisible ---------- */
+.btn,.btn.btn-primary,.portal-btn,.formation-btn,.submit-btn,.contact-btn,.web-package-cta,.links a,.certificate-card a{
+  background:var(--bt-bg)!important;color:var(--bt-ink)!important;
+  border:1.5px solid transparent!important;
+  box-shadow:0 10px 22px -12px rgba(18,214,245,.85)!important;
+  font-weight:700;min-height:48px}
+.btn:hover,.portal-btn:hover,.formation-btn:hover,.submit-btn:hover,.contact-btn:hover,.web-package-cta:hover,.links a:hover,.certificate-card a:hover{
+  background:var(--bt-bg-hover)!important;filter:none!important;transform:translateY(-2px)}
+.btn:active,.portal-btn:active,.formation-btn:active,.submit-btn:active,.contact-btn:active{transform:scale(.97)!important}
+.btn::before,.submit-btn::before{display:none!important}
+
+/* secondaire : blanc, bordure fine */
+.btn-glass,.btn-light,.btn.dark,.btn-secondary,.logout,.portal-btn.dark,.copy,.tabs button:not(.active){
+  background:#fff!important;color:#0b1b2e!important;border:1.5px solid var(--bt-line)!important;box-shadow:none!important}
+.btn-glass:hover,.btn-light:hover,.btn.dark:hover,.btn-secondary:hover,.logout:hover,.portal-btn.dark:hover,.copy:hover,.tabs button:not(.active):hover{
+  background:#f1f7fd!important;border-color:#0ab3d1!important}
+/* secondaire sur fond sombre : verre */
+.hero .btn-glass,.hero-modern .btn-glass,.coaching-home .btn-glass{
+  background:rgba(255,255,255,.09)!important;color:#fff!important;border-color:rgba(255,255,255,.32)!important;
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.hero .btn-glass:hover,.hero-modern .btn-glass:hover,.coaching-home .btn-glass:hover{background:rgba(255,255,255,.17)!important;border-color:rgba(255,255,255,.5)!important}
+/* danger / validation */
+.btn-danger,.delete-order{background:#fff!important;color:#d33a40!important;border:1.5px solid #f1c3c6!important;box-shadow:none!important}
+.btn-danger:hover,.delete-order:hover{background:#d33a40!important;color:#fff!important;border-color:#d33a40!important}
+.btn.green{background:#16a34a!important;color:#fff!important}
+
+/* petite flèche animée sur les boutons d'action */
+.btn-primary::after,.formation-btn::after,.contact-btn::after,.btn[type=submit]::after,.submit-btn::after{
+  content:""!important;display:inline-block;width:16px;height:16px;flex:0 0 16px;margin:0 0 0 2px!important;
+  background:currentColor;-webkit-mask:var(--bd-arrow) center/contain no-repeat;mask:var(--bd-arrow) center/contain no-repeat;
+  animation:bdArrow 1.7s ease-in-out infinite;transition:none}
+.btn-primary:hover::after,.formation-btn:hover::after,.contact-btn:hover::after,.btn[type=submit]:hover::after,.submit-btn:hover::after{animation-duration:.7s}
+@keyframes bdArrow{0%,100%{transform:translateX(0)}50%{transform:translateX(4px)}}
+
+/* titres de section : petite flèche animée (plus de barre) */
+.section-title::after,.section-header h2::after{
+  content:""!important;display:block;width:22px;height:22px;margin:12px auto 0;border-radius:0;
+  background:#0ab3d1;-webkit-mask:var(--bd-chev) center/contain no-repeat;mask:var(--bd-chev) center/contain no-repeat;
+  animation:bdBob 1.8s ease-in-out infinite}
+@keyframes bdBob{0%,100%{transform:translateY(0);opacity:.55}50%{transform:translateY(5px);opacity:1}}
+
+/* ---------- Menu mobile / tablette : burger -> croix ---------- */
+@media(max-width:1100px){
+  .navbar .menu-toggle{display:flex!important;align-items:center;justify-content:center;width:46px!important;height:46px!important;padding:0!important;border-radius:12px!important;color:#fff!important}
+  .navbar .menu-toggle:active{background:rgba(255,255,255,.1)!important}
+  .navbar .nav-links a:active{background:rgba(18,214,245,.16)}
+}
+.bd-burger{width:26px;height:26px;display:block;fill:currentColor;overflow:visible}
+.bd-burger rect{transform-box:fill-box;transform-origin:center;transition:transform .35s cubic-bezier(.22,.8,.24,1),opacity .2s}
+.menu-toggle.is-open .b1{transform:translateY(5.5px) rotate(45deg)}
+.menu-toggle.is-open .b2{opacity:0}
+.menu-toggle.is-open .b3{transform:translateY(-5.5px) rotate(-45deg)}
+
+/* ---------- Barre du bas ---------- */
+.premium-bottom-nav:before{display:none!important}           /* plus de reflet animé qui passe sous les textes */
+.premium-bottom-nav a svg{width:20px;height:20px;fill:currentColor!important;stroke:none!important;flex:0 0 auto}
+.bn-extra{display:none!important}
+@media(max-width:820px){
+  .bn-extra{display:flex!important}
+  body{padding-bottom:calc(76px + var(--bd-safe-b))}
+  .premium-bottom-nav{left:0!important;right:0!important;bottom:0!important;width:100%;transform:none;
+    display:flex!important;justify-content:space-between!important;gap:0!important;
+    padding:6px 6px calc(6px + var(--bd-safe-b))!important;border-radius:20px 20px 0 0!important;
+    border:0!important;border-top:1px solid rgba(255,255,255,.1)!important;
+    background:rgba(7,17,31,.95)!important;box-shadow:0 -10px 30px -14px rgba(7,17,31,.6)!important;
+    animation:bdBarIn .6s cubic-bezier(.22,.8,.24,1) .3s both}
+  .premium-bottom-nav a{flex:1 1 0!important;min-width:0!important;flex-direction:column;justify-content:center;gap:3px!important;
+    padding:8px 2px!important;min-height:54px;border-radius:14px!important;text-align:center;line-height:1.1;
+    color:#a9bccf!important;background:transparent!important;box-shadow:none!important}
+  .premium-bottom-nav a span{font-size:10.5px!important;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  .premium-bottom-nav a:hover{transform:none}
+  .premium-bottom-nav a:active{transform:scale(.94)}
+  .premium-bottom-nav a.active{background:rgba(18,214,245,.14)!important;color:#12d6f5!important;box-shadow:none!important}
+  .bot-fab{bottom:calc(88px + var(--bd-safe-b))!important}
+  .bot-panel{bottom:calc(156px + var(--bd-safe-b))!important}
+}
+@keyframes bdBarIn{from{transform:translateY(100%);opacity:0}to{transform:none;opacity:1}}
+
+/* ---------- Confort sur téléphone ---------- */
+@media(max-width:820px){
+  input:not([type=radio]):not([type=checkbox]):not([type=file]):not([type=range]),select,textarea{font-size:16px!important}
+  input:not([type=radio]):not([type=checkbox]):not([type=file]):not([type=range]),select{min-height:48px}
+  .hero-buttons{display:flex;flex-direction:column;align-items:stretch;gap:12px;width:100%;max-width:360px;margin-inline:auto}
+  .hero-buttons .btn{width:100%}
+}
+
+/* ---------- Entrée du hero (GSAP) : masque avant l'animation ---------- */
+.bd-await .hero-modern h1,.bd-await .hero-modern .hero-content p,.bd-await .hero-buttons{opacity:0}
+
+@media(prefers-reduced-motion:reduce){
+  .btn::after,.submit-btn::after,.formation-btn::after,.contact-btn::after,.section-header h2::after,.section-title::after,.premium-bottom-nav{animation:none!important}
+}
+
+/* ---------- Laptop moyen : le menu ne déborde plus ---------- */
+@media(min-width:1101px) and (max-width:1560px){
+  .navbar .nav-container{flex-wrap:wrap;row-gap:4px;padding-block:8px}
+  .navbar .nav-links{flex-wrap:wrap;justify-content:center;gap:0 2px;max-width:100%}
+  .navbar .nav-links a{font-size:13px;padding:7px 9px}
+}
+
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+/* BABA DESIGN · mouvement + confort (aucun appel serveur, aucun formulaire modifié) */
+(function(){
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var root=document.documentElement;
+
+  /* burger -> croix, synchronisé avec le menu existant */
+  var tg=document.getElementById('menuToggle'),nl=document.getElementById('navLinks');
+  if(tg&&nl&&window.MutationObserver){
+    new MutationObserver(function(){
+      var open=nl.classList.contains('active');
+      tg.classList.toggle('is-open',open);
+      tg.setAttribute('aria-expanded',open?'true':'false');
+    }).observe(nl,{attributes:true,attributeFilter:['class']});
+  }
+
+  /* barre du bas : met en évidence la section en cours */
+  var bar=document.querySelector('.premium-bottom-nav');
+  if(bar){
+    var home=bar.querySelector('.bottom-home'),acct=bar.querySelector('.bottom-account');
+    var secs=[['creation-web',bar.querySelector('.bottom-web')],['academi',bar.querySelector('.bottom-academy')]];
+    var spy=function(){
+      var mid=window.innerHeight*.45,cur=home;
+      secs.forEach(function(p){
+        var el=document.getElementById(p[0]);if(!el||!p[1])return;
+        var r=el.getBoundingClientRect();
+        if(r.top<=mid&&r.bottom>=mid)cur=p[1];
+      });
+      var portal=document.getElementById('mon-espace');
+      if(portal&&portal.classList.contains('active')&&window.scrollY+mid>=portal.offsetTop-120)cur=acct;
+      bar.querySelectorAll('a').forEach(function(a){a.classList.remove('active')});
+      if(cur)cur.classList.add('active');
+    };
+    window.addEventListener('scroll',spy,{passive:true});
+    window.addEventListener('resize',spy);
+    window.addEventListener('load',spy);
+    spy();
+  }
+
+  /* entrée du hero avec GSAP (si la librairie est chargée) */
+  function intro(){
+    if(!window.gsap||reduce){root.classList.remove('bd-await');return;}
+    var tl=gsap.timeline({defaults:{ease:'power3.out'}});
+    tl.fromTo('.hero-modern h1',{y:30,opacity:0},{y:0,opacity:1,duration:.85,clearProps:'transform,opacity'})
+      .fromTo('.hero-modern .hero-content p',{y:22,opacity:0},{y:0,opacity:1,duration:.7,clearProps:'transform,opacity'},'-=.55')
+      .fromTo('.hero-buttons',{y:20,opacity:0},{y:0,opacity:1,duration:.7,clearProps:'transform,opacity'},'-=.5');
+    root.classList.remove('bd-await');
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',intro);else intro();
+})();
+
+</script>
 </body>
 </html>
