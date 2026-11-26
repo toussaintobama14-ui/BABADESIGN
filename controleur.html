@@ -396,6 +396,7 @@ if(
       <button class="tab" data-view="chats"><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg><span class="lbl">Conversations</span><span class="lbl-s">Chats</span></button>
       <button class="tab" data-view="web"><svg class="ic" aria-hidden="true"><use href="#i-web"/></svg><span class="lbl">Sites web</span><span class="lbl-s">Sites</span><span id="webBadge"></span></button>
       <button class="tab" data-view="wallet"><svg class="ic" aria-hidden="true"><use href="#i-chart"/></svg><span class="lbl">Recharges Wallet</span><span class="lbl-s">Wallet</span></button>
+      <button class="tab" data-view="transfers"><svg class="ic" aria-hidden="true"><use href="#i-send"/></svg><span class="lbl">Transferts BabaTag</span><span class="lbl-s">Transferts</span></button>
       <button class="tab" data-view="emergency"><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg><span class="lbl">Cartes urgence</span><span class="lbl-s">Urgence</span></button>
       <button class="tab" data-view="emails"><svg class="ic" aria-hidden="true"><use href="#i-send"/></svg><span class="lbl">E-mails clients</span><span class="lbl-s">E-mails</span></button>
     </nav>
@@ -2868,6 +2869,19 @@ async function reviewTopup(id,approve){
 }
 
 /* =========================
+   TRANSFERTS BABA TAG — lecture seule
+========================= */
+async function renderWalletTransfers(){
+ const app=$("content");
+ app.innerHTML='<div class="empty">Chargement des transferts…</div>';
+ const {data,error}=await sb.rpc("controller_list_wallet_transfers");
+ if(error){app.innerHTML='<div class="notice">'+esc(error.message)+'</div>';return;}
+ const rows=Array.isArray(data)?data:[];
+ app.innerHTML='<div class="sectionhead"><div><h2>Transferts BabaTag</h2><p>Historique des transferts entre les comptes. Ces opérations sont automatiques et sans frais.</p></div><span class="pill approved">'+rows.length+' transfert(s)</span></div>'+
+ (rows.length?rows.map(r=>'<article class="item"><div class="row"><b>'+esc(r.sender_name||r.sender_tag||'Utilisateur')+' → '+esc(r.recipient_name||r.recipient_tag||'Utilisateur')+'</b><span class="pill approved">RÉUSSI</span></div><p style="font-size:24px;font-weight:800;margin:8px 0">'+Number(r.amount_htg).toLocaleString('fr-FR')+' HTG</p><p class="muted">De : @'+esc(r.sender_tag)+' · Vers : @'+esc(r.recipient_tag)+'</p><p class="muted">'+fmt(r.created_at)+(r.note?' · '+esc(r.note):'')+'</p></article>').join(''):'<div class="empty">Aucun transfert BabaTag pour le moment.</div>');
+}
+
+/* =========================
    CARTES D'URGENCE
 ========================= */
 async function renderEmergencyCards(){
@@ -3001,7 +3015,9 @@ async function render(
 
   } else if(view === "wallet") {
     await renderWalletTopups();
-  } else if(view === "emergency") {
+  } else if(view === "transfers") {
+     await renderWalletTransfers();
+   } else if(view === "emergency") {
     await renderEmergencyCards();
   } else if(view === "emails") {
     await renderEmails();
